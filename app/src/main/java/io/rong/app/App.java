@@ -33,6 +33,8 @@ public class App extends Application {
 
         DemoContext.init(this);
 
+
+
 //        DateContext.init(this);
 
         //注册消息类型的时候判断当前的进程是否在主进程

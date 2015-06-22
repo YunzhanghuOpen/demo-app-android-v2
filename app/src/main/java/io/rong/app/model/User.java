@@ -3,9 +3,10 @@ package io.rong.app.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.sea_monster.common.ParcelUtils;
+
 import java.io.Serializable;
 
-import me.add1.common.ParcelUtils;
 
 
 /**

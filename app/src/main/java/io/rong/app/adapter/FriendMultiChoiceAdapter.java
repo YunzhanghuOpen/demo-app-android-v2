@@ -12,7 +12,7 @@ import java.util.List;
 import io.rong.app.R;
 import io.rong.app.model.Friend;
 import io.rong.imlib.model.UserInfo;
-import me.add1.resource.Resource;
+import com.sea_monster.resource.Resource;
 import io.rong.imkit.widget.AsyncImageView ;
 
 public class FriendMultiChoiceAdapter extends FriendListAdapter {

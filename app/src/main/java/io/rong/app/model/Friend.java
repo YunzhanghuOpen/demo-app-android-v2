@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import java.io.Serializable;
 
 import io.rong.app.libs.pinyin.PinyinHelper;
-import me.add1.resource.Resource;
+import com.sea_monster.resource.Resource;
 
 /**
  * Created by Bob on 2015/3/24.

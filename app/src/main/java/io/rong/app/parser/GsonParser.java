@@ -14,8 +14,8 @@ import java.io.Serializable;
 import java.lang.reflect.Type;
 
 import io.rong.app.DemoContext;
-import me.add1.exception.InternalException;
-import me.add1.exception.ParseException;
+import com.sea_monster.exception.InternalException;
+import com.sea_monster.exception.ParseException;
 
 /**
  * Created by DragonJ on 14-7-15.
@@ -47,7 +47,7 @@ public class GsonParser<T extends Serializable> extends JsonObjectParser<T> {
                     String[] cookievalues = headers[i].getValue().split(";");
                     SharedPreferences.Editor edit = DemoContext.getInstance().getSharedPreferences().edit();
                     edit.putString("DEMO_COOKIE", cookievalues[0]);
-                    edit.apply();
+                    edit.commit();
                 }
             }
         }

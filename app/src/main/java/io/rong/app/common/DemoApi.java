@@ -22,23 +22,23 @@ import io.rong.app.model.Status;
 import io.rong.app.model.User;
 import io.rong.app.parser.GsonArrayParser;
 import io.rong.app.parser.GsonParser;
-import me.add1.network.AbstractHttpRequest;
-import me.add1.network.ApiCallback;
-import me.add1.network.ApiReqeust;
-import me.add1.network.AuthType;
-import me.add1.network.BaseApi;
-import me.add1.network.NetworkManager;
+import com.sea_monster.network.AbstractHttpRequest;
+import com.sea_monster.network.ApiCallback;
+import com.sea_monster.network.ApiReqeust;
+import com.sea_monster.network.AuthType;
+import com.sea_monster.network.BaseApi;
+import com.sea_monster.network.NetworkManager;
 
 /**
  * demo api 请求，需要设置cookie，否则会提示 “user not login”
  * 此处是 Demo 的接口，跟融云 SDK 没有关系，此处仅为示例代码，展示 App 的逻辑
  */
 public class DemoApi extends BaseApi {
-//    private static String HOST = "http://119.254.110.241:80/";
+    //        private static String HOST = "http://119.254.110.241:80/";
     private static String   HOST = "http://webim.demo.rong.io/";
 
     private final static String DEMO_LOGIN_EMAIL = "email_login";
-    private final static String DEMO_FRIENDS = "friends";
+        private final static String DEMO_FRIENDS = "friends";
 //    private final static String DEMO_FRIENDS = "get_friend";
     private final static String DEMO_REQ = "reg";
     private final static String DEMO_UPDATE_PROFILE = "update_profile";
@@ -54,7 +54,7 @@ public class DemoApi extends BaseApi {
     private final static String DEMO_REQUEST_FRIEND = "request_friend";
     private final static String DEMO_DELETE_FRIEND = "delete_friend";
     private final static String DEMO_PROCESS_REQUEST_FRIEND = "process_request_friend";
-
+    private final static String DEMO_PROFILE = "profile";
 
     public DemoApi(Context context) {
         super(NetworkManager.getInstance(), context);
@@ -103,7 +103,9 @@ public class DemoApi extends BaseApi {
         nameValuePairs.add(new BasicNameValuePair("password", password));
         nameValuePairs.add(new BasicNameValuePair("mobile", mobile));
 
-        ApiReqeust<Status> apiReqeust = new DefaultApiReqeust<Status>(ApiReqeust.POST_METHOD, URI.create(HOST + DEMO_REQ), nameValuePairs, callback);
+        ApiReqeust<Status> apiReqeust = new DefaultApiReqeust<Status>(ApiReqeust.POST_METHOD, URI.create(HOST + DEMO_REQ),nameValuePairs,callback);
+//        ApiReqeust<Status> apiReqeust = new DefaultApiReqeust<Status>(ApiReqeust.POST_METHOD, URI.create(HOST + DEMO_REQ), nameValuePairs, callback);
+
         AbstractHttpRequest<Status> httpRequest = apiReqeust.obtainRequest(new GsonParser<Status>(Status.class), null, null);
         NetworkManager.getInstance().requestAsync(httpRequest);
 
@@ -356,6 +358,23 @@ public class DemoApi extends BaseApi {
 
     }
 
+    /**
+     * 根据userid 获得 userinfo
+     *
+     * @param callback
+     * @return
+     */
+    public AbstractHttpRequest<User> getUserInfoByUserId(String userid,ApiCallback<User> callback) {
+        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+        nameValuePairs.add(new BasicNameValuePair("id", userid + ""));
+
+        ApiReqeust<User> apiReqeust = new DefaultApiReqeust<User>(ApiReqeust.GET_METHOD, URI.create(HOST + DEMO_PROFILE),nameValuePairs, callback);
+        AbstractHttpRequest<User> httpRequest = apiReqeust.obtainRequest(new GsonParser<User>(User.class), mAuthType);
+        NetworkManager.getInstance().requestAsync(httpRequest);
+
+        return httpRequest;
+
+    }
 
     AuthType mAuthType = new AuthType() {
 

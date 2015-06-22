@@ -25,10 +25,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.sea_monster.exception.BaseException;
+import com.sea_monster.network.AbstractHttpRequest;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import io.rong.app.DeleteEvent;
 import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.app.RongCloudEvent;
@@ -44,8 +48,7 @@ import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Group;
 import io.rong.imlib.model.UserInfo;
-import me.add1.exception.BaseException;
-import me.add1.network.AbstractHttpRequest;
+
 
 /**
  * Created by Bob on 2015/1/30.
@@ -381,6 +384,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                             edit.apply();
 
                             RongCloudEvent.getInstance().setOtherListener();
+                            DeleteEvent.init(LoginActivity.this);
                         }
 
                         @Override
@@ -457,6 +461,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                     edit.apply();
                     Log.e(TAG, "------getTokenHttpRequest -success--" + user.getResult().getToken());
                 } else if (user.getCode() == 110) {
+
                     WinToast.toast(LoginActivity.this, user.getMessage());
                 } else if (user.getCode() == 111) {
                     WinToast.toast(LoginActivity.this, user.getMessage());

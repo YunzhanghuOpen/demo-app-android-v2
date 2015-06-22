@@ -1,34 +1,22 @@
 package io.rong.app.parser;
 
-import android.annotation.TargetApi;
-import android.os.Build;
-import android.text.TextUtils;
-import android.util.Log;
-
 import com.google.gson.JsonParseException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.MalformedJsonException;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.zip.GZIPInputStream;
 
-import me.add1.cache.IoUtils;
-import me.add1.exception.InternalException;
-import me.add1.exception.ParseException;
-import me.add1.network.StatusCallback;
-import me.add1.network.parser.IEntityParser;
+import com.sea_monster.exception.InternalException;
+import com.sea_monster.exception.ParseException;
+import com.sea_monster.network.StatusCallback;
+import com.sea_monster.network.parser.IEntityParser;
 
 
 public abstract class JsonObjectParser<T> implements IEntityParser<T> {
@@ -78,10 +66,8 @@ public abstract class JsonObjectParser<T> implements IEntityParser<T> {
         return this.parse(entity);
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public final T parseGzip(HttpEntity entity) throws IOException, ParseException, InternalException {
-
         JsonReader jReader = new JsonReader(new InputStreamReader(new GZIPInputStream(entity.getContent()), HTTP.UTF_8));
         try {
             return jsonParse(jReader);

@@ -54,8 +54,8 @@ import io.rong.imkit.fragment.SubConversationListFragment;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
-import me.add1.exception.BaseException;
-import me.add1.network.AbstractHttpRequest;
+import com.sea_monster.exception.BaseException;
+import com.sea_monster.network.AbstractHttpRequest;
 
 public class MainActivity extends BaseApiActivity implements View.OnClickListener, ViewPager.OnPageChangeListener, ActionBar.OnMenuVisibilityListener, Handler.Callback {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -357,17 +357,20 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                         Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon()
                                 .appendPath("conversationlist")
                                 .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话是否聚合显示
-                                .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "true")
-                                .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")
-                                .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "true")
-                                .appendQueryParameter(Conversation.ConversationType.PUBLIC_SERVICE.getName(), "false")
-                                .appendQueryParameter(Conversation.ConversationType.APP_PUBLIC_SERVICE.getName(), "false")
+                                .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "true")//群组
+                                .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//讨论组
+//                                .appendQueryParameter(Conversation.ConversationType.CHATROOM.getName(), "false")//聊天室
+//                                .appendQueryParameter(Conversation.ConversationType.CUSTOMER_SERVICE.getName(), "false")//客服
+                                .appendQueryParameter(Conversation.ConversationType.APP_PUBLIC_SERVICE.getName(), "false")//应用公众服务。
+                                .appendQueryParameter(Conversation.ConversationType.PUBLIC_SERVICE.getName(), "false")//公共服务号
+                                .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//系统
                                 .build();
                         listFragment.setUri(uri);
                         fragment = listFragment;
-//                        fragment = new TestFragment();
                     } else {
                         fragment = mConversationFragment;
+
+//                        fragment = new TestFragment();
                     }
                     break;
                 case 1:
@@ -515,9 +518,12 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                 break;
             case R.id.add_item2://选择群组
 //                sendMessage();
-                if (RongIM.getInstance() != null) {
+//                startActivity(new Intent(MainActivity.this,TestActivity.class));
+
+                if(RongIM.getInstance() != null)
                     RongIM.getInstance().startSubConversationList(this, Conversation.ConversationType.GROUP);
-                }
+
+
                 break;
             case R.id.add_item3://通讯录
                 startActivity(new Intent(MainActivity.this, DeAdressListActivity.class));

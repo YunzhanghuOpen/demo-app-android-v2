@@ -28,8 +28,8 @@ import io.rong.imkit.widget.AsyncImageView;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Group;
-import me.add1.exception.BaseException;
-import me.add1.network.AbstractHttpRequest;
+import com.sea_monster.exception.BaseException;
+import com.sea_monster.network.AbstractHttpRequest;
 
 /**
  * Created by Bob on 2015/3/28.

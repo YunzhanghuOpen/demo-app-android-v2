@@ -44,6 +44,13 @@
         <dex dex="/Users/Bob_ge/Documents/GitHubWorkSpace/GitHub2.0.+/demo-app-android-v2/app/build/intermediates/pre-dexed/debug/gson-2.2.4-04be04957993bfc07e7bb953645d021aefce112b.jar" />
     </item>
     <item
+        jar="/Users/Bob_ge/Documents/GitHubWorkSpace/GitHub2.0.+/demo-app-android-v2/app/build/intermediates/exploded-aar/demo-app-android-v2/kit/unspecified/libs/Rong_IMKit_v2_1_3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2dcc5170997d1d3cc127b6a551bc01c7a11218e9">
+        <dex dex="/Users/Bob_ge/Documents/GitHubWorkSpace/GitHub2.0.+/demo-app-android-v2/app/build/intermediates/pre-dexed/debug/Rong_IMKit_v2_1_3-5eb40233e4014462329ede8a1b6f34240e9ad790.jar" />
+    </item>
+    <item
         jar="/Users/Bob_ge/Documents/GitHubWorkSpace/GitHub2.0.+/demo-app-android-v2/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
         jumboMode="false"
         revision="21.1.2"
@@ -61,15 +68,8 @@
         jar="/Users/Bob_ge/Documents/GitHubWorkSpace/GitHub2.0.+/demo-app-android-v2/app/build/intermediates/exploded-aar/demo-app-android-v2/kit/unspecified/classes.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="2077d0ad2ca6713a9d9291573909bc697b018b87">
+        sha1="e4fb4bfd1ac393dcdc0354bf7c1e7eb9e765a541">
         <dex dex="/Users/Bob_ge/Documents/GitHubWorkSpace/GitHub2.0.+/demo-app-android-v2/app/build/intermediates/pre-dexed/debug/classes-0d4e6ef13f076e95351920abacc6e34e9e6354eb.jar" />
-    </item>
-    <item
-        jar="/Users/Bob_ge/Documents/GitHubWorkSpace/GitHub2.0.+/demo-app-android-v2/app/build/intermediates/exploded-aar/demo-app-android-v2/kit/unspecified/libs/Rong_IMKit_v2_1_1.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="71a0681df9dc25a32b50c807f11b43dc654be77f">
-        <dex dex="/Users/Bob_ge/Documents/GitHubWorkSpace/GitHub2.0.+/demo-app-android-v2/app/build/intermediates/pre-dexed/debug/Rong_IMKit_v2_1_1-a8c703e641e289143bb011c8d81b51b284228664.jar" />
     </item>
 
 </items>

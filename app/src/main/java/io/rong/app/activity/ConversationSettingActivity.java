@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import io.rong.app.R;
-import me.add1.exception.BaseException;
-import me.add1.network.AbstractHttpRequest;
+import com.sea_monster.exception.BaseException;
+import com.sea_monster.network.AbstractHttpRequest;
 
 /**
  * Created by Bob on 2015/3/27.

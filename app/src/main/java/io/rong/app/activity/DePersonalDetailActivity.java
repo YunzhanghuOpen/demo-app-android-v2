@@ -15,10 +15,10 @@ import io.rong.app.ui.LoadingDialog;
 import io.rong.app.ui.WinToast;
 import io.rong.app.utils.Constants;
 import io.rong.imlib.model.UserInfo;
-import me.add1.exception.BaseException;
-import me.add1.network.AbstractHttpRequest;
+import com.sea_monster.exception.BaseException;
+import com.sea_monster.network.AbstractHttpRequest;
 import io.rong.imkit.widget.AsyncImageView ;
-import me.add1.resource.Resource;
+import com.sea_monster.resource.Resource;
 
 
 /**

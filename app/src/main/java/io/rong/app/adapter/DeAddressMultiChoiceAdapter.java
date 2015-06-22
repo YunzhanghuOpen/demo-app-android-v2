@@ -10,7 +10,7 @@ import java.util.List;
 import io.rong.app.R;
 import io.rong.app.model.Friend;
 import io.rong.imkit.widget.AsyncImageView;
-import me.add1.resource.Resource;
+import com.sea_monster.resource.Resource;
 
 public class DeAddressMultiChoiceAdapter extends DeAddressListAdapter {
 

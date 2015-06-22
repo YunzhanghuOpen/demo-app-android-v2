@@ -10,7 +10,7 @@ import java.util.List;
 
 import io.rong.app.activity.PersonalDetailActivity;
 import io.rong.app.model.Friend;
-import me.add1.resource.Resource;
+import com.sea_monster.resource.Resource;
 import io.rong.imkit.widget.AsyncImageView ;
 
 public class BlackMultiChoiceAdapter extends BlackListAdapter {

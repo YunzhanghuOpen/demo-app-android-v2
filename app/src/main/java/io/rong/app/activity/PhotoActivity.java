@@ -17,8 +17,8 @@ import java.util.Observer;
 
 import io.rong.app.R;
 import io.rong.imkit.tools.PhotoFragment;
-import me.add1.resource.Resource;
-import me.add1.resource.ResourceHandler;
+import com.sea_monster.resource.Resource;
+import com.sea_monster.resource.ResourceHandler;
 
 /**
  * Created by DragonJ on 15/4/13.

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.app.utils.Constants;
-import me.add1.resource.Resource;
+import com.sea_monster.resource.Resource;
 import io.rong.imkit.widget.AsyncImageView;
 
 /**
