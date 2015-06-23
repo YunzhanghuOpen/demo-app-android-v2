@@ -1,11 +1,8 @@
 package io.rong.app.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.MenuItem;
 
 import io.rong.app.R;
-import io.rong.app.fragment.DeAdressListFragment;
 
 /**
  * Created by Administrator on 2015/3/26.

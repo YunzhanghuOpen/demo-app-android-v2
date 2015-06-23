@@ -14,7 +14,8 @@ import io.rong.app.activity.MainActivity;
 import io.rong.app.activity.PhotoActivity;
 import io.rong.app.activity.SOSOLocationActivity;
 import io.rong.app.message.DeAgreedFriendRequestMessage;
-import io.rong.app.provider.AddressBookProvider;
+import io.rong.app.provider.ContactsProvider;
+import io.rong.app.provider.InputTestProvider;
 import io.rong.imkit.PushNotificationManager;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
@@ -120,13 +121,17 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
         //扩展功能自定义
         InputProvider.ExtendProvider[] provider = {
-                new ImageInputProvider(RongContext.getInstance()),
-                new CameraInputProvider(RongContext.getInstance()),
-                new LocationInputProvider(RongContext.getInstance()),
-                new VoIPInputProvider(RongContext.getInstance()),
-                new AddressBookProvider(RongContext.getInstance())
+                new ImageInputProvider(RongContext.getInstance()),//图片
+                new CameraInputProvider(RongContext.getInstance()),//相机
+                new LocationInputProvider(RongContext.getInstance()),//地理位置
+                new VoIPInputProvider(RongContext.getInstance()),// 语音通话
+                new ContactsProvider(RongContext.getInstance())//通讯录
         };
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.PRIVATE, provider);
+
+//        RongIM.getInstance().setPrimaryInputProvider(new InputTestProvider((RongContext) mContext));
+
+
     }
 
     /**

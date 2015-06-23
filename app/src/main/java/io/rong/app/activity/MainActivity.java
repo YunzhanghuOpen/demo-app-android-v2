@@ -41,7 +41,6 @@ import io.rong.app.R;
 import io.rong.app.fragment.ChatRoomListFragment;
 import io.rong.app.fragment.CustomerFragment;
 import io.rong.app.fragment.GroupListFragment;
-import io.rong.app.fragment.TestFragment;
 import io.rong.app.message.DeAgreedFriendRequestMessage;
 import io.rong.app.model.Friends;
 import io.rong.app.ui.LoadingDialog;
