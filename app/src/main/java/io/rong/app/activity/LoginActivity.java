@@ -495,17 +495,20 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                         if (DemoContext.getInstance() != null)
                             DemoContext.getInstance().setGroupMap(groupM);
 
-                        RongIM.getInstance().getRongIMClient().syncGroup(grouplist, new RongIMClient.OperationCallback() {
-                            @Override
-                            public void onSuccess() {
-                                Log.e(TAG,"---syncGroup-onSuccess---");
-                            }
+                        if (grouplist.size() > 0) {
 
-                            @Override
-                            public void onError(RongIMClient.ErrorCode errorCode) {
-                                Log.e(TAG,"---syncGroup-onError---");
-                            }
-                        });
+                            RongIM.getInstance().getRongIMClient().syncGroup(grouplist, new RongIMClient.OperationCallback() {
+                                @Override
+                                public void onSuccess() {
+                                    Log.e(TAG, "---syncGroup-onSuccess---");
+                                }
+
+                                @Override
+                                public void onError(RongIMClient.ErrorCode errorCode) {
+                                    Log.e(TAG, "---syncGroup-onError---");
+                                }
+                            });
+                        }
                     }
                 } else {
 //                    WinToast.toast(this, groups.getCode());
