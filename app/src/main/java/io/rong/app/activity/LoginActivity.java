@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import io.rong.app.DeleteEvent;
 import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.app.RongCloudEvent;
@@ -384,7 +383,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                             edit.apply();
 
                             RongCloudEvent.getInstance().setOtherListener();
-                            DeleteEvent.init(LoginActivity.this);
+//                            DeleteEvent.init(LoginActivity.this);
                         }
 
                         @Override
