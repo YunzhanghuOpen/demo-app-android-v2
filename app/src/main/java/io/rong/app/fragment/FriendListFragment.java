@@ -75,7 +75,7 @@ public class FriendListFragment extends Fragment implements DeSwitchGroup.ItemHa
         ArrayList<UserInfo> userInfos = null;
 
         if (DemoContext.getInstance() != null) {
-            userInfos = DemoContext.getInstance().getFriends();
+            userInfos = DemoContext.getInstance().getFriendList();
         }
 
         mFriendsList = new ArrayList<Friend>();

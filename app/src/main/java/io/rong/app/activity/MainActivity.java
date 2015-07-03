@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,7 +35,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import io.rong.app.DemoContext;
 import io.rong.app.R;
@@ -43,6 +46,7 @@ import io.rong.app.fragment.CustomerFragment;
 import io.rong.app.fragment.GroupListFragment;
 import io.rong.app.message.DeAgreedFriendRequestMessage;
 import io.rong.app.model.Friends;
+import io.rong.app.model.Groups;
 import io.rong.app.ui.LoadingDialog;
 import io.rong.app.utils.Constants;
 import io.rong.imkit.RongIM;
@@ -52,7 +56,9 @@ import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imkit.fragment.SubConversationListFragment;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Group;
 import io.rong.imlib.model.UserInfo;
+
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 
@@ -124,8 +130,8 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
     private Menu mMenu;
     private ReceiveMessageBroadcastReciver mBroadcastReciver;
     private LoadingDialog mDialog;
-    //    private AbstractHttpRequest<Friends> getUserInfoHttpRequest;
-    private AbstractHttpRequest<Friends> getFriendsHttpRequest;
+
+    private AbstractHttpRequest<Groups> mGetMyGroupsRequest;
     private int mNetNum = 0;
     ActivityManager activityManager;
     private Handler mHandler;
@@ -169,13 +175,19 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
         mInflater = (LayoutInflater) this
                 .getSystemService(LAYOUT_INFLATER_SERVICE);
         if (getIntent() != null) {
-            if (getIntent().hasExtra("PUSH_CONTEXT")) {
+            if (getIntent().hasExtra("PUSH_CONTEXT") && getIntent().hasExtra("PUSH_TOKEN")
+                    &&getIntent().hasExtra("DEMO_ACTIVITY1")&&getIntent().hasExtra("DEMO_TARGETID1")) {
                 if (getIntent().getStringExtra("PUSH_CONTEXT").equals("push")) {
+
                     Log.e(TAG, "--------0527---PUSH_CONTEXT------" + getIntent().getStringExtra("PUSH_CONTEXT"));
-                    push();
+                    reconnect(getIntent().getStringExtra("PUSH_TOKEN").toString(),getIntent().getStringExtra("DEMO_ACTIVITY1").toString(),getIntent().getStringExtra("DEMO_TARGETID1").toString());
+                    if (DemoContext.getInstance() != null) {
+                        mGetMyGroupsRequest = DemoContext.getInstance().getDemoApi().getMyGroups(MainActivity.this);
+                    }
                 }
             }
         }
+
 
     }
 
@@ -189,16 +201,7 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
         mViewPager.setAdapter(mDemoFragmentPagerAdapter);
         mViewPager.setOnPageChangeListener(this);
         mViewPager.setOffscreenPageLimit(3);
-        //发起获取好友列表的http请求  (注：非融云SDK接口，是demo接口)
-        if (DemoContext.getInstance() != null) {
 
-//            getUserInfoHttpRequest = DemoContext.getInstance().getDemoApi().getFriends(MainActivity.this);
-
-            getFriendsHttpRequest = DemoContext.getInstance().getDemoApi().getNewFriendlist(MainActivity.this);
-            if (mDialog != null && !mDialog.isShowing()) {
-                mDialog.show();
-            }
-        }
 
         final Conversation.ConversationType[] conversationTypes = {Conversation.ConversationType.PRIVATE, Conversation.ConversationType.DISCUSSION,
                 Conversation.ConversationType.GROUP, Conversation.ConversationType.SYSTEM,
@@ -220,6 +223,7 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
         }
         this.registerReceiver(mBroadcastReciver, intentFilter);
 
+
     }
 
     public RongIM.OnReceiveUnreadCountChangedListener mCountListener = new RongIM.OnReceiveUnreadCountChangedListener() {
@@ -237,36 +241,22 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
         }
     };
 
-
-    public void push() {
-        if (getIntent() != null) {
-            if (DemoContext.getInstance() != null) {
-
-                String token = DemoContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "defult");
-                Log.e(TAG,"-------------527----token:"+token);
-                reconnect(token);
-
-            }
-        }
-    }
-
     /**
      * 收到push消息后做重连，重新连接融云
      *
      * @param token
      */
-    private void reconnect(String token) {
+    private void reconnect(final String token, final String s1, final String s2) {
 
 
 //        mDialog.setCancelable(false);
         mDialog.setText("正在连接中...");
         mDialog.show();
-
         try {
-            RongIM.connect(token, new RongIMClient.ConnectCallback()  {
+            RongIM.connect(token, new RongIMClient.ConnectCallback() {
                 @Override
                 public void onTokenIncorrect() {
-
+                    Log.e(TAG, "-------------527-- onTokenIncorrect---");
                 }
 
                 @Override
@@ -275,9 +265,16 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                     if (mDialog != null)
                         mDialog.dismiss();
 
-                    Intent intent = getIntent();
-                    if (intent != null)
-                        enterFragment(intent);
+//                    Intent intent = getIntent();
+//                    startActivity(new Intent(MainActivity.this,DemoActivity.class));
+
+                    Log.e(TAG, "---targetId-------conversation-" + s1+"----s2----:"+s2);
+                    Intent intent = new Intent(MainActivity.this,DemoActivity.class);
+                    intent.putExtra("DEMO_COVERSATIONTYPE",s1);
+                    intent.putExtra("DEMO_TARGETID", s2);
+                    startActivity(intent);
+//                    if (intent != null)
+//                        enterFragment(intent);
 
                 }
 
@@ -289,7 +286,6 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                 }
             });
         } catch (Exception e) {
-            Log.e(TAG,"-------------527--Exception--e:"+e);
             mDialog.dismiss();
 
             e.printStackTrace();
@@ -516,13 +512,8 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                 startActivity(new Intent(this, FriendListActivity.class));
                 break;
             case R.id.add_item2://选择群组
-//                sendMessage();
-//                startActivity(new Intent(MainActivity.this,TestActivity.class));
-
-                if(RongIM.getInstance() != null)
+                if (RongIM.getInstance() != null)
                     RongIM.getInstance().startSubConversationList(this, Conversation.ConversationType.GROUP);
-
-
                 break;
             case R.id.add_item3://通讯录
                 startActivity(new Intent(MainActivity.this, DeAdressListActivity.class));
@@ -573,30 +564,8 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
 
     @Override
     public void onCallApiSuccess(AbstractHttpRequest request, Object obj) {
-
-        if (getFriendsHttpRequest == request) {
-            if (obj instanceof Friends) {
-                final Friends friends = (Friends) obj;
-                if (friends.getCode() == 200) {
-                    ArrayList<UserInfo> friendreslut = new ArrayList<UserInfo>();
-                    //status : 1 好友, 2 请求添加, 3 请求被添加, 4 请求被拒绝, 5 我被对方删除
-                    for (int i = 0; i < friends.getResult().size(); i++) {
-                        //此处定义的好友为：1 好友，3 请求被添加, 5 我被对方删除
-                        if (friends.getResult().get(i).getStatus() == 1 || friends.getResult().get(i).getStatus() == 3 || friends.getResult().get(i).getStatus() == 5) {
-                            UserInfo info = new UserInfo(String.valueOf(friends.getResult().get(i).getId()), friends.getResult().get(i).getUsername(), friends.getResult().get(i).getPortrait() == null ? null : Uri.parse(friends.getResult().get(i).getPortrait()));
-                            friendreslut.add(info);
-                        }
-                    }
-                    if (DemoContext.getInstance() != null)
-
-                        DemoContext.getInstance().setFriends(friendreslut);
-
-                    if (mDialog != null)
-                        mDialog.dismiss();
-
-                }
-            }
-
+        if (mGetMyGroupsRequest != null && mGetMyGroupsRequest.equals(request)) {
+            getMyGroupApiSuccess(obj);
         }
     }
 
@@ -700,13 +669,100 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
         }
         super.onDestroy();
     }
+
+    private void getMyGroupApiSuccess(Object obj) {
+        if (obj instanceof Groups) {
+            final Groups groups = (Groups) obj;
+
+            if (groups.getCode() == 200) {
+                List<Group> grouplist = new ArrayList<>();
+                if (groups.getResult() != null) {
+                    for (int i = 0; i < groups.getResult().size(); i++) {
+
+                        String id = groups.getResult().get(i).getId();
+                        String name = groups.getResult().get(i).getName();
+                        if (groups.getResult().get(i).getPortrait() != null) {
+                            Uri uri = Uri.parse(groups.getResult().get(i).getPortrait());
+                            grouplist.add(new Group(id, name, uri));
+                        } else {
+                            grouplist.add(new Group(id, name, null));
+                        }
+                    }
+                    HashMap<String, Group> groupM = new HashMap<String, Group>();
+                    for (int i = 0; i < grouplist.size(); i++) {
+                        groupM.put(groups.getResult().get(i).getId(), grouplist.get(i));
+                        Log.e("login", "------get Group id---------" + groups.getResult().get(i).getId());
+                    }
+
+                    if (DemoContext.getInstance() != null)
+                        DemoContext.getInstance().setGroupMap(groupM);
+
+                    if (grouplist.size() > 0)
+                        RongIM.getInstance().getRongIMClient().syncGroup(grouplist, new RongIMClient.OperationCallback() {
+                            @Override
+                            public void onSuccess() {
+                                Log.e(TAG, "---syncGroup-onSuccess---");
+                            }
+
+                            @Override
+                            public void onError(RongIMClient.ErrorCode errorCode) {
+                                Log.e(TAG, "---syncGroup-onError---");
+                            }
+                        });
+                }
+            } else {
+//                    WinToast.toast(this, groups.getCode());
+            }
+        }
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        setIntent(intent);
+
+        String tag = null;
+        Fragment fragment = null;
+
+        if (intent.getExtras() != null && intent.getExtras().containsKey(RongConst.EXTRA.CONTENT)) {
+            String fragmentName = intent.getExtras().getString(RongConst.EXTRA.CONTENT);
+            fragment = Fragment.instantiate(this, fragmentName);
+        } else if (intent.getData() != null) {
+
+            if (intent.getData().getPathSegments().get(0).equals("conversation")) {
+                tag = "conversation";
+                fragment = getSupportFragmentManager().findFragmentByTag(tag);
+                if (fragment != null)
+                    return;
+                String fragmentName = ConversationFragment.class.getCanonicalName();
+                fragment = Fragment.instantiate(this, fragmentName);
+            } else if (intent.getData().getLastPathSegment().equals("conversationlist")) {
+                tag = "conversationlist";
+                String fragmentName = ConversationListFragment.class.getCanonicalName();
+                fragment = Fragment.instantiate(this, fragmentName);
+            } else if (intent.getData().getLastPathSegment().equals("subconversationlist")) {
+                tag = "subconversationlist";
+                String fragmentName = SubConversationListFragment.class.getCanonicalName();
+                fragment = Fragment.instantiate(this, fragmentName);
+
+            }
+        }
+
+        if (fragment != null) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.de_content, fragment, tag);
+            transaction.addToBackStack(null).commitAllowingStateLoss();
+        }
+    }
+
     /**
      * 添加好友成功后，向对方发送一条消息
-     *
      */
     private void sendMessage() {
 //        26590   114
-       String id = "26590";
+        String id = "26590";
         final DeAgreedFriendRequestMessage message = new DeAgreedFriendRequestMessage(id, "agree");
         if (DemoContext.getInstance() != null) {
             //获取当前用户的 userid

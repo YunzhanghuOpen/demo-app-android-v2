@@ -76,15 +76,41 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);
         mHandler = new Handler(this);
         Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("DEMO_COVERSATIONTYPE") & intent.hasExtra("DEMO_TARGETID")) {
+            String tag = null;
+            Fragment fragment = null;
+            if (DemoContext.getInstance() != null) {
+                String conversation = intent.getStringExtra("DEMO_COVERSATIONTYPE");
+                Log.e(TAG, "---targetId-------conversation-" + conversation);
+                if (conversation.equals("conversation")) {
+                    tag = "conversation";
+                    String fragmentName = ConversationFragment.class.getCanonicalName();
+                    fragment = Fragment.instantiate(this, fragmentName);
+                    targetId = intent.getStringExtra("DEMO_TARGETID");
+                    Log.e(TAG, "---targetId-" + targetId);
+                    if (targetId != null) {
+//                    intent.getData().getLastPathSegment();//获得当前会话类型
+                        mConversationType = Conversation.ConversationType.valueOf(intent.getData().getLastPathSegment().toUpperCase(Locale.getDefault()));
+                    }
+                }
+                if (fragment != null) {
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.add(R.id.de_content, fragment, tag);
+                    transaction.addToBackStack(null).commitAllowingStateLoss();
+                }
+            }
+        }
         //push或通知过来
         if (intent != null && intent.getData() != null && intent.getData().getScheme().equals("rong") && intent.getData().getQueryParameter("push") != null) {
             //通过intent.getData().getQueryParameter("push") 为true，判断是否是push消息
             if (DemoContext.getInstance() != null && intent.getData().getQueryParameter("push").equals("true")) {
-                Log.e(TAG, "0518---test-push --" + intent.getData());
-
-//                Intent in = new Intent(DemoActivity.this,LoginActivity.class);
-//                in.putExtra("PUSH_CONTEXT","push");
-//                startActivity(in);
+//                enterActivity(intent);
+//            } else {
+                enterFragment(intent);
+            }
+        } else if (intent != null) {
+            //程序切到后台，收到消息后点击进入,会执行这里
+            if (RongIM.getInstance() == null || RongIM.getInstance().getRongIMClient() == null) {
                 if (DemoContext.getInstance() != null) {
                     String token = DemoContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "defult");
                     reconnect(token);
@@ -92,10 +118,35 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
             } else {
                 enterFragment(intent);
             }
-        } else if (intent != null) {
-            //程序切到后台，收到消息后点击进入,会执行这里
-            enterFragment(intent);
         }
+
+    }
+
+    /**
+     * 收到 push 消息后，选择进入哪个 Activity
+     * 如果程序缓存未被清理，进入 MainActivity
+     * 程序缓存被清理，进入 LoginActivity，重新获取token
+     */
+    private void enterActivity(Intent intent) {
+
+        if (DemoContext.getInstance() != null) {
+            String token = DemoContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "defult");
+            if (!token.equals("defult")) {
+                Intent in = new Intent(DemoActivity.this, MainActivity.class);
+                in.putExtra("PUSH_CONTEXT", "push");
+                in.putExtra("PUSH_TOKEN", token);
+                in.putExtra("DEMO_ACTIVITY1", intent.getData().getPathSegments().get(0) + "");
+                in.putExtra("DEMO_TARGETID1", intent.getData().getQueryParameter("targetId") + "");
+                startActivity(in);
+                finish();
+            } else {
+                Intent in = new Intent(DemoActivity.this, LoginActivity.class);
+                in.putExtra("PUSH_CONTEXT", "push");
+                startActivity(in);
+                finish();
+            }
+        }
+
     }
 
     /**
@@ -222,7 +273,8 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
         if (mConversationType != null) {
             if (mConversationType.equals(Conversation.ConversationType.PRIVATE)) {
                 if (DemoContext.getInstance() != null)
-                    getSupportActionBar().setTitle(DemoContext.getInstance().getUserNameByUserId(targetId));
+
+                    getSupportActionBar().setTitle(DemoContext.getInstance().getUserInfoById(targetId).getName().toString());
             } else if (mConversationType.equals(Conversation.ConversationType.GROUP)) {
                 if (DemoContext.getInstance() != null) {
                     getSupportActionBar().setTitle(DemoContext.getInstance().getGroupNameById(targetId));
@@ -299,8 +351,7 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
         String[] ids = targetIds.split(",");
         if (DemoContext.getInstance() != null) {
             for (int i = 0; i < ids.length; i++) {
-                DemoContext.getInstance().getUserNameByUserId(ids[i]);
-                sb.append(DemoContext.getInstance().getUserNameByUserId(ids[i]));
+                sb.append(DemoContext.getInstance().getUserInfoById(ids[i]).getName().toString());
                 sb.append(",");
             }
             sb.append(DemoContext.getInstance().getSharedPreferences().getString("DEMO_USER_NAME", "0.0"));

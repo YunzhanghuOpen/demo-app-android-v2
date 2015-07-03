@@ -38,8 +38,8 @@ public class DemoApi extends BaseApi {
     private static String   HOST = "http://webim.demo.rong.io/";
 
     private final static String DEMO_LOGIN_EMAIL = "email_login";
-        private final static String DEMO_FRIENDS = "friends";
-//    private final static String DEMO_FRIENDS = "get_friend";
+    //    private final static String DEMO_FRIENDS = "friends";
+    private final static String DEMO_FRIENDS = "get_friend";
     private final static String DEMO_REQ = "reg";
     private final static String DEMO_UPDATE_PROFILE = "update_profile";
 
@@ -290,32 +290,14 @@ public class DemoApi extends BaseApi {
         nameValuePairs.add(new BasicNameValuePair("message", message));
 
         ApiReqeust<User> apiReqeust = new DefaultApiReqeust<User>(ApiReqeust.POST_METHOD, URI.create(HOST + DEMO_REQUEST_FRIEND), nameValuePairs, callback);
-        AbstractHttpRequest<User> httpRequest = apiReqeust.obtainRequest(new GsonParser<>(User.class), null, null);
+        AbstractHttpRequest<User> httpRequest = apiReqeust.obtainRequest(new GsonParser<>(User.class), mAuthType);
         NetworkManager.getInstance().requestAsync(httpRequest);
 
         return httpRequest;
 
     }
 
-    /**
-     * 发好友邀请
-     *
-     * @param callback
-     * @return
-     */
 
-    public AbstractHttpRequest<ArrayList<User>> sendFriesdfndInvite(String userid, ApiCallback<ArrayList<User>> callback) {
-        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-        nameValuePairs.add(new BasicNameValuePair("id", userid + ""));
-
-        ApiReqeust<ArrayList<User>> apiReqeust = new DefaultApiReqeust<ArrayList<User>>(ApiReqeust.GET_METHOD, URI.create(HOST + DEMO_REQUEST_FRIEND), nameValuePairs, callback);
-        AbstractHttpRequest<ArrayList<User>> httpRequest = apiReqeust.obtainRequest(new GsonArrayParser<>(new TypeToken<ArrayList<User>>() {
-        }), null, null);
-        NetworkManager.getInstance().requestAsync(httpRequest);
-
-        return httpRequest;
-
-    }
 
     /**
      * demo server 删除好友

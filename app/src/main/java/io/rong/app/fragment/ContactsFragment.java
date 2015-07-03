@@ -86,7 +86,6 @@ public class ContactsFragment extends Fragment implements DeSwitchGroup.ItemHand
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (action.equals(MainActivity.ACTION_DMEO_AGREE_REQUEST)) {
-
                 updateDate();
             }
         }
@@ -101,7 +100,7 @@ public class ContactsFragment extends Fragment implements DeSwitchGroup.ItemHand
 
         //获取好友列表
         if (DemoContext.getInstance() != null) {
-            userInfos = DemoContext.getInstance().getFriends();
+            userInfos = DemoContext.getInstance().getFriendList();
         }
         mFriendsList = new ArrayList<Friend>();
 

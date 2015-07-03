@@ -3,6 +3,7 @@ package io.rong.app;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -11,8 +12,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import de.greenrobot.dao.query.QueryBuilder;
 import io.rong.app.activity.SOSOLocationActivity;
 import io.rong.app.common.DemoApi;
+import io.rong.app.database.DBManager;
+import io.rong.app.database.UserInfos;
+import io.rong.app.database.UserInfosDao;
+import io.rong.app.model.User;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.model.Group;
 import io.rong.imlib.model.UserInfo;
@@ -30,6 +36,7 @@ public class DemoContext {
     private ArrayList<UserInfo> mFriendInfos;
     private SharedPreferences mPreferences;
     private RongIM.LocationProvider.LocationCallback mLastLocationCallback;
+    private UserInfosDao mUserInfosDao;
 
 
     public static DemoContext getInstance() {
@@ -52,6 +59,8 @@ public class DemoContext {
         RongIM.setLocationProvider(new LocationProvider());
 
         mDemoApi = new DemoApi(context);
+
+        mUserInfosDao = DBManager.getInstance(mContext).getDaoSession().getUserInfosDao();
     }
 
     public static void init(Context context) {
@@ -101,72 +110,73 @@ public class DemoContext {
         return mDemoApi;
     }
 
+    /**
+     * 删除 userinfos 表
+     */
+    public void deleteUserInfos() {
+
+        mUserInfosDao.deleteAll();
+    }
 
     /**
-     * 获取用户信息
+     * 通过userid 查找 UserInfo，查找的是本地的数据库
      *
      * @param userId
      * @return
      */
     public UserInfo getUserInfoById(String userId) {
 
-        UserInfo userInfoReturn = null;
+        UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
 
-        if (!TextUtils.isEmpty(userId) && mUserInfos != null) {
-            for (UserInfo userInfo : mUserInfos) {
+        if (userInfos == null)
+            return null;
 
-                if (userId.equals(userInfo.getUserId())) {
-                    userInfoReturn = userInfo;
-                    break;
-                }
-
-            }
-        }
-        return userInfoReturn;
+        return new UserInfo(userInfos.getUserid(), userInfos.getUsername(), Uri.parse(userInfos.getPortrait()));
     }
 
     /**
-     * 通过userid 获得username
+     * 获得好友列表
      *
-     * @param userId
      * @return
      */
-    public String getUserNameByUserId(String userId) {
-        UserInfo userInfoReturn = null;
-        if (!TextUtils.isEmpty(userId) && mUserInfos != null) {
-            for (UserInfo userInfo : mUserInfos) {
+    public ArrayList<UserInfo> getFriendList() {
+        List<UserInfo> userInfoList = new ArrayList<>();
 
-                if (userId.equals(userInfo.getUserId())) {
-                    userInfoReturn = userInfo;
-                    break;
-                }
-            }
+        List<UserInfos> userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Status.eq("5")).list();
+
+        if (userInfos == null)
+            return null;
+
+        for (int i = 0; i < userInfos.size(); i++) {
+            UserInfo userInfo = new UserInfo(userInfos.get(i).getUserid(), userInfos.get(i).getUsername(), Uri.parse(userInfos.get(i).getPortrait()));
+
+            userInfoList.add(userInfo);
         }
-        return userInfoReturn.getName();
+        return (ArrayList) userInfoList;
     }
 
     /**
-     * 获取用户信息列表
+     * 根据userids获得好友列表
      *
-     * @param userIds
      * @return
      */
-    public List<UserInfo> getUserInfoByIds(String[] userIds) {
+    public ArrayList<UserInfo> getUserInfoList(String[] userIds) {
 
-        List<UserInfo> userInfoList = new ArrayList<UserInfo>();
+        List<UserInfo> userInfoList = new ArrayList<>();
+        List<UserInfos> userInfosList = new ArrayList<>();
 
-        if (userIds != null && userIds.length > 0) {
-            for (String userId : userIds) {
-                for (UserInfo userInfo : mUserInfos) {
-                    Log.e("", "0409-------getUserInfoByIds-" + userInfo.getUserId() + "---userid;" + userId);
-                    if (userId.equals(userInfo.getUserId())) {
-                        Log.e("", "0409-------getUserInfoByIds-" + userInfo.getName());
-                        userInfoList.add(userInfo);
-                    }
-                }
-            }
+        for (int i = 0; i < userIds.length; i++) {
+            UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userIds[i])).unique();
+            userInfosList.add(userInfos);
+            UserInfo userInfo = new UserInfo(userInfosList.get(i).getUserid(), userInfosList.get(i).getUsername(), Uri.parse(userInfosList.get(i).getPortrait()));
+            userInfoList.add(userInfo);
         }
-        return userInfoList;
+
+        if (userInfosList == null)
+            return null;
+
+
+        return (ArrayList) userInfoList;
     }
 
     /**
@@ -181,11 +191,14 @@ public class DemoContext {
 
             if (groupMap.containsKey(groupid)) {
                 groupReturn = groupMap.get(groupid);
-            }else
+            } else
                 return null;
 
         }
-        return groupReturn.getName();
+        if (groupReturn != null)
+            return groupReturn.getName();
+        else
+            return null;
     }
 
 

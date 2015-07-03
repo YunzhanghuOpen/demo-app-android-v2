@@ -7,13 +7,22 @@ import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.View;
 
+import com.sea_monster.exception.BaseException;
+import com.sea_monster.network.AbstractHttpRequest;
+import com.sea_monster.network.ApiCallback;
+
 import java.util.ArrayList;
 
+import de.greenrobot.dao.query.QueryBuilder;
 import io.rong.app.activity.DePersonalDetailActivity;
 import io.rong.app.activity.MainActivity;
 import io.rong.app.activity.PhotoActivity;
 import io.rong.app.activity.SOSOLocationActivity;
+import io.rong.app.database.DBManager;
+import io.rong.app.database.UserInfos;
+import io.rong.app.database.UserInfosDao;
 import io.rong.app.message.DeAgreedFriendRequestMessage;
+import io.rong.app.model.User;
 import io.rong.app.provider.ContactsProvider;
 import io.rong.app.provider.InputTestProvider;
 import io.rong.imkit.PushNotificationManager;
@@ -62,13 +71,16 @@ import io.rong.notification.PushNotificationMessage;
  */
 public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListener, RongIM.OnSendMessageListener,
         RongIM.UserInfoProvider, RongIM.GroupInfoProvider, RongIM.ConversationBehaviorListener,
-        RongIMClient.ConnectionStatusListener, RongIM.LocationProvider, RongIMClient.OnReceivePushMessageListener, RongIM.ConversationListBehaviorListener {
+        RongIMClient.ConnectionStatusListener, RongIM.LocationProvider, RongIMClient.OnReceivePushMessageListener, RongIM.ConversationListBehaviorListener,
+        ApiCallback {
 
     private static final String TAG = RongCloudEvent.class.getSimpleName();
 
     private static RongCloudEvent mRongCloudInstance;
 
     private Context mContext;
+    private UserInfosDao mUserInfosDao;
+    private AbstractHttpRequest<User> getUserInfoByUserIdHttpRequest;
 
     /**
      * 初始化 RongCloud.
@@ -103,7 +115,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
      */
     private void initDefaultListener() {
         RongIM.setUserInfoProvider(this, true);//设置用户信息提供者。
-        RongIM.setGroupInfoProvider(this,true);//设置群组信息提供者。
+        RongIM.setGroupInfoProvider(this, true);//设置群组信息提供者。
         RongIM.setConversationBehaviorListener(this);//设置会话界面操作的监听器。
         RongIM.setLocationProvider(this);//设置地理位置提供者,不用位置的同学可以注掉此行代码
 //        RongIM.setPushMessageBehaviorListener(this);//自定义 push 通知。
@@ -318,12 +330,21 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
      */
     @Override
     public UserInfo getUserInfo(String userId) {
+
         /**
          * demo 代码  开发者需替换成自己的代码。
          */
-        Log.e(TAG, "0604---------getUserInfo----userId---:" + userId);
+        mUserInfosDao = DBManager.getInstance(mContext).getDaoSession().getUserInfosDao();
+
+        QueryBuilder qb = mUserInfosDao.queryBuilder();
+        qb.where(UserInfosDao.Properties.Userid.eq(userId));
+        UserInfos userInfo = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
+
+        if (userInfo == null && DemoContext.getInstance() != null) {
+            getUserInfoByUserIdHttpRequest = DemoContext.getInstance().getDemoApi().getUserInfoByUserId(userId, (ApiCallback<User>) this);
+        }
+
         return DemoContext.getInstance().getUserInfoById(userId);
-//        return new UserInfo("10000","新好友消息", Uri.parse("test"));
     }
 
 
@@ -469,5 +490,28 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     @Override
     public boolean onConversationLongClick(Context context, View view, UIConversation conversation) {
         return false;
+    }
+
+
+    @Override
+    public void onComplete(AbstractHttpRequest abstractHttpRequest, Object obj) {
+        if (getUserInfoByUserIdHttpRequest != null && getUserInfoByUserIdHttpRequest.equals(abstractHttpRequest)) {
+            if (obj instanceof User) {
+                final User user = (User) obj;
+                if (user.getCode() == 200) {
+                    UserInfos addFriend = new UserInfos();
+                    addFriend.setUsername(user.getResult().getUsername());
+                    addFriend.setUserid(user.getResult().getId());
+                    addFriend.setPortrait(user.getResult().getPortrait());
+                    addFriend.setStatus("0");
+                    mUserInfosDao.insertOrReplace(addFriend);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onFailure(AbstractHttpRequest abstractHttpRequest, BaseException e) {
+
     }
 }
