@@ -257,7 +257,7 @@ public class ContactsFragment extends Fragment implements DeSwitchGroup.ItemHand
         ArrayList<UserInfo> userInfos = null;
         //获取好友列表
         if (DemoContext.getInstance() != null) {
-            userInfos = DemoContext.getInstance().getFriends();
+            userInfos = DemoContext.getInstance().getFriendList();
         }
         mFriendsList = new ArrayList<Friend>();
 

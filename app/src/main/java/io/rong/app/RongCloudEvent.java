@@ -131,15 +131,15 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         RongIM.getInstance().setSendMessageListener(this);//设置发出消息接收监听器.
         RongIM.getInstance().getRongIMClient().setConnectionStatusListener(this);//设置连接状态监听器。
 
-        //扩展功能自定义
-        InputProvider.ExtendProvider[] provider = {
-                new ImageInputProvider(RongContext.getInstance()),//图片
-                new CameraInputProvider(RongContext.getInstance()),//相机
-                new LocationInputProvider(RongContext.getInstance()),//地理位置
-                new VoIPInputProvider(RongContext.getInstance()),// 语音通话
-                new ContactsProvider(RongContext.getInstance())//通讯录
-        };
-        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.PRIVATE, provider);
+//        //扩展功能自定义
+//        InputProvider.ExtendProvider[] provider = {
+//                new ImageInputProvider(RongContext.getInstance()),//图片
+//                new CameraInputProvider(RongContext.getInstance()),//相机
+//                new LocationInputProvider(RongContext.getInstance()),//地理位置
+//                new VoIPInputProvider(RongContext.getInstance()),// 语音通话
+//                new ContactsProvider(RongContext.getInstance())//通讯录
+//        };
+//        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.PRIVATE, provider);
 
 //        RongIM.getInstance().setPrimaryInputProvider(new InputTestProvider((RongContext) mContext));
 
@@ -278,9 +278,10 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     private void receiveAgreeSuccess(DeAgreedFriendRequestMessage deAgreedFriendRequestMessage) {
         ArrayList<UserInfo> friendreslist = new ArrayList<UserInfo>();
         if (DemoContext.getInstance() != null) {
-            friendreslist = DemoContext.getInstance().getFriends();
+            friendreslist = DemoContext.getInstance().getFriendList();
             friendreslist.add(deAgreedFriendRequestMessage.getUserInfo());
-            DemoContext.getInstance().setFriends(friendreslist);
+
+//            DemoContext.getInstance().setFriends(friendreslist);
         }
         Intent in = new Intent();
         in.setAction(MainActivity.ACTION_DMEO_AGREE_REQUEST);

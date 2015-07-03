@@ -114,8 +114,9 @@ public class DePersonalDetailActivity extends BaseApiActivity implements View.On
 
         if (DemoContext.getInstance() != null && !"".equals(targetid)) {
             if (DemoContext.getInstance() != null) {
-                String targetname = DemoContext.getInstance().getUserInfoById(targetid).getName().toString();
-                mUserHttpRequest = DemoContext.getInstance().getDemoApi().sendFriendInvite(targetid,"请添加我为好友，I'm "+targetname, this);
+//                String targetname = DemoContext.getInstance().getUserInfoById(targetid).getName().toString();
+//                mUserHttpRequest = DemoContext.getInstance().getDemoApi().sendFriendInvite(targetid,"请添加我为好友，I'm "+targetname, this);
+                mUserHttpRequest = DemoContext.getInstance().getDemoApi().sendFriendInvite(targetid,"请添加我为好友 ", this);
 
                 if (mDialog != null && !mDialog.isShowing()) {
                     mDialog.show();

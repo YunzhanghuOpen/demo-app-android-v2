@@ -78,7 +78,7 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
 
     @Override
     public void onCallApiSuccess(AbstractHttpRequest request, Object obj) {
-        if (getFriendHttpRequest == request) {
+        if (getFriendHttpRequest!= null && getFriendHttpRequest == request) {
             if (mDialog != null)
                 mDialog.dismiss();
 
@@ -126,9 +126,10 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
                                         ArrayList<UserInfo> friendreslist = new ArrayList<UserInfo>();
                                         UserInfo info = new UserInfo(mResultList.get(position).getId(), mResultList.get(position).getUsername(), mResultList.get(position).getPortrait() == null ? null : Uri.parse(mResultList.get(position).getPortrait()));
                                         if (DemoContext.getInstance() != null) {
-                                            friendreslist = DemoContext.getInstance().getFriends();
+                                            friendreslist = DemoContext.getInstance().getFriendList();
                                             friendreslist.add(info);
-                                            DemoContext.getInstance().setFriends(friendreslist);
+
+//                                            DemoContext.getInstance().insertOrReplace(friendreslist);
 
                                             ApiResult apiResult = mResultList.get(position);
                                             apiResult.setStatus(1);

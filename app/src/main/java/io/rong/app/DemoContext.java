@@ -92,19 +92,19 @@ public class DemoContext {
         mUserInfos = userInfos;
     }
 
-    /**
-     * 临时存放用户数据
-     *
-     * @param userInfos
-     */
-    public void setFriends(ArrayList<UserInfo> userInfos) {
-
-        this.mFriendInfos = userInfos;
-    }
-
-    public ArrayList<UserInfo> getFriends() {
-        return mFriendInfos;
-    }
+//    /**
+//     * 临时存放用户数据
+//     *
+//     * @param userInfos
+//     */
+//    public void setFriends(ArrayList<UserInfo> userInfos) {
+//
+//        this.mFriendInfos = userInfos;
+//    }
+//
+//    public ArrayList<UserInfo> getFriends() {
+//        return mFriendInfos;
+//    }
 
     public DemoApi getDemoApi() {
         return mDemoApi;
@@ -118,6 +118,46 @@ public class DemoContext {
         mUserInfosDao.deleteAll();
     }
 
+    /**
+     * 更新 好友信息
+     * @param targetid
+     * @param status
+     */
+    public void updateUserInfos(String  targetid,String status){
+
+        UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(targetid)).unique();
+        userInfos.setStatus(status);
+        userInfos.setUsername(userInfos.getUsername());
+        userInfos.setPortrait(userInfos.getPortrait());
+        userInfos.setUserid(userInfos.getUserid());
+
+        mUserInfosDao.update(userInfos);
+
+    }
+
+    /**
+     * 向数据库插入数据
+     * @param info 用户信息
+     * @param status 状态
+     */
+    public void insertOrReplaceUserInfo(UserInfo info,String status){
+
+        UserInfos userInfos = new UserInfos();
+        userInfos.setStatus(status);
+        userInfos.setUsername(info.getName());
+        userInfos.setPortrait(String.valueOf(info.getPortraitUri()));
+        userInfos.setUserid(info.getUserId());
+        mUserInfosDao.insertOrReplace(userInfos);
+    }
+    public  void insertOrReplaceUserInfoList(ArrayList<UserInfo> list,String status){
+
+        List<UserInfos> userInfos = new ArrayList<>();
+
+
+
+
+
+    }
     /**
      * 通过userid 查找 UserInfo，查找的是本地的数据库
      *

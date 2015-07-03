@@ -261,26 +261,20 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
 
                 @Override
                 public void onSuccess(String userId) {
-                    Log.e(TAG, "-------------527--onSuccess--userId:" + userId);
+                    Log.e(TAG, "---onSuccess--userId:" + userId);
                     if (mDialog != null)
                         mDialog.dismiss();
 
-//                    Intent intent = getIntent();
-//                    startActivity(new Intent(MainActivity.this,DemoActivity.class));
-
-                    Log.e(TAG, "---targetId-------conversation-" + s1+"----s2----:"+s2);
+                    Log.e(TAG, "conversation-" + s1+"----s2----:"+s2);
                     Intent intent = new Intent(MainActivity.this,DemoActivity.class);
                     intent.putExtra("DEMO_COVERSATIONTYPE",s1);
                     intent.putExtra("DEMO_TARGETID", s2);
                     startActivity(intent);
-//                    if (intent != null)
-//                        enterFragment(intent);
-
                 }
 
                 @Override
                 public void onError(RongIMClient.ErrorCode e) {
-                    Log.e(TAG, "-------------527--onError--e:" + e);
+                    Log.e(TAG, "onError--e:" + e);
                     mDialog.dismiss();
 
                 }
