@@ -56,7 +56,6 @@ import io.rong.imlib.model.UserInfo;
  */
 public class LoginActivity extends BaseApiActivity implements View.OnClickListener, Handler.Callback, EditTextHolder.OnEditTextFocusChangeListener {
     private static final String TAG = "LoginActivity";
-
     /**
      * 用户账户
      */
@@ -142,16 +141,15 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_login);
-//        friendDao = DBManager.getInstance(LoginActivity.this).getDaoSession().getFriendDao();
-        mUserInfosDao = DBManager.getInstance(LoginActivity.this).getDaoSession().getUserInfosDao();
         initView();
         initData();
     }
 
     protected void initView() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();//隐藏ActionBar
+        actionBar.hide();
         mSoftManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        mUserInfosDao = DBManager.getInstance(LoginActivity.this).getDaoSession().getUserInfosDao();
         mLoginImg = (ImageView) findViewById(R.id.de_login_logo);
         mUserNameEt = (EditText) findViewById(R.id.app_username_et);
         mPassWordEt = (EditText) findViewById(R.id.app_password_et);
@@ -394,9 +392,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //发起获取好友列表的http请求  (注：非融云SDK接口，是demo接口)
         if (DemoContext.getInstance() != null) {
-//                getFriendsHttpRequest = DemoContext.getInstance().getDemoApi().getNewFriendlist(LoginActivity.this);
             mGetMyGroupsRequest = DemoContext.getInstance().getDemoApi().getMyGroups(LoginActivity.this);
         }
 
@@ -522,14 +518,6 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
 
                     if (DemoContext.getInstance() != null)
                         DemoContext.getInstance().setGroupMap(groupM);
-
-//                    if (DemoContext.getInstance() != null) {
-//                        SharedPreferences.Editor editor = DemoContext.getInstance().getSharedPreferences().edit();
-//                        for(String s:groupM.keySet()){
-//                            editor.putString("DEMO_GROUP"+s, String.valueOf(groupM.get(s)));
-//                        }
-//                        editor.apply();
-//                    }
 
                     if (grouplist.size() > 0)
                         RongIM.getInstance().getRongIMClient().syncGroup(grouplist, new RongIMClient.OperationCallback() {

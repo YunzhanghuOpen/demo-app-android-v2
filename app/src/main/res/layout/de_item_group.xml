@@ -9,8 +9,8 @@
         android:layout_height="60dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="8dp"
-        android:src="@drawable/de_group_default_portrait"
-        android:padding="4dp" />
+        android:padding="4dp"
+        android:src="@drawable/de_group_default_portrait" />
 
     <LinearLayout
         android:layout_width="180dp"
@@ -40,15 +40,13 @@
                 android:id="@+id/group_current_num"
                 style="@style/DemoTextStyleSmall"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="30" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/group_current_sum"
                 style="@style/DemoTextStyleSmall"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="100" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <TextView
@@ -58,8 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:ellipsize="end"
-            android:singleLine="true"
-            android:text="8年运维经验" />
+            android:singleLine="true" />
     </LinearLayout>
 
     <ImageView
@@ -69,13 +66,6 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
-        android:background="@drawable/de_group_chat_selector" />
+        android:background="@drawable/de_group_join_selector" />
 
-
-    <!--<View-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="0.5dp"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_marginTop="2dp"-->
-        <!--android:background="@color/group_list_liner" />-->
 </RelativeLayout>

@@ -2,6 +2,7 @@ package io.rong.app.adapter;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -12,20 +13,26 @@ import java.util.List;
 import io.rong.app.R;
 import io.rong.app.model.Friend;
 import io.rong.imlib.model.UserInfo;
+
 import com.sea_monster.resource.Resource;
-import io.rong.imkit.widget.AsyncImageView ;
+
+import io.rong.imkit.widget.AsyncImageView;
 
 public class FriendMultiChoiceAdapter extends FriendListAdapter {
 
-    private static final  String TAG =FriendMultiChoiceAdapter.class.getSimpleName() ;
+    private static final String TAG = FriendMultiChoiceAdapter.class.getSimpleName();
     private List<String> mChoiceFriendIds;
+    private List<String> mHaveChoiceFriendIds;
     private MutilChoiceCallback mCallback;
     private ArrayList<Friend> mFriends;
+    private boolean isSetting;
 
-    public FriendMultiChoiceAdapter(Context context, List<Friend> friends, List<String> mSelectedList) {
+    public FriendMultiChoiceAdapter(Context context, List<Friend> friends, List<String> mSelectedList,List<String> list, boolean b) {
         super(context, friends);
         this.mFriends = (ArrayList<Friend>) friends;
         mChoiceFriendIds = mSelectedList;
+        this.isSetting = b;
+        this.mHaveChoiceFriendIds = list;
     }
 
     @Override
@@ -42,7 +49,7 @@ public class FriendMultiChoiceAdapter extends FriendListAdapter {
         Resource res = new Resource(friend.getPortrait());
 
         photo.setDefaultDrawable(mContext.getResources().getDrawable(io.rong.imkit.R.drawable.rc_default_portrait));
-                photo.setResource(res);
+        photo.setResource(res);
 
         String userId = friend.getUserId();
         holder.userId = userId;
@@ -76,10 +83,17 @@ public class FriendMultiChoiceAdapter extends FriendListAdapter {
 
         boolean isChoose = checkBox.isChecked();
 
+        if (isSetting) {
+            for (int i = 0; i < mHaveChoiceFriendIds.size(); i++) {
+                if (mHaveChoiceFriendIds.get(i).equals(friendId)) {
+//                    checkBox.setEnabled(false);
+                    checkBox.setBackgroundResource(R.drawable.de_ui_friend_checkbox_hover);
+                }
+            }
+        }
 
         if (isChoose) {
             checkBox.setChecked(!isChoose);
-
             mChoiceFriendIds.remove(friendId);
 
             if (mCallback != null) {

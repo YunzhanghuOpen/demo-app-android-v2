@@ -44,6 +44,7 @@ public class SettingFragment extends DispatchResultFragment implements View.OnCl
     private android.support.v4.app.Fragment mAddNumberFragment;
     private android.support.v4.app.Fragment mToTopFragment;
     private String mDiscussionName;
+    private FragmentTransaction fragmentTransaction;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,12 +60,10 @@ public class SettingFragment extends DispatchResultFragment implements View.OnCl
     }
 
     private void init() {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction = getFragmentManager().beginTransaction();
         Intent intent = getActivity().getIntent();
         mDeleteBtn.setOnClickListener(this);
         mChatRoomRel.setOnClickListener(this);
-
 
         if (intent.getData() != null) {
             targetId = intent.getData().getQueryParameter("targetId");
@@ -72,55 +71,68 @@ public class SettingFragment extends DispatchResultFragment implements View.OnCl
 
             if (targetId != null) {
                 mConversationType = Conversation.ConversationType.valueOf(intent.getData().getLastPathSegment().toUpperCase(Locale.getDefault()));
-                if (mConversationType.equals(Conversation.ConversationType.DISCUSSION)) {
-                    mDeleteBtn.setVisibility(View.VISIBLE);
-                    mChatRoomRel.setVisibility(View.VISIBLE);
-                    RongIM.getInstance().getRongIMClient().getDiscussion(targetId, new RongIMClient.ResultCallback<Discussion>() {
-                        @Override
-                        public void onSuccess(Discussion discussion) {
-                            mDiscussionName = discussion.getName();
-
-                            mChatRoomName.setText(mDiscussionName);
-                        }
-
-                        @Override
-                        public void onError(RongIMClient.ErrorCode errorCode) {
-
-                        }
-                    });
-
-                } else if (mConversationType.equals(Conversation.ConversationType.PRIVATE)) {
-
-                } else if (mConversationType.equals(Conversation.ConversationType.CHATROOM)) {
-                    fragmentTransaction.hide(mAddNumberFragment);
-                    fragmentTransaction.hide(mToTopFragment);
-                    fragmentTransaction.commit();
-
-                } else if (mConversationType.equals(Conversation.ConversationType.GROUP)) {
-                    fragmentTransaction.hide(mAddNumberFragment);
-                    fragmentTransaction.commit();
-                } else if (mConversationType.equals(Conversation.ConversationType.CUSTOMER_SERVICE)) {
-                    fragmentTransaction.hide(mAddNumberFragment);
-                    fragmentTransaction.hide(mToTopFragment);
-                    fragmentTransaction.commit();
-                }
+                showViewByConversationType(mConversationType);
 
             } else if (targetIds != null) {
                 mConversationType = Conversation.ConversationType.valueOf(intent.getData().getLastPathSegment().toUpperCase(Locale.getDefault()));
-                Log.e(TAG, "----  targetId----:" + targetId + ",targetIds----" + targetIds + ",mConversationType--" + mConversationType);
-
             }
 
             RongContext.getInstance().setOnMemberSelectListener(new RongIM.OnSelectMemberListener() {
                 @Override
-                public void startSelectMember(Context context, Conversation.ConversationType conversationType, String s) {
+                public void startSelectMember(Context context, Conversation.ConversationType conversationType, String id) {
                     if (targetId != null)
                         mConversationType = Conversation.ConversationType.valueOf(getActivity().getIntent().getData().getLastPathSegment().toUpperCase(Locale.getDefault()));
 
-                    startActivity(new Intent(getActivity(), FriendListActivity.class));
+
+                    Intent in = new Intent(getActivity(), FriendListActivity.class);
+                    in.putExtra("DEMO_FRIEND_TARGETID", id);
+                    in.putExtra("DEMO_FRIEND_CONVERSATTIONTYPE", conversationType.toString());
+                    in.putExtra("DEMO_FRIEND_ISTRUE", true);
+                    startActivityForResult(in, 22);
                 }
             });
         }
+    }
+
+    /**
+     * 通过 会话类型选择要展示的 fragment
+     *
+     * @param mConversationType 会话类型
+     */
+    private void showViewByConversationType(Conversation.ConversationType mConversationType) {
+        if (mConversationType.equals(Conversation.ConversationType.DISCUSSION)) {
+            mDeleteBtn.setVisibility(View.VISIBLE);
+            mChatRoomRel.setVisibility(View.VISIBLE);
+            RongIM.getInstance().getRongIMClient().getDiscussion(targetId, new RongIMClient.ResultCallback<Discussion>() {
+                @Override
+                public void onSuccess(Discussion discussion) {
+                    mDiscussionName = discussion.getName();
+
+                    mChatRoomName.setText(mDiscussionName);
+                }
+
+                @Override
+                public void onError(RongIMClient.ErrorCode errorCode) {
+
+                }
+            });
+
+        } else if (mConversationType.equals(Conversation.ConversationType.PRIVATE)) {
+
+        } else if (mConversationType.equals(Conversation.ConversationType.CHATROOM)) {
+            fragmentTransaction.hide(mAddNumberFragment);
+            fragmentTransaction.hide(mToTopFragment);
+            fragmentTransaction.commit();
+
+        } else if (mConversationType.equals(Conversation.ConversationType.GROUP)) {
+            fragmentTransaction.hide(mAddNumberFragment);
+            fragmentTransaction.commit();
+        } else if (mConversationType.equals(Conversation.ConversationType.CUSTOMER_SERVICE)) {
+            fragmentTransaction.hide(mAddNumberFragment);
+            fragmentTransaction.hide(mToTopFragment);
+            fragmentTransaction.commit();
+        }
+
     }
 
 
@@ -170,7 +182,6 @@ public class SettingFragment extends DispatchResultFragment implements View.OnCl
                 intent.putExtra("DEMO_DISCUSSIONIDS", targetId);
                 intent.putExtra("DEMO_DISCUSSIONNAME", mDiscussionName.toString());
                 startActivityForResult(intent, 21);
-
                 break;
         }
     }

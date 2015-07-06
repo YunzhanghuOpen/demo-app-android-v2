@@ -38,7 +38,6 @@ public class DemoApi extends BaseApi {
     private static String   HOST = "http://webim.demo.rong.io/";
 
     private final static String DEMO_LOGIN_EMAIL = "email_login";
-    //    private final static String DEMO_FRIENDS = "friends";
     private final static String DEMO_FRIENDS = "get_friend";
     private final static String DEMO_REQ = "reg";
     private final static String DEMO_UPDATE_PROFILE = "update_profile";
@@ -48,6 +47,8 @@ public class DemoApi extends BaseApi {
     private final static String DEMO_QUIT_GROUP = "quit_group";
     private final static String DEMO_GET_ALL_GROUP = "get_all_group";
     private final static String DEMO_GET_MY_GROUP = "get_my_group";
+    private final static String DEMO_GET_GROUP = "get_group";
+
 
     private final static String DEMO_SEARCH_NAME = "seach_name";
     private final static String DEMO_GET_FRIEND = "get_friend";
@@ -232,6 +233,26 @@ public class DemoApi extends BaseApi {
     public AbstractHttpRequest<Groups> getMyGroups(ApiCallback<Groups> callback) {
 
         ApiReqeust<Groups> apiReqeust = new DefaultApiReqeust<Groups>(ApiReqeust.GET_METHOD, URI.create(HOST + DEMO_GET_MY_GROUP), callback);
+        AbstractHttpRequest<Groups> httpRequest = apiReqeust.obtainRequest(new GsonParser<Groups>(Groups.class), mAuthType);
+        NetworkManager.getInstance().requestAsync(httpRequest);
+
+        return httpRequest;
+
+    }
+
+    /**
+     * demo server 通过群组id 获取群组信息
+     *
+     * @param callback
+     * @return
+     */
+
+    public AbstractHttpRequest<Groups> getMyGroupByGroupId(String groupid, ApiCallback<Groups> callback) {
+
+        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+        nameValuePairs.add(new BasicNameValuePair("id", groupid ));
+
+        ApiReqeust<Groups> apiReqeust = new DefaultApiReqeust<Groups>(ApiReqeust.GET_METHOD, URI.create(HOST + DEMO_GET_GROUP), nameValuePairs, callback);
         AbstractHttpRequest<Groups> httpRequest = apiReqeust.obtainRequest(new GsonParser<Groups>(Groups.class), mAuthType);
         NetworkManager.getInstance().requestAsync(httpRequest);
 

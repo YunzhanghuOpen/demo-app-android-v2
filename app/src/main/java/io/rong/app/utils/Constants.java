@@ -21,4 +21,6 @@ public class Constants {
     public static final int DELETE_USERNAME_REQUESTCODE = 1007;
     //修改讨论组名称
     public static final int FIX_DISCUSSION_NAME = 1008;
+    //修改设置页面
+    public static final int UPDATE_DISCUTION_NUMBER = 1009;
 }

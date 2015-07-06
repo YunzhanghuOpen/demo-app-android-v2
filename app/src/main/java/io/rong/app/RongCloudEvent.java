@@ -63,7 +63,7 @@ import io.rong.notification.PushNotificationMessage;
  * 3、用户信息提供者：GetUserInfoProvider。
  * 4、好友信息提供者：GetFriendsProvider。
  * 5、群组信息提供者：GetGroupInfoProvider。
- * 6、会话界面操作的监听器：ConversationBehaviorListener。
+ *蓉c
  * 7、连接状态监听器，以获取连接相关状态：ConnectionStatusListener。
  * 8、地理位置提供者：LocationProvider。
  * 9、自定义 push 通知： OnReceivePushMessageListener。

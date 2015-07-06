@@ -1,5 +1,6 @@
 package io.rong.app.fragment;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,12 +25,14 @@ import io.rong.app.ui.LoadingDialog;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Discussion;
 import io.rong.imlib.model.UserInfo;
 
 public class FriendMultiChoiceFragment extends FriendListFragment implements Handler.Callback {
 
 
     private static final int HANDLE_UPDATE_CONFIRM_BUTTON = 10001;
+    private static final String TAG = FriendMultiChoiceFragment.class.getSimpleName();
 
     private FriendMultiChoiceAdapter.MutilChoiceCallback mCallback;
 
@@ -42,20 +45,22 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
     private LoadingDialog mLoadingDialog = null;
     private Button selectButton;
     private LinearLayout mLinearFinish;
-    String targetIds = null;
-    String[] targets = null;
+    private String mTargetId = null;
+    private String[] mTargetIds = null;
+    private ArrayList<String> mNumberLists;
+    private boolean isFromSetting = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         mMemberIds = new ArrayList<String>();
+        Intent intent = getActivity().getIntent();
 
-
-        if (getActivity().getIntent() == null || getActivity().getIntent().getData() == null || !getActivity().getIntent().getData().getScheme().equals("rong")) {
+        if (intent == null || intent.getData() == null || !intent.getData().getScheme().equals("rong")) {
             mConversationType = Conversation.ConversationType.PRIVATE;
         } else {
-            Uri uri = getActivity().getIntent().getData();
+            Uri uri = intent.getData();
             mDiscussionId = uri.getQueryParameter("discussionId");
-            targetIds = uri.getQueryParameter("userIds");
+            mTargetId = uri.getQueryParameter("userIds");
             String delimiter = uri.getQueryParameter("delimiter");
             if (TextUtils.isEmpty(delimiter)) {
                 delimiter = ",";
@@ -64,14 +69,28 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
             mConversationType = Conversation.ConversationType
                     .valueOf(uri.getLastPathSegment().toUpperCase(Locale.getDefault()));
 
-            if (TextUtils.isEmpty(targetIds)) {
+            if (TextUtils.isEmpty(mTargetId)) {
             } else {
-                String[] ids = targetIds.split(delimiter);
+                String[] ids = mTargetId.split(delimiter);
 
                 for (String item : Arrays.asList(ids)) {
                     mMemberIds.add(item);
                 }
             }
+        }
+
+        if (intent.hasExtra("DEMO_FRIEND_TARGETID") && intent.hasExtra("DEMO_FRIEND_CONVERSATTIONTYPE") && intent.hasExtra("DEMO_FRIEND_ISTRUE")) {
+
+            mTargetId = intent.getStringExtra("DEMO_FRIEND_TARGETID");
+            isFromSetting = intent.getBooleanExtra("DEMO_FRIEND_ISTRUE", false);
+            String conversationType = intent.getStringExtra("DEMO_FRIEND_CONVERSATTIONTYPE").toUpperCase();
+            mConversationType = Conversation.ConversationType.valueOf(conversationType);
+            if (mConversationType.equals(Conversation.ConversationType.PRIVATE)) {
+
+            } else if (mConversationType.equals(Conversation.ConversationType.DISCUSSION)) {
+
+            }
+
         }
 
 
@@ -97,12 +116,38 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                 selectPeopleComplete();
             }
         });
-        if (targetIds != null) {
-            targets = targetIds.split(",");
-            selectButtonShowStyle(targets.length);
+
+        if (isFromSetting) {
+            if (mConversationType.equals(Conversation.ConversationType.PRIVATE) && mTargetId != null) {
+
+                selectButtonShowStyle(1);
+
+            } else if (mConversationType.equals(Conversation.ConversationType.DISCUSSION) && mTargetId != null) {
+                if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null)
+                    RongIM.getInstance().getRongIMClient().getDiscussion(mTargetId, new RongIMClient.ResultCallback<Discussion>() {
+                        @Override
+                        public void onSuccess(Discussion discussion) {
+
+                            mNumberLists = (ArrayList<String>) discussion.getMemberIdList();
+
+                            selectButtonShowStyle(mNumberLists.size()-1);
+                        }
+
+                        @Override
+                        public void onError(RongIMClient.ErrorCode errorCode) {
+
+                        }
+                    });
+            }
         } else {
-            selectButtonShowStyle(0);
+            if (mTargetId != null) {
+                mTargetIds = mTargetId.split(",");
+                selectButtonShowStyle(mTargetIds.length);
+            } else {
+                selectButtonShowStyle(0);
+            }
         }
+
         mHandle = new Handler(this);
 
         super.onViewCreated(view, savedInstanceState);
@@ -110,6 +155,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
     }
 
     private void selectButtonShowStyle(int selectedCount) {
+
         if (selectedCount > 0) {
             selectButton.setEnabled(true);
             mConfirmFromatString = getResources().getString(R.string.friend_list_multi_choice_comfirt_btn);
@@ -142,6 +188,13 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
             getActivity().finish();
             return;
         }
+//        if(isFromSetting){
+//            if(mConversationType.equals(Conversation.ConversationType.PRIVATE)&& mTargetId!=null){
+//                if(userInfos.size()>1){
+//
+//                }
+//            }
+//        }
 
         if (mConversationType == Conversation.ConversationType.DISCUSSION || userInfos.size() + mMemberIds.size() > 1) {
             StringBuilder sb = new StringBuilder();
@@ -199,6 +252,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                 }
             }
         } else if (mConversationType == Conversation.ConversationType.PRIVATE) {
+
             RongIM.getInstance().startPrivateChat(getActivity(), userInfos.get(0).getUserId(), userInfos.get(0).getName());
             getActivity().finish();
             return;
@@ -239,13 +293,19 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                 @Override
                 public void callback(int count) {
                     boolean isShow = outOfMaxPrompt(count);
-
-                    if (!isShow) {
+                    if (!isShow)
                         return;
-                    } else {
 
-                        if (targetIds != null)
-                            mHandle.obtainMessage(HANDLE_UPDATE_CONFIRM_BUTTON, count+targets.length - mMemberIds.size()).sendToTarget();
+                    if (isFromSetting) {
+                        if(mConversationType.equals(Conversation.ConversationType.PRIVATE) &&mTargetId!=null){
+                             mHandle.obtainMessage(HANDLE_UPDATE_CONFIRM_BUTTON, count ).sendToTarget();
+                        }else if (mConversationType.equals(Conversation.ConversationType.DISCUSSION) && mTargetId!=null){
+                            mHandle.obtainMessage(HANDLE_UPDATE_CONFIRM_BUTTON, count-1 ).sendToTarget();
+                        }
+
+                    } else {
+                        if (mTargetId != null)
+                            mHandle.obtainMessage(HANDLE_UPDATE_CONFIRM_BUTTON, count + mTargetIds.length - mMemberIds.size()).sendToTarget();
                         else
                             mHandle.obtainMessage(HANDLE_UPDATE_CONFIRM_BUTTON, count - mMemberIds.size()).sendToTarget();
                     }
@@ -256,7 +316,10 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
         FriendMultiChoiceAdapter adapter = (FriendMultiChoiceAdapter) mAdapter;
         adapter.setCallback((FriendMultiChoiceAdapter.MutilChoiceCallback) mCallback);
 
-        super.onItemClick(parent, view, position, id);
+        super.
+
+                onItemClick(parent, view, position, id);
+
     }
 
     @Override

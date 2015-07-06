@@ -1,6 +1,9 @@
 package io.rong.app.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +21,7 @@ import java.util.List;
 import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.app.activity.GroupDetailActivity;
+import io.rong.app.activity.MainActivity;
 import io.rong.app.adapter.GroupListAdapter;
 import io.rong.app.model.ApiResult;
 import io.rong.app.model.Groups;
@@ -29,6 +33,7 @@ import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Group;
+
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 
@@ -44,6 +49,7 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
     private List<ApiResult> mResultList;
     private AbstractHttpRequest<Groups> mGetAllGroupsRequest;
     private AbstractHttpRequest<Status> mUserRequest;
+    private UpdateGroupBroadcastReciver mBroadcastReciver;
     private HashMap<String, Group> mGroupMap;
     private ApiResult result;
     private Handler mHandler;
@@ -56,6 +62,12 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
         mGroupListView = (ListView) view.findViewById(R.id.de_group_list);
         mGroupListView.setItemsCanFocus(false);
         mDialog = new LoadingDialog(getActivity());
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(MainActivity.ACTION_DMEO_GROUP_MESSAGE);
+        if (mBroadcastReciver == null) {
+            mBroadcastReciver = new UpdateGroupBroadcastReciver();
+        }
+        getActivity().registerReceiver(mBroadcastReciver, intentFilter);
         initData();
         return view;
     }
@@ -75,8 +87,22 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
             mGroupMap = DemoContext.getInstance().getGroupMap();
             mGetAllGroupsRequest = DemoContext.getInstance().getDemoApi().getAllGroups(this);
         }
+
+
     }
 
+
+    private class UpdateGroupBroadcastReciver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent.getAction().equals(MainActivity.ACTION_DMEO_GROUP_MESSAGE)) {
+                initData();
+                Log.e(TAG, "---push----UpdateGroupBroadcastReciver---");
+            }
+        }
+    }
 
     @Override
     public void onCallApiSuccess(final AbstractHttpRequest request, Object obj) {
@@ -189,6 +215,9 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
         if (mDemoGroupListAdapter != null) {
             mDemoGroupListAdapter = null;
         }
+        if (mBroadcastReciver != null) {
+            getActivity().unregisterReceiver(mBroadcastReciver);
+        }
         super.onDestroy();
     }
 
@@ -247,8 +276,8 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
                     } else {
 
                         if (DemoContext.getInstance() != null) {
-                            if(result.getNumber().equals("500")){
-                                WinToast.toast(getActivity(),"群组人数已满");
+                            if (result.getNumber().equals("500")) {
+                                WinToast.toast(getActivity(), "群组人数已满");
                                 return true;
                             }
                             mUserRequest = DemoContext.getInstance().getDemoApi().joinGroup(result.getId(), GroupListFragment.this);
@@ -262,4 +291,6 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
         }
 
     }
+
+
 }

@@ -66,6 +66,7 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
     private static final String TAG = MainActivity.class.getSimpleName();
 
     public static final String ACTION_DMEO_RECEIVE_MESSAGE = "action_demo_receive_message";
+    public static final String ACTION_DMEO_GROUP_MESSAGE = "action_demo_group_message";
     public static final String ACTION_DMEO_AGREE_REQUEST = "action_demo_agree_request";
     private RelativeLayout mMainConversationLiner;
     private RelativeLayout mMainGroupLiner;
@@ -174,16 +175,27 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
         // 获取布局填充器
         mInflater = (LayoutInflater) this
                 .getSystemService(LAYOUT_INFLATER_SERVICE);
-        if (getIntent() != null) {
-            if (getIntent().hasExtra("PUSH_CONTEXT") && getIntent().hasExtra("PUSH_TOKEN")
-                    &&getIntent().hasExtra("DEMO_ACTIVITY1")&&getIntent().hasExtra("DEMO_TARGETID1")) {
-                if (getIntent().getStringExtra("PUSH_CONTEXT").equals("push")) {
 
-                    Log.e(TAG, "--------0527---PUSH_CONTEXT------" + getIntent().getStringExtra("PUSH_CONTEXT"));
-                    reconnect(getIntent().getStringExtra("PUSH_TOKEN").toString(),getIntent().getStringExtra("DEMO_ACTIVITY1").toString(),getIntent().getStringExtra("DEMO_TARGETID1").toString());
-                    if (DemoContext.getInstance() != null) {
-                        mGetMyGroupsRequest = DemoContext.getInstance().getDemoApi().getMyGroups(MainActivity.this);
-                    }
+        if (getIntent() != null) {
+            if (getIntent().hasExtra("PUSH_TOKEN") && getIntent().hasExtra("PUSH_INTENT")) {
+
+                Uri uri = getIntent().getParcelableExtra("PUSH_INTENT");
+                String token = getIntent().getStringExtra("PUSH_TOKEN").toString();
+                String pathSegments;
+                String conversationType = null;
+                String targetId = null;
+
+                if (uri.getPathSegments().get(0).equals("conversation")) {
+                    pathSegments = uri.getPathSegments().get(0);
+                    conversationType = Conversation.ConversationType.valueOf(uri.getLastPathSegment().toUpperCase(Locale.getDefault())).toString();
+                    targetId = uri.getQueryParameter("targetId").toString();
+                } else {
+                    pathSegments = uri.getLastPathSegment();
+                }
+                reconnect(token, pathSegments, conversationType, targetId);
+
+                if (DemoContext.getInstance() != null) {
+                    mGetMyGroupsRequest = DemoContext.getInstance().getDemoApi().getMyGroups(MainActivity.this);
                 }
             }
         }
@@ -246,17 +258,15 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
      *
      * @param token
      */
-    private void reconnect(final String token, final String s1, final String s2) {
+    private void reconnect(final String token, final String conversation, final String conversationType, final String targetId) {
 
-
-//        mDialog.setCancelable(false);
         mDialog.setText("正在连接中...");
         mDialog.show();
         try {
             RongIM.connect(token, new RongIMClient.ConnectCallback() {
                 @Override
                 public void onTokenIncorrect() {
-                    Log.e(TAG, "-------------527-- onTokenIncorrect---");
+                    Log.e(TAG, "--onTokenIncorrect---");
                 }
 
                 @Override
@@ -264,24 +274,23 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                     Log.e(TAG, "---onSuccess--userId:" + userId);
                     if (mDialog != null)
                         mDialog.dismiss();
-
-                    Log.e(TAG, "conversation-" + s1+"----s2----:"+s2);
-                    Intent intent = new Intent(MainActivity.this,DemoActivity.class);
-                    intent.putExtra("DEMO_COVERSATIONTYPE",s1);
-                    intent.putExtra("DEMO_TARGETID", s2);
-                    startActivity(intent);
+                    if (conversation.equals("conversation")) {
+                        Intent intent = new Intent(MainActivity.this, DemoActivity.class);
+                        intent.putExtra("DEMO_COVERSATION", conversation);
+                        intent.putExtra("DEMO_COVERSATIONTYPE", conversationType);
+                        intent.putExtra("DEMO_TARGETID", targetId);
+                        startActivity(intent);
+                    }
                 }
 
                 @Override
                 public void onError(RongIMClient.ErrorCode e) {
                     Log.e(TAG, "onError--e:" + e);
                     mDialog.dismiss();
-
                 }
             });
         } catch (Exception e) {
             mDialog.dismiss();
-
             e.printStackTrace();
         }
 
@@ -348,8 +357,6 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                                 .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话是否聚合显示
                                 .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "true")//群组
                                 .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//讨论组
-//                                .appendQueryParameter(Conversation.ConversationType.CHATROOM.getName(), "false")//聊天室
-//                                .appendQueryParameter(Conversation.ConversationType.CUSTOMER_SERVICE.getName(), "false")//客服
                                 .appendQueryParameter(Conversation.ConversationType.APP_PUBLIC_SERVICE.getName(), "false")//应用公众服务。
                                 .appendQueryParameter(Conversation.ConversationType.PUBLIC_SERVICE.getName(), "false")//公共服务号
                                 .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//系统
@@ -559,13 +566,14 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
     @Override
     public void onCallApiSuccess(AbstractHttpRequest request, Object obj) {
         if (mGetMyGroupsRequest != null && mGetMyGroupsRequest.equals(request)) {
+            Log.e(TAG,"---push--onCallApiSuccess-");
             getMyGroupApiSuccess(obj);
         }
     }
 
     @Override
     public void onCallApiFailure(AbstractHttpRequest request, BaseException e) {
-
+        Log.e(TAG,"---push--onCallApiFailure-");
     }
 
     @Override
@@ -607,55 +615,6 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
     }
 
 
-    /**
-     * 消息分发，选择跳转到哪个fragment
-     *
-     * @param intent
-     */
-    private void enterFragment(Intent intent) {
-        String tag = null;
-        if (intent != null) {
-            Fragment fragment = null;
-
-            if (intent.getExtras() != null && intent.getExtras().containsKey(RongConst.EXTRA.CONTENT)) {
-                String fragmentName = intent.getExtras().getString(RongConst.EXTRA.CONTENT);
-                fragment = Fragment.instantiate(this, fragmentName);
-            } else if (intent.getData() != null) {
-                if (intent.getData().getPathSegments().get(0).equals("conversation")) {
-                    tag = "conversation";
-                    if (intent.getData().getLastPathSegment().equals("system")) {
-                        //注释掉的代码为不加输入框的聊天页面（此处作为示例）
-//                        String fragmentName = MessageListFragment.class.getCanonicalName();
-//                        fragment = Fragment.instantiate(this, fragmentName);
-                        startActivity(new Intent(MainActivity.this, NewFriendListActivity.class));
-                        finish();
-                        List<Conversation> conversations = RongIM.getInstance().getRongIMClient().getConversationList(Conversation.ConversationType.SYSTEM);
-                        for (int i = 0; i < conversations.size(); i++) {
-                            RongIM.getInstance().getRongIMClient().clearMessagesUnreadStatus(Conversation.ConversationType.SYSTEM, conversations.get(i).getSenderUserId());
-                        }
-                    } else {
-                        String fragmentName = ConversationFragment.class.getCanonicalName();
-                        fragment = Fragment.instantiate(this, fragmentName);
-                    }
-                } else if (intent.getData().getLastPathSegment().equals("conversationlist")) {
-                    tag = "conversationlist";
-                    String fragmentName = ConversationListFragment.class.getCanonicalName();
-                    fragment = Fragment.instantiate(this, fragmentName);
-                } else if (intent.getData().getLastPathSegment().equals("subconversationlist")) {
-                    tag = "subconversationlist";
-                    String fragmentName = SubConversationListFragment.class.getCanonicalName();
-                    fragment = Fragment.instantiate(this, fragmentName);
-                }
-            }
-
-            if (fragment != null) {
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.add(R.id.de_content, fragment, tag);
-                transaction.addToBackStack(null).commitAllowingStateLoss();
-            }
-        }
-    }
-
     @Override
     protected void onDestroy() {
         if (mBroadcastReciver != null) {
@@ -666,10 +625,12 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
 
     private void getMyGroupApiSuccess(Object obj) {
         if (obj instanceof Groups) {
+            Log.e(TAG,"---push--onCallApiSuccess- ---obj instanceof Groups-----");
             final Groups groups = (Groups) obj;
 
             if (groups.getCode() == 200) {
                 List<Group> grouplist = new ArrayList<>();
+                Log.e(TAG,"---push--onCallApiSuccess----groups.getCode() == 200----");
                 if (groups.getResult() != null) {
                     for (int i = 0; i < groups.getResult().size(); i++) {
 
@@ -691,6 +652,10 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                     if (DemoContext.getInstance() != null)
                         DemoContext.getInstance().setGroupMap(groupM);
 
+                    Intent in = new Intent();
+                    in.setAction(MainActivity.ACTION_DMEO_GROUP_MESSAGE);
+                    sendBroadcast(in);
+
                     if (grouplist.size() > 0)
                         RongIM.getInstance().getRongIMClient().syncGroup(grouplist, new RongIMClient.OperationCallback() {
                             @Override
@@ -706,82 +671,6 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                 }
             } else {
 //                    WinToast.toast(this, groups.getCode());
-            }
-        }
-    }
-
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-
-        setIntent(intent);
-
-        String tag = null;
-        Fragment fragment = null;
-
-        if (intent.getExtras() != null && intent.getExtras().containsKey(RongConst.EXTRA.CONTENT)) {
-            String fragmentName = intent.getExtras().getString(RongConst.EXTRA.CONTENT);
-            fragment = Fragment.instantiate(this, fragmentName);
-        } else if (intent.getData() != null) {
-
-            if (intent.getData().getPathSegments().get(0).equals("conversation")) {
-                tag = "conversation";
-                fragment = getSupportFragmentManager().findFragmentByTag(tag);
-                if (fragment != null)
-                    return;
-                String fragmentName = ConversationFragment.class.getCanonicalName();
-                fragment = Fragment.instantiate(this, fragmentName);
-            } else if (intent.getData().getLastPathSegment().equals("conversationlist")) {
-                tag = "conversationlist";
-                String fragmentName = ConversationListFragment.class.getCanonicalName();
-                fragment = Fragment.instantiate(this, fragmentName);
-            } else if (intent.getData().getLastPathSegment().equals("subconversationlist")) {
-                tag = "subconversationlist";
-                String fragmentName = SubConversationListFragment.class.getCanonicalName();
-                fragment = Fragment.instantiate(this, fragmentName);
-
-            }
-        }
-
-        if (fragment != null) {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.de_content, fragment, tag);
-            transaction.addToBackStack(null).commitAllowingStateLoss();
-        }
-    }
-
-    /**
-     * 添加好友成功后，向对方发送一条消息
-     */
-    private void sendMessage() {
-//        26590   114
-        String id = "26590";
-        final DeAgreedFriendRequestMessage message = new DeAgreedFriendRequestMessage(id, "agree");
-        if (DemoContext.getInstance() != null) {
-            //获取当前用户的 userid
-            String userid = DemoContext.getInstance().getSharedPreferences().getString("DEMO_USERID", "defalte");
-            UserInfo userInfo = DemoContext.getInstance().getUserInfoById(userid);
-            //把用户信息设置到消息体中，直接发送给对方，可以不设置，非必选项
-            message.setUserInfo(userInfo);
-            if (RongIM.getInstance() != null) {
-
-                //发送一条添加成功的自定义消息，此条消息不会在ui上展示
-                RongIM.getInstance().getRongIMClient().sendMessage(Conversation.ConversationType.PRIVATE, id, message, null, new RongIMClient.SendMessageCallback() {
-                    @Override
-                    public void onError(Integer messageId, RongIMClient.ErrorCode e) {
-                        Log.e(TAG, Constants.DEBUG + "------DeAgreedFriendRequestMessage----onError--");
-                        if (mDialog != null)
-                            mDialog.dismiss();
-                    }
-
-                    @Override
-                    public void onSuccess(Integer integer) {
-                        Log.e(TAG, Constants.DEBUG + "------DeAgreedFriendRequestMessage----onSuccess--" + message.getMessage());
-                        if (mDialog != null)
-                            mDialog.dismiss();
-                    }
-                });
             }
         }
     }

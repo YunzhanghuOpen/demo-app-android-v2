@@ -26,6 +26,7 @@ import io.rong.imkit.RongIM;
 import io.rong.imkit.common.RongConst;
 import io.rong.imkit.fragment.ConversationFragment;
 import io.rong.imkit.fragment.ConversationListFragment;
+import io.rong.imkit.fragment.MessageListFragment;
 import io.rong.imkit.fragment.SubConversationListFragment;
 import io.rong.imkit.fragment.UriFragment;
 import io.rong.imlib.RongIMClient;
@@ -76,44 +77,22 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);
         mHandler = new Handler(this);
         Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("DEMO_COVERSATIONTYPE") & intent.hasExtra("DEMO_TARGETID")) {
-            String tag = null;
-            Fragment fragment = null;
+
+        if (intent != null && intent.hasExtra("DEMO_COVERSATIONTYPE") && intent.hasExtra("DEMO_TARGETID")
+                && intent.hasExtra("DEMO_COVERSATION")) {
+
             if (DemoContext.getInstance() != null) {
-                String conversation = intent.getStringExtra("DEMO_COVERSATIONTYPE");
-                Log.e(TAG, "---targetId-------conversation-" + conversation);
-                if (conversation.equals("conversation")) {
-                    tag = "conversation";
-                    String fragmentName = ConversationFragment.class.getCanonicalName();
-                    fragment = Fragment.instantiate(this, fragmentName);
-                    targetId = intent.getStringExtra("DEMO_TARGETID");
-                    Log.e(TAG, "---targetId-" + targetId);
-                    if (targetId != null) {
-//                    intent.getData().getLastPathSegment();//获得当前会话类型
-                        mConversationType = Conversation.ConversationType.valueOf(intent.getData().getLastPathSegment().toUpperCase(Locale.getDefault()));
-                    }
-                }
-                if (fragment != null) {
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.add(R.id.de_content, fragment, tag);
-                    transaction.addToBackStack(null).commitAllowingStateLoss();
-                }
+                String conversation = intent.getStringExtra("DEMO_COVERSATION");
+                targetId = intent.getStringExtra("DEMO_TARGETID");
+                String conversationType = intent.getStringExtra("DEMO_COVERSATIONTYPE");
+                openConversationFragment(conversation, targetId, conversationType);
             }
         }
         //push或通知过来
         if (intent != null && intent.getData() != null && intent.getData().getScheme().equals("rong") && intent.getData().getQueryParameter("push") != null) {
             //通过intent.getData().getQueryParameter("push") 为true，判断是否是push消息
-//            if (DemoContext.getInstance() != null && intent.getData().getQueryParameter("push").equals("true")) {
-//                enterActivity(intent);
-//            } else {
-//                enterFragment(intent);
-//            }
             if (DemoContext.getInstance() != null && intent.getData().getQueryParameter("push").equals("true")) {
-
-                if (DemoContext.getInstance() != null) {
-                    String token = DemoContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "defult");
-                    reconnect(token);
-                }
+                enterActivity(intent);
             } else {
                 enterFragment(intent);
             }
@@ -132,30 +111,59 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
     }
 
     /**
+     * 收到 push 以后，打开会话页面
+     * @param conversation
+     * @param targetId
+     * @param conversationType
+     */
+    private void openConversationFragment(String conversation, String targetId, String conversationType) {
+
+        String tag;
+        if (conversation.equals("conversation")) {
+            tag = "conversation";
+            ConversationFragment conversationFragment = new ConversationFragment();
+
+            Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon()
+                    .appendPath("conversation").appendPath(conversationType.toLowerCase())
+                    .appendQueryParameter("targetId", targetId).build();
+            conversationFragment.setUri(uri);
+
+            mConversationType = Conversation.ConversationType.valueOf(conversationType);
+
+            if (conversationFragment != null) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.add(R.id.de_content, conversationFragment, tag);
+                transaction.addToBackStack(null).commitAllowingStateLoss();
+            }
+        }
+    }
+
+    /**
      * 收到 push 消息后，选择进入哪个 Activity
      * 如果程序缓存未被清理，进入 MainActivity
      * 程序缓存被清理，进入 LoginActivity，重新获取token
+     * <p/>
+     * 作用：由于在 manifest 中 intent-filter 是配置在 DemoActivity 下面，所以收到消息后点击notifacition 会跳转到 DemoActivity。
+     * 以跳到 MainActivity 为例：
+     * 在 DemoActivity 收到消息后，选择进入 MainActivity，这样就把 MainActivity 激活了，当你读完收到的消息点击 返回键 时，程序会退到
+     * MainActivity 页面，而不是直接退回到 桌面。
      */
     private void enterActivity(Intent intent) {
 
         if (DemoContext.getInstance() != null) {
             String token = DemoContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "defult");
+            Intent in = new Intent();
             if (!token.equals("defult")) {
-                Intent in = new Intent(DemoActivity.this, MainActivity.class);
-                in.putExtra("PUSH_CONTEXT", "push");
+                in.setClass(DemoActivity.this, MainActivity.class);
                 in.putExtra("PUSH_TOKEN", token);
-                in.putExtra("DEMO_ACTIVITY1", intent.getData().getPathSegments().get(0) + "");
-                in.putExtra("DEMO_TARGETID1", intent.getData().getQueryParameter("targetId") + "");
-                startActivity(in);
-                finish();
+                in.putExtra("PUSH_INTENT", intent.getData());
             } else {
-                Intent in = new Intent(DemoActivity.this, LoginActivity.class);
+                in.setClass(DemoActivity.this, LoginActivity.class);
                 in.putExtra("PUSH_CONTEXT", "push");
-                startActivity(in);
-                finish();
             }
+            startActivity(in);
+            finish();
         }
-
     }
 
     /**
@@ -278,11 +286,13 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
         }
     }
 
+    /**
+     * 设置 title
+     */
     protected void initData() {
         if (mConversationType != null) {
             if (mConversationType.equals(Conversation.ConversationType.PRIVATE)) {
                 if (DemoContext.getInstance() != null)
-
                     getSupportActionBar().setTitle(DemoContext.getInstance().getUserInfoById(targetId).getName().toString());
             } else if (mConversationType.equals(Conversation.ConversationType.GROUP)) {
                 if (DemoContext.getInstance() != null) {
@@ -398,7 +408,6 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
                 tag = "subconversationlist";
                 String fragmentName = SubConversationListFragment.class.getCanonicalName();
                 fragment = Fragment.instantiate(this, fragmentName);
-
             }
         }
 
@@ -408,7 +417,6 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
             transaction.addToBackStack(null).commitAllowingStateLoss();
         }
     }
-
 
     @Override
     public void onBackPressed() {
