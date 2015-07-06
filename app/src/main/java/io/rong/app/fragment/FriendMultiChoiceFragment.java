@@ -120,7 +120,8 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
         if (isFromSetting) {
             if (mConversationType.equals(Conversation.ConversationType.PRIVATE) && mTargetId != null) {
 
-                selectButtonShowStyle(1);
+
+                selectButtonShowStyle(1,0);
 
             } else if (mConversationType.equals(Conversation.ConversationType.DISCUSSION) && mTargetId != null) {
                 if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null)
@@ -130,7 +131,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
 
                             mNumberLists = (ArrayList<String>) discussion.getMemberIdList();
 
-                            selectButtonShowStyle(mNumberLists.size()-1);
+                            selectButtonShowStyle(mNumberLists.size() - 1,0);
                         }
 
                         @Override
@@ -142,9 +143,9 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
         } else {
             if (mTargetId != null) {
                 mTargetIds = mTargetId.split(",");
-                selectButtonShowStyle(mTargetIds.length);
+                selectButtonShowStyle(mTargetIds.length ,0);
             } else {
-                selectButtonShowStyle(0);
+                selectButtonShowStyle(0,0);
             }
         }
 
@@ -154,13 +155,13 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
 
     }
 
-    private void selectButtonShowStyle(int selectedCount) {
+    private void selectButtonShowStyle(int selectedCount,int hasSelect) {
 
         if (selectedCount > 0) {
             selectButton.setEnabled(true);
             mConfirmFromatString = getResources().getString(R.string.friend_list_multi_choice_comfirt_btn);
             selectButton.setTextColor(getResources().getColor(R.color.rc_text_color_secondary_inverse));
-            selectButton.setText(String.format(mConfirmFromatString, selectedCount));
+            selectButton.setText(String.format(mConfirmFromatString, selectedCount+hasSelect));
 
         } else {
             selectButton.setEnabled(false);
@@ -297,12 +298,12 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                         return;
 
                     if (isFromSetting) {
-                        if(mConversationType.equals(Conversation.ConversationType.PRIVATE) &&mTargetId!=null){
-                             mHandle.obtainMessage(HANDLE_UPDATE_CONFIRM_BUTTON, count ).sendToTarget();
-                        }else if (mConversationType.equals(Conversation.ConversationType.DISCUSSION) && mTargetId!=null){
-                            mHandle.obtainMessage(HANDLE_UPDATE_CONFIRM_BUTTON, count-1 ).sendToTarget();
+                        if (mConversationType.equals(Conversation.ConversationType.PRIVATE) && mTargetId != null) {
+                            mHandle.obtainMessage(HANDLE_UPDATE_CONFIRM_BUTTON, count).sendToTarget();
+//                            if()
+                        } else if (mConversationType.equals(Conversation.ConversationType.DISCUSSION) && mTargetId != null) {
+                            mHandle.obtainMessage(HANDLE_UPDATE_CONFIRM_BUTTON, count - 1).sendToTarget();
                         }
-
                     } else {
                         if (mTargetId != null)
                             mHandle.obtainMessage(HANDLE_UPDATE_CONFIRM_BUTTON, count + mTargetIds.length - mMemberIds.size()).sendToTarget();
@@ -316,9 +317,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
         FriendMultiChoiceAdapter adapter = (FriendMultiChoiceAdapter) mAdapter;
         adapter.setCallback((FriendMultiChoiceAdapter.MutilChoiceCallback) mCallback);
 
-        super.
-
-                onItemClick(parent, view, position, id);
+        super.onItemClick(parent, view, position, id);
 
     }
 
@@ -336,8 +335,17 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
     @Override
     public boolean handleMessage(Message msg) {
         if (msg.what == HANDLE_UPDATE_CONFIRM_BUTTON) {
+//            if (isFromSetting) {
+//                if (mConversationType.equals(Conversation.ConversationType.PRIVATE)) {
+//                    selectButtonShowStyle((Integer) msg.obj + 1);
+//                } else if (mConversationType.equals(Conversation.ConversationType.DISCUSSION)) {
+//
+//                }
+//            } else {
+                selectButtonShowStyle((Integer) msg.obj,0);
+//            }
 
-            selectButtonShowStyle((Integer) msg.obj);
+
         }
         return false;
     }

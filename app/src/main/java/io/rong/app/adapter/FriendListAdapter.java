@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,25 +24,32 @@ import io.rong.app.model.Friend;
 import io.rong.app.model.FriendSectionIndexer;
 import io.rong.app.ui.DePinnedHeaderAdapter;
 import io.rong.app.utils.PinyinFilterList;
+
 import com.sea_monster.resource.Resource;
-import io.rong.imkit.widget.AsyncImageView ;
+
+import io.rong.imkit.widget.AsyncImageView;
 
 @SuppressLint("UseSparseArrays")
 public class FriendListAdapter extends DePinnedHeaderAdapter<Friend> implements Filterable {
 
-    private static String TAG =FriendListAdapter.class.getSimpleName();
+    private static String TAG = FriendListAdapter.class.getSimpleName();
     private LayoutInflater mInflater;
     private FriendFilter mFilter;
     private ArrayList<View> mViewList;
+    private List<String> mChoiceFriendIds;
+    private boolean isFirst = false;
 
-    public FriendListAdapter(Context context, List<Friend> friends) {
+    public FriendListAdapter(Context context, List<Friend> friends, List<String> list, boolean b) {
         super(context);
         setAdapterData(friends);
 
         mViewList = new ArrayList<View>();
 
+        this.mChoiceFriendIds = list;
+        this.isFirst = b;
         if (context != null)
             mInflater = LayoutInflater.from(context);
+
 
     }
 
@@ -51,7 +59,10 @@ public class FriendListAdapter extends DePinnedHeaderAdapter<Friend> implements 
 
         List<List<Friend>> result = new ArrayList<List<Friend>>();
         int key = 0;
-
+//        if (isFirst) {
+//            Log.e(TAG,"0705----setAdapterData---isFirst--");
+////            mChoiceFriendIds
+//        } else {
         for (Friend friend : friends) {
             key = friend.getSearchKey();
 
@@ -66,6 +77,7 @@ public class FriendListAdapter extends DePinnedHeaderAdapter<Friend> implements 
                 result.get(length).add(friend);
                 hashMap.put(key, length);
             }
+//            }
         }
 
         updateCollection(result);
@@ -74,7 +86,7 @@ public class FriendListAdapter extends DePinnedHeaderAdapter<Friend> implements 
 
     @Override
     protected View newView(Context context, int partition, List<Friend> data, int position, ViewGroup parent) {
-        View view = mInflater.inflate(R.layout.de_item_friendlist,parent,false);
+        View view = mInflater.inflate(R.layout.de_item_friendlist, parent, false);
         ViewHolder holder = new ViewHolder();
         newSetTag(view, holder, position, data);
         view.setTag(holder);
@@ -89,9 +101,21 @@ public class FriendListAdapter extends DePinnedHeaderAdapter<Friend> implements 
         AsyncImageView photo = holder.photo;
         CheckBox choice = holder.choice;
         Friend friend = data.get(position);
+//        if (isFirst) {
+//
+//                for (int j = 0; j < mChoiceFriendIds.size(); j++) {
+//                    if (friend.getUserId().equals(mChoiceFriendIds.get(j).toString())) {
+//
+//                        choice.setEnabled(false);
+//                        choice.setBackgroundResource(R.drawable.de_ui_friend_checkbox_gray);
+////                        choice.setChecked(true);
+//                        Log.e(TAG, "0705----setAdapterData---isFirst--"+mChoiceFriendIds.get(j).toString());
+//                    }
+//            }
+//        }
         name.setText(friend.getNickname());
 
-        Resource res =new Resource( friend.getPortrait());
+        Resource res = new Resource(friend.getPortrait());
 
         photo.setResource(res);
 
@@ -103,7 +127,7 @@ public class FriendListAdapter extends DePinnedHeaderAdapter<Friend> implements 
 
     @Override
     protected View newHeaderView(Context context, int partition, List<Friend> data, ViewGroup parent) {
-        View view = mInflater.inflate(R.layout.de_item_friend_index, parent,false);
+        View view = mInflater.inflate(R.layout.de_item_friend_index, parent, false);
         view.setTag(view.findViewById(R.id.index));
         return view;
     }

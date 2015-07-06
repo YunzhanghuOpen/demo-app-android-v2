@@ -2,13 +2,13 @@ package io.rong.app.adapter;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 import io.rong.app.R;
 import io.rong.app.model.Friend;
@@ -26,9 +26,13 @@ public class FriendMultiChoiceAdapter extends FriendListAdapter {
     private MutilChoiceCallback mCallback;
     private ArrayList<Friend> mFriends;
     private boolean isSetting;
+    private Context mContext;
+    private CheckBox checkBox;
 
-    public FriendMultiChoiceAdapter(Context context, List<Friend> friends, List<String> mSelectedList,List<String> list, boolean b) {
-        super(context, friends);
+
+    public FriendMultiChoiceAdapter(Context context, List<Friend> friends, List<String> mSelectedList, List<String> list, boolean b) {
+        super(context, friends,list,b);
+        this.mContext = context;
         this.mFriends = (ArrayList<Friend>) friends;
         mChoiceFriendIds = mSelectedList;
         this.isSetting = b;
@@ -63,14 +67,13 @@ public class FriendMultiChoiceAdapter extends FriendListAdapter {
             holder.choice.setChecked(mChoiceFriendIds.contains(friend.getUserId()));
             holder.choice.setButtonDrawable(mContext.getResources().getDrawable(R.drawable.de_ui_friend_check_selector));
         }
-
     }
 
     @Override
     protected void newSetTag(View view, ViewHolder holder, int position, List<Friend> data) {
         super.newSetTag(view, holder, position, data);
 
-        CheckBox checkBox = (CheckBox) view.findViewById(R.id.de_ui_friend_checkbox);
+        checkBox = (CheckBox) view.findViewById(R.id.de_ui_friend_checkbox);
         checkBox.setVisibility(View.VISIBLE);
         holder.choice = checkBox;
     }
@@ -83,14 +86,14 @@ public class FriendMultiChoiceAdapter extends FriendListAdapter {
 
         boolean isChoose = checkBox.isChecked();
 
-        if (isSetting) {
-            for (int i = 0; i < mHaveChoiceFriendIds.size(); i++) {
-                if (mHaveChoiceFriendIds.get(i).equals(friendId)) {
+//        if (isSetting) {
+//            for (int i = 0; i < mHaveChoiceFriendIds.size(); i++) {
+//                if (mHaveChoiceFriendIds.get(i).equals(friendId)) {
 //                    checkBox.setEnabled(false);
-                    checkBox.setBackgroundResource(R.drawable.de_ui_friend_checkbox_hover);
-                }
-            }
-        }
+//                    checkBox.setBackgroundResource(R.drawable.de_ui_friend_checkbox_gray);
+//                }
+//            }
+//        }
 
         if (isChoose) {
             checkBox.setChecked(!isChoose);
@@ -134,7 +137,7 @@ public class FriendMultiChoiceAdapter extends FriendListAdapter {
             for (String userId : mChoiceFriendIds) {
 
                 for (Friend friend : mFriends) {
-//TODO Add Friend
+                    //TODO Add Friend
                     if (userId.equals(friend.getUserId()) && !friend.isSelected()) {
                         UserInfo userInfo = new UserInfo(friend.getUserId(), friend.getNickname(), Uri.parse(friend.getPortrait()));
                         userInfos.add(userInfo);
@@ -149,6 +152,8 @@ public class FriendMultiChoiceAdapter extends FriendListAdapter {
     public void setCallback(MutilChoiceCallback callback) {
         this.mCallback = callback;
     }
+
+
 
     public interface MutilChoiceCallback {
         public void callback(int count);

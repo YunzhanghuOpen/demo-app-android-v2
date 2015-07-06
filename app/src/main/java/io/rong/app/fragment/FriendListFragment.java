@@ -152,9 +152,9 @@ public class FriendListFragment extends Fragment implements DeSwitchGroup.ItemHa
                         }
                     });
             }
-            mAdapter = isMultiChoice ? new FriendMultiChoiceAdapter(this.getActivity(), mFriendsList, mSelectedItemIds,mHaveSelectedItemIds, true) : new FriendListAdapter(this.getActivity(), mFriendsList);
+            mAdapter = isMultiChoice ? new FriendMultiChoiceAdapter(this.getActivity(), mFriendsList, mSelectedItemIds,mHaveSelectedItemIds, true) : new FriendListAdapter(this.getActivity(), mFriendsList,mHaveSelectedItemIds,true);
         } else {
-            mAdapter = isMultiChoice ? new FriendMultiChoiceAdapter(this.getActivity(), mFriendsList, mSelectedItemIds,null, false) : new FriendListAdapter(this.getActivity(), mFriendsList);
+            mAdapter = isMultiChoice ? new FriendMultiChoiceAdapter(this.getActivity(), mFriendsList, mSelectedItemIds,null, false) : new FriendListAdapter(this.getActivity(), mFriendsList,null,false);
         }
 
         mListView.setAdapter(mAdapter);

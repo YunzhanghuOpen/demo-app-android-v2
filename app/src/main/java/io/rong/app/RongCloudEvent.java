@@ -63,7 +63,7 @@ import io.rong.notification.PushNotificationMessage;
  * 3、用户信息提供者：GetUserInfoProvider。
  * 4、好友信息提供者：GetFriendsProvider。
  * 5、群组信息提供者：GetGroupInfoProvider。
- *蓉c
+ * 蓉c
  * 7、连接状态监听器，以获取连接相关状态：ConnectionStatusListener。
  * 8、地理位置提供者：LocationProvider。
  * 9、自定义 push 通知： OnReceivePushMessageListener。
@@ -364,7 +364,6 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             return null;
 
         return DemoContext.getInstance().getGroupMap().get(groupId);
-//        return null;
     }
 
     /**
@@ -382,12 +381,13 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         /**
          * demo 代码  开发者需替换成自己的代码。
          */
-        Log.d("Begavior", conversationType.getName() + ":" + user.getName());
-        Intent in = new Intent(context, DePersonalDetailActivity.class);
-        in.putExtra("USER", user);
-        in.putExtra("SEARCH_USERID", user.getUserId());
-        context.startActivity(in);
-
+        if (user != null) {
+            Log.d("Begavior", conversationType.getName() + ":" + user.getName());
+            Intent in = new Intent(context, DePersonalDetailActivity.class);
+            in.putExtra("USER", user);
+            in.putExtra("SEARCH_USERID", user.getUserId());
+            context.startActivity(in);
+        }
         return false;
     }
 
