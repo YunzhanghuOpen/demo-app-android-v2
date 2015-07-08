@@ -2,6 +2,7 @@ package io.rong.app.adapter;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -67,6 +68,23 @@ public class FriendMultiChoiceAdapter extends FriendListAdapter {
             holder.choice.setChecked(mChoiceFriendIds.contains(friend.getUserId()));
             holder.choice.setButtonDrawable(mContext.getResources().getDrawable(R.drawable.de_ui_friend_check_selector));
         }
+        if(isSetting){
+            for(int i = 0;i<mHaveChoiceFriendIds.size();i++){
+                if(data.get(position).getUserId().equals(mHaveChoiceFriendIds.get(i))){
+                    Log.e(TAG,"0706----mHaveChoiceFriendIds--"+data.get(position).getUserId()+"----data---"+mHaveChoiceFriendIds.get(i));
+                    checkBox.setBackgroundResource(R.drawable.de_ui_friend_checkbox_gray);
+//                    holder.choice.setChecked(true);
+                    checkBox.setEnabled(false);
+//                    holder.choice.setSelected(true);
+                }
+            }
+        }
+
+        if(isSetting){
+             ArrayList<Friend> mFriends = new ArrayList<>();
+
+
+        }
     }
 
     @Override
@@ -85,15 +103,6 @@ public class FriendMultiChoiceAdapter extends FriendListAdapter {
         }
 
         boolean isChoose = checkBox.isChecked();
-
-//        if (isSetting) {
-//            for (int i = 0; i < mHaveChoiceFriendIds.size(); i++) {
-//                if (mHaveChoiceFriendIds.get(i).equals(friendId)) {
-//                    checkBox.setEnabled(false);
-//                    checkBox.setBackgroundResource(R.drawable.de_ui_friend_checkbox_gray);
-//                }
-//            }
-//        }
 
         if (isChoose) {
             checkBox.setChecked(!isChoose);

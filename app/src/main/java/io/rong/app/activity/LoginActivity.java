@@ -48,8 +48,10 @@ import io.rong.app.ui.WinToast;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Conversation.ConversationType;
 import io.rong.imlib.model.Group;
 import io.rong.imlib.model.UserInfo;
+import io.rong.message.TextMessage;
 
 /**
  * Created by Bob on 2015/1/30.
@@ -618,6 +620,9 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
             }
         }
         return super.onTouchEvent(event);
+
+
+
     }
 
 
