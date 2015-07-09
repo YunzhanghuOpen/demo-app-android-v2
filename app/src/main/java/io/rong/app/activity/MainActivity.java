@@ -545,7 +545,6 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                         if (RongIM.getInstance() != null) {
                             RongIM.getInstance().disconnect(false);
                         }
-                        killThisPackageIfRunning(MainActivity.this, "io.rong.imlib.ipc");
                         Process.killProcess(Process.myPid());
                     }
                 });
@@ -566,14 +565,14 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
     @Override
     public void onCallApiSuccess(AbstractHttpRequest request, Object obj) {
         if (mGetMyGroupsRequest != null && mGetMyGroupsRequest.equals(request)) {
-            Log.e(TAG,"---push--onCallApiSuccess-");
+            Log.e(TAG, "---push--onCallApiSuccess-");
             getMyGroupApiSuccess(obj);
         }
     }
 
     @Override
     public void onCallApiFailure(AbstractHttpRequest request, BaseException e) {
-        Log.e(TAG,"---push--onCallApiFailure-");
+        Log.e(TAG, "---push--onCallApiFailure-");
     }
 
     @Override
@@ -592,9 +591,7 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                     if (RongIM.getInstance() != null)
                         RongIM.getInstance().disconnect(true);
 
-                    killThisPackageIfRunning(MainActivity.this, "io.rong.imlib.ipc");
                     Process.killProcess(Process.myPid());
-
                 }
             });
             alterDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -609,12 +606,6 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
         return false;
     }
 
-    public static void killThisPackageIfRunning(final Context context, String packageName) {
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        activityManager.killBackgroundProcesses(packageName);
-    }
-
-
     @Override
     protected void onDestroy() {
         if (mBroadcastReciver != null) {
@@ -625,12 +616,12 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
 
     private void getMyGroupApiSuccess(Object obj) {
         if (obj instanceof Groups) {
-            Log.e(TAG,"---push--onCallApiSuccess- ---obj instanceof Groups-----");
+            Log.e(TAG, "---push--onCallApiSuccess- ---obj instanceof Groups-----");
             final Groups groups = (Groups) obj;
 
             if (groups.getCode() == 200) {
                 List<Group> grouplist = new ArrayList<>();
-                Log.e(TAG,"---push--onCallApiSuccess----groups.getCode() == 200----");
+                Log.e(TAG, "---push--onCallApiSuccess----groups.getCode() == 200----");
                 if (groups.getResult() != null) {
                     for (int i = 0; i < groups.getResult().size(); i++) {
 

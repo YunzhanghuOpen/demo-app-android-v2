@@ -6,19 +6,16 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import de.greenrobot.dao.query.QueryBuilder;
 import io.rong.app.activity.SOSOLocationActivity;
 import io.rong.app.common.DemoApi;
 import io.rong.app.database.DBManager;
 import io.rong.app.database.UserInfos;
 import io.rong.app.database.UserInfosDao;
-import io.rong.app.model.User;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.model.Group;
 import io.rong.imlib.model.UserInfo;
