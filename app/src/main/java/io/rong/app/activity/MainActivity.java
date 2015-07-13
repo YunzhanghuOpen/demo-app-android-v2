@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,7 +14,6 @@ import android.os.Message;
 import android.os.Process;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.util.DisplayMetrics;
@@ -34,6 +32,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.sea_monster.exception.BaseException;
+import com.sea_monster.network.AbstractHttpRequest;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,23 +45,13 @@ import io.rong.app.R;
 import io.rong.app.fragment.ChatRoomListFragment;
 import io.rong.app.fragment.CustomerFragment;
 import io.rong.app.fragment.GroupListFragment;
-import io.rong.app.message.DeAgreedFriendRequestMessage;
-import io.rong.app.model.Friends;
 import io.rong.app.model.Groups;
 import io.rong.app.ui.LoadingDialog;
-import io.rong.app.utils.Constants;
 import io.rong.imkit.RongIM;
-import io.rong.imkit.common.RongConst;
-import io.rong.imkit.fragment.ConversationFragment;
 import io.rong.imkit.fragment.ConversationListFragment;
-import io.rong.imkit.fragment.SubConversationListFragment;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Group;
-import io.rong.imlib.model.UserInfo;
-
-import com.sea_monster.exception.BaseException;
-import com.sea_monster.network.AbstractHttpRequest;
 
 public class MainActivity extends BaseApiActivity implements View.OnClickListener, ViewPager.OnPageChangeListener, ActionBar.OnMenuVisibilityListener, Handler.Callback {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -467,7 +458,6 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                 supportInvalidateOptionsMenu();
             }
         }
-
     }
 
     @Override
@@ -501,6 +491,7 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
         } else {
             mMenu.getItem(0).setIcon(getResources().getDrawable(R.drawable.de_ic_add));
             mMenu.getItem(0).getSubMenu().getItem(2).setIcon(getResources().getDrawable(R.drawable.de_btn_main_contacts));
+
         }
 
         return true;
@@ -513,6 +504,7 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                 startActivity(new Intent(this, FriendListActivity.class));
                 break;
             case R.id.add_item2://选择群组
+
                 if (RongIM.getInstance() != null)
                     RongIM.getInstance().startSubConversationList(this, Conversation.ConversationType.GROUP);
                 break;
@@ -616,12 +608,10 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
 
     private void getMyGroupApiSuccess(Object obj) {
         if (obj instanceof Groups) {
-            Log.e(TAG, "---push--onCallApiSuccess- ---obj instanceof Groups-----");
             final Groups groups = (Groups) obj;
 
             if (groups.getCode() == 200) {
                 List<Group> grouplist = new ArrayList<>();
-                Log.e(TAG, "---push--onCallApiSuccess----groups.getCode() == 200----");
                 if (groups.getResult() != null) {
                     for (int i = 0; i < groups.getResult().size(); i++) {
 
@@ -637,9 +627,7 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                     HashMap<String, Group> groupM = new HashMap<String, Group>();
                     for (int i = 0; i < grouplist.size(); i++) {
                         groupM.put(groups.getResult().get(i).getId(), grouplist.get(i));
-                        Log.e("login", "------get Group id---------" + groups.getResult().get(i).getId());
                     }
-
                     if (DemoContext.getInstance() != null)
                         DemoContext.getInstance().setGroupMap(groupM);
 
@@ -660,8 +648,6 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                             }
                         });
                 }
-            } else {
-//                    WinToast.toast(this, groups.getCode());
             }
         }
     }

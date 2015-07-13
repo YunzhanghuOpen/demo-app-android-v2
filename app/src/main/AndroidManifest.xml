@@ -162,20 +162,6 @@
 
         </activity>
 
-
-        <!--<activity android:name=".activity.RongActivity">-->
-
-        <!--<intent-filter>-->
-        <!--<action android:name="android.intent.action.VIEW" />-->
-        <!--<category android:name="android.intent.category.DEFAULT" />-->
-        <!--<data-->
-        <!--android:host="io.rong.app"-->
-        <!--android:path="/subconversationlist"-->
-        <!--android:scheme="rong" />-->
-        <!--</intent-filter>-->
-        <!--</activity>-->
-
-
         <activity
             android:name=".activity.DemoActivity"
             android:launchMode="singleTask"
