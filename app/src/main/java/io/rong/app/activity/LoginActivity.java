@@ -1,14 +1,13 @@
 package io.rong.app.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.*;
-import android.os.Process;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -48,11 +47,8 @@ import io.rong.app.ui.LoadingDialog;
 import io.rong.app.ui.WinToast;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
-import io.rong.imlib.model.Conversation;
-import io.rong.imlib.model.Conversation.ConversationType;
 import io.rong.imlib.model.Group;
 import io.rong.imlib.model.UserInfo;
-import io.rong.message.TextMessage;
 
 /**
  * Created by Bob on 2015/1/30.
@@ -379,6 +375,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                             edit.putString("DEMO_USERID", userId);
                             edit.putString("DEMO_USERNAME", userName);
                             edit.apply();
+
 
                             RongCloudEvent.getInstance().setOtherListener();
 

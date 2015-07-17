@@ -502,6 +502,7 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
         switch (item.getItemId()) {
             case R.id.add_item1://发起聊天
                 startActivity(new Intent(this, FriendListActivity.class));
+//                startActivity(new Intent(this, TestActivity.class));
                 break;
             case R.id.add_item2://选择群组
 

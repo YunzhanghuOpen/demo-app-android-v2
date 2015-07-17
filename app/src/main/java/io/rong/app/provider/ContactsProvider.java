@@ -102,7 +102,7 @@ public class ContactsProvider extends InputProvider.ExtendProvider {
             final TextMessage content = TextMessage.obtain(showMessage);
 
             if (RongIM.getInstance().getRongIMClient() != null)
-                RongIM.getInstance().getRongIMClient().sendMessage(getCurrentConversation().getConversationType(), getCurrentConversation().getTargetId(), content, null, new RongIMClient.SendMessageCallback() {
+                RongIM.getInstance().getRongIMClient().sendMessage(getCurrentConversation().getConversationType(), getCurrentConversation().getTargetId(), content, null,null, new RongIMClient.SendMessageCallback() {
                     @Override
                     public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
                         Log.d("ExtendProvider", "onError--" + errorCode);
@@ -121,7 +121,7 @@ public class ContactsProvider extends InputProvider.ExtendProvider {
         String[] contact = new String[2];
         ContentResolver cr = getContext().getContentResolver();
         Cursor cursor = cr.query(uri, null, null, null, null);
-
+        cursor.moveToFirst();
         if (cursor != null) {
             cursor.moveToFirst();
             int nameFieldColumnIndex = cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME);

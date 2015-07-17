@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,7 +25,6 @@ import io.rong.imkit.RongIM;
 import io.rong.imkit.common.RongConst;
 import io.rong.imkit.fragment.ConversationFragment;
 import io.rong.imkit.fragment.ConversationListFragment;
-import io.rong.imkit.fragment.MessageListFragment;
 import io.rong.imkit.fragment.SubConversationListFragment;
 import io.rong.imkit.fragment.UriFragment;
 import io.rong.imlib.RongIMClient;
@@ -61,6 +59,7 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
     private Conversation.ConversationType mConversationType;
     private LoadingDialog mDialog;
     private Handler mHandler;
+    private boolean isDiscussion = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +111,7 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
 
     /**
      * 收到 push 以后，打开会话页面
+     *
      * @param conversation
      * @param targetId
      * @param conversationType
@@ -308,6 +308,11 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
 
                         @Override
                         public void onError(RongIMClient.ErrorCode e) {
+                            if(e.equals(RongIMClient.ErrorCode.NOT_IN_DISCUSSION)){
+                                getSupportActionBar().setTitle("不在讨论组中");
+                                isDiscussion  = true;
+                                supportInvalidateOptionsMenu();
+                            }
 
                         }
                     });
@@ -430,14 +435,17 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.de_conversation_menu, menu);
 
-        if(mConversationType!=null &&mConversationType == Conversation.ConversationType.CHATROOM){
-            menu.getItem(0).setVisible(false);
+        if (mConversationType != null) {
+            if (mConversationType.equals(Conversation.ConversationType.CHATROOM)) {
+                menu.getItem(0).setVisible(false);
+            } else if (mConversationType.equals(Conversation.ConversationType.DISCUSSION)&&isDiscussion) {
+                menu.getItem(0).setVisible(false);
+            }
         }
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -450,8 +458,7 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
                 }
                 if (mConversationType == Conversation.ConversationType.PUBLIC_SERVICE || mConversationType == Conversation.ConversationType.APP_PUBLIC_SERVICE) {
                     RongIM.getInstance().startPublicServiceProfile(this, mConversationType, targetId);
-                }
-                else {
+                } else {
                     //通过targetId 和 会话类型 打开指定的设置页面
                     if (!TextUtils.isEmpty(targetId)) {
                         Uri uri = Uri.parse("demo://" + getApplicationInfo().packageName).buildUpon().appendPath("conversationSetting")

@@ -12,6 +12,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
+import com.sea_monster.exception.BaseException;
+import com.sea_monster.network.AbstractHttpRequest;
+import com.sea_monster.network.ApiCallback;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,9 +33,6 @@ import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
-import com.sea_monster.exception.BaseException;
-import com.sea_monster.network.AbstractHttpRequest;
-import com.sea_monster.network.ApiCallback;
 
 /**
  * Created by Bob on 2015/3/26.
@@ -191,7 +192,7 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
             if (RongIM.getInstance() != null) {
 
                 //发送一条添加成功的自定义消息，此条消息不会在ui上展示
-                RongIM.getInstance().getRongIMClient().sendMessage(Conversation.ConversationType.PRIVATE, id, message, null, new RongIMClient.SendMessageCallback() {
+                RongIM.getInstance().getRongIMClient().sendMessage(Conversation.ConversationType.PRIVATE, id, message, null,null, new RongIMClient.SendMessageCallback() {
                     @Override
                     public void onError(Integer messageId, RongIMClient.ErrorCode e) {
                         Log.e(TAG, Constants.DEBUG + "------DeAgreedFriendRequestMessage----onError--");

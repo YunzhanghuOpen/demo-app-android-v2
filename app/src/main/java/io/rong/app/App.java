@@ -4,12 +4,9 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 
-
 import io.rong.app.message.DeAgreedFriendRequestMessage;
 import io.rong.app.message.DeContactNotificationMessageProvider;
 import io.rong.imkit.RongIM;
-import io.rong.imlib.RongIMClient;
-import io.rong.imlib.model.Conversation;
 
 /**
  * Created by Bob on 2015/1/30.
