@@ -14,6 +14,8 @@ import android.widget.Filterable;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
+import com.sea_monster.resource.Resource;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,16 +25,16 @@ import io.rong.app.model.Friend;
 import io.rong.app.model.FriendSectionIndexer;
 import io.rong.app.ui.DePinnedHeaderAdapter;
 import io.rong.app.utils.PinyinFilterList;
-import com.sea_monster.resource.Resource;
-import io.rong.imkit.widget.AsyncImageView ;
+import io.rong.imkit.widget.AsyncImageView;
 
 @SuppressLint("UseSparseArrays")
 public class FriendListAdapter extends DePinnedHeaderAdapter<Friend> implements Filterable {
 
-    private static String TAG =FriendListAdapter.class.getSimpleName();
+    private static String TAG = FriendListAdapter.class.getSimpleName();
     private LayoutInflater mInflater;
     private FriendFilter mFilter;
     private ArrayList<View> mViewList;
+
 
     public FriendListAdapter(Context context, List<Friend> friends) {
         super(context);
@@ -42,6 +44,7 @@ public class FriendListAdapter extends DePinnedHeaderAdapter<Friend> implements 
 
         if (context != null)
             mInflater = LayoutInflater.from(context);
+
 
     }
 
@@ -66,15 +69,15 @@ public class FriendListAdapter extends DePinnedHeaderAdapter<Friend> implements 
                 result.get(length).add(friend);
                 hashMap.put(key, length);
             }
+//            }
         }
-
         updateCollection(result);
         mFilter = new FriendFilter(friends);
     }
 
     @Override
     protected View newView(Context context, int partition, List<Friend> data, int position, ViewGroup parent) {
-        View view = mInflater.inflate(R.layout.de_item_friendlist,parent,false);
+        View view = mInflater.inflate(R.layout.de_item_friendlist, parent, false);
         ViewHolder holder = new ViewHolder();
         newSetTag(view, holder, position, data);
         view.setTag(holder);
@@ -89,9 +92,10 @@ public class FriendListAdapter extends DePinnedHeaderAdapter<Friend> implements 
         AsyncImageView photo = holder.photo;
         CheckBox choice = holder.choice;
         Friend friend = data.get(position);
+
         name.setText(friend.getNickname());
 
-        Resource res =new Resource( friend.getPortrait());
+        Resource res = new Resource(friend.getPortrait());
 
         photo.setResource(res);
 
@@ -103,7 +107,7 @@ public class FriendListAdapter extends DePinnedHeaderAdapter<Friend> implements 
 
     @Override
     protected View newHeaderView(Context context, int partition, List<Friend> data, ViewGroup parent) {
-        View view = mInflater.inflate(R.layout.de_item_friend_index, parent,false);
+        View view = mInflater.inflate(R.layout.de_item_friend_index, parent, false);
         view.setTag(view.findViewById(R.id.index));
         return view;
     }

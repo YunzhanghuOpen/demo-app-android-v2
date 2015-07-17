@@ -57,6 +57,7 @@ public class ContactsProvider extends InputProvider.ExtendProvider {
     @Override
     public CharSequence obtainPluginTitle(Context context) {
         //R.string.add_contacts  通讯录
+        context.setTheme(R.style.AppInputTheme);
         return context.getString(R.string.add_contacts);
     }
 

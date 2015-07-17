@@ -74,7 +74,7 @@ public class BlackListFragment extends Fragment implements DeSwitchGroup.ItemHan
             RongIM.getInstance().getRongIMClient().getBlacklist(new RongIMClient.GetBlacklistCallback() {
                 @Override
                 public void onSuccess(String[] userIds) {
-                    mUserInfoList = DemoContext.getInstance().getUserInfoByIds(userIds);
+                    mUserInfoList = DemoContext.getInstance().getUserInfoList(userIds);
 
                     mFriendsList = new ArrayList<Friend>();
 

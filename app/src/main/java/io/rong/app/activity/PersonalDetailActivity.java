@@ -117,15 +117,19 @@ public class PersonalDetailActivity extends BaseApiActivity implements View.OnCl
                 final Status status = (Status) obj;
                 if (status.getCode() == 200) {
                     WinToast.toast(this, "删除好友成功");
+
                     Log.e("", "-------delete friend success------");
                     if (DemoContext.getInstance() != null && friendid != null) {
-                        ArrayList<UserInfo> friendResList = DemoContext.getInstance().getFriends();
-                        for (int i = 0; i < friendResList.size(); i++) {
-                            if (friendResList.get(i).getUserId().equals(friendid)) {
-                                friendResList.remove(friendResList.get(i));
-                            }
-                        }
-                        DemoContext.getInstance().setFriends(friendResList);
+
+                        DemoContext.getInstance().updateUserInfos(friendid,"2");
+
+//                        ArrayList<UserInfo> friendResList = DemoContext.getInstance().updateUserInfos();
+//                        for (int i = 0; i < friendResList.size(); i++) {
+//                            if (friendResList.get(i).getUserId().equals(friendid)) {
+//                                friendResList.remove(friendResList.get(i));
+//                            }
+//                        }
+//                        DemoContext.getInstance().setFriends(friendResList);
 
                         Intent intent = new Intent();
                         this.setResult(Constants.DELETE_USERNAME_REQUESTCODE, intent);

@@ -8,6 +8,8 @@ import android.content.Context;
 import io.rong.app.message.DeAgreedFriendRequestMessage;
 import io.rong.app.message.DeContactNotificationMessageProvider;
 import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 
 /**
  * Created by Bob on 2015/1/30.
@@ -43,6 +45,7 @@ public class App extends Application {
         }
         //Crash 日志
         Thread.setDefaultUncaughtExceptionHandler(new DefaultExceptionHandler(this));
+
 
     }
 

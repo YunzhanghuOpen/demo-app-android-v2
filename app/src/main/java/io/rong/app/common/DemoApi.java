@@ -38,8 +38,7 @@ public class DemoApi extends BaseApi {
     private static String   HOST = "http://webim.demo.rong.io/";
 
     private final static String DEMO_LOGIN_EMAIL = "email_login";
-        private final static String DEMO_FRIENDS = "friends";
-//    private final static String DEMO_FRIENDS = "get_friend";
+    private final static String DEMO_FRIENDS = "get_friend";
     private final static String DEMO_REQ = "reg";
     private final static String DEMO_UPDATE_PROFILE = "update_profile";
 
@@ -48,6 +47,8 @@ public class DemoApi extends BaseApi {
     private final static String DEMO_QUIT_GROUP = "quit_group";
     private final static String DEMO_GET_ALL_GROUP = "get_all_group";
     private final static String DEMO_GET_MY_GROUP = "get_my_group";
+    private final static String DEMO_GET_GROUP = "get_group";
+
 
     private final static String DEMO_SEARCH_NAME = "seach_name";
     private final static String DEMO_GET_FRIEND = "get_friend";
@@ -179,7 +180,7 @@ public class DemoApi extends BaseApi {
         nameValuePairs.add(new BasicNameValuePair("id", username + ""));
 
         ApiReqeust<Status> apiReqeust = new DefaultApiReqeust<Status>(ApiReqeust.GET_METHOD, URI.create(HOST + DEMO_JOIN_GROUP), nameValuePairs, callback);
-        AbstractHttpRequest<Status> httpRequest = apiReqeust.obtainRequest(new GsonParser<Status>(Status.class), null, null);
+        AbstractHttpRequest<Status> httpRequest = apiReqeust.obtainRequest(new GsonParser<Status>(Status.class), mAuthType);
         NetworkManager.getInstance().requestAsync(httpRequest);
 
         return httpRequest;
@@ -199,7 +200,7 @@ public class DemoApi extends BaseApi {
         nameValuePairs.add(new BasicNameValuePair("id", username + ""));
 
         ApiReqeust<Status> apiReqeust = new DefaultApiReqeust<Status>(ApiReqeust.GET_METHOD, URI.create(HOST + DEMO_QUIT_GROUP), nameValuePairs, callback);
-        AbstractHttpRequest<Status> httpRequest = apiReqeust.obtainRequest(new GsonParser<Status>(Status.class), null, null);
+        AbstractHttpRequest<Status> httpRequest = apiReqeust.obtainRequest(new GsonParser<Status>(Status.class), mAuthType);
         NetworkManager.getInstance().requestAsync(httpRequest);
 
         return httpRequest;
@@ -240,6 +241,26 @@ public class DemoApi extends BaseApi {
     }
 
     /**
+     * demo server 通过群组id 获取群组信息
+     *
+     * @param callback
+     * @return
+     */
+
+    public AbstractHttpRequest<Groups> getMyGroupByGroupId(String groupid, ApiCallback<Groups> callback) {
+
+        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+        nameValuePairs.add(new BasicNameValuePair("id", groupid ));
+
+        ApiReqeust<Groups> apiReqeust = new DefaultApiReqeust<Groups>(ApiReqeust.GET_METHOD, URI.create(HOST + DEMO_GET_GROUP), nameValuePairs, callback);
+        AbstractHttpRequest<Groups> httpRequest = apiReqeust.obtainRequest(new GsonParser<Groups>(Groups.class), mAuthType);
+        NetworkManager.getInstance().requestAsync(httpRequest);
+
+        return httpRequest;
+
+    }
+
+    /**
      * 通过用户名搜索用户
      *
      * @param callback
@@ -252,7 +273,7 @@ public class DemoApi extends BaseApi {
         nameValuePairs.add(new BasicNameValuePair("username", username));
 
         ApiReqeust<Friends> apiReqeust = new DefaultApiReqeust<Friends>(ApiReqeust.GET_METHOD, URI.create(HOST + DEMO_SEARCH_NAME), nameValuePairs, callback);
-        AbstractHttpRequest<Friends> httpRequest = apiReqeust.obtainRequest(new GsonParser<Friends>(Friends.class), null, null);
+        AbstractHttpRequest<Friends> httpRequest = apiReqeust.obtainRequest(new GsonParser<Friends>(Friends.class), mAuthType);
         NetworkManager.getInstance().requestAsync(httpRequest);
 
         return httpRequest;
@@ -269,7 +290,7 @@ public class DemoApi extends BaseApi {
     public AbstractHttpRequest<Friends> getNewFriendlist(ApiCallback<Friends> callback) {
 
         ApiReqeust<Friends> apiReqeust = new DefaultApiReqeust<Friends>(ApiReqeust.GET_METHOD, URI.create(HOST + DEMO_GET_FRIEND), callback);
-        AbstractHttpRequest<Friends> httpRequest = apiReqeust.obtainRequest(new GsonParser<Friends>(Friends.class), null, null);
+        AbstractHttpRequest<Friends> httpRequest = apiReqeust.obtainRequest(new GsonParser<Friends>(Friends.class), mAuthType);
         NetworkManager.getInstance().requestAsync(httpRequest);
 
         return httpRequest;
@@ -290,32 +311,14 @@ public class DemoApi extends BaseApi {
         nameValuePairs.add(new BasicNameValuePair("message", message));
 
         ApiReqeust<User> apiReqeust = new DefaultApiReqeust<User>(ApiReqeust.POST_METHOD, URI.create(HOST + DEMO_REQUEST_FRIEND), nameValuePairs, callback);
-        AbstractHttpRequest<User> httpRequest = apiReqeust.obtainRequest(new GsonParser<>(User.class), null, null);
+        AbstractHttpRequest<User> httpRequest = apiReqeust.obtainRequest(new GsonParser<>(User.class), mAuthType);
         NetworkManager.getInstance().requestAsync(httpRequest);
 
         return httpRequest;
 
     }
 
-    /**
-     * 发好友邀请
-     *
-     * @param callback
-     * @return
-     */
 
-    public AbstractHttpRequest<ArrayList<User>> sendFriesdfndInvite(String userid, ApiCallback<ArrayList<User>> callback) {
-        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-        nameValuePairs.add(new BasicNameValuePair("id", userid + ""));
-
-        ApiReqeust<ArrayList<User>> apiReqeust = new DefaultApiReqeust<ArrayList<User>>(ApiReqeust.GET_METHOD, URI.create(HOST + DEMO_REQUEST_FRIEND), nameValuePairs, callback);
-        AbstractHttpRequest<ArrayList<User>> httpRequest = apiReqeust.obtainRequest(new GsonArrayParser<>(new TypeToken<ArrayList<User>>() {
-        }), null, null);
-        NetworkManager.getInstance().requestAsync(httpRequest);
-
-        return httpRequest;
-
-    }
 
     /**
      * demo server 删除好友
@@ -330,7 +333,7 @@ public class DemoApi extends BaseApi {
         nameValuePairs.add(new BasicNameValuePair("id", id + ""));
 
         ApiReqeust<Status> apiReqeust = new DefaultApiReqeust<Status>(ApiReqeust.POST_METHOD, URI.create(HOST + DEMO_DELETE_FRIEND), nameValuePairs, callback);
-        AbstractHttpRequest<Status> httpRequest = apiReqeust.obtainRequest(new GsonParser<Status>(Status.class), null, null);
+        AbstractHttpRequest<Status> httpRequest = apiReqeust.obtainRequest(new GsonParser<Status>(Status.class), mAuthType);
         NetworkManager.getInstance().requestAsync(httpRequest);
 
         return httpRequest;
@@ -351,7 +354,7 @@ public class DemoApi extends BaseApi {
         nameValuePairs.add(new BasicNameValuePair("is_access", isaccess));
 
         ApiReqeust<Status> apiReqeust = new DefaultApiReqeust<Status>(ApiReqeust.POST_METHOD, URI.create(HOST + DEMO_PROCESS_REQUEST_FRIEND), nameValuePairs, callback);
-        AbstractHttpRequest<Status> httpRequest = apiReqeust.obtainRequest(new GsonParser<Status>(Status.class), null, null);
+        AbstractHttpRequest<Status> httpRequest = apiReqeust.obtainRequest(new GsonParser<Status>(Status.class),  mAuthType);
         NetworkManager.getInstance().requestAsync(httpRequest);
 
         return httpRequest;

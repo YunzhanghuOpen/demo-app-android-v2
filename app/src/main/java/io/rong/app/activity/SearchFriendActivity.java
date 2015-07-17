@@ -65,6 +65,7 @@ public class SearchFriendActivity extends BaseApiActivity implements View.OnClic
 
     @Override
     public void onCallApiSuccess(AbstractHttpRequest request, Object obj) {
+        Log.e("", "------onCallApiSuccess-user.getCode() == 200)--=======---" );
         if (searchHttpRequest == request) {
             if (mDialog != null)
                 mDialog.dismiss();

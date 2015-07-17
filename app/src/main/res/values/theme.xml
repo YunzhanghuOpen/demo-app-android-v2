@@ -1,7 +1,5 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="android:actionBarStyle">@style/ActionBar</item>
         <item name="actionBarStyle">@style/ActionBar</item>
@@ -18,7 +16,9 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-
+    <style name="AppInputTheme" parent="AppTheme">
+        <item name="android:textColor">@color/de_actionbar_bg</item>
+    </style>
 
     <style name="RCTheme.ActionBar">
         <item name="android:background">@color/de_action_color</item>

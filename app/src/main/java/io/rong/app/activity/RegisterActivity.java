@@ -273,7 +273,8 @@ public class RegisterActivity extends BaseApiActivity implements View.OnClickLis
             @Override
             protected String doInBackground(Void... params) {
                 Map<String, String> requestParameter = new HashMap<String, String>();
-                requestParameter.put("", "24");
+
+                requestParameter.put("", "");
 
                 String result = NetUtils.sendPostRequest("", requestParameter);
                 return result;

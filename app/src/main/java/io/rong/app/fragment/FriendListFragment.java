@@ -1,9 +1,11 @@
 package io.rong.app.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,6 +26,10 @@ import io.rong.app.model.Friend;
 import io.rong.app.ui.DePinnedHeaderListView;
 import io.rong.app.ui.DeSwitchGroup;
 import io.rong.app.ui.DeSwitchItemView;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Discussion;
 import io.rong.imlib.model.UserInfo;
 
 public class FriendListFragment extends Fragment implements DeSwitchGroup.ItemHander, OnClickListener, TextWatcher, FriendListAdapter.OnFilterFinished, OnItemClickListener {
@@ -39,10 +45,14 @@ public class FriendListFragment extends Fragment implements DeSwitchGroup.ItemHa
     private boolean isMultiChoice = false;
 
     private ArrayList<String> mSelectedItemIds;
+    private ArrayList<String> mHaveSelectedItemIds;
+    private boolean isFromSetting = false;
+    private Conversation.ConversationType mConversationType;
+    private String mTargetId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.de_list_friend, container,false);
+        View view = inflater.inflate(R.layout.de_list_friend, container, false);
 
         mListView = (DePinnedHeaderListView) view.findViewById(R.id.de_ui_friend_list);
         mSwitchGroup = (DeSwitchGroup) view.findViewById(R.id.de_ui_friend_message);
@@ -71,11 +81,13 @@ public class FriendListFragment extends Fragment implements DeSwitchGroup.ItemHa
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        Intent intent = getActivity().getIntent();
+
 
         ArrayList<UserInfo> userInfos = null;
 
         if (DemoContext.getInstance() != null) {
-            userInfos = DemoContext.getInstance().getFriends();
+            userInfos = DemoContext.getInstance().getFriendList();
         }
 
         mFriendsList = new ArrayList<Friend>();
@@ -104,10 +116,72 @@ public class FriendListFragment extends Fragment implements DeSwitchGroup.ItemHa
             }
         }
 
-        mAdapter = isMultiChoice ? new FriendMultiChoiceAdapter(this.getActivity(), mFriendsList, mSelectedItemIds) : new FriendListAdapter(this.getActivity(), mFriendsList);
-        mListView.setAdapter(mAdapter);
-        // mListView.addScrollStateListener(mAdapter);
-        fillData();
+        if (intent.hasExtra("DEMO_FRIEND_TARGETID") && intent.hasExtra("DEMO_FRIEND_CONVERSATTIONTYPE") && intent.hasExtra("DEMO_FRIEND_ISTRUE")) {
+
+            mTargetId = intent.getStringExtra("DEMO_FRIEND_TARGETID");
+            isFromSetting = intent.getBooleanExtra("DEMO_FRIEND_ISTRUE", false);
+            String conversationType = intent.getStringExtra("DEMO_FRIEND_CONVERSATTIONTYPE").toUpperCase();
+            mConversationType = Conversation.ConversationType.valueOf(conversationType);
+            Log.e(TAG, "0705--onViewCreated--mTargetId" + mTargetId + "--conversationType===" + conversationType);
+
+        }
+
+        if (isFromSetting) {
+            mHaveSelectedItemIds = new ArrayList<>();
+            if (mConversationType.equals(Conversation.ConversationType.PRIVATE)) {
+                mSelectedItemIds.add(mTargetId);
+
+                if(mTargetId!=null && isMultiChoice){
+                    for (Friend friend : mFriendsList) {
+                        if(mTargetId.equals(friend.getUserId())){
+                            friend.setSelected(true);
+                            break;
+                        }
+                    }
+                }
+                mAdapter = isMultiChoice ? new FriendMultiChoiceAdapter(getActivity(), mFriendsList, mSelectedItemIds) : new FriendListAdapter(getActivity(), mFriendsList);
+                mListView.setAdapter(mAdapter);
+                fillData();
+
+            } else if (mConversationType.equals(Conversation.ConversationType.DISCUSSION)) {
+                if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null)
+                    RongIM.getInstance().getRongIMClient().getDiscussion(mTargetId, new RongIMClient.ResultCallback<Discussion>() {
+                        @Override
+                        public void onSuccess(Discussion discussion) {
+
+                            isMultiChoice = true;
+                            ArrayList<String> lists = (ArrayList<String>) discussion.getMemberIdList();
+                            for (int i = 0; i < lists.size(); i++) {
+                                mSelectedItemIds.add(lists.get(i));
+                            }
+
+                            if (mSelectedItemIds != null && isMultiChoice) {
+                                for (String id : mSelectedItemIds) {
+                                    for (Friend friend : mFriendsList) {
+                                        if (id.equals(friend.getUserId())) {
+                                            friend.setSelected(true);
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            mAdapter = isMultiChoice ? new FriendMultiChoiceAdapter(getActivity(), mFriendsList, mSelectedItemIds) : new FriendListAdapter(getActivity(), mFriendsList);
+                            mListView.setAdapter(mAdapter);
+                            fillData();
+                        }
+
+                        @Override
+                        public void onError(RongIMClient.ErrorCode errorCode) {
+
+                        }
+                    });
+            }
+
+        } else {
+            mAdapter = isMultiChoice ? new FriendMultiChoiceAdapter(this.getActivity(), mFriendsList, mSelectedItemIds) : new FriendListAdapter(this.getActivity(), mFriendsList);
+            mListView.setAdapter(mAdapter);
+            fillData();
+        }
 
         super.onViewCreated(view, savedInstanceState);
     }

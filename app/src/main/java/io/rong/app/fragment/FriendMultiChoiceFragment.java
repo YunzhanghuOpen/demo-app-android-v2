@@ -1,5 +1,6 @@
 package io.rong.app.fragment;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,12 +25,14 @@ import io.rong.app.ui.LoadingDialog;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Discussion;
 import io.rong.imlib.model.UserInfo;
 
 public class FriendMultiChoiceFragment extends FriendListFragment implements Handler.Callback {
 
 
     private static final int HANDLE_UPDATE_CONFIRM_BUTTON = 10001;
+    private static final String TAG = FriendMultiChoiceFragment.class.getSimpleName();
 
     private FriendMultiChoiceAdapter.MutilChoiceCallback mCallback;
 
@@ -42,20 +45,22 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
     private LoadingDialog mLoadingDialog = null;
     private Button selectButton;
     private LinearLayout mLinearFinish;
-    String targetIds = null;
-    String[] targets = null;
+    private String mTargetId = null;
+    private String[] mTargetIds = null;
+    private ArrayList<String> mNumberLists;
+    private boolean isFromSetting = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         mMemberIds = new ArrayList<String>();
+        Intent intent = getActivity().getIntent();
 
-
-        if (getActivity().getIntent() == null || getActivity().getIntent().getData() == null || !getActivity().getIntent().getData().getScheme().equals("rong")) {
+        if (intent == null || intent.getData() == null || !intent.getData().getScheme().equals("rong")) {
             mConversationType = Conversation.ConversationType.PRIVATE;
         } else {
-            Uri uri = getActivity().getIntent().getData();
+            Uri uri = intent.getData();
             mDiscussionId = uri.getQueryParameter("discussionId");
-            targetIds = uri.getQueryParameter("userIds");
+            mTargetId = uri.getQueryParameter("userIds");
             String delimiter = uri.getQueryParameter("delimiter");
             if (TextUtils.isEmpty(delimiter)) {
                 delimiter = ",";
@@ -63,10 +68,12 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
 
             mConversationType = Conversation.ConversationType
                     .valueOf(uri.getLastPathSegment().toUpperCase(Locale.getDefault()));
+            Log.e(TAG, "-----selectPeopleComplete---mTargetId:" + mTargetId);
+            if (TextUtils.isEmpty(mTargetId)) {
 
-            if (TextUtils.isEmpty(targetIds)) {
             } else {
-                String[] ids = targetIds.split(delimiter);
+                Log.e(TAG, "-----selectPeopleComplete---mTargetffffId:" + mTargetId);
+                String[] ids = mTargetId.split(delimiter);
 
                 for (String item : Arrays.asList(ids)) {
                     mMemberIds.add(item);
@@ -74,13 +81,25 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
             }
         }
 
+        if (intent.hasExtra("DEMO_FRIEND_TARGETID") && intent.hasExtra("DEMO_FRIEND_CONVERSATTIONTYPE") && intent.hasExtra("DEMO_FRIEND_ISTRUE")) {
 
+            mTargetId = intent.getStringExtra("DEMO_FRIEND_TARGETID");
+            isFromSetting = intent.getBooleanExtra("DEMO_FRIEND_ISTRUE", false);
+            String conversationType = intent.getStringExtra("DEMO_FRIEND_CONVERSATTIONTYPE").toUpperCase();
+            mConversationType = Conversation.ConversationType.valueOf(conversationType);
+            if (mConversationType.equals(Conversation.ConversationType.PRIVATE)) {
+                Conversation conversation = RongIM.getInstance().getRongIMClient().getConversation(Conversation.ConversationType.PRIVATE, mTargetId);
+                mMemberIds.add(conversation.getTargetId());
+            } else if (mConversationType.equals(Conversation.ConversationType.DISCUSSION)) {
+
+            }
+        }
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        setMultiChoice(true, new ArrayList<String>(mMemberIds));
+        setMultiChoice(true, new ArrayList<>(mMemberIds));
 
         selectButton = (Button) view.findViewById(R.id.send_message_friend);
         ImageView tilefinish = (ImageView) view.findViewById(R.id.send_message_finish);
@@ -97,24 +116,50 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                 selectPeopleComplete();
             }
         });
-        if (targetIds != null) {
-            targets = targetIds.split(",");
-            selectButtonShowStyle(targets.length);
+
+        if (isFromSetting) {
+            if (mConversationType.equals(Conversation.ConversationType.PRIVATE) && mTargetId != null) {
+                selectButtonShowStyle(1, 0);
+
+            } else if (mConversationType.equals(Conversation.ConversationType.DISCUSSION) && mTargetId != null) {
+                if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null)
+                    RongIM.getInstance().getRongIMClient().getDiscussion(mTargetId, new RongIMClient.ResultCallback<Discussion>() {
+                        @Override
+                        public void onSuccess(Discussion discussion) {
+
+                            mNumberLists = (ArrayList<String>) discussion.getMemberIdList();
+
+                            selectButtonShowStyle(mNumberLists.size() - 1, 0);
+                        }
+
+                        @Override
+                        public void onError(RongIMClient.ErrorCode errorCode) {
+
+                        }
+                    });
+            }
         } else {
-            selectButtonShowStyle(0);
+            if (mTargetId != null) {
+                mTargetIds = mTargetId.split(",");
+                selectButtonShowStyle(mTargetIds.length, 0);
+            } else {
+                selectButtonShowStyle(0, 0);
+            }
         }
+
         mHandle = new Handler(this);
 
         super.onViewCreated(view, savedInstanceState);
 
     }
 
-    private void selectButtonShowStyle(int selectedCount) {
+    private void selectButtonShowStyle(int selectedCount, int hasSelect) {
+
         if (selectedCount > 0) {
             selectButton.setEnabled(true);
             mConfirmFromatString = getResources().getString(R.string.friend_list_multi_choice_comfirt_btn);
             selectButton.setTextColor(getResources().getColor(R.color.rc_text_color_secondary_inverse));
-            selectButton.setText(String.format(mConfirmFromatString, selectedCount));
+            selectButton.setText(String.format(mConfirmFromatString, selectedCount + hasSelect));
 
         } else {
             selectButton.setEnabled(false);
@@ -144,17 +189,16 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
         }
 
         if (mConversationType == Conversation.ConversationType.DISCUSSION || userInfos.size() + mMemberIds.size() > 1) {
-            StringBuilder sb = new StringBuilder();
 
-            String userid = null;
+            StringBuilder sb = new StringBuilder();
+            String userId;
+            mLoadingDialog = new LoadingDialog(this.getActivity());
             if (DemoContext.getInstance() != null) {
 
-                userid = DemoContext.getInstance().getSharedPreferences().getString("DEMO_USERID", null);
-                UserInfo userInfo = DemoContext.getInstance().getUserInfoById(userid);
-//            }
+                userId = DemoContext.getInstance().getSharedPreferences().getString("DEMO_USERID", null);
+                UserInfo userInfo = DemoContext.getInstance().getUserInfoById(userId);
                 for (UserInfo item : userInfos) {
                     ids.add(item.getUserId());
-
                     if (sb.length() <= 60) {
                         if (sb.length() > 0 && !TextUtils.isEmpty(item.getName()))
                             sb.append(",");
@@ -165,40 +209,82 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                     sb.append(",");
                     sb.append(userInfo.getName());
                 }
-                if (mMemberIds.size() == 0) {
-                    RongIM.getInstance().createDiscussionChat(getActivity(), ids, sb.toString());
-                    getActivity().finish();
-                } else {
-                    mLoadingDialog = new LoadingDialog(this.getActivity());
-//                mLoadingDialog.setText(Res.getInstance(getActivity()).string("rc_public_data_process"));
-                    mLoadingDialog.show();
 
-                    if (!TextUtils.isEmpty(mDiscussionId)) {
+                if (isFromSetting) {
 
-                        RongIM.getInstance().getRongIMClient().addMemberToDiscussion(mDiscussionId, ids, new RongIMClient.OperationCallback() {
-                            @Override
-                            public void onSuccess() {
-                                if (mLoadingDialog != null) {
-                                    mLoadingDialog.dismiss();
+                    if (mMemberIds.size() == 1) {
+                        Log.e(TAG, "-----selectPeopleComplete---MemberIds.size():" + sb.toString());
+                        if (RongIM.getInstance() != null)
+                            RongIM.getInstance().getRongIMClient().createDiscussion(sb.toString(), ids, new RongIMClient.CreateDiscussionCallback() {
+                                @Override
+                                public void onSuccess(String s) {
+                                    Log.e(TAG, "-----selectPeopleComplete---=＝onSuccess＝＝＝＝＋＋＋＋" + s);
+                                    getActivity().finish();
                                 }
 
-                                getActivity().finish();
-                            }
-
-                            @Override
-                            public void onError(RongIMClient.ErrorCode errorCode) {
-                                if (mLoadingDialog != null) {
-                                    mLoadingDialog.dismiss();
+                                @Override
+                                public void onError(RongIMClient.ErrorCode e) {
+                                    Log.e(TAG, "-----selectPeopleComplete---=＝onError＝＝＝＝＋＋＋＋" + e);
                                 }
-                            }
-                        });
+                            });
+
                     } else {
-                        ids.addAll(mMemberIds);
+                        mLoadingDialog.show();
+
+                        if (!TextUtils.isEmpty(mTargetId)) {
+
+                            RongIM.getInstance().getRongIMClient().addMemberToDiscussion(mTargetId, ids, new RongIMClient.OperationCallback() {
+                                @Override
+                                public void onSuccess() {
+                                    if (mLoadingDialog != null) {
+                                        mLoadingDialog.dismiss();
+                                    }
+                                    getActivity().finish();
+                                }
+
+                                @Override
+                                public void onError(RongIMClient.ErrorCode errorCode) {
+                                    if (mLoadingDialog != null) {
+                                        mLoadingDialog.dismiss();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                } else {
+                    if (mMemberIds.size() == 0) {
                         RongIM.getInstance().createDiscussionChat(getActivity(), ids, sb.toString());
+                        getActivity().finish();
+                    } else {
+                        mLoadingDialog.show();
+
+                        if (!TextUtils.isEmpty(mDiscussionId)) {
+
+                            RongIM.getInstance().getRongIMClient().addMemberToDiscussion(mDiscussionId, ids, new RongIMClient.OperationCallback() {
+                                @Override
+                                public void onSuccess() {
+                                    if (mLoadingDialog != null) {
+                                        mLoadingDialog.dismiss();
+                                    }
+                                    getActivity().finish();
+                                }
+
+                                @Override
+                                public void onError(RongIMClient.ErrorCode errorCode) {
+                                    if (mLoadingDialog != null) {
+                                        mLoadingDialog.dismiss();
+                                    }
+                                }
+                            });
+                        } else {
+                            ids.addAll(mMemberIds);
+                            RongIM.getInstance().createDiscussionChat(getActivity(), ids, sb.toString());
+                        }
                     }
                 }
             }
         } else if (mConversationType == Conversation.ConversationType.PRIVATE) {
+
             RongIM.getInstance().startPrivateChat(getActivity(), userInfos.get(0).getUserId(), userInfos.get(0).getName());
             getActivity().finish();
             return;
@@ -239,13 +325,19 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                 @Override
                 public void callback(int count) {
                     boolean isShow = outOfMaxPrompt(count);
-
-                    if (!isShow) {
+                    if (!isShow)
                         return;
-                    } else {
 
-                        if (targetIds != null)
-                            mHandle.obtainMessage(HANDLE_UPDATE_CONFIRM_BUTTON, count+targets.length - mMemberIds.size()).sendToTarget();
+                    if (isFromSetting) {
+                        if (mConversationType.equals(Conversation.ConversationType.PRIVATE) && mTargetId != null) {
+                            mHandle.obtainMessage(HANDLE_UPDATE_CONFIRM_BUTTON, count).sendToTarget();
+                        } else if (mConversationType.equals(Conversation.ConversationType.DISCUSSION) && mTargetId != null) {
+//                            if()
+                            mHandle.obtainMessage(HANDLE_UPDATE_CONFIRM_BUTTON, count - 1).sendToTarget();
+                        }
+                    } else {
+                        if (mTargetId != null)
+                            mHandle.obtainMessage(HANDLE_UPDATE_CONFIRM_BUTTON, count + mTargetIds.length - mMemberIds.size()).sendToTarget();
                         else
                             mHandle.obtainMessage(HANDLE_UPDATE_CONFIRM_BUTTON, count - mMemberIds.size()).sendToTarget();
                     }
@@ -257,6 +349,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
         adapter.setCallback((FriendMultiChoiceAdapter.MutilChoiceCallback) mCallback);
 
         super.onItemClick(parent, view, position, id);
+
     }
 
     @Override
@@ -273,8 +366,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
     @Override
     public boolean handleMessage(Message msg) {
         if (msg.what == HANDLE_UPDATE_CONFIRM_BUTTON) {
-
-            selectButtonShowStyle((Integer) msg.obj);
+            selectButtonShowStyle((Integer) msg.obj, 0);
         }
         return false;
     }
