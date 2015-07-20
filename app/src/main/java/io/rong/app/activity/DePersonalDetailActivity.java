@@ -8,17 +8,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.sea_monster.exception.BaseException;
+import com.sea_monster.network.AbstractHttpRequest;
+import com.sea_monster.resource.Resource;
+
 import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.app.model.User;
 import io.rong.app.ui.LoadingDialog;
 import io.rong.app.ui.WinToast;
 import io.rong.app.utils.Constants;
+import io.rong.imkit.widget.AsyncImageView;
 import io.rong.imlib.model.UserInfo;
-import com.sea_monster.exception.BaseException;
-import com.sea_monster.network.AbstractHttpRequest;
-import io.rong.imkit.widget.AsyncImageView ;
-import com.sea_monster.resource.Resource;
 
 
 /**
@@ -74,6 +75,10 @@ public class DePersonalDetailActivity extends BaseApiActivity implements View.On
             if(user.getUserId().equals(userID)){
                 mAddFriend.setVisibility(View.GONE);
             }else if(user.getUserId().equals("kefu114")){
+                mAddFriend.setVisibility(View.GONE);
+            }
+
+            if (DemoContext.getInstance() != null && DemoContext.getInstance().searcheUserInfosById(user.getUserId())) {
                 mAddFriend.setVisibility(View.GONE);
             }
         }

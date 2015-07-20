@@ -23,10 +23,17 @@ import io.rong.app.database.UserInfos;
 import io.rong.app.database.UserInfosDao;
 import io.rong.app.message.DeAgreedFriendRequestMessage;
 import io.rong.app.model.User;
+import io.rong.app.provider.ContactsProvider;
+import io.rong.app.ui.WinToast;
 import io.rong.imkit.PushNotificationManager;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.model.UIConversation;
+import io.rong.imkit.widget.provider.CameraInputProvider;
+import io.rong.imkit.widget.provider.ImageInputProvider;
+import io.rong.imkit.widget.provider.InputProvider;
+import io.rong.imkit.widget.provider.LocationInputProvider;
+import io.rong.imkit.widget.provider.VoIPInputProvider;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Group;
@@ -125,14 +132,14 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         RongIM.getInstance().getRongIMClient().setConnectionStatusListener(this);//设置连接状态监听器。
 
 //        //扩展功能自定义
-//        InputProvider.ExtendProvider[] provider = {
-//                new ImageInputProvider(RongContext.getInstance()),//图片
-//                new CameraInputProvider(RongContext.getInstance()),//相机
-//                new LocationInputProvider(RongContext.getInstance()),//地理位置
-//                new VoIPInputProvider(RongContext.getInstance()),// 语音通话
-//                new ContactsProvider(RongContext.getInstance())//通讯录
-//        };
-//        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.PRIVATE, provider);
+        InputProvider.ExtendProvider[] provider = {
+                new ImageInputProvider(RongContext.getInstance()),//图片
+                new CameraInputProvider(RongContext.getInstance()),//相机
+                new LocationInputProvider(RongContext.getInstance()),//地理位置
+                new VoIPInputProvider(RongContext.getInstance()),// 语音通话
+                new ContactsProvider(RongContext.getInstance())//通讯录
+        };
+        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.PRIVATE, provider);
 
 //        RongIM.getInstance().setPrimaryInputProvider(new InputTestProvider((RongContext) mContext));
 
@@ -307,7 +314,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             } else if (sentMessageErrorCode == RongIM.SentMessageErrorCode.NOT_IN_GROUP) {//不在群组
 
             } else if (sentMessageErrorCode == RongIM.SentMessageErrorCode.REJECTED_BY_BLACKLIST) {//你在他的黑名单中
-
+                WinToast.toast(mContext,"你在对方的黑名单中");
             }
         }
 
@@ -385,24 +392,31 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
      */
     @Override
     public boolean onUserPortraitClick(Context context, Conversation.ConversationType conversationType, UserInfo user) {
-        Log.d(TAG, "onUserPortraitClick");
+        Log.e(TAG, "----onUserPortraitClick");
 
         /**
          * demo 代码  开发者需替换成自己的代码。
          */
         if (user != null) {
-            Log.d("Begavior", conversationType.getName() + ":" + user.getName());
-            Intent in = new Intent(context, DePersonalDetailActivity.class);
-            in.putExtra("USER", user);
-            in.putExtra("SEARCH_USERID", user.getUserId());
-            context.startActivity(in);
+            if(conversationType.equals(Conversation.ConversationType.PUBLIC_SERVICE)||conversationType.equals(Conversation.ConversationType.APP_PUBLIC_SERVICE)){
+                RongIM.getInstance().startPublicServiceProfile(mContext, conversationType, user.getUserId());
+            }else {
+                Intent in = new Intent(context, DePersonalDetailActivity.class);
+                in.putExtra("USER", user);
+                in.putExtra("SEARCH_USERID", user.getUserId());
+                in.putExtra("SEARCH_CONVERSATIONTYPE", conversationType);
+                context.startActivity(in);
+            }
         }
+
         return false;
     }
 
     @Override
     public boolean onUserPortraitLongClick(Context context, Conversation.ConversationType conversationType, UserInfo userInfo) {
-        return false;
+        Log.e(TAG, "----onUserPortraitLongClick");
+
+        return true;
     }
 
     /**
@@ -414,7 +428,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
      */
     @Override
     public boolean onMessageClick(Context context, View view, Message message) {
-        Log.d(TAG, "onMessageClick");
+        Log.e(TAG, "----onMessageClick");
 
         /**
          * demo 代码  开发者需替换成自己的代码。
@@ -444,7 +458,14 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     }
 
     @Override
+    public boolean onMessageLinkClick(String s) {
+        return false;
+    }
+
+    @Override
     public boolean onMessageLongClick(Context context, View view, Message message) {
+
+        Log.e(TAG, "----onMessageLongClick");
         return false;
     }
 

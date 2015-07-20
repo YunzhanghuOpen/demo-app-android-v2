@@ -72,7 +72,7 @@
     <string name="rc_pub_service_info_unfollow">取消关注</string>
     <string name="rc_pub_service_info_account">公众号：%1$s</string>
 
-    <string name="rc_notice_network_unavailable">无法连接到服务器</string>
+    <string name="rc_notice_network_unavailable">当前网络不可用</string>
     <string name="rc_notice_disconnect">无法连接到服务器</string>
     <string name="rc_notice_tick">该账号已经在其他设备登录</string>
     <string name="rc_notice_connecting">正在连接服务器</string>

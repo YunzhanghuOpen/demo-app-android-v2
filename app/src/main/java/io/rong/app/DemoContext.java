@@ -117,10 +117,11 @@ public class DemoContext {
 
     /**
      * 更新 好友信息
+     *
      * @param targetid
      * @param status
      */
-    public void updateUserInfos(String  targetid,String status){
+    public void updateUserInfos(String targetid, String status) {
 
         UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(targetid)).unique();
         userInfos.setStatus(status);
@@ -134,10 +135,11 @@ public class DemoContext {
 
     /**
      * 向数据库插入数据
-     * @param info 用户信息
+     *
+     * @param info   用户信息
      * @param status 状态
      */
-    public void insertOrReplaceUserInfo(UserInfo info,String status){
+    public void insertOrReplaceUserInfo(UserInfo info, String status) {
 
         UserInfos userInfos = new UserInfos();
         userInfos.setStatus(status);
@@ -146,15 +148,33 @@ public class DemoContext {
         userInfos.setUserid(info.getUserId());
         mUserInfosDao.insertOrReplace(userInfos);
     }
-    public  void insertOrReplaceUserInfoList(ArrayList<UserInfo> list,String status){
+
+    public void insertOrReplaceUserInfoList(ArrayList<UserInfo> list, String status) {
 
         List<UserInfos> userInfos = new ArrayList<>();
 
 
-
-
-
     }
+
+    /**
+     * 通过userid 查找 UserInfos,判断是否为好友，查找的是本地的数据库
+     *
+     * @param userId
+     * @return
+     */
+    public boolean searcheUserInfosById(String userId) {
+
+        UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
+
+        if (userInfos == null)
+            return false;
+
+        if (userInfos.getStatus().equals("1") || userInfos.getStatus().equals("3")|| userInfos.getStatus().equals("5")) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * 通过userid 查找 UserInfo，查找的是本地的数据库
      *
@@ -201,14 +221,17 @@ public class DemoContext {
 
         List<UserInfo> userInfoList = new ArrayList<>();
         List<UserInfos> userInfosList = new ArrayList<>();
+        UserInfo userInfo;
+        UserInfos userInfos;
 
         for (int i = 0; i < userIds.length; i++) {
-            UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userIds[i])).unique();
+            userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userIds[i])).unique();
             userInfosList.add(userInfos);
-            UserInfo userInfo = new UserInfo(userInfosList.get(i).getUserid(), userInfosList.get(i).getUsername(), Uri.parse(userInfosList.get(i).getPortrait()));
-            userInfoList.add(userInfo);
+            if (mUserInfosDao.getKey(userInfosList.get(i)) != null) {
+                userInfo = new UserInfo(userInfosList.get(i).getUserid(), userInfosList.get(i).getUsername(), Uri.parse(userInfosList.get(i).getPortrait()));
+                userInfoList.add(userInfo);
+            }
         }
-
         if (userInfosList == null)
             return null;
 
