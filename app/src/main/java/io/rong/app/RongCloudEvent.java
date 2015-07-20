@@ -398,12 +398,17 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
          * demo 代码  开发者需替换成自己的代码。
          */
         if (user != null) {
-            Log.d("Begavior", conversationType.getName() + ":" + user.getName());
-            Intent in = new Intent(context, DePersonalDetailActivity.class);
-            in.putExtra("USER", user);
-            in.putExtra("SEARCH_USERID", user.getUserId());
-            context.startActivity(in);
+            if(conversationType.equals(Conversation.ConversationType.PUBLIC_SERVICE)||conversationType.equals(Conversation.ConversationType.APP_PUBLIC_SERVICE)){
+                RongIM.getInstance().startPublicServiceProfile(mContext, conversationType, user.getUserId());
+            }else {
+                Intent in = new Intent(context, DePersonalDetailActivity.class);
+                in.putExtra("USER", user);
+                in.putExtra("SEARCH_USERID", user.getUserId());
+                in.putExtra("SEARCH_CONVERSATIONTYPE", conversationType);
+                context.startActivity(in);
+            }
         }
+
         return false;
     }
 

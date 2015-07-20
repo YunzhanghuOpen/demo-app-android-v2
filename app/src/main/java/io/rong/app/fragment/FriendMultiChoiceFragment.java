@@ -239,6 +239,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                                     if (mLoadingDialog != null) {
                                         mLoadingDialog.dismiss();
                                     }
+                                    RongIM.getInstance().startDiscussionChat(getActivity(),mTargetId,"hello");
                                     getActivity().finish();
                                 }
 
