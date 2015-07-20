@@ -1,13 +1,16 @@
 package io.rong.app.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Process;
 import android.support.v7.app.ActionBar;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -376,7 +379,6 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                             edit.putString("DEMO_USERNAME", userName);
                             edit.apply();
 
-
                             RongCloudEvent.getInstance().setOtherListener();
 
                         }
@@ -653,5 +655,37 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                     .getWindowToken(), 0);// 隐藏软键盘
         }
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (KeyEvent.KEYCODE_BACK == event.getKeyCode()) {
+
+
+            final AlertDialog.Builder alterDialog = new AlertDialog.Builder(this);
+            alterDialog.setMessage("确定退出应用？");
+            alterDialog.setCancelable(true);
+
+            alterDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (RongIM.getInstance() == null)
+                        RongIM.getInstance().logout();
+
+                    Process.killProcess(Process.myPid());
+                }
+            });
+            alterDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            alterDialog.show();
+        }
+
+        return false;
+    }
+
 
 }
