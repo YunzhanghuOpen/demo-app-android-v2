@@ -6,7 +6,14 @@ import android.content.Context;
 
 import io.rong.app.message.DeAgreedFriendRequestMessage;
 import io.rong.app.message.DeContactNotificationMessageProvider;
+import io.rong.app.photo.PhotoCollectionsProvider;
+import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
+import io.rong.imkit.widget.provider.CameraInputProvider;
+import io.rong.imkit.widget.provider.InputProvider;
+import io.rong.imkit.widget.provider.LocationInputProvider;
+import io.rong.imkit.widget.provider.VoIPInputProvider;
+import io.rong.imlib.model.Conversation;
 
 /**
  * Created by Bob on 2015/1/30.

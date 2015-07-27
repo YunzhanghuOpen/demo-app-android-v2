@@ -199,7 +199,7 @@
 
 
         </activity>
-
+        <activity android:name=".photo.ChoosePictureActivity"></activity>
         <activity android:name=".activity.PhotoActivity" />
 
         <activity
