@@ -125,6 +125,7 @@
     <string name="de_actionbar_set_conversation">"聊天设置"</string>
     <string name="de_actionbar_set_public">"公众号"</string>
     <string name="de_actionbar_update_discussion">"修改讨论组昵称"</string>
+    <string name="phone_camera">Camera</string>
 
 
 </resources>
