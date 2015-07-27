@@ -68,11 +68,9 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
 
             mConversationType = Conversation.ConversationType
                     .valueOf(uri.getLastPathSegment().toUpperCase(Locale.getDefault()));
-            Log.e(TAG, "-----selectPeopleComplete---mTargetId:" + mTargetId);
             if (TextUtils.isEmpty(mTargetId)) {
 
             } else {
-                Log.e(TAG, "-----selectPeopleComplete---mTargetffffId:" + mTargetId);
                 String[] ids = mTargetId.split(delimiter);
 
                 for (String item : Arrays.asList(ids)) {

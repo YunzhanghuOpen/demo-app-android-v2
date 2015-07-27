@@ -500,4 +500,12 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
     public boolean handleMessage(Message msg) {
         return false;
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+               super.onActivityResult(requestCode, resultCode, data);
+
+
+    }
 }

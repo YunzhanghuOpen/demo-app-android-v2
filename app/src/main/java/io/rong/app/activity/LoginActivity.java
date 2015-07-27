@@ -217,6 +217,8 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.app_sign_in_bt://登录
 
+
+//                initnn();
                 userName = mUserNameEt.getEditableText().toString();
                 String passWord = mPassWordEt.getEditableText().toString();
                 String name = null;
@@ -273,6 +275,46 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                 mHandler.sendMessage(mess);
                 break;
 
+        }
+    }
+
+    private void initnn() {
+
+        try {
+            /**
+             * IMKit SDK调用第二步
+             *
+             * 建立与服务器的连接
+             *
+             * 详见API
+             * http://docs.rongcloud.cn/api/android/imkit/index.html
+             */
+
+       String token1 = "goRD6aEizPwyMroHrDiNy0mKqBR0xzzHiUbhLnyx3yBK3kaUFLWcHXyretl2aBcdo5RjLCLkI6BGlT5sEFtMyDgGdR7yGDOY0c6/gCy2bR4=";
+            RongIM.connect(token1, new RongIMClient.ConnectCallback() {
+                        @Override
+                        public void onTokenIncorrect() {
+                            Log.e("LoginActivity", "---------onTokenIncorrect userId----------:");
+                        }
+
+                        @Override
+                        public void onSuccess(String userId) {
+                            Log.e("LoginActivity", "---------onSuccess userId----------:" + userId);
+
+                            RongCloudEvent.getInstance().setOtherListener();
+
+                        }
+
+                        @Override
+                        public void onError(RongIMClient.ErrorCode e) {
+                            mHandler.obtainMessage(HANDLER_LOGIN_FAILURE).sendToTarget();
+                            Log.e("LoginActivity", "---------onError ----------:" + e);
+                        }
+                    }
+            );
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -471,7 +513,8 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                         UserInfos customer = new UserInfos();
                         customer.setUsername("客服");
                         customer.setUserid("kefu114");
-                        customer.setPortrait("http://jdd.kefu.rongcloud.cn/image/service_80x80.png");
+                        customer.setPortrait("http://d.lanrentuku.com/down/png/1507/bi-tanta/pajaroalone.png");
+//                        customer.setPortrait("http://jdd.kefu.rongcloud.cn/image/service_80x80.png");
                         customer.setStatus("0");
                         friendsList.add(customer);
                         friendsList.add(addFriend);
