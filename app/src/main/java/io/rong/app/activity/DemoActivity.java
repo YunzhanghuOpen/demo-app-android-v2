@@ -9,15 +9,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import java.util.List;
 import java.util.Locale;
 
 import io.rong.app.DemoContext;
 import io.rong.app.R;
+import io.rong.app.database.DBManager;
+import io.rong.app.database.UserInfos;
+import io.rong.app.database.UserInfosDao;
 import io.rong.app.fragment.FriendMultiChoiceFragment;
 import io.rong.app.ui.LoadingDialog;
 import io.rong.app.ui.WinToast;
@@ -60,6 +63,7 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
     private LoadingDialog mDialog;
     private Handler mHandler;
     private boolean isDiscussion = false;
+    private UserInfosDao mUserInfosDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +80,7 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);
         mHandler = new Handler(this);
         Intent intent = getIntent();
+        mUserInfosDao = DBManager.getInstance(this).getDaoSession().getUserInfosDao();
 
         if (intent != null && intent.hasExtra("DEMO_COVERSATIONTYPE") && intent.hasExtra("DEMO_TARGETID")
                 && intent.hasExtra("DEMO_COVERSATION")) {
@@ -100,6 +105,7 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
             if (RongIM.getInstance() == null || RongIM.getInstance().getRongIMClient() == null) {
                 if (DemoContext.getInstance() != null) {
                     String token = DemoContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "defult");
+                    Log.e(TAG,"----token－－－－－reconnect------:"+token);
                     reconnect(token);
                 }
             } else {
@@ -175,19 +181,22 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
 
         mDialog = new LoadingDialog(this);
         mDialog.setCancelable(false);
-        mDialog.setText("connect_auto_reconnect");
+        mDialog.setText("正在连接中...");
+        Log.e(TAG,"----reconnect------:"+token);
         mDialog.show();
 
         try {
+            Log.e(TAG,"----reconnect----try--111111:");
             RongIM.connect(token, new RongIMClient.ConnectCallback() {
 
                 @Override
                 public void onTokenIncorrect() {
-
+                    Log.e(TAG, "----token－－－－－onTokenIncorrect------:");
                 }
 
                 @Override
                 public void onSuccess(String userId) {
+                    Log.e(TAG, "----token－－－－－onSuccess------:");
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -202,6 +211,7 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
 
                 @Override
                 public void onError(RongIMClient.ErrorCode e) {
+                    Log.e(TAG, "----token－－－－－onError------:");
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -210,8 +220,9 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
                     });
                 }
             });
-
+            Log.e(TAG, "----reconnect----try--222222:");
         } catch (Exception e) {
+            Log.e(TAG,"----reconnect----catch--:");
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -239,20 +250,20 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
             } else if (intent.getData() != null) {
                 if (intent.getData().getPathSegments().get(0).equals("conversation")) {
                     tag = "conversation";
-                    if (intent.getData().getLastPathSegment().equals("system")) {
-                        //注释掉的代码为不加输入框的聊天页面（此处作为示例）
-//                        String fragmentName = MessageListFragment.class.getCanonicalName();
-//                        fragment = Fragment.instantiate(this, fragmentName);
-                        startActivity(new Intent(DemoActivity.this, NewFriendListActivity.class));
-                        finish();
-                        List<Conversation> conversations = RongIM.getInstance().getRongIMClient().getConversationList(Conversation.ConversationType.SYSTEM);
-                        for (int i = 0; i < conversations.size(); i++) {
-                            RongIM.getInstance().getRongIMClient().clearMessagesUnreadStatus(Conversation.ConversationType.SYSTEM, conversations.get(i).getSenderUserId());
-                        }
-                    } else {
+//                    if (intent.getData().getLastPathSegment().equals("system")) {
+//                        //注释掉的代码为不加输入框的聊天页面（此处作为示例）
+////                        String fragmentName = MessageListFragment.class.getCanonicalName();
+////                        fragment = Fragment.instantiate(this, fragmentName);
+//                        startActivity(new Intent(DemoActivity.this, NewFriendListActivity.class));
+//                        finish();
+//                        List<Conversation> conversations = RongIM.getInstance().getRongIMClient().getConversationList(Conversation.ConversationType.SYSTEM);
+//                        for (int i = 0; i < conversations.size(); i++) {
+//                            RongIM.getInstance().getRongIMClient().clearMessagesUnreadStatus(Conversation.ConversationType.SYSTEM, conversations.get(i).getSenderUserId());
+//                        }
+//                    } else {
                         String fragmentName = ConversationFragment.class.getCanonicalName();
                         fragment = Fragment.instantiate(this, fragmentName);
-                    }
+//                    }
                 } else if (intent.getData().getLastPathSegment().equals("conversationlist")) {
                     tag = "conversationlist";
                     String fragmentName = ConversationListFragment.class.getCanonicalName();
@@ -292,8 +303,14 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
     protected void initData() {
         if (mConversationType != null) {
             if (mConversationType.equals(Conversation.ConversationType.PRIVATE)) {
-                if (DemoContext.getInstance() != null)
-                    getSupportActionBar().setTitle(DemoContext.getInstance().getUserInfoById(targetId).getName().toString());
+                if (DemoContext.getInstance() != null) {
+                    UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(targetId)).unique();
+                    if(userInfos == null){
+                        getSupportActionBar().setTitle("");
+                    }else{
+                        getSupportActionBar().setTitle(userInfos.getUsername().toString());
+                    }
+                }
             } else if (mConversationType.equals(Conversation.ConversationType.GROUP)) {
                 if (DemoContext.getInstance() != null) {
                     getSupportActionBar().setTitle(DemoContext.getInstance().getGroupNameById(targetId));
