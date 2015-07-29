@@ -124,6 +124,9 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
                             if (result == null)
                                 return false;
 
+                            if(mGroupMap == null)
+                                return false;
+
                             if (mGroupMap.containsKey(result.getId())) {
                                 RongIM.getInstance().startGroupChat(getActivity(), result.getId(), result.getName());
                             } else {

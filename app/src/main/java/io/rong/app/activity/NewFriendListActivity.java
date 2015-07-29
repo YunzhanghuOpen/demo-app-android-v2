@@ -124,14 +124,14 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
                                 mRequestFriendHttpRequest = DemoContext.getInstance().getDemoApi().processRequestFriend(mResultList.get(position).getId(), "1", new ApiCallback<Status>() {
                                     @Override
                                     public void onComplete(AbstractHttpRequest<Status> statusAbstractHttpRequest, Status status) {
-                                        ArrayList<UserInfo> friendreslist = new ArrayList<UserInfo>();
+
                                         UserInfo info = new UserInfo(mResultList.get(position).getId(), mResultList.get(position).getUsername(), mResultList.get(position).getPortrait() == null ? null : Uri.parse(mResultList.get(position).getPortrait()));
                                         if (DemoContext.getInstance() != null) {
-                                            friendreslist = DemoContext.getInstance().getFriendList();
-                                            friendreslist.add(info);
-
-//                                            DemoContext.getInstance().insertOrReplace(friendreslist);
-
+                                            if(DemoContext.getInstance().hasUserId(mResultList.get(position).getId())){
+                                                DemoContext.getInstance().updateUserInfos(mResultList.get(position).getId(), "1");
+                                            }else{
+                                                DemoContext.getInstance().insertOrReplaceUserInfo(info, "1");
+                                            }
                                             ApiResult apiResult = mResultList.get(position);
                                             apiResult.setStatus(1);
                                             mResultList.set(position, mResultList.get(position));
@@ -146,7 +146,8 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
 
                                     @Override
                                     public void onFailure(AbstractHttpRequest<Status> statusAbstractHttpRequest, BaseException e) {
-
+                                        if (mDialog != null)
+                                            mDialog.dismiss();
                                     }
                                 });
                             }
@@ -186,7 +187,10 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
         if (DemoContext.getInstance() != null) {
             //获取当前用户的 userid
             String userid = DemoContext.getInstance().getSharedPreferences().getString("DEMO_USERID", "defalte");
-            UserInfo userInfo = DemoContext.getInstance().getUserInfoById(userid);
+            String username = DemoContext.getInstance().getSharedPreferences().getString("DEMO_USER_NAME", "defalte");
+            String userportrait = DemoContext.getInstance().getSharedPreferences().getString("DEMO_USER_PORTRAIT", "defalte");
+
+            UserInfo userInfo = new UserInfo(userid,username,Uri.parse(userportrait));
             //把用户信息设置到消息体中，直接发送给对方，可以不设置，非必选项
             message.setUserInfo(userInfo);
             if (RongIM.getInstance() != null) {
@@ -272,6 +276,8 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
             case 1:
                 mResultList = (List<ApiResult>) msg.obj;
                 updateAdapter(mResultList);
+                if (mDialog != null)
+                    mDialog.dismiss();
                 break;
         }
         return false;

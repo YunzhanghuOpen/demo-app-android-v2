@@ -329,6 +329,8 @@
             android:name="RONG_CLOUD_APP_KEY"
             android:value="z3v5yqkbv8v30" />
 
+
+
         <!--end rongcloud-->
 
     </application>

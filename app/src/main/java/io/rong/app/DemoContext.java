@@ -177,6 +177,16 @@ public class DemoContext  {
         return new UserInfo(userInfos.getUserid(), userInfos.getUsername(), Uri.parse(userInfos.getPortrait()));
     }
 
+    public boolean hasUserId(String userId) {
+
+        UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
+
+        if (userInfos == null && userInfos.getUserid() == null) {
+            return false;
+        }
+
+        return true;
+    }
     /**
      * 获得好友列表
      *
@@ -185,7 +195,7 @@ public class DemoContext  {
     public ArrayList<UserInfo> getFriendList() {
         List<UserInfo> userInfoList = new ArrayList<>();
 
-        List<UserInfos> userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Status.eq("5")).list();
+        List<UserInfos> userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Status.eq("1")).list();
 
         if (userInfos == null)
             return null;

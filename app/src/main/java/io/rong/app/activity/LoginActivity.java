@@ -499,7 +499,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
 
                             userInfos.setUserid(friends.getResult().get(i).getId());
                             userInfos.setUsername(friends.getResult().get(i).getUsername());
-                            userInfos.setStatus("5");
+                            userInfos.setStatus("1");
                             if (friends.getResult().get(i).getPortrait() != null)
                                 userInfos.setPortrait(friends.getResult().get(i).getPortrait());
                             friendsList.add(userInfos);
@@ -513,9 +513,9 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                         UserInfos customer = new UserInfos();
                         customer.setUsername("客服");
                         customer.setUserid("kefu114");
-                        customer.setPortrait("http://d.lanrentuku.com/down/png/1507/bi-tanta/pajaroalone.png");
-//                        customer.setPortrait("http://jdd.kefu.rongcloud.cn/image/service_80x80.png");
+                        customer.setPortrait("http://jdd.kefu.rongcloud.cn/image/service_80x80.png");
                         customer.setStatus("0");
+
                         friendsList.add(customer);
                         friendsList.add(addFriend);
 
