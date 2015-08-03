@@ -221,9 +221,9 @@ public class ChoosePictureActivity extends Activity implements ListImageDirPopup
                     .getContentResolver();
 
             // 只查询jpeg和png的图片
-            Cursor mCursor = mContentResolver.query(mImageUri, null ,MediaStore.Images.Media.MIME_TYPE + "=? or "
+            Cursor mCursor = mContentResolver.query(mImageUri, null ,MediaStore.Images.Media.MIME_TYPE + "=? or "+MediaStore.Images.Media.MIME_TYPE + "=? or "
                             + MediaStore.Images.Media.MIME_TYPE + "=?",
-                    new String[] { "image/jpeg", "image/png" },
+                    new String[] { "image/jpeg","image/png" ,"image/bmp"},
                     MediaStore.Images.Media.DATE_ADDED +" DESC");
 
             Log.e("-----------------", mCursor.getCount() + "");
@@ -261,7 +261,8 @@ public class ChoosePictureActivity extends Activity implements ListImageDirPopup
                     public boolean accept(File dir, String filename) {
                         if (filename.endsWith(".jpg")
                                 || filename.endsWith(".png")
-                                || filename.endsWith(".jpeg"))
+                                || filename.endsWith(".jpeg")
+                                || filename.endsWith(".bmp"))
                             return true;
                         return false;
                     }
@@ -440,7 +441,7 @@ public class ChoosePictureActivity extends Activity implements ListImageDirPopup
             public boolean accept(File dir, String filename)
             {
                 if (filename.endsWith(".jpg") || filename.endsWith(".png")
-                        || filename.endsWith(".jpeg"))
+                        || filename.endsWith(".jpeg")|| filename.endsWith(".bmp"))
                     return true;
                 return false;
             }
