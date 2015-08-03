@@ -23,7 +23,7 @@ import io.rong.imlib.model.UserInfo;
 /**
  * Created by Bob on 2015/1/30.
  */
-public class DemoContext  {
+public class DemoContext {
 
     private static DemoContext mDemoContext;
     public Context mContext;
@@ -129,14 +129,16 @@ public class DemoContext  {
      * @return
      */
     public boolean searcheUserInfosById(String userId) {
+        if (userId != null) {
 
-        UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
+            UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
 
-        if (userInfos == null)
-            return false;
+            if (userInfos == null)
+                return false;
 
-        if (userInfos.getStatus().equals("1") || userInfos.getStatus().equals("3")|| userInfos.getStatus().equals("5")) {
-            return true;
+            if (userInfos.getStatus().equals("1") || userInfos.getStatus().equals("3") || userInfos.getStatus().equals("5")) {
+                return true;
+            }
         }
         return false;
     }
@@ -149,25 +151,30 @@ public class DemoContext  {
      */
     public UserInfo getUserInfoById(String userId) {
 
+        if (userId == null)
+            return null;
         UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
         if (userInfos == null && DemoContext.getInstance() != null) {
             return null;
         }
+
 
         return new UserInfo(userInfos.getUserid(), userInfos.getUsername(), Uri.parse(userInfos.getPortrait()));
     }
 
     public boolean hasUserId(String userId) {
 
+        if (userId != null) {
 
-        UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
+            UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
 
-        if (userInfos == null) {
-            return false;
+            if (userInfos == null) {
+                return false;
+            }
         }
-
         return true;
     }
+
     /**
      * 获得好友列表
      *
