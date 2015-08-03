@@ -100,7 +100,7 @@
 
     <string name="rc_send_format">发送(%1$s)</string>
     <string name="rc_yesterday_format">昨天 %1$s</string>
-    <string name="rc_waiting">等等中</string>
+    <string name="rc_waiting">等待中</string>
     <string name="rc_file_not_exist">文件不存在</string>
     <string name="rc_network_is_busy">网络繁忙</string>
     <string name="rc_network_error">网络连接错误</string>
@@ -113,8 +113,9 @@
     <string name="rc_called_accept">对方接受了通话请求</string>
     <string name="rc_plugins_voip">语音通话</string>
 
-  <string name="rc_notification_send">发来了</string>
+     <string name="rc_notification_send">发来了</string>
     <string name="rc_notification_msg">条消息</string>
     <string name="rc_notification_contact">个联系人</string>
     <string name="rc_notification_ticker_text">您有了一条新消息</string>
+
 </resources>
