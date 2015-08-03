@@ -11,11 +11,9 @@ import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 import com.sea_monster.network.ApiCallback;
 
-import java.util.ArrayList;
-
-import de.greenrobot.dao.query.QueryBuilder;
 import io.rong.app.activity.DePersonalDetailActivity;
 import io.rong.app.activity.MainActivity;
+import io.rong.app.activity.NewFriendListActivity;
 import io.rong.app.activity.PhotoActivity;
 import io.rong.app.activity.SOSOLocationActivity;
 import io.rong.app.database.DBManager;
@@ -32,7 +30,6 @@ import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.model.UIConversation;
 import io.rong.imkit.widget.provider.CameraInputProvider;
-import io.rong.imkit.widget.provider.ImageInputProvider;
 import io.rong.imkit.widget.provider.InputProvider;
 import io.rong.imkit.widget.provider.LocationInputProvider;
 import io.rong.imkit.widget.provider.VoIPInputProvider;
@@ -120,6 +117,8 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         RongIM.setGroupInfoProvider(this, true);//设置群组信息提供者。
         RongIM.setConversationBehaviorListener(this);//设置会话界面操作的监听器。
         RongIM.setLocationProvider(this);//设置地理位置提供者,不用位置的同学可以注掉此行代码
+        RongIM.setConversationListBehaviorListener(this);
+        RongIM.getInstance().setMessageAttachedUserInfo(true);
 //        RongIM.setPushMessageBehaviorListener(this);//自定义 push 通知。
     }
 
@@ -256,13 +255,6 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             ContactNotificationMessage contactContentMessage = (ContactNotificationMessage) messageContent;
             Log.d(TAG, "onReceived-ContactNotificationMessage:getExtra;" + contactContentMessage.getExtra());
             Log.d(TAG, "onReceived-ContactNotificationMessage:+getmessage:" + contactContentMessage.getMessage().toString());
-//            RongIM.getInstance().getRongIMClient().deleteMessages(new int[]{message.getMessageId()});
-//            if(DemoContext.getInstance()!=null) {
-//                RongIM.getInstance().getRongIMClient().removeConversation(Conversation.ConversationType.SYSTEM, "10000");
-//                String targetname = DemoContext.getInstance().getUserNameByUserId(contactContentMessage.getSourceUserId());
-//                RongIM.getInstance().getRongIMClient().insertMessage(Conversation.ConversationType.SYSTEM, "10000", contactContentMessage.getSourceUserId(), contactContentMessage, null);
-//
-//            }
             Intent in = new Intent();
             in.setAction(MainActivity.ACTION_DMEO_RECEIVE_MESSAGE);
             in.putExtra("rongCloud", contactContentMessage);
@@ -280,12 +272,15 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
      * @param deAgreedFriendRequestMessage
      */
     private void receiveAgreeSuccess(DeAgreedFriendRequestMessage deAgreedFriendRequestMessage) {
-        ArrayList<UserInfo> friendreslist = new ArrayList<UserInfo>();
         if (DemoContext.getInstance() != null) {
-            friendreslist = DemoContext.getInstance().getFriendList();
-            friendreslist.add(deAgreedFriendRequestMessage.getUserInfo());
+            if(deAgreedFriendRequestMessage.getUserInfo()!=null) {
+                if(DemoContext.getInstance().hasUserId(deAgreedFriendRequestMessage.getUserInfo().getUserId())){
+                    DemoContext.getInstance().updateUserInfos(deAgreedFriendRequestMessage.getUserInfo().getUserId(), "1");
+                }else{
+                    DemoContext.getInstance().insertOrReplaceUserInfo(deAgreedFriendRequestMessage.getUserInfo(), "1");
+                }
 
-//            DemoContext.getInstance().setFriends(friendreslist);
+            }
         }
         Intent in = new Intent();
         in.setAction(MainActivity.ACTION_DMEO_AGREE_REQUEST);
@@ -356,9 +351,6 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
          * demo 代码  开发者需替换成自己的代码。
          */
         mUserInfosDao = DBManager.getInstance(mContext).getDaoSession().getUserInfosDao();
-
-        QueryBuilder qb = mUserInfosDao.queryBuilder();
-        qb.where(UserInfosDao.Properties.Userid.eq(userId));
         UserInfos userInfo = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
 
         if (userInfo == null && DemoContext.getInstance() != null) {
@@ -511,6 +503,16 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
      */
     @Override
     public boolean onConversationClick(Context context, View view, UIConversation conversation) {
+        MessageContent messageContent =  conversation.getMessageContent();
+        if (messageContent instanceof TextMessage) {//文本消息
+
+            TextMessage textMessage = (TextMessage) messageContent;
+        }else if(messageContent instanceof  ContactNotificationMessage){
+            Log.e(TAG,"---onConversationClick--ContactNotificationMessage-");
+
+            context.startActivity(new Intent(context, NewFriendListActivity.class));
+            return true;
+        }
         return false;
     }
 

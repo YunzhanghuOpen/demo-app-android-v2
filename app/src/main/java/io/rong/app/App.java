@@ -6,14 +6,7 @@ import android.content.Context;
 
 import io.rong.app.message.DeAgreedFriendRequestMessage;
 import io.rong.app.message.DeContactNotificationMessageProvider;
-import io.rong.app.photo.PhotoCollectionsProvider;
-import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
-import io.rong.imkit.widget.provider.CameraInputProvider;
-import io.rong.imkit.widget.provider.InputProvider;
-import io.rong.imkit.widget.provider.LocationInputProvider;
-import io.rong.imkit.widget.provider.VoIPInputProvider;
-import io.rong.imlib.model.Conversation;
 
 /**
  * Created by Bob on 2015/1/30.
@@ -24,20 +17,20 @@ public class App extends Application {
     public void onCreate() {
 
         super.onCreate();
-        /**
-         * IMKit SDK调用第一步 初始化
-         * context上下文
-         */
-        RongIM.init(this);
-        /**d
-         * 融云SDK事件监听处理
-         */
-        RongCloudEvent.init(this);
-
-        DemoContext.init(this);
-
         //注册消息类型的时候判断当前的进程是否在主进程
         if ("io.rong.app".equals(getCurProcessName(getApplicationContext()))) {
+            /**
+             * IMKit SDK调用第一步 初始化
+             * context上下文
+             */
+            RongIM.init(this);
+
+            /**
+             * 融云SDK事件监听处理
+             */
+            RongCloudEvent.init(this);
+
+            DemoContext.init(this);
             try {
                 //注册自定义消息,注册完消息后可以收到自定义消息
                 RongIM.registerMessageType(DeAgreedFriendRequestMessage.class);
