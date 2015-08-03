@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import io.rong.app.App;
 import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.app.RongCloudEvent;
@@ -138,6 +139,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
     UserInfosDao mUserInfosDao;
     String userName;
     private boolean isFirst = false;
+    private boolean isSuccess = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -290,7 +292,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
              * http://docs.rongcloud.cn/api/android/imkit/index.html
              */
 
-       String token1 = "goRD6aEizPwyMroHrDiNy0mKqBR0xzzHiUbhLnyx3yBK3kaUFLWcHXyretl2aBcdo5RjLCLkI6BGlT5sEFtMyDgGdR7yGDOY0c6/gCy2bR4=";
+            String token1 = "goRD6aEizPwyMroHrDiNy0mKqBR0xzzHiUbhLnyx3yBK3kaUFLWcHXyretl2aBcdo5RjLCLkI6BGlT5sEFtMyDgGdR7yGDOY0c6/gCy2bR4=";
             RongIM.connect(token1, new RongIMClient.ConnectCallback() {
                         @Override
                         public void onTokenIncorrect() {
@@ -371,12 +373,9 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
 
     private void httpLoginSuccess(User user) {
 
-
         if (user.getCode() == 200) {
-
             getTokenHttpRequest = DemoContext.getInstance().getDemoApi().getToken(this);
         }
-
     }
 
 
@@ -392,46 +391,48 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
              * http://docs.rongcloud.cn/api/android/imkit/index.html
              */
             Log.e("LoginActivity", "---------onSuccess gettoken----------:" + token);
-            RongIM.connect(token, new RongIMClient.ConnectCallback() {
-                        @Override
-                        public void onTokenIncorrect() {
-                            Log.e("LoginActivity", "---------onTokenIncorrect userId----------:");
-                        }
-
-                        @Override
-                        public void onSuccess(String userId) {
-                            Log.e("LoginActivity", "---------onSuccess userId----------:" + userId);
-
-                            if (isFirst) {
-
-                                getUserInfoHttpRequest = DemoContext.getInstance().getDemoApi().getFriends(LoginActivity.this);
-                                DemoContext.getInstance().deleteUserInfos();
-
-                            } else {
-                                final List<UserInfos> list = mUserInfosDao.loadAll();
-                                if (list != null && list.size() > 0) {
-                                    mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
-                                } else {
-                                    //请求网络
-                                    getUserInfoHttpRequest = DemoContext.getInstance().getDemoApi().getFriends(LoginActivity.this);
-                                }
+            if ("io.rong.app".equals(App.getCurProcessName(getApplicationContext()))) {
+                RongIM.connect(token, new RongIMClient.ConnectCallback() {
+                            @Override
+                            public void onTokenIncorrect() {
+                                Log.e("LoginActivity", "---------onTokenIncorrect userId----------:");
                             }
-                            SharedPreferences.Editor edit = DemoContext.getInstance().getSharedPreferences().edit();
-                            edit.putString("DEMO_USERID", userId);
-                            edit.putString("DEMO_USERNAME", userName);
-                            edit.apply();
 
-                            RongCloudEvent.getInstance().setOtherListener();
+                            @Override
+                            public void onSuccess(String userId) {
+                                Log.e("LoginActivity", "---------onSuccess userId----------:" + userId);
+                                isSuccess = true;
+                                if (isFirst) {
+                                    getUserInfoHttpRequest = DemoContext.getInstance().getDemoApi().getFriends(LoginActivity.this);
+                                    DemoContext.getInstance().deleteUserInfos();
 
+                                } else {
+                                    final List<UserInfos> list = mUserInfosDao.loadAll();
+                                    if (list != null && list.size() > 0) {
+                                        mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
+                                    } else {
+                                        //请求网络
+                                        getUserInfoHttpRequest = DemoContext.getInstance().getDemoApi().getFriends(LoginActivity.this);
+                                    }
+                                }
+                                SharedPreferences.Editor edit = DemoContext.getInstance().getSharedPreferences().edit();
+                                edit.putString("DEMO_USERID", userId);
+                                edit.putString("DEMO_USERNAME", userName);
+                                edit.apply();
+
+                                RongCloudEvent.getInstance().setOtherListener();
+
+                            }
+
+                            @Override
+                            public void onError(RongIMClient.ErrorCode e) {
+                                isSuccess = false;
+                                mHandler.obtainMessage(HANDLER_LOGIN_FAILURE).sendToTarget();
+                                Log.e("LoginActivity", "---------onError ----------:" + e);
+                            }
                         }
-
-                        @Override
-                        public void onError(RongIMClient.ErrorCode e) {
-                            mHandler.obtainMessage(HANDLER_LOGIN_FAILURE).sendToTarget();
-                            Log.e("LoginActivity", "---------onError ----------:" + e);
-                        }
-                    }
-            );
+                );
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -542,7 +543,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
             final Groups groups = (Groups) obj;
 
             if (groups.getCode() == 200) {
-                List<Group> grouplist = new ArrayList<>();
+                List<Group> grouplist = new ArrayList<Group>();
                 if (groups.getResult() != null) {
                     for (int i = 0; i < groups.getResult().size(); i++) {
 
@@ -563,19 +564,21 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
 
                     if (DemoContext.getInstance() != null)
                         DemoContext.getInstance().setGroupMap(groupM);
+                    if (isSuccess) {
+                        if (grouplist.size() > 0) {
+                            RongIM.getInstance().getRongIMClient().syncGroup(grouplist, new RongIMClient.OperationCallback() {
+                                @Override
+                                public void onSuccess() {
+                                    Log.e(TAG, "---syncGroup-onSuccess---");
+                                }
 
-                    if (grouplist.size() > 0)
-                        RongIM.getInstance().getRongIMClient().syncGroup(grouplist, new RongIMClient.OperationCallback() {
-                            @Override
-                            public void onSuccess() {
-                                Log.e(TAG, "---syncGroup-onSuccess---");
-                            }
-
-                            @Override
-                            public void onError(RongIMClient.ErrorCode errorCode) {
-                                Log.e(TAG, "---syncGroup-onError---");
-                            }
-                        });
+                                @Override
+                                public void onError(RongIMClient.ErrorCode errorCode) {
+                                    Log.e(TAG, "---syncGroup-onError---");
+                                }
+                            });
+                        }
+                    }
                 }
             } else {
 //                    WinToast.toast(this, groups.getCode());

@@ -505,6 +505,20 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
         switch (item.getItemId()) {
             case R.id.add_item1://发起聊天
                 startActivity(new Intent(this, FriendListActivity.class));
+
+//                RongIM.getInstance().getRongIMClient().getNotificationQuietHours(new RongIMClient.GetNotificationQuietHoursCallback() {
+//                    @Override
+//                    public void onSuccess(String startTime, int spanMinutes) {
+//
+//                        Log.e(TAG,"-----onSuccess-dddd-----"+startTime);
+//                    }
+//
+//                    @Override
+//                    public void onError(RongIMClient.ErrorCode errorCode) {
+//                        Log.e(TAG,"-----onError--ddddd----"+errorCode);
+//                    }
+//                });
+
                 break;
             case R.id.add_item2://选择群组
 
@@ -616,7 +630,7 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
             final Groups groups = (Groups) obj;
 
             if (groups.getCode() == 200) {
-                List<Group> grouplist = new ArrayList<>();
+                List<Group> grouplist = new ArrayList<Group>();
                 if (groups.getResult() != null) {
                     for (int i = 0; i < groups.getResult().size(); i++) {
 

@@ -36,6 +36,7 @@ public class DePersonalDetailActivity extends BaseApiActivity implements View.On
     private AbstractHttpRequest<User> mUserHttpRequest;
     private LoadingDialog mDialog;
     private UserInfo user;
+    String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,19 +60,21 @@ public class DePersonalDetailActivity extends BaseApiActivity implements View.On
     protected void initData() {
         mAddFriend.setOnClickListener(this);
         mDialog = new LoadingDialog(this);
+        userID = DemoContext.getInstance().getSharedPreferences().getString("DEMO_USERID","defalt");
 
         if (getIntent().hasExtra("SEARCH_USERID")&&getIntent().hasExtra("SEARCH_USERNAME")&&getIntent().hasExtra("SEARCH_PORTRAIT")) {
-
+            String userid = getIntent().getStringExtra("SEARCH_USERID");
+            if(userid.equals(userID)){
+                mAddFriend.setVisibility(View.GONE);
+            }
             mFriendName.setText(getIntent().getStringExtra("SEARCH_USERNAME"));
             mFriendImg.setResource(new Resource(getIntent().getStringExtra("SEARCH_PORTRAIT")));
-
         }
 
         if (getIntent().hasExtra("USER")) {
             user = getIntent().getParcelableExtra("USER");
             mFriendName.setText(user.getName());
             mFriendImg.setResource(new Resource(user.getPortraitUri()));
-            String userID = DemoContext.getInstance().getSharedPreferences().getString("DEMO_USERID","defalt");
             if(user.getUserId().equals(userID)){
                 mAddFriend.setVisibility(View.GONE);
             }else if(user.getUserId().equals("kefu114")){

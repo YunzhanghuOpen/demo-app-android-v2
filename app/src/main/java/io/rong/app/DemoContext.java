@@ -29,8 +29,6 @@ public class DemoContext  {
     public Context mContext;
     private DemoApi mDemoApi;
     private HashMap<String, Group> groupMap;
-    private ArrayList<UserInfo> mUserInfos;
-    private ArrayList<UserInfo> mFriendInfos;
     private SharedPreferences mPreferences;
     private RongIM.LocationProvider.LocationCallback mLastLocationCallback;
     private UserInfosDao mUserInfosDao;
@@ -68,9 +66,6 @@ public class DemoContext  {
         return mPreferences;
     }
 
-    public void setSharedPreferences(SharedPreferences sharedPreferences) {
-        this.mPreferences = sharedPreferences;
-    }
 
     public void setGroupMap(HashMap<String, Group> groupMap) {
         this.groupMap = groupMap;
@@ -80,14 +75,6 @@ public class DemoContext  {
         return groupMap;
     }
 
-
-    public ArrayList<UserInfo> getUserInfos() {
-        return mUserInfos;
-    }
-
-    public void setUserInfos(ArrayList<UserInfo> userInfos) {
-        mUserInfos = userInfos;
-    }
 
     public DemoApi getDemoApi() {
         return mDemoApi;
@@ -135,13 +122,6 @@ public class DemoContext  {
         mUserInfosDao.insertOrReplace(userInfos);
     }
 
-    public void insertOrReplaceUserInfoList(ArrayList<UserInfo> list, String status) {
-
-        List<UserInfos> userInfos = new ArrayList<>();
-
-
-    }
-
     /**
      * 通过userid 查找 UserInfos,判断是否为好友，查找的是本地的数据库
      *
@@ -179,9 +159,10 @@ public class DemoContext  {
 
     public boolean hasUserId(String userId) {
 
+
         UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
 
-        if (userInfos == null && userInfos.getUserid() == null) {
+        if (userInfos == null) {
             return false;
         }
 
@@ -193,7 +174,7 @@ public class DemoContext  {
      * @return
      */
     public ArrayList<UserInfo> getFriendList() {
-        List<UserInfo> userInfoList = new ArrayList<>();
+        List<UserInfo> userInfoList = new ArrayList<UserInfo>();
 
         List<UserInfos> userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Status.eq("1")).list();
 
@@ -215,8 +196,8 @@ public class DemoContext  {
      */
     public ArrayList<UserInfo> getUserInfoList(String[] userIds) {
 
-        List<UserInfo> userInfoList = new ArrayList<>();
-        List<UserInfos> userInfosList = new ArrayList<>();
+        List<UserInfo> userInfoList = new ArrayList<UserInfo>();
+        List<UserInfos> userInfosList = new ArrayList<UserInfos>();
         UserInfo userInfo;
         UserInfos userInfos;
 

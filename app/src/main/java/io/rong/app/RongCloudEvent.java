@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
@@ -70,7 +72,7 @@ import io.rong.notification.PushNotificationMessage;
 public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListener, RongIM.OnSendMessageListener,
         RongIM.UserInfoProvider, RongIM.GroupInfoProvider, RongIM.ConversationBehaviorListener,
         RongIMClient.ConnectionStatusListener, RongIM.LocationProvider, RongIMClient.OnReceivePushMessageListener, RongIM.ConversationListBehaviorListener,
-        ApiCallback {
+        ApiCallback ,Handler.Callback  {
 
     private static final String TAG = RongCloudEvent.class.getSimpleName();
 
@@ -79,6 +81,8 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     private Context mContext;
     private UserInfosDao mUserInfosDao;
     private AbstractHttpRequest<User> getUserInfoByUserIdHttpRequest;
+    private AbstractHttpRequest<User> getFriendByUserIdHttpRequest;
+    private Handler mHandler;
 
     /**
      * 初始化 RongCloud.
@@ -106,6 +110,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     private RongCloudEvent(Context context) {
         mContext = context;
         initDefaultListener();
+        mHandler = new Handler(this);
     }
 
     /**
@@ -246,6 +251,8 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         } else if (messageContent instanceof InformationNotificationMessage) {//小灰条消息
             InformationNotificationMessage informationNotificationMessage = (InformationNotificationMessage) messageContent;
             Log.d(TAG, "onReceived-informationNotificationMessage:" + informationNotificationMessage.getMessage());
+            if(DemoContext.getInstance()!=null)
+                getFriendByUserIdHttpRequest = DemoContext.getInstance().getDemoApi().getUserInfoByUserId(message.getSenderUserId(), (ApiCallback<User>) this);
         } else if (messageContent instanceof DeAgreedFriendRequestMessage) {//好友添加成功消息
             DeAgreedFriendRequestMessage deAgreedFriendRequestMessage = (DeAgreedFriendRequestMessage) messageContent;
             Log.d(TAG, "onReceived-deAgreedFriendRequestMessage:" + deAgreedFriendRequestMessage.getMessage());
@@ -271,16 +278,16 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
      * @param deAgreedFriendRequestMessage
      */
     private void receiveAgreeSuccess(DeAgreedFriendRequestMessage deAgreedFriendRequestMessage) {
-        if (DemoContext.getInstance() != null) {
-            if(deAgreedFriendRequestMessage.getUserInfo()!=null) {
-                if(DemoContext.getInstance().hasUserId(deAgreedFriendRequestMessage.getUserInfo().getUserId())){
-                    DemoContext.getInstance().updateUserInfos(deAgreedFriendRequestMessage.getUserInfo().getUserId(), "1");
-                }else{
-                    DemoContext.getInstance().insertOrReplaceUserInfo(deAgreedFriendRequestMessage.getUserInfo(), "1");
-                }
-
-            }
-        }
+//        if (DemoContext.getInstance() != null) {
+//            if(deAgreedFriendRequestMessage.getUserInfo()!=null) {
+//                if(DemoContext.getInstance().hasUserId(deAgreedFriendRequestMessage.getUserInfo().getUserId())){
+//                    DemoContext.getInstance().updateUserInfos(deAgreedFriendRequestMessage.getUserInfo().getUserId(), "1");
+//                }else{
+//                    DemoContext.getInstance().insertOrReplaceUserInfo(deAgreedFriendRequestMessage.getUserInfo(), "1");
+//                }
+//
+//            }
+//        }
         Intent in = new Intent();
         in.setAction(MainActivity.ACTION_DMEO_AGREE_REQUEST);
         in.putExtra("AGREE_REQUEST", true);
@@ -345,7 +352,6 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
      */
     @Override
     public UserInfo getUserInfo(String userId) {
-
         /**
          * demo 代码  开发者需替换成自己的代码。
          */
@@ -543,11 +549,43 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                     mUserInfosDao.insertOrReplace(addFriend);
                 }
             }
+        }else if(getFriendByUserIdHttpRequest !=null && getFriendByUserIdHttpRequest.equals(abstractHttpRequest)){
+            Log.e(TAG,"-------hasUserId----000000-------");
+            if(obj instanceof  User){
+                final User user = (User) obj;
+                Log.e(TAG,"-------hasUserId------11111111-----");
+                if (user.getCode() == 200) {
+                    Log.e(TAG,"-------hasUserId------2222222-----");
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (DemoContext.getInstance() != null) {
+
+                                Log.e(TAG, "-------hasUserId--------is what---"+DemoContext.getInstance().hasUserId(user.getResult().getId()));
+                                if (DemoContext.getInstance().hasUserId(user.getResult().getId())) {
+                                    Log.e(TAG,"-------hasUserId-----------");
+                                    DemoContext.getInstance().updateUserInfos(user.getResult().getId(), "1");
+                                } else {
+                                    Log.e(TAG,"-------hasUserId---no--------");
+                                    UserInfo info = new UserInfo(user.getResult().getId(),user.getResult().getUsername(), Uri.parse(user.getResult().getPortrait()));
+                                    DemoContext.getInstance().insertOrReplaceUserInfo(info, "1");
+                                }
+                            }
+                        }
+                    });
+
+                }
+            }
         }
     }
 
     @Override
     public void onFailure(AbstractHttpRequest abstractHttpRequest, BaseException e) {
 
+    }
+
+    @Override
+    public boolean handleMessage(android.os.Message message) {
+        return false;
     }
 }

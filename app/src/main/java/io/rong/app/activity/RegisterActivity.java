@@ -258,6 +258,7 @@ public class RegisterActivity extends BaseApiActivity implements View.OnClickLis
 
             case R.id.de_left://登录
                 startActivity(new Intent(this,LoginActivity.class));
+                finish();
                 break;
             case R.id.de_right://忘记密码
                 WinToast.toast(this,"忘记密码");
