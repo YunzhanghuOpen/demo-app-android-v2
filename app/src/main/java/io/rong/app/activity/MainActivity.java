@@ -552,7 +552,7 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
 
 
                         if (RongIM.getInstance() != null) {
-                            RongIM.getInstance().disconnect(false);
+                            RongIM.getInstance().logout();
                         }
                         Process.killProcess(Process.myPid());
                     }
