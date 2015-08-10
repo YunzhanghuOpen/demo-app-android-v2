@@ -23,14 +23,12 @@ import io.rong.imlib.model.UserInfo;
 /**
  * Created by Bob on 2015/1/30.
  */
-public class DemoContext  {
+public class DemoContext {
 
     private static DemoContext mDemoContext;
     public Context mContext;
     private DemoApi mDemoApi;
     private HashMap<String, Group> groupMap;
-    private ArrayList<UserInfo> mUserInfos;
-    private ArrayList<UserInfo> mFriendInfos;
     private SharedPreferences mPreferences;
     private RongIM.LocationProvider.LocationCallback mLastLocationCallback;
     private UserInfosDao mUserInfosDao;
@@ -68,9 +66,6 @@ public class DemoContext  {
         return mPreferences;
     }
 
-    public void setSharedPreferences(SharedPreferences sharedPreferences) {
-        this.mPreferences = sharedPreferences;
-    }
 
     public void setGroupMap(HashMap<String, Group> groupMap) {
         this.groupMap = groupMap;
@@ -80,14 +75,6 @@ public class DemoContext  {
         return groupMap;
     }
 
-
-    public ArrayList<UserInfo> getUserInfos() {
-        return mUserInfos;
-    }
-
-    public void setUserInfos(ArrayList<UserInfo> userInfos) {
-        mUserInfos = userInfos;
-    }
 
     public DemoApi getDemoApi() {
         return mDemoApi;
@@ -135,13 +122,6 @@ public class DemoContext  {
         mUserInfosDao.insertOrReplace(userInfos);
     }
 
-    public void insertOrReplaceUserInfoList(ArrayList<UserInfo> list, String status) {
-
-        List<UserInfos> userInfos = new ArrayList<>();
-
-
-    }
-
     /**
      * 通过userid 查找 UserInfos,判断是否为好友，查找的是本地的数据库
      *
@@ -149,14 +129,16 @@ public class DemoContext  {
      * @return
      */
     public boolean searcheUserInfosById(String userId) {
+        if (userId != null) {
 
-        UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
+            UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
 
-        if (userInfos == null)
-            return false;
+            if (userInfos == null)
+                return false;
 
-        if (userInfos.getStatus().equals("1") || userInfos.getStatus().equals("3")|| userInfos.getStatus().equals("5")) {
-            return true;
+            if (userInfos.getStatus().equals("1") || userInfos.getStatus().equals("3") || userInfos.getStatus().equals("5")) {
+                return true;
+            }
         }
         return false;
     }
@@ -169,31 +151,37 @@ public class DemoContext  {
      */
     public UserInfo getUserInfoById(String userId) {
 
+        if (userId == null)
+            return null;
         UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
         if (userInfos == null && DemoContext.getInstance() != null) {
             return null;
         }
+
 
         return new UserInfo(userInfos.getUserid(), userInfos.getUsername(), Uri.parse(userInfos.getPortrait()));
     }
 
     public boolean hasUserId(String userId) {
 
-        UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
+        if (userId != null) {
 
-        if (userInfos == null && userInfos.getUserid() == null) {
-            return false;
+            UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
+
+            if (userInfos == null) {
+                return false;
+            }
         }
-
         return true;
     }
+
     /**
      * 获得好友列表
      *
      * @return
      */
     public ArrayList<UserInfo> getFriendList() {
-        List<UserInfo> userInfoList = new ArrayList<>();
+        List<UserInfo> userInfoList = new ArrayList<UserInfo>();
 
         List<UserInfos> userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Status.eq("1")).list();
 
@@ -215,8 +203,8 @@ public class DemoContext  {
      */
     public ArrayList<UserInfo> getUserInfoList(String[] userIds) {
 
-        List<UserInfo> userInfoList = new ArrayList<>();
-        List<UserInfos> userInfosList = new ArrayList<>();
+        List<UserInfo> userInfoList = new ArrayList<UserInfo>();
+        List<UserInfos> userInfosList = new ArrayList<UserInfos>();
         UserInfo userInfo;
         UserInfos userInfos;
 

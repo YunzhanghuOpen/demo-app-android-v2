@@ -62,7 +62,7 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);
         mNewFriendList = (ListView) findViewById(R.id.de_new_friend_list);
         mDialog = new LoadingDialog(this);
-        mResultList = new ArrayList<>();
+        mResultList = new ArrayList<ApiResult>();
         mHandler = new Handler(this);
 
         if (DemoContext.getInstance() != null) {
@@ -98,6 +98,17 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
                 }
             }
         } else if (mRequestFriendHttpRequest == request) {
+
+        }
+    }
+
+    @Override
+    public void onCallApiFailure(AbstractHttpRequest request, BaseException e) {
+        if (getFriendHttpRequest == request) {
+            if (mDialog != null)
+                mDialog.dismiss();
+            Log.e(TAG,"-----onCallApiFailure------e:"+e);
+            WinToast.toast(this, "获取失败");
         }
     }
 
@@ -124,30 +135,39 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
                                 mRequestFriendHttpRequest = DemoContext.getInstance().getDemoApi().processRequestFriend(mResultList.get(position).getId(), "1", new ApiCallback<Status>() {
                                     @Override
                                     public void onComplete(AbstractHttpRequest<Status> statusAbstractHttpRequest, Status status) {
+                                        Log.e(TAG, "----mRequestFriendHttpRequest----onComplete---");
 
-                                        UserInfo info = new UserInfo(mResultList.get(position).getId(), mResultList.get(position).getUsername(), mResultList.get(position).getPortrait() == null ? null : Uri.parse(mResultList.get(position).getPortrait()));
-                                        if (DemoContext.getInstance() != null) {
-                                            if(DemoContext.getInstance().hasUserId(mResultList.get(position).getId())){
-                                                DemoContext.getInstance().updateUserInfos(mResultList.get(position).getId(), "1");
-                                            }else{
-                                                DemoContext.getInstance().insertOrReplaceUserInfo(info, "1");
+                                        ApiResult apiResult = mResultList.get(position);
+                                        apiResult.setStatus(1);
+                                        mResultList.set(position, mResultList.get(position));
+
+                                        Message mess = Message.obtain();
+                                        mess.obj = mResultList;
+                                        mess.what = 1;
+                                        mHandler.sendMessage(mess);
+                                        mHandler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                UserInfo info = new UserInfo(mResultList.get(position).getId(), mResultList.get(position).getUsername(), mResultList.get(position).getPortrait() == null ? null : Uri.parse(mResultList.get(position).getPortrait()));
+                                                if (DemoContext.getInstance() != null) {
+                                                    if (DemoContext.getInstance().hasUserId(mResultList.get(position).getId())) {
+                                                        DemoContext.getInstance().updateUserInfos(mResultList.get(position).getId(), "1");
+                                                    } else {
+                                                        DemoContext.getInstance().insertOrReplaceUserInfo(info, "1");
+                                                    }
+                                                }
+                                                sendMessage(mResultList.get(position).getId());
                                             }
-                                            ApiResult apiResult = mResultList.get(position);
-                                            apiResult.setStatus(1);
-                                            mResultList.set(position, mResultList.get(position));
-
-                                            Message mess = Message.obtain();
-                                            mess.obj = mResultList;
-                                            mess.what = 1;
-                                            mHandler.sendMessage(mess);
-                                        }
-                                        sendMessage(mResultList.get(position).getId());
+                                        });
                                     }
 
                                     @Override
                                     public void onFailure(AbstractHttpRequest<Status> statusAbstractHttpRequest, BaseException e) {
-                                        if (mDialog != null)
-                                            mDialog.dismiss();
+                                        if(mRequestFriendHttpRequest!=null&& mRequestFriendHttpRequest.equals(statusAbstractHttpRequest)){
+                                            Log.e(TAG,"----mRequestFriendHttpRequest----onFailure---"+e);
+//                                            if (mDialog != null)
+//                                                mDialog.dismiss();
+                                        }
                                     }
                                 });
                             }
@@ -165,17 +185,6 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
             return false;
         }
     };
-
-
-    @Override
-    public void onCallApiFailure(AbstractHttpRequest request, BaseException e) {
-        if (getFriendHttpRequest == request) {
-            if (mDialog != null)
-                mDialog.dismiss();
-            WinToast.toast(this, "获取失败");
-        }
-    }
-
 
     /**
      * 添加好友成功后，向对方发送一条消息
@@ -200,15 +209,12 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
                     @Override
                     public void onError(Integer messageId, RongIMClient.ErrorCode e) {
                         Log.e(TAG, Constants.DEBUG + "------DeAgreedFriendRequestMessage----onError--");
-                        if (mDialog != null)
-                            mDialog.dismiss();
                     }
 
                     @Override
                     public void onSuccess(Integer integer) {
                         Log.e(TAG, Constants.DEBUG + "------DeAgreedFriendRequestMessage----onSuccess--" + message.getMessage());
-                        if (mDialog != null)
-                            mDialog.dismiss();
+
                     }
                 });
             }
@@ -260,13 +266,10 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
                 Intent intent = new Intent(NewFriendListActivity.this, SearchFriendActivity.class);
                 startActivityForResult(intent, Constants.FRIENDLIST_REQUESTCODE);
                 break;
-
             case android.R.id.home:
                 finish();
-
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

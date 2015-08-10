@@ -93,7 +93,8 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
             }
         }
         //push或通知过来
-        if (intent != null && intent.getData() != null && intent.getData().getScheme().equals("rong") && intent.getData().getQueryParameter("push") != null) {
+        if (intent != null && intent.getData() != null && intent.getData().getScheme().equals("rong")
+                && intent.getData().getQueryParameter("push") != null) {
             //通过intent.getData().getQueryParameter("push") 为true，判断是否是push消息
             if (DemoContext.getInstance() != null && intent.getData().getQueryParameter("push").equals("true")) {
                 enterActivity(intent);
@@ -105,7 +106,7 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
             if (RongIM.getInstance() == null || RongIM.getInstance().getRongIMClient() == null) {
                 if (DemoContext.getInstance() != null) {
                     String token = DemoContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "defult");
-                    Log.e(TAG,"----token－－－－－reconnect------:"+token);
+                    Log.e(TAG, "----token－－－－－reconnect------:" + token);
                     reconnect(token);
                 }
             } else {
@@ -182,11 +183,11 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
         mDialog = new LoadingDialog(this);
         mDialog.setCancelable(false);
         mDialog.setText("正在连接中...");
-        Log.e(TAG,"----reconnect------:"+token);
+        Log.e(TAG, "----reconnect------:" + token);
         mDialog.show();
 
         try {
-            Log.e(TAG,"----reconnect----try--111111:");
+            Log.e(TAG, "----reconnect----try--111111:");
             RongIM.connect(token, new RongIMClient.ConnectCallback() {
 
                 @Override
@@ -222,7 +223,7 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
             });
             Log.e(TAG, "----reconnect----try--222222:");
         } catch (Exception e) {
-            Log.e(TAG,"----reconnect----catch--:");
+            Log.e(TAG, "----reconnect----catch--:");
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -250,20 +251,8 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
             } else if (intent.getData() != null) {
                 if (intent.getData().getPathSegments().get(0).equals("conversation")) {
                     tag = "conversation";
-//                    if (intent.getData().getLastPathSegment().equals("system")) {
-//                        //注释掉的代码为不加输入框的聊天页面（此处作为示例）
-////                        String fragmentName = MessageListFragment.class.getCanonicalName();
-////                        fragment = Fragment.instantiate(this, fragmentName);
-//                        startActivity(new Intent(DemoActivity.this, NewFriendListActivity.class));
-//                        finish();
-//                        List<Conversation> conversations = RongIM.getInstance().getRongIMClient().getConversationList(Conversation.ConversationType.SYSTEM);
-//                        for (int i = 0; i < conversations.size(); i++) {
-//                            RongIM.getInstance().getRongIMClient().clearMessagesUnreadStatus(Conversation.ConversationType.SYSTEM, conversations.get(i).getSenderUserId());
-//                        }
-//                    } else {
-                        String fragmentName = ConversationFragment.class.getCanonicalName();
-                        fragment = Fragment.instantiate(this, fragmentName);
-//                    }
+                    String fragmentName = ConversationFragment.class.getCanonicalName();
+                    fragment = Fragment.instantiate(this, fragmentName);
                 } else if (intent.getData().getLastPathSegment().equals("conversationlist")) {
                     tag = "conversationlist";
                     String fragmentName = ConversationListFragment.class.getCanonicalName();
@@ -305,9 +294,9 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
             if (mConversationType.equals(Conversation.ConversationType.PRIVATE)) {
                 if (DemoContext.getInstance() != null) {
                     UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(targetId)).unique();
-                    if(userInfos == null){
+                    if (userInfos == null) {
                         getSupportActionBar().setTitle("");
-                    }else{
+                    } else {
                         getSupportActionBar().setTitle(userInfos.getUsername().toString());
                     }
                 }
@@ -325,9 +314,9 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
 
                         @Override
                         public void onError(RongIMClient.ErrorCode e) {
-                            if(e.equals(RongIMClient.ErrorCode.NOT_IN_DISCUSSION)){
+                            if (e.equals(RongIMClient.ErrorCode.NOT_IN_DISCUSSION)) {
                                 getSupportActionBar().setTitle("不在讨论组中");
-                                isDiscussion  = true;
+                                isDiscussion = true;
                                 supportInvalidateOptionsMenu();
                             }
 
@@ -347,32 +336,34 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
                 getSupportActionBar().setTitle("客服");
             } else if (mConversationType.equals(Conversation.ConversationType.APP_PUBLIC_SERVICE)) {
                 if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
-                    RongIM.getInstance().getRongIMClient().getPublicServiceProfile(Conversation.PublicServiceType.APP_PUBLIC_SERVICE, targetId, new RongIMClient.ResultCallback<PublicServiceInfo>() {
-                        @Override
-                        public void onSuccess(PublicServiceInfo publicServiceInfo) {
-                            getSupportActionBar().setTitle(publicServiceInfo.getName().toString());
-                        }
+                    RongIM.getInstance().getRongIMClient().getPublicServiceProfile(Conversation.PublicServiceType.APP_PUBLIC_SERVICE,
+                            targetId, new RongIMClient.ResultCallback<PublicServiceInfo>() {
+                                @Override
+                                public void onSuccess(PublicServiceInfo publicServiceInfo) {
+                                    getSupportActionBar().setTitle(publicServiceInfo.getName().toString());
+                                }
 
-                        @Override
-                        public void onError(RongIMClient.ErrorCode errorCode) {
+                                @Override
+                                public void onError(RongIMClient.ErrorCode errorCode) {
 
-                        }
-                    });
+                                }
+                            });
                 }
 
             } else if (mConversationType.equals(Conversation.ConversationType.PUBLIC_SERVICE)) {
                 if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
-                    RongIM.getInstance().getRongIMClient().getPublicServiceProfile(Conversation.PublicServiceType.PUBLIC_SERVICE, targetId, new RongIMClient.ResultCallback<PublicServiceInfo>() {
-                        @Override
-                        public void onSuccess(PublicServiceInfo publicServiceInfo) {
-                            getSupportActionBar().setTitle(publicServiceInfo.getName().toString());
-                        }
+                    RongIM.getInstance().getRongIMClient().getPublicServiceProfile(Conversation.PublicServiceType.PUBLIC_SERVICE,
+                            targetId, new RongIMClient.ResultCallback<PublicServiceInfo>() {
+                                @Override
+                                public void onSuccess(PublicServiceInfo publicServiceInfo) {
+                                    getSupportActionBar().setTitle(publicServiceInfo.getName().toString());
+                                }
 
-                        @Override
-                        public void onError(RongIMClient.ErrorCode errorCode) {
+                                @Override
+                                public void onError(RongIMClient.ErrorCode errorCode) {
 
-                        }
-                    });
+                                }
+                            });
                 }
             }
 
@@ -459,7 +450,7 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
         if (mConversationType != null) {
             if (mConversationType.equals(Conversation.ConversationType.CHATROOM)) {
                 menu.getItem(0).setVisible(false);
-            } else if (mConversationType.equals(Conversation.ConversationType.DISCUSSION)&&isDiscussion) {
+            } else if (mConversationType.equals(Conversation.ConversationType.DISCUSSION) && isDiscussion) {
                 menu.getItem(0).setVisible(false);
             }
         }
@@ -473,7 +464,8 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
                 if (mConversationType == null) {
                     return false;
                 }
-                if (mConversationType == Conversation.ConversationType.PUBLIC_SERVICE || mConversationType == Conversation.ConversationType.APP_PUBLIC_SERVICE) {
+                if (mConversationType == Conversation.ConversationType.PUBLIC_SERVICE
+                        || mConversationType == Conversation.ConversationType.APP_PUBLIC_SERVICE) {
                     RongIM.getInstance().startPublicServiceProfile(this, mConversationType, targetId);
                 } else {
                     //通过targetId 和 会话类型 打开指定的设置页面
@@ -521,7 +513,7 @@ public class DemoActivity extends BaseActivity implements Handler.Callback {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-               super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
 
 
     }

@@ -12,6 +12,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.sea_monster.exception.BaseException;
+import com.sea_monster.network.AbstractHttpRequest;
+import com.sea_monster.resource.Resource;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +30,6 @@ import io.rong.imkit.RongIM;
 import io.rong.imkit.widget.AsyncImageView;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.UserInfo;
-import com.sea_monster.exception.BaseException;
-import com.sea_monster.network.AbstractHttpRequest;
-import com.sea_monster.resource.Resource;
 
 /**
  * Created by Bob on 2015/4/7.
@@ -73,7 +74,7 @@ public class PersonalDetailActivity extends BaseApiActivity implements View.OnCl
         mPersonalsignature = (TextView) findViewById(R.id.personal_signature);
         mSendMessage = (Button) findViewById(R.id.send_message);
         mSendVoip = (Button) findViewById(R.id.send_voip);
-        mUserInfoList = new ArrayList<>();
+        mUserInfoList = new ArrayList<UserInfo>();
         mDialog = new LoadingDialog(this);
     }
 

@@ -34,6 +34,8 @@ import io.rong.app.parser.GsonParser;
 public class DemoApi extends BaseApi {
     //        private static String HOST = "http://119.254.110.241:80/";
     private static String   HOST = "http://webim.demo.rong.io/";
+//    private static String   HOST = "http://119.254.110.114:7000/";
+
 
     private final static String DEMO_LOGIN_EMAIL = "email_login";
     private final static String DEMO_FRIENDS = "get_friend";
@@ -57,7 +59,6 @@ public class DemoApi extends BaseApi {
 
     public DemoApi(Context context) {
         super(NetworkManager.getInstance(), context);
-//        HOST = "http://webim.demo.rong.io/";
     }
 
 
@@ -309,7 +310,7 @@ public class DemoApi extends BaseApi {
         nameValuePairs.add(new BasicNameValuePair("message", message));
 
         ApiReqeust<User> apiReqeust = new DefaultApiReqeust<User>(ApiReqeust.POST_METHOD, URI.create(HOST + DEMO_REQUEST_FRIEND), nameValuePairs, callback);
-        AbstractHttpRequest<User> httpRequest = apiReqeust.obtainRequest(new GsonParser<>(User.class), mAuthType);
+        AbstractHttpRequest<User> httpRequest = apiReqeust.obtainRequest(new GsonParser<User>(User.class), mAuthType);
         NetworkManager.getInstance().requestAsync(httpRequest);
 
         return httpRequest;

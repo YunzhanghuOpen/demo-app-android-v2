@@ -1,9 +1,14 @@
 package io.rong.app;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
@@ -29,7 +34,6 @@ import io.rong.imkit.PushNotificationManager;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.model.UIConversation;
-import io.rong.imkit.widget.provider.CameraInputProvider;
 import io.rong.imkit.widget.provider.InputProvider;
 import io.rong.imkit.widget.provider.LocationInputProvider;
 import io.rong.imkit.widget.provider.VoIPInputProvider;
@@ -71,7 +75,7 @@ import io.rong.notification.PushNotificationMessage;
 public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListener, RongIM.OnSendMessageListener,
         RongIM.UserInfoProvider, RongIM.GroupInfoProvider, RongIM.ConversationBehaviorListener,
         RongIMClient.ConnectionStatusListener, RongIM.LocationProvider, RongIMClient.OnReceivePushMessageListener, RongIM.ConversationListBehaviorListener,
-        ApiCallback {
+        ApiCallback, Handler.Callback {
 
     private static final String TAG = RongCloudEvent.class.getSimpleName();
 
@@ -80,6 +84,8 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     private Context mContext;
     private UserInfosDao mUserInfosDao;
     private AbstractHttpRequest<User> getUserInfoByUserIdHttpRequest;
+    private AbstractHttpRequest<User> getFriendByUserIdHttpRequest;
+    private Handler mHandler;
 
     /**
      * 初始化 RongCloud.
@@ -107,6 +113,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     private RongCloudEvent(Context context) {
         mContext = context;
         initDefaultListener();
+        mHandler = new Handler(this);
     }
 
     /**
@@ -140,10 +147,15 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 new VoIPInputProvider(RongContext.getInstance()),// 语音通话
                 new ContactsProvider(RongContext.getInstance())//通讯录
         };
+        InputProvider.ExtendProvider[] provider1 = {
+                new PhotoCollectionsProvider(RongContext.getInstance()),//图片
+                new NewCameraInputProvider(RongContext.getInstance()),//相机
+                new LocationInputProvider(RongContext.getInstance()),//地理位置
+        };
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.PRIVATE, provider);
-        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.DISCUSSION, provider);
-        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.GROUP, provider);
-        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.CUSTOMER_SERVICE, provider);
+        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.DISCUSSION, provider1);
+        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.GROUP, provider1);
+        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.CUSTOMER_SERVICE, provider1);
 //        RongIM.getInstance().setPrimaryInputProvider(new InputTestProvider((RongContext) mContext));
 
 
@@ -161,45 +173,45 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
         PushNotificationManager.getInstance().onReceivePush(msg);
 
-//        Intent intent = new Intent();
-//        Uri uri;
-//
-//        intent.setAction(Intent.ACTION_VIEW);
-//
-//        Conversation.ConversationType conversationType = msg.getConversationType();
-//
-//        uri = Uri.parse("rong://" + RongContext.getInstance().getPackageName()).buildUpon().appendPath("conversationlist").build();
-//        intent.setData(uri);
-//        Log.d(TAG, "onPushMessageArrive-url:" + uri.toString());
-//
-//        Notification notification=null;
-//
-//        PendingIntent pendingIntent = PendingIntent.getActivity(RongContext.getInstance(), 0,
-//                intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//
-//        if (android.os.Build.VERSION.SDK_INT < 11) {
-//            notification = new Notification(RongContext.getInstance().getApplicationInfo().icon, "自定义 notification", System.currentTimeMillis());
-//
-//            notification.setLatestEventInfo(RongContext.getInstance(), "自定义 title", "这是 Content:"+msg.getObjectName(), pendingIntent);
-//            notification.flags = Notification.FLAG_AUTO_CANCEL;
-//            notification.defaults = Notification.DEFAULT_SOUND;
-//        } else {
-//
-//             notification = new Notification.Builder(RongContext.getInstance())
-//                    .setLargeIcon(getAppIcon())
-//                    .setSmallIcon(R.drawable.ic_launcher)
-//                    .setTicker("自定义 notification")
-//                    .setContentTitle("自定义 title")
-//                    .setContentText("这是 Content:"+msg.getObjectName())
-//                    .setContentIntent(pendingIntent)
-//                    .setAutoCancel(true)
-//                    .setDefaults(Notification.DEFAULT_ALL).build();
-//
-//        }
-//
-//        NotificationManager nm = (NotificationManager) RongContext.getInstance().getSystemService(RongContext.getInstance().NOTIFICATION_SERVICE);
-//
-//        nm.notify(0, notification);
+        Intent intent = new Intent();
+        Uri uri;
+
+        intent.setAction(Intent.ACTION_VIEW);
+
+        Conversation.ConversationType conversationType = msg.getConversationType();
+
+        uri = Uri.parse("rong://" + RongContext.getInstance().getPackageName()).buildUpon().appendPath("conversationlist").build();
+        intent.setData(uri);
+        Log.d(TAG, "onPushMessageArrive-url:" + uri.toString());
+
+        Notification notification=null;
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(RongContext.getInstance(), 0,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        if (android.os.Build.VERSION.SDK_INT < 11) {
+            notification = new Notification(RongContext.getInstance().getApplicationInfo().icon, "自定义 notification", System.currentTimeMillis());
+
+            notification.setLatestEventInfo(RongContext.getInstance(), "自定义 title", "这是 Content:"+msg.getObjectName(), pendingIntent);
+            notification.flags = Notification.FLAG_AUTO_CANCEL;
+            notification.defaults = Notification.DEFAULT_SOUND;
+        } else {
+
+             notification = new Notification.Builder(RongContext.getInstance())
+                    .setLargeIcon(getAppIcon())
+                    .setSmallIcon(R.drawable.ic_launcher)
+                    .setTicker("自定义 notification")
+                    .setContentTitle("自定义 title")
+                    .setContentText("这是 Content:"+msg.getObjectName())
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .setDefaults(Notification.DEFAULT_ALL).build();
+
+        }
+
+        NotificationManager nm = (NotificationManager) RongContext.getInstance().getSystemService(RongContext.getInstance().NOTIFICATION_SERVICE);
+
+        nm.notify(0, notification);
 
         return true;
     }
@@ -247,6 +259,8 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         } else if (messageContent instanceof InformationNotificationMessage) {//小灰条消息
             InformationNotificationMessage informationNotificationMessage = (InformationNotificationMessage) messageContent;
             Log.d(TAG, "onReceived-informationNotificationMessage:" + informationNotificationMessage.getMessage());
+            if (DemoContext.getInstance() != null)
+                getFriendByUserIdHttpRequest = DemoContext.getInstance().getDemoApi().getUserInfoByUserId(message.getSenderUserId(), (ApiCallback<User>) this);
         } else if (messageContent instanceof DeAgreedFriendRequestMessage) {//好友添加成功消息
             DeAgreedFriendRequestMessage deAgreedFriendRequestMessage = (DeAgreedFriendRequestMessage) messageContent;
             Log.d(TAG, "onReceived-deAgreedFriendRequestMessage:" + deAgreedFriendRequestMessage.getMessage());
@@ -272,16 +286,16 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
      * @param deAgreedFriendRequestMessage
      */
     private void receiveAgreeSuccess(DeAgreedFriendRequestMessage deAgreedFriendRequestMessage) {
-        if (DemoContext.getInstance() != null) {
-            if(deAgreedFriendRequestMessage.getUserInfo()!=null) {
-                if(DemoContext.getInstance().hasUserId(deAgreedFriendRequestMessage.getUserInfo().getUserId())){
-                    DemoContext.getInstance().updateUserInfos(deAgreedFriendRequestMessage.getUserInfo().getUserId(), "1");
-                }else{
-                    DemoContext.getInstance().insertOrReplaceUserInfo(deAgreedFriendRequestMessage.getUserInfo(), "1");
-                }
-
-            }
-        }
+//        if (DemoContext.getInstance() != null) {
+//            if(deAgreedFriendRequestMessage.getUserInfo()!=null) {
+//                if(DemoContext.getInstance().hasUserId(deAgreedFriendRequestMessage.getUserInfo().getUserId())){
+//                    DemoContext.getInstance().updateUserInfos(deAgreedFriendRequestMessage.getUserInfo().getUserId(), "1");
+//                }else{
+//                    DemoContext.getInstance().insertOrReplaceUserInfo(deAgreedFriendRequestMessage.getUserInfo(), "1");
+//                }
+//
+//            }
+//        }
         Intent in = new Intent();
         in.setAction(MainActivity.ACTION_DMEO_AGREE_REQUEST);
         in.putExtra("AGREE_REQUEST", true);
@@ -313,7 +327,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             } else if (sentMessageErrorCode == RongIM.SentMessageErrorCode.NOT_IN_GROUP) {//不在群组
 
             } else if (sentMessageErrorCode == RongIM.SentMessageErrorCode.REJECTED_BY_BLACKLIST) {//你在他的黑名单中
-                WinToast.toast(mContext,"你在对方的黑名单中");
+                WinToast.toast(mContext, "你在对方的黑名单中");
             }
         }
 
@@ -346,17 +360,17 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
      */
     @Override
     public UserInfo getUserInfo(String userId) {
-
         /**
          * demo 代码  开发者需替换成自己的代码。
          */
         mUserInfosDao = DBManager.getInstance(mContext).getDaoSession().getUserInfosDao();
+        if (userId == null)
+            return null;
         UserInfos userInfo = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
 
         if (userInfo == null && DemoContext.getInstance() != null) {
             getUserInfoByUserIdHttpRequest = DemoContext.getInstance().getDemoApi().getUserInfoByUserId(userId, (ApiCallback<User>) this);
         }
-
         return DemoContext.getInstance().getUserInfoById(userId);
     }
 
@@ -394,9 +408,9 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
          * demo 代码  开发者需替换成自己的代码。
          */
         if (user != null) {
-            if(conversationType.equals(Conversation.ConversationType.PUBLIC_SERVICE)||conversationType.equals(Conversation.ConversationType.APP_PUBLIC_SERVICE)){
+            if (conversationType.equals(Conversation.ConversationType.PUBLIC_SERVICE) || conversationType.equals(Conversation.ConversationType.APP_PUBLIC_SERVICE)) {
                 RongIM.getInstance().startPublicServiceProfile(mContext, conversationType, user.getUserId());
-            }else {
+            } else {
                 Intent in = new Intent(context, DePersonalDetailActivity.class);
                 in.putExtra("USER", user);
                 in.putExtra("SEARCH_USERID", user.getUserId());
@@ -503,12 +517,12 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
      */
     @Override
     public boolean onConversationClick(Context context, View view, UIConversation conversation) {
-        MessageContent messageContent =  conversation.getMessageContent();
+        MessageContent messageContent = conversation.getMessageContent();
         if (messageContent instanceof TextMessage) {//文本消息
 
             TextMessage textMessage = (TextMessage) messageContent;
-        }else if(messageContent instanceof  ContactNotificationMessage){
-            Log.e(TAG,"---onConversationClick--ContactNotificationMessage-");
+        } else if (messageContent instanceof ContactNotificationMessage) {
+            Log.e(TAG, "---onConversationClick--ContactNotificationMessage-");
 
             context.startActivity(new Intent(context, NewFriendListActivity.class));
             return true;
@@ -544,11 +558,43 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                     mUserInfosDao.insertOrReplace(addFriend);
                 }
             }
+        } else if (getFriendByUserIdHttpRequest != null && getFriendByUserIdHttpRequest.equals(abstractHttpRequest)) {
+            Log.e(TAG, "-------hasUserId----000000-------");
+            if (obj instanceof User) {
+                final User user = (User) obj;
+                Log.e(TAG, "-------hasUserId------11111111-----");
+                if (user.getCode() == 200) {
+                    Log.e(TAG, "-------hasUserId------2222222-----");
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (DemoContext.getInstance() != null) {
+
+                                Log.e(TAG, "-------hasUserId--------is what---" + DemoContext.getInstance().hasUserId(user.getResult().getId()));
+                                if (DemoContext.getInstance().hasUserId(user.getResult().getId())) {
+                                    Log.e(TAG, "-------hasUserId-----------");
+                                    DemoContext.getInstance().updateUserInfos(user.getResult().getId(), "1");
+                                } else {
+                                    Log.e(TAG, "-------hasUserId---no--------");
+                                    UserInfo info = new UserInfo(user.getResult().getId(), user.getResult().getUsername(), Uri.parse(user.getResult().getPortrait()));
+                                    DemoContext.getInstance().insertOrReplaceUserInfo(info, "1");
+                                }
+                            }
+                        }
+                    });
+
+                }
+            }
         }
     }
 
     @Override
     public void onFailure(AbstractHttpRequest abstractHttpRequest, BaseException e) {
 
+    }
+
+    @Override
+    public boolean handleMessage(android.os.Message message) {
+        return false;
     }
 }
