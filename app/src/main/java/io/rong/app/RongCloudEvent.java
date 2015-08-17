@@ -125,7 +125,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         RongIM.setLocationProvider(this);//设置地理位置提供者,不用位置的同学可以注掉此行代码
         RongIM.setConversationListBehaviorListener(this);
         RongIM.getInstance().setMessageAttachedUserInfo(true);
-//        RongIM.setPushMessageBehaviorListener(this);//自定义 push 通知。
+//        RongIM.setOnReceivePushMessageListener(this);//自定义 push 通知。
     }
 
     /*
@@ -178,6 +178,8 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         intent.setAction(Intent.ACTION_VIEW);
 
         Conversation.ConversationType conversationType = msg.getConversationType();
+
+
 
         uri = Uri.parse("rong://" + RongContext.getInstance().getPackageName()).buildUpon().appendPath("conversationlist").build();
         intent.setData(uri);
@@ -475,7 +477,6 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     @Override
     public boolean onMessageLinkClick(String link) {
         Log.e(TAG, "----onMessageLongClick:" + link);
-
         return false;
     }
 
@@ -567,23 +568,17 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 }
             }
         } else if (getFriendByUserIdHttpRequest != null && getFriendByUserIdHttpRequest.equals(abstractHttpRequest)) {
-            Log.e(TAG, "-------hasUserId----000000-------");
             if (obj instanceof User) {
                 final User user = (User) obj;
-                Log.e(TAG, "-------hasUserId------11111111-----");
                 if (user.getCode() == 200) {
-                    Log.e(TAG, "-------hasUserId------2222222-----");
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
                             if (DemoContext.getInstance() != null) {
 
-                                Log.e(TAG, "-------hasUserId--------is what---" + DemoContext.getInstance().hasUserId(user.getResult().getId()));
                                 if (DemoContext.getInstance().hasUserId(user.getResult().getId())) {
-                                    Log.e(TAG, "-------hasUserId-----------");
                                     DemoContext.getInstance().updateUserInfos(user.getResult().getId(), "1");
                                 } else {
-                                    Log.e(TAG, "-------hasUserId---no--------");
                                     UserInfo info = new UserInfo(user.getResult().getId(), user.getResult().getUsername(), Uri.parse(user.getResult().getPortrait()));
                                     DemoContext.getInstance().insertOrReplaceUserInfo(info, "1");
                                 }

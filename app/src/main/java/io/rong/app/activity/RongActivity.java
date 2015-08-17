@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -95,18 +94,16 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
         //push或通知过来
         if (intent != null && intent.getData() != null && intent.getData().getScheme().equals("rong")
                 && intent.getData().getQueryParameter("push") != null) {
+
             //通过intent.getData().getQueryParameter("push") 为true，判断是否是push消息
             if (DemoContext.getInstance() != null && intent.getData().getQueryParameter("push").equals("true")) {
                 enterActivity(intent);
-            } else {
-                enterFragment(intent);
             }
         } else if (intent != null) {
             //程序切到后台，收到消息后点击进入,会执行这里
             if (RongIM.getInstance() == null || RongIM.getInstance().getRongIMClient() == null) {
                 if (DemoContext.getInstance() != null) {
                     String token = DemoContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "defult");
-                    Log.e(TAG, "----token－－－－－reconnect------:" + token);
                     reconnect(token);
                 }
             } else {
@@ -183,21 +180,17 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
         mDialog = new LoadingDialog(this);
         mDialog.setCancelable(false);
         mDialog.setText("正在连接中...");
-        Log.e(TAG, "----reconnect------:" + token);
         mDialog.show();
 
         try {
-            Log.e(TAG, "----reconnect----try--111111:");
             RongIM.connect(token, new RongIMClient.ConnectCallback() {
 
                 @Override
                 public void onTokenIncorrect() {
-                    Log.e(TAG, "----token－－－－－onTokenIncorrect------:");
                 }
 
                 @Override
                 public void onSuccess(String userId) {
-                    Log.e(TAG, "----token－－－－－onSuccess------:");
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -212,7 +205,6 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
 
                 @Override
                 public void onError(RongIMClient.ErrorCode e) {
-                    Log.e(TAG, "----token－－－－－onError------:");
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -221,9 +213,7 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
                     });
                 }
             });
-            Log.e(TAG, "----reconnect----try--222222:");
         } catch (Exception e) {
-            Log.e(TAG, "----reconnect----catch--:");
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {

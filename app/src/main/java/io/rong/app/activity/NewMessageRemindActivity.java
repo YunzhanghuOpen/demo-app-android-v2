@@ -1,6 +1,7 @@
 package io.rong.app.activity;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -89,6 +90,8 @@ public class NewMessageRemindActivity extends BaseApiActivity implements View.On
      * 分钟
      */
     int minutes;
+
+    private RelativeLayout mNewMessage;
     private String mTimeFormat = "HH:mm:ss";
     private Handler mHandler;
     boolean mIsSetting = false;
@@ -117,14 +120,15 @@ public class NewMessageRemindActivity extends BaseApiActivity implements View.On
         mStartTimeNofication = (TextView) findViewById(R.id.start_time_notification);
         mEndNotifacation = (RelativeLayout) findViewById(R.id.end_notification);
         mEndTimeNofication = (TextView) findViewById(R.id.end_time_notification);
+        mNewMessage = (RelativeLayout) findViewById(R.id.new_message_rl);
 
         Calendar calendar = Calendar.getInstance();
         hourOfDays = calendar.get(Calendar.HOUR_OF_DAY);
         minutes = calendar.get(Calendar.MINUTE);
-
     }
 
     protected void initData() {
+//        mNewMessage.setOnClickListener(this);
         mNewMessageNotice.setOnClickListener(this);
         mNewMessageShow.setOnClickListener(this);
         mVoiceCheck.setOnClickListener(this);
@@ -170,6 +174,9 @@ public class NewMessageRemindActivity extends BaseApiActivity implements View.On
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.new_message_rl://勿扰模式
+                startActivity(new Intent(NewMessageRemindActivity.this,NotificationQuietHoursActivity.class));
+                break;
             case R.id.start_notification://开始时间
                 if (DemoContext.getInstance().getSharedPreferences() != null) {
                     String starttime = DemoContext.getInstance().getSharedPreferences().getString("START_TIME", null);

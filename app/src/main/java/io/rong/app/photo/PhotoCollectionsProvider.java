@@ -71,7 +71,7 @@ public class PhotoCollectionsProvider extends InputProvider.ExtendProvider {
                 for (int i = 0; i <= intSize - 1; i++) {
                     String localStrPath = pathList.get(i);
 //					localStrPath = "file:/" + localStrPath;
-                    byte[] compressBitmap = BitmapUtils.compressBitmap(480*480,
+                    byte[] compressBitmap = BitmapUtils.compressBitmap(960*960,
                             localStrPath);
                     if (null != compressBitmap) {
                         Bitmap bmPhoto = BitmapUtils

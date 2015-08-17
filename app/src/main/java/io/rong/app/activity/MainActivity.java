@@ -119,6 +119,7 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
      * 下划线长度
      */
     int indicatorWidth;
+    private TextView mCustomerTV;
     private LinearLayout mMainShow;
 
     private boolean hasNewFriends = false;
@@ -162,7 +163,7 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
         mViewPager = (ViewPager) findViewById(R.id.main_viewpager);
         mMainSelectImg = (ImageView) findViewById(R.id.main_switch_img);
         mUnreadNumView = (TextView) findViewById(R.id.de_num);
-
+        mCustomerTV = (TextView) findViewById(R.id.cus_tv);
         ViewGroup.LayoutParams cursor_Params = mMainSelectImg.getLayoutParams();
         cursor_Params.width = indicatorWidth;// 初始化滑动下标的宽
         mMainSelectImg.setLayoutParams(cursor_Params);
@@ -265,21 +266,21 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
 
                 @Override
                 public void onSuccess(String userId) {
-                    Log.e(TAG, "---onSuccess--userId:" + userId);
                     if (mDialog != null)
                         mDialog.dismiss();
                     if (conversation.equals("conversation")) {
+
                         Intent intent = new Intent(MainActivity.this, RongActivity.class);
                         intent.putExtra("DEMO_COVERSATION", conversation);
                         intent.putExtra("DEMO_COVERSATIONTYPE", conversationType);
                         intent.putExtra("DEMO_TARGETID", targetId);
                         startActivity(intent);
+
                     }
                 }
 
                 @Override
                 public void onError(RongIMClient.ErrorCode e) {
-                    Log.e(TAG, "onError--e:" + e);
                     mDialog.dismiss();
                 }
             });
@@ -349,7 +350,7 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                         Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon()
                                 .appendPath("conversationlist")
                                 .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话是否聚合显示
-                                .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "false")//群组
+                                .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "true")//群组
                                 .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//讨论组
                                 .appendQueryParameter(Conversation.ConversationType.APP_PUBLIC_SERVICE.getName(), "false")//应用公众服务。
                                 .appendQueryParameter(Conversation.ConversationType.PUBLIC_SERVICE.getName(), "false")//公共服务号
