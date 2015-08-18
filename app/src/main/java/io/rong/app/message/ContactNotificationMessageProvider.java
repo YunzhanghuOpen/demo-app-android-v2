@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import io.rong.app.R;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.model.ConversationKey;
@@ -68,7 +69,7 @@ public class ContactNotificationMessageProvider extends IContainerItemProvider.M
         }
         String[] items;
 
-        items = new String[]{view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_delete)};
+        items = new String[]{view.getContext().getResources().getString(R.string.de_dialog_item_message_delete)};
 
         ArraysDialogFragment.newInstance(name, items).setArraysDialogItemListener(new ArraysDialogFragment.OnArraysDialogItemListener() {
             @Override
@@ -82,9 +83,9 @@ public class ContactNotificationMessageProvider extends IContainerItemProvider.M
 
     @Override
     public View newView(Context context, ViewGroup group) {
-        View view = LayoutInflater.from(context).inflate(io.rong.imkit.R.layout.rc_item_information_notification_message, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.de_item_information_notification_message, null);
         ViewHolder viewHolder = new ViewHolder();
-        viewHolder.contentTextView = (TextView) view.findViewById(io.rong.imkit.R.id.rc_msg);
+        viewHolder.contentTextView = (TextView) view.findViewById(R.id.rc_msg);
         viewHolder.contentTextView.setMovementMethod(LinkMovementMethod.getInstance());
         view.setTag(viewHolder);
 

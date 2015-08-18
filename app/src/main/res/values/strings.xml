@@ -132,5 +132,5 @@
     <string name="de_actionbar_update_discussion">"修改讨论组昵称"</string>
     <string name="phone_camera">Camera</string>
 
-
+    <string name="de_dialog_item_message_delete">删除消息</string>
 </resources>
