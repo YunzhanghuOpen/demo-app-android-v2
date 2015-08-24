@@ -12,9 +12,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.Observable;
+import java.util.Observer;
 
 import io.rong.app.R;
 import io.rong.imkit.tools.PhotoFragment;
+import com.sea_monster.resource.Resource;
+import com.sea_monster.resource.ResourceHandler;
 
 /**
  * Created by DragonJ on 15/4/13.
@@ -85,7 +89,7 @@ public class PhotoActivity extends BaseActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(mUri != null && mUri.getScheme().startsWith("http")) {
+        if(mUri != null && mUri.getScheme() != null && mUri.getScheme().startsWith("http")) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.de_fix_username, menu);
             return super.onCreateOptionsMenu(menu);

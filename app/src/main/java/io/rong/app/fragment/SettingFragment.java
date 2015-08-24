@@ -177,6 +177,7 @@ public class SettingFragment extends DispatchResultFragment implements View.OnCl
             case R.id.de_set_chatroom_name:
                 Intent intent = new Intent(getActivity(), UpdateDiscussionActivity.class);
                 intent.putExtra("DEMO_DISCUSSIONIDS", targetId);
+                if(mDiscussionName !=null)
                 intent.putExtra("DEMO_DISCUSSIONNAME", mDiscussionName.toString());
                 startActivityForResult(intent, 21);
                 break;

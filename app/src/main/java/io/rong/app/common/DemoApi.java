@@ -1,7 +1,13 @@
 package io.rong.app.common;
 
 import android.content.Context;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.util.Log;
 
+import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 import com.sea_monster.network.ApiCallback;
 import com.sea_monster.network.ApiReqeust;
@@ -21,11 +27,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.rong.app.DemoContext;
+import io.rong.app.database.DBManager;
+import io.rong.app.database.UserInfos;
+import io.rong.app.database.UserInfosDao;
 import io.rong.app.model.Friends;
 import io.rong.app.model.Groups;
 import io.rong.app.model.Status;
 import io.rong.app.model.User;
 import io.rong.app.parser.GsonParser;
+import io.rong.imlib.model.UserInfo;
 
 /**
  * demo api 请求，需要设置cookie，否则会提示 “user not login”
@@ -33,7 +43,7 @@ import io.rong.app.parser.GsonParser;
  */
 public class DemoApi extends BaseApi {
     //        private static String HOST = "http://119.254.110.241:80/";
-    private static String   HOST = "http://webim.demo.rong.io/";
+    private static String HOST = "http://webim.demo.rong.io/";
     private final static String DEMO_LOGIN_EMAIL = "email_login";
     private final static String DEMO_FRIENDS = "get_friend";
     private final static String DEMO_REQ = "reg";
@@ -51,8 +61,21 @@ public class DemoApi extends BaseApi {
     private final static String DEMO_PROCESS_REQUEST_FRIEND = "process_request_friend";
     private final static String DEMO_PROFILE = "profile";
 
+    private Handler mWorkHandler;
+    private HandlerThread mWorkThread;
+    static Handler mHandler;
+
+    private Context mContext;
+
     public DemoApi(Context context) {
         super(NetworkManager.getInstance(), context);
+        mContext = context;
+
+        mHandler = new Handler(Looper.getMainLooper());
+        mContext = context;
+        mWorkThread = new HandlerThread("DemoApi");
+        mWorkThread.start();
+        mWorkHandler = new Handler(mWorkThread.getLooper());
     }
 
 
@@ -61,9 +84,8 @@ public class DemoApi extends BaseApi {
      *
      * @param email
      * @param password
-     * @param callback
-     * 1 关羽  生产
-     * 2，张飞 测试
+     * @param callback 1 关羽  生产
+     *                 2，张飞 测试
      * @return
      */
     public AbstractHttpRequest<User> login(String email, String password, ApiCallback<User> callback) {
@@ -97,7 +119,7 @@ public class DemoApi extends BaseApi {
         nameValuePairs.add(new BasicNameValuePair("password", password));
         nameValuePairs.add(new BasicNameValuePair("mobile", mobile));
 
-        ApiReqeust<Status> apiReqeust = new DefaultApiReqeust<Status>(ApiReqeust.POST_METHOD, URI.create(HOST + DEMO_REQ),nameValuePairs,callback);
+        ApiReqeust<Status> apiReqeust = new DefaultApiReqeust<Status>(ApiReqeust.POST_METHOD, URI.create(HOST + DEMO_REQ), nameValuePairs, callback);
 //        ApiReqeust<Status> apiReqeust = new DefaultApiReqeust<Status>(ApiReqeust.POST_METHOD, URI.create(HOST + DEMO_REQ), nameValuePairs, callback);
 
         AbstractHttpRequest<Status> httpRequest = apiReqeust.obtainRequest(new GsonParser<Status>(Status.class), null, null);
@@ -146,6 +168,7 @@ public class DemoApi extends BaseApi {
     /**
      * demo server 获取好友
      * 获取所有好友信息
+     *
      * @param callback
      * @return
      */
@@ -243,7 +266,7 @@ public class DemoApi extends BaseApi {
     public AbstractHttpRequest<Groups> getMyGroupByGroupId(String groupid, ApiCallback<Groups> callback) {
 
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-        nameValuePairs.add(new BasicNameValuePair("id", groupid ));
+        nameValuePairs.add(new BasicNameValuePair("id", groupid));
 
         ApiReqeust<Groups> apiReqeust = new DefaultApiReqeust<Groups>(ApiReqeust.GET_METHOD, URI.create(HOST + DEMO_GET_GROUP), nameValuePairs, callback);
         AbstractHttpRequest<Groups> httpRequest = apiReqeust.obtainRequest(new GsonParser<Groups>(Groups.class), mAuthType);
@@ -276,6 +299,7 @@ public class DemoApi extends BaseApi {
     /**
      * 获取好友列表
      * 获取添加过的好友信息
+     *
      * @param callback
      * @return
      */
@@ -312,7 +336,6 @@ public class DemoApi extends BaseApi {
     }
 
 
-
     /**
      * demo server 删除好友
      *
@@ -347,7 +370,7 @@ public class DemoApi extends BaseApi {
         nameValuePairs.add(new BasicNameValuePair("is_access", isaccess));
 
         ApiReqeust<Status> apiReqeust = new DefaultApiReqeust<Status>(ApiReqeust.POST_METHOD, URI.create(HOST + DEMO_PROCESS_REQUEST_FRIEND), nameValuePairs, callback);
-        AbstractHttpRequest<Status> httpRequest = apiReqeust.obtainRequest(new GsonParser<Status>(Status.class),  mAuthType);
+        AbstractHttpRequest<Status> httpRequest = apiReqeust.obtainRequest(new GsonParser<Status>(Status.class), mAuthType);
         NetworkManager.getInstance().requestAsync(httpRequest);
 
         return httpRequest;
@@ -360,11 +383,11 @@ public class DemoApi extends BaseApi {
      * @param callback
      * @return
      */
-    public AbstractHttpRequest<User> getUserInfoByUserId(String userid,ApiCallback<User> callback) {
+    public AbstractHttpRequest<User> getUserInfoByUserId(String userid, ApiCallback<User> callback) {
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
         nameValuePairs.add(new BasicNameValuePair("id", userid + ""));
 
-        ApiReqeust<User> apiReqeust = new DefaultApiReqeust<User>(ApiReqeust.GET_METHOD, URI.create(HOST + DEMO_PROFILE),nameValuePairs, callback);
+        ApiReqeust<User> apiReqeust = new DefaultApiReqeust<User>(ApiReqeust.GET_METHOD, URI.create(HOST + DEMO_PROFILE), nameValuePairs, callback);
         AbstractHttpRequest<User> httpRequest = apiReqeust.obtainRequest(new GsonParser<User>(User.class), mAuthType);
         NetworkManager.getInstance().requestAsync(httpRequest);
 
@@ -382,6 +405,78 @@ public class DemoApi extends BaseApi {
 
         }
     };
+
+
+    public void getUserInfo(final String userId, final GetUserInfoListener listener) {
+
+        if (userId == null || listener == null)
+            return;
+
+        mWorkHandler.post(new Runnable() {
+
+            @Override
+            public void run() {
+                UserInfosDao mUserInfosDao = DBManager.getInstance(mContext).getDaoSession().getUserInfosDao();
+                UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
+
+
+                if (userInfos != null) {
+                    UserInfo userInfo = new UserInfo(userInfos.getUserid(), userInfos.getUsername(), Uri.parse(userInfos.getPortrait()));
+                    listener.onSuccess(userInfo);
+                    return;
+                }
+
+                if (DemoContext.getInstance() != null) {
+                    DemoContext.getInstance().getDemoApi().getUserInfoByUserId(userId, new ApiCallback<User>() {
+                        @Override
+                        public void onComplete(AbstractHttpRequest<User> abstractHttpRequest, final User user) {
+                            Log.d("DemoApi", "getUserInfo--getUserInfoByUserId--from http---");
+
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (user != null && user.getResult() != null) {
+                                        UserInfo userInfo = new UserInfo(user.getResult().getId(), user.getResult().getUsername(), Uri.parse(user.getResult().getPortrait()));
+                                        listener.onSuccess(userInfo);
+
+                                        UserInfos f = new UserInfos();
+                                        f.setUserid(userInfo.getUserId());
+                                        f.setUsername(userInfo.getName());
+                                        f.setPortrait(userInfo.getPortraitUri().toString());
+                                        f.setStatus("0");
+
+                                        DBManager.getInstance(mContext).getDaoSession().getUserInfosDao().insertOrReplace(f);
+                                    }
+                                }
+                            });
+
+                        }
+
+                        @Override
+                        public void onFailure(final AbstractHttpRequest<User> abstractHttpRequest, final BaseException e) {
+
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    listener.onError(userId, e);
+                                }
+                            });
+
+                        }
+                    });
+                }
+            }
+        });
+
+
+    }
+
+
+    public interface GetUserInfoListener {
+        public void onSuccess(UserInfo userInfo);
+
+        public void onError(String userId, BaseException e);
+    }
 
 
 }

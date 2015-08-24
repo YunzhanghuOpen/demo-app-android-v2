@@ -48,3 +48,10 @@
 
 ##--voip--
 -keep class com.ultrapower.** {*;}
+
+##--AMap
+-keep com.amap.api.** {*;}
+
+-keep com.amap.api.services.** {*;}
+
+-keep amap.api.location.** {*;}

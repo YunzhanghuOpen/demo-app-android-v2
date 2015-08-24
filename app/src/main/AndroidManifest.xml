@@ -33,6 +33,9 @@
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <!--获取联系人信息，demo中演示发送通讯录消息-->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
 
 
     <application
@@ -136,9 +139,10 @@
 
         </activity>
         <activity
-            android:name=".activity.NotificationQuietHoursActivity"
+            android:name=".activity.DisturbActivity"
             android:screenOrientation="portrait">
         </activity>
+
 
         <activity
             android:name=".activity.GroupDetailActivity"
@@ -160,9 +164,7 @@
 
 
         </activity>
-        <activity android:name=".activity.TestActivity">
 
-        </activity>
 
         <activity
             android:name=".activity.RongActivity"
@@ -267,6 +269,36 @@
         </activity>
 
         <service
+            android:name="io.rong.imlib.ipc.RongService"
+            android:process=":ipc" >
+        </service>
+        <service android:name="io.rong.imlib.ReConnectService" />
+
+        <receiver android:name="io.rong.imlib.ConnectChangeReceiver" />
+        <receiver android:name="io.rong.imlib.ipc.PushMessageReceiver" >
+            <intent-filter>
+                <action android:name="io.rong.push.message" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="io.rong.imlib.HeartbeatReceiver"
+            android:process=":ipc" />
+
+        <activity
+            android:name="io.rong.imkit.tools.SelectPictureActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="io.rong.imkit.tools.PreviewPictureActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="io.rong.imkit.tools.RongWebviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="io.rong.imkit.widget.provider.TakingPicturesActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+
+        <service
             android:name="io.rong.push.PushService"
             android:process="io.rong.push" > <!-- Waring: The name of the push process can't be changed!!! -->
             <intent-filter>
@@ -289,7 +321,7 @@
             android:name="io.rong.push.PushReceiver"
             android:process="io.rong.push" > <!-- Waring: The name of the push process can't be changed!!! -->
             <intent-filter>
-                <action android:name="io.rong.imlib.action.push.heartbeat" />
+                <action android:name="io.rong.push.HeartBeat" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -309,40 +341,19 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name="io.rong.imkit.tools.SelectPictureActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="io.rong.imkit.tools.PreviewPictureActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="io.rong.imkit.tools.RongWebviewActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="io.rong.imkit.widget.provider.TakingPicturesActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait" />
-
-        <service
-            android:name="io.rong.imlib.ipc.RongService"
-            android:process=":ipc" >
-        </service>
-        <service android:name="io.rong.imlib.ReConnectService" />
-
-        <receiver android:name="io.rong.imlib.ConnectChangeReceiver" />
-        <receiver android:name="io.rong.imlib.ipc.PushMessageReceiver" >
-            <intent-filter>
-                <action android:name="io.rong.push.message" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name="io.rong.imlib.HeartbeatReceiver"
-            android:process=":ipc" />
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
             android:value="z3v5yqkbv8v30" />
 
         <!--end rongcloud-->
+
+
+        <!-- 高德地图-->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="8d05f0918f71d50e92f923df159aa9ee"/>
+
+        <activity android:name=".activity.RealTimeLocationActivity"></activity>
 
     </application>
 

@@ -6,7 +6,7 @@ import android.content.Context;
 
 import io.rong.app.message.ContactNotificationMessageProvider;
 import io.rong.app.message.DeAgreedFriendRequestMessage;
-import io.rong.app.message.DemoCommandNotificationMessage;
+import io.rong.app.message.RealTimeLocationMessageProvider;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.ipc.RongExceptionHandler;
 
@@ -29,8 +29,8 @@ public class App extends Application {
          *
          * 只有两个进程需要初始化，主进程和 push 进程
          */
-        if("io.rong.app".equals(getCurProcessName(getApplicationContext())) ||
-           "io.rong.push".equals(getCurProcessName(getApplicationContext()))) {
+        if ("io.rong.app".equals(getCurProcessName(getApplicationContext())) ||
+                "io.rong.push".equals(getCurProcessName(getApplicationContext()))) {
 
             RongIM.init(this);
 
@@ -43,17 +43,19 @@ public class App extends Application {
 
                 RongCloudEvent.init(this);
                 DemoContext.init(this);
+
                 Thread.setDefaultUncaughtExceptionHandler(new RongExceptionHandler(this));
                 try {
-                    RongIM.registerMessageType(DemoCommandNotificationMessage.class);
                     RongIM.registerMessageType(DeAgreedFriendRequestMessage.class);
-                    RongIM.registerMessageTemplate(new ContactNotificationMessageProvider());
 
+                    RongIM.registerMessageTemplate(new ContactNotificationMessageProvider());
+                    RongIM.registerMessageTemplate(new RealTimeLocationMessageProvider());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
+
     }
 
     public static String getCurProcessName(Context context) {
@@ -68,5 +70,4 @@ public class App extends Application {
         }
         return null;
     }
-
 }

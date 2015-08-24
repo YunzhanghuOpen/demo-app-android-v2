@@ -2,5 +2,8 @@
 <resources>
 
     <string name="app_name">RongCloud Demo</string>
+    <string name="de_plugins_image">Image</string>
+    <string name="de_plugins_camera">Camera</string>
+    <string name="add_contacts">Contacts</string>
 
 </resources>

@@ -63,8 +63,6 @@ public class NewFriendListAdapter extends android.widget.BaseAdapter {
             convertView = mLayoutInflater.inflate(R.layout.de_item_friend,parent,false);
             viewHolder = new ViewHolder();
             viewHolder.mFrienduUserName = (TextView) convertView.findViewById(R.id.item_friend_username);
-//            viewHolder.mFrienduStateNo = (ImageView) convertView.findViewById(R.id.item_friend_state_no);
-//            viewHolder.mFrienduStateYes = (ImageView) convertView.findViewById(R.id.item_friend_state_yes);
             viewHolder.mFrienduState = (TextView) convertView.findViewById(R.id.item_friend_state);
             viewHolder.mPortraitImg = (AsyncImageView) convertView.findViewById(R.id.item_friend_portrait);
             convertView.setTag(viewHolder);
@@ -109,7 +107,7 @@ public class NewFriendListAdapter extends android.widget.BaseAdapter {
     }
 
     public interface OnItemButtonClick{
-        public boolean onButtonClick(int position, View view,int status);
+         boolean onButtonClick(int position, View view,int status);
 
     }
 

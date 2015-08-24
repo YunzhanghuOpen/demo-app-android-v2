@@ -26,6 +26,7 @@ import io.rong.message.ImageMessage;
 
 /**
  * Created by Bob_ge on 15/8/3.
+ *
  */
 public class NewCameraInputProviders extends InputProvider.ExtendProvider {
 
@@ -54,7 +55,7 @@ public class NewCameraInputProviders extends InputProvider.ExtendProvider {
 
     @Override
     public CharSequence obtainPluginTitle(Context arg0) {
-        return "拍照";
+        return arg0.getString(R.string.de_plugins_camera);
     }
 
     @Override

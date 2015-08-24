@@ -9,30 +9,46 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.sea_monster.exception.BaseException;
+
+import java.util.List;
 import java.util.Locale;
 
+import de.greenrobot.event.EventBus;
 import io.rong.app.DemoContext;
 import io.rong.app.R;
+import io.rong.app.common.DemoApi;
 import io.rong.app.database.DBManager;
 import io.rong.app.database.UserInfos;
 import io.rong.app.database.UserInfosDao;
 import io.rong.app.fragment.FriendMultiChoiceFragment;
+import io.rong.app.model.RongEvent;
 import io.rong.app.ui.LoadingDialog;
 import io.rong.app.ui.WinToast;
+import io.rong.app.utils.CommonUtils;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.common.RongConst;
 import io.rong.imkit.fragment.ConversationFragment;
 import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imkit.fragment.SubConversationListFragment;
 import io.rong.imkit.fragment.UriFragment;
+import io.rong.imkit.widget.AlterDialogFragment;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.location.RealTimeLocationConstant;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Discussion;
 import io.rong.imlib.model.PublicServiceInfo;
+import io.rong.imlib.model.UserInfo;
+import io.rong.message.InformationNotificationMessage;
 
 /**
  * Created by Bob on 2015/3/27.
@@ -40,7 +56,7 @@ import io.rong.imlib.model.PublicServiceInfo;
  * 1，程序切到后台，点击通知栏进入程序
  * 2，收到 push 消息（push消息可以理解为推送消息）
  */
-public class RongActivity extends BaseActivity implements Handler.Callback {
+public class RongActivity extends BaseActivity implements Handler.Callback, RongIMClient.RealTimeLocationListener {
 
     private static final String TAG = RongActivity.class.getSimpleName();
     /**
@@ -64,16 +80,70 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
     private boolean isDiscussion = false;
     private UserInfosDao mUserInfosDao;
 
+    private RelativeLayout mRealTimeBar;//real-time bar
+    private RealTimeLocationConstant.RealTimeLocationStatus currentLocationStatus;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_activity);
         initView();
         initData();
+
+        if ("RongActivity".equals(this.getClass().getSimpleName()))
+            EventBus.getDefault().register(this);
     }
 
 
     protected void initView() {
+
+        mRealTimeBar = (RelativeLayout) this.findViewById(R.id.layout);
+
+        mRealTimeBar.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                if (!isOpenGPS()) {
+                    return;
+                }
+
+                if (currentLocationStatus == null)
+                    currentLocationStatus = RongIMClient.getInstance().getRealTimeLocationCurrentState(mConversationType, targetId);
+
+                if (currentLocationStatus == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_INCOMING) {
+
+                    final AlterDialogFragment alterDialogFragment = AlterDialogFragment.newInstance("", "加入位置共享", "取消", "加入");
+                    alterDialogFragment.setOnAlterDialogBtnListener(new AlterDialogFragment.AlterDialogBtnListener() {
+
+                        @Override
+                        public void onDialogPositiveClick(AlterDialogFragment dialog) {
+                            RealTimeLocationConstant.RealTimeLocationStatus status = RongIMClient.getInstance().getRealTimeLocationCurrentState(mConversationType, targetId);
+
+                            if (status == null || status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_IDLE) {
+                                startRealTimeLocation();
+                            } else {
+                                joinRealTimeLocation();
+                            }
+
+                        }
+
+                        @Override
+                        public void onDialogNegativeClick(AlterDialogFragment dialog) {
+                            alterDialogFragment.dismiss();
+                        }
+                    });
+                    alterDialogFragment.show(getSupportFragmentManager());
+
+                } else {
+                    Intent intent = new Intent(RongActivity.this, RealTimeLocationActivity.class);
+                    intent.putExtra("conversationType", mConversationType.getValue());
+                    intent.putExtra("targetId", targetId);
+                    startActivity(intent);
+                }
+            }
+        });
+
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);
@@ -91,6 +161,7 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
                 openConversationFragment(conversation, targetId, conversationType);
             }
         }
+
         //push或通知过来
         if (intent != null && intent.getData() != null && intent.getData().getScheme().equals("rong")
                 && intent.getData().getQueryParameter("push") != null) {
@@ -111,7 +182,51 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
             }
         }
 
+//        if (intent != null && intent.getData() != null && intent.getData().getScheme().equals("rong")){
+//            if(intent.getData().getQueryParameter("push") != null
+//                    && intent.getData().getQueryParameter("push").equals("true")){
+//                enterActivity(intent);
+//            }else{
+//                if (RongIM.getInstance() == null || RongIM.getInstance().getRongIMClient() == null) {
+//                    if (DemoContext.getInstance() != null) {
+//                        String token = DemoContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "defult");
+//                        reconnect(token);
+//                    }
+//                } else {
+//                    enterFragment(intent);
+//                }
+//            }
+//        }
+
+
     }
+
+    private boolean isOpenGPS() {
+        boolean isOpen = CommonUtils.isOpenGPS(this);
+
+        if (!isOpen) {
+
+            final AlterDialogFragment dialogFragment = AlterDialogFragment.newInstance("GPS", "请检查 GPS 是否打开！", null, "关闭");
+            dialogFragment.setOnAlterDialogBtnListener(new AlterDialogFragment.AlterDialogBtnListener() {
+                @Override
+                public void onDialogPositiveClick(AlterDialogFragment dialog) {
+                    dialogFragment.dismiss();
+                }
+
+                @Override
+                public void onDialogNegativeClick(AlterDialogFragment dialog) {
+
+                }
+            });
+
+            dialogFragment.show(getSupportFragmentManager());
+
+            return isOpen;
+        }
+
+        return true;
+    }
+
 
     /**
      * 收到 push 以后，打开会话页面
@@ -123,6 +238,7 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
     private void openConversationFragment(String conversation, String targetId, String conversationType) {
 
         String tag;
+
         if (conversation.equals("conversation")) {
             tag = "conversation";
             ConversationFragment conversationFragment = new ConversationFragment();
@@ -130,9 +246,11 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
             Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon()
                     .appendPath("conversation").appendPath(conversationType.toLowerCase())
                     .appendQueryParameter("targetId", targetId).build();
-            conversationFragment.setUri(uri);
 
+            conversationFragment.setUri(uri);
             mConversationType = Conversation.ConversationType.valueOf(conversationType);
+
+            showRealTimeLocationBar(null);//RealTimeLocation
 
             if (conversationFragment != null) {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -157,6 +275,7 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
         if (DemoContext.getInstance() != null) {
             String token = DemoContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "defult");
             Intent in = new Intent();
+
             if (!token.equals("defult")) {
                 in.setClass(RongActivity.this, MainActivity.class);
                 in.putExtra("PUSH_TOKEN", token);
@@ -165,6 +284,7 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
                 in.setClass(RongActivity.this, LoginActivity.class);
                 in.putExtra("PUSH_CONTEXT", "push");
             }
+
             startActivity(in);
             finish();
         }
@@ -232,6 +352,7 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
      */
     private void enterFragment(Intent intent) {
         String tag = null;
+
         if (intent != null) {
             Fragment fragment = null;
 
@@ -239,10 +360,13 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
                 String fragmentName = intent.getExtras().getString(RongConst.EXTRA.CONTENT);
                 fragment = Fragment.instantiate(this, fragmentName);
             } else if (intent.getData() != null) {
+
                 if (intent.getData().getPathSegments().get(0).equals("conversation")) {
                     tag = "conversation";
                     String fragmentName = ConversationFragment.class.getCanonicalName();
                     fragment = Fragment.instantiate(this, fragmentName);
+
+
                 } else if (intent.getData().getLastPathSegment().equals("conversationlist")) {
                     tag = "conversationlist";
                     String fragmentName = ConversationListFragment.class.getCanonicalName();
@@ -258,14 +382,20 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
                     ActionBar actionBar = getSupportActionBar();
                     actionBar.hide();//隐藏ActionBar
                 }
+
                 targetId = intent.getData().getQueryParameter("targetId");
                 targetIds = intent.getData().getQueryParameter("targetIds");
                 mDiscussionId = intent.getData().getQueryParameter("discussionId");
+
                 if (targetId != null) {
-//                    intent.getData().getLastPathSegment();//获得当前会话类型
                     mConversationType = Conversation.ConversationType.valueOf(intent.getData().getLastPathSegment().toUpperCase(Locale.getDefault()));
-                } else if (targetIds != null)
+                } else if (targetIds != null) {
                     mConversationType = Conversation.ConversationType.valueOf(intent.getData().getLastPathSegment().toUpperCase(Locale.getDefault()));
+                }
+            }
+
+            if ("tag".equals(tag)) {
+                showRealTimeLocationBar(null);//RealTimeLocation
             }
 
             if (fragment != null) {
@@ -280,10 +410,12 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
      * 设置 title
      */
     protected void initData() {
+
         if (mConversationType != null) {
             if (mConversationType.equals(Conversation.ConversationType.PRIVATE)) {
                 if (DemoContext.getInstance() != null) {
                     UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(targetId)).unique();
+
                     if (userInfos == null) {
                         getSupportActionBar().setTitle("");
                     } else {
@@ -296,6 +428,7 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
                 }
             } else if (mConversationType.equals(Conversation.ConversationType.DISCUSSION)) {
                 if (targetId != null) {
+
                     RongIM.getInstance().getRongIMClient().getDiscussion(targetId, new RongIMClient.ResultCallback<Discussion>() {
                         @Override
                         public void onSuccess(Discussion discussion) {
@@ -325,38 +458,54 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
                 getSupportActionBar().setTitle("客服");
             } else if (mConversationType.equals(Conversation.ConversationType.APP_PUBLIC_SERVICE)) {
                 if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
-                    RongIM.getInstance().getRongIMClient().getPublicServiceProfile(Conversation.PublicServiceType.APP_PUBLIC_SERVICE,
-                            targetId, new RongIMClient.ResultCallback<PublicServiceInfo>() {
-                                @Override
-                                public void onSuccess(PublicServiceInfo publicServiceInfo) {
-                                    getSupportActionBar().setTitle(publicServiceInfo.getName().toString());
-                                }
 
-                                @Override
-                                public void onError(RongIMClient.ErrorCode errorCode) {
+                    RongIM.getInstance().getRongIMClient().getPublicServiceProfile(Conversation.PublicServiceType.APP_PUBLIC_SERVICE, targetId, new RongIMClient.ResultCallback<PublicServiceInfo>() {
+                        @Override
+                        public void onSuccess(PublicServiceInfo publicServiceInfo) {
+                            getSupportActionBar().setTitle(publicServiceInfo.getName().toString());
+                        }
 
-                                }
-                            });
+                        @Override
+                        public void onError(RongIMClient.ErrorCode errorCode) {
+
+                        }
+                    });
                 }
 
             } else if (mConversationType.equals(Conversation.ConversationType.PUBLIC_SERVICE)) {
                 if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
-                    RongIM.getInstance().getRongIMClient().getPublicServiceProfile(Conversation.PublicServiceType.PUBLIC_SERVICE,
-                            targetId, new RongIMClient.ResultCallback<PublicServiceInfo>() {
-                                @Override
-                                public void onSuccess(PublicServiceInfo publicServiceInfo) {
-                                    getSupportActionBar().setTitle(publicServiceInfo.getName().toString());
-                                }
 
-                                @Override
-                                public void onError(RongIMClient.ErrorCode errorCode) {
+                    RongIM.getInstance().getRongIMClient().getPublicServiceProfile(Conversation.PublicServiceType.PUBLIC_SERVICE, targetId, new RongIMClient.ResultCallback<PublicServiceInfo>() {
+                        @Override
+                        public void onSuccess(PublicServiceInfo publicServiceInfo) {
+                            getSupportActionBar().setTitle(publicServiceInfo.getName().toString());
+                        }
 
-                                }
-                            });
+                        @Override
+                        public void onError(RongIMClient.ErrorCode errorCode) {
+
+                        }
+                    });
                 }
             }
+        }
 
 
+        if (!TextUtils.isEmpty(targetId) && mConversationType != null) {
+
+            RealTimeLocationConstant.RealTimeLocationErrorCode errorCode = RongIMClient.getInstance().getRealTimeLocation(mConversationType, targetId);
+            Log.e(TAG, "register addRealTimeLocationListener:--111111111-" + errorCode);
+            if (errorCode == RealTimeLocationConstant.RealTimeLocationErrorCode.RC_REAL_TIME_LOCATION_SUCCESS || errorCode == RealTimeLocationConstant.RealTimeLocationErrorCode.RC_REAL_TIME_LOCATION_IS_ON_GOING) {
+                Log.e(TAG, "register addRealTimeLocationListener:--22222222222-");
+                RongIMClient.getInstance().addRealTimeLocationListener(mConversationType, targetId, this);//设置监听
+                currentLocationStatus = RongIMClient.getInstance().getRealTimeLocationCurrentState(mConversationType, targetId);
+
+                if (currentLocationStatus == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_INCOMING) {
+                    showRealTimeLocationBar(currentLocationStatus);
+                }
+            }
+        } else {
+            Log.e(TAG, "not addRealTimeLocationListener:--33333333333-");
         }
 
     }
@@ -367,14 +516,18 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
      * @param targetIds
      */
     private void setDiscussionName(String targetIds) {
+
         StringBuilder sb = new StringBuilder();
         getSupportActionBar().setTitle(targetIds);
         String[] ids = targetIds.split(",");
+
         if (DemoContext.getInstance() != null) {
+
             for (int i = 0; i < ids.length; i++) {
                 sb.append(DemoContext.getInstance().getUserInfoById(ids[i]).getName().toString());
                 sb.append(",");
             }
+
             sb.append(DemoContext.getInstance().getSharedPreferences().getString("DEMO_USER_NAME", "0.0"));
         }
 
@@ -402,6 +555,9 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
                     return;
                 String fragmentName = ConversationFragment.class.getCanonicalName();
                 fragment = Fragment.instantiate(this, fragmentName);
+
+                showRealTimeLocationBar(null);//RealTimeLocation
+
             } else if (intent.getData().getLastPathSegment().equals("conversationlist")) {
                 tag = "conversationlist";
                 String fragmentName = ConversationListFragment.class.getCanonicalName();
@@ -422,9 +578,13 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
 
     @Override
     public void onBackPressed() {
+
         if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-            super.onBackPressed();
-            this.finish();
+
+            if (!closeRealTimeLocation()) {
+                super.onBackPressed();
+                this.finish();
+            }
         } else {
             super.onBackPressed();
         }
@@ -443,11 +603,13 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
                 menu.getItem(0).setVisible(false);
             }
         }
+
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
             case R.id.icon:
 
@@ -458,14 +620,47 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
 
                 break;
             case android.R.id.home:
-
-                finish();
-
+                if (!closeRealTimeLocation()) {
+                    finish();
+                }
                 break;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    private boolean closeRealTimeLocation() {
+
+        if (mConversationType == null || TextUtils.isEmpty(targetId))
+            return false;
+
+        if (mConversationType != null && !TextUtils.isEmpty(targetId)) {
+
+            RealTimeLocationConstant.RealTimeLocationStatus status = RongIMClient.getInstance().getRealTimeLocationCurrentState(mConversationType, targetId);
+
+            if (status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_IDLE || status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_INCOMING) {
+                return false;
+            }
+        }
+
+        final AlterDialogFragment alterDialogFragment = AlterDialogFragment.newInstance("提示", "退出当前页面将会终止实时位置共享,确定退出？", "否", "是");
+        alterDialogFragment.setOnAlterDialogBtnListener(new AlterDialogFragment.AlterDialogBtnListener() {
+            @Override
+            public void onDialogPositiveClick(AlterDialogFragment dialog) {
+                RongIMClient.getInstance().quitRealTimeLocation(mConversationType, targetId);
+                finish();
+            }
+
+            @Override
+            public void onDialogNegativeClick(AlterDialogFragment dialog) {
+                alterDialogFragment.dismiss();
+            }
+        });
+        alterDialogFragment.show(getSupportFragmentManager());
+
+        return true;
+    }
+
 
     /**
      * 根据 targetid 和 ConversationType 进入到设置页面
@@ -474,12 +669,15 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
 
         if (mConversationType == Conversation.ConversationType.PUBLIC_SERVICE
                 || mConversationType == Conversation.ConversationType.APP_PUBLIC_SERVICE) {
+
             RongIM.getInstance().startPublicServiceProfile(this, mConversationType, targetId);
         } else {
             //通过targetId 和 会话类型 打开指定的设置页面
             if (!TextUtils.isEmpty(targetId)) {
+
                 Uri uri = Uri.parse("demo://" + getApplicationInfo().packageName).buildUpon().appendPath("conversationSetting")
                         .appendPath(mConversationType.getName()).appendQueryParameter("targetId", targetId).build();
+
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(uri);
                 startActivity(intent);
@@ -494,6 +692,7 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
                 if (!TextUtils.isEmpty(targetId)) {
                     Uri uri = Uri.parse("demo://" + getApplicationInfo().packageName).buildUpon().appendPath("conversationSetting")
                             .appendPath(mConversationType.getName()).appendQueryParameter("targetId", targetId).build();
+
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(uri);
                     startActivity(intent);
@@ -505,6 +704,7 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
 
     }
 
+
     @Override
     public boolean handleMessage(Message msg) {
         return false;
@@ -514,5 +714,169 @@ public class RongActivity extends BaseActivity implements Handler.Callback {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    //real-time location method beign
+
+    private void startRealTimeLocation() {
+        RongIMClient.getInstance().startRealTimeLocation(mConversationType, targetId);
+        Intent intent = new Intent(RongActivity.this, RealTimeLocationActivity.class);
+        intent.putExtra("conversationType", mConversationType.getValue());
+        intent.putExtra("targetId", targetId);
+        startActivity(intent);
+    }
+
+    private void joinRealTimeLocation() {
+        RongIMClient.getInstance().joinRealTimeLocation(mConversationType, targetId);
+        Intent intent = new Intent(RongActivity.this, RealTimeLocationActivity.class);
+        intent.putExtra("conversationType", mConversationType.getValue());
+        intent.putExtra("targetId", targetId);
+        startActivity(intent);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showRealTimeLocationBar(null);
+
+    }
+
+    private void showRealTimeLocationBar(RealTimeLocationConstant.RealTimeLocationStatus status) {
+
+        if (status == null)
+            status = RongIMClient.getInstance().getRealTimeLocationCurrentState(mConversationType, targetId);
+
+        final List<String> userIds = RongIMClient.getInstance().getRealTimeLocationParticipants(mConversationType, targetId);
+
+        if (status != null && status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_INCOMING) {
+
+            if (userIds != null && userIds.get(0) != null && userIds.size() == 1) {
+
+                DemoContext.getInstance().getDemoApi().getUserInfo(userIds.get(0), new DemoApi.GetUserInfoListener() {
+
+                    @Override
+                    public void onSuccess(final UserInfo userInfo) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                TextView textView = (TextView) mRealTimeBar.findViewById(android.R.id.text1);
+                                textView.setText(userInfo.getName() + " 正在共享位置");
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onError(String userId, BaseException e) {
+
+                    }
+                });
+            } else {
+                if (userIds != null && userIds.size() > 0) {
+                    if (mRealTimeBar != null) {
+                        TextView textView = (TextView) mRealTimeBar.findViewById(android.R.id.text1);
+                        textView.setText(userIds.size() + " 人正在共享位置");
+                    }
+                } else {
+                    if (mRealTimeBar != null && mRealTimeBar.getVisibility() == View.VISIBLE) {
+                        mRealTimeBar.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+        } else if (status != null && status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_OUTGOING) {
+            TextView textView = (TextView) mRealTimeBar.findViewById(android.R.id.text1);
+            textView.setText("你正在共享位置");
+        } else {
+
+            if (mRealTimeBar != null && userIds != null) {
+                TextView textView = (TextView) mRealTimeBar.findViewById(android.R.id.text1);
+                textView.setText(userIds.size() + " 人正在共享位置");
+            }
+        }
+
+        if (userIds != null && userIds.size() > 0) {
+
+            if (mRealTimeBar != null && mRealTimeBar.getVisibility() == View.GONE) {
+                mRealTimeBar.setVisibility(View.VISIBLE);
+            }
+        } else {
+
+            if (mRealTimeBar != null && mRealTimeBar.getVisibility() == View.VISIBLE) {
+                mRealTimeBar.setVisibility(View.GONE);
+            }
+        }
+
+    }
+
+    private void hideRealTimeBar() {
+        if (mRealTimeBar != null) {
+            mRealTimeBar.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onStatusChange(final RealTimeLocationConstant.RealTimeLocationStatus status) {
+        Log.e(TAG, "onStatusChange:---" + status);
+        currentLocationStatus = status;
+
+        EventBus.getDefault().post(status);
+
+        if (status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_IDLE) {
+            hideRealTimeBar();
+            RongIM.getInstance().getRongIMClient().insertMessage(mConversationType, targetId, RongIM.getInstance().getRongIMClient().getCurrentUserId(), InformationNotificationMessage.obtain("位置共享已结束"));
+        } else if (status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_OUTGOING) {//发自定义消息
+            showRealTimeLocationBar(status);
+        } else if (status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_INCOMING) {
+            showRealTimeLocationBar(status);
+        } else if (status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_CONNECTED) {
+            showRealTimeLocationBar(status);
+        }
+
+    }
+
+    public void onEventMainThread(RongEvent.RealTimeLocationMySelfJoinEvent event) {
+
+        onParticipantsJoin(RongIM.getInstance().getRongIMClient().getCurrentUserId());
+    }
+
+    @Override
+    public void onReceiveLocation(double latitude, double longitude, String userId) {
+        Log.e(TAG, "onReceiveLocation:---" + userId);
+        EventBus.getDefault().post(RongEvent.RealTimeLocationReceiveEvent.obtain(userId, latitude, longitude));
+    }
+
+    @Override
+    public void onParticipantsJoin(String userId) {
+        Log.e(TAG, "onParticipantsJoin:---" + userId);
+        EventBus.getDefault().post(RongEvent.RealTimeLocationJoinEvent.obtain(userId));
+
+        if (RongIMClient.getInstance().getCurrentUserId().equals(userId)) {
+            showRealTimeLocationBar(null);
+        }
+    }
+
+    @Override
+    public void onParticipantsQuit(String userId) {
+        EventBus.getDefault().post(RongEvent.RealTimeLocationQuitEvent.obtain(userId));
+        Log.e(TAG, "onParticipantsQuit:---" + userId);
+    }
+
+    @Override
+    public void onError(RealTimeLocationConstant.RealTimeLocationErrorCode errorCode) {
+        Log.e(TAG, "onError:---" + errorCode);
+    }
+
+    //real-time location method end
+
+
+    @Override
+    protected void onDestroy() {
+        if ("RongActivity".equals(this.getClass().getSimpleName()))
+            EventBus.getDefault().unregister(this);
+
+        super.onDestroy();
     }
 }

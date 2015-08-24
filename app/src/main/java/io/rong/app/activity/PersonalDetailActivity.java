@@ -87,6 +87,7 @@ public class PersonalDetailActivity extends BaseApiActivity implements View.OnCl
             userInfo = DemoContext.getInstance().getUserInfoById(friendid);
             mPersonalName.setText(userInfo.getName().toString());
             mPersonalId.setText("Id:" + userInfo.getUserId().toString());
+
         }
 
         if (getIntent().hasExtra("USER")) {
