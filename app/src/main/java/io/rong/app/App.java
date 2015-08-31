@@ -58,6 +58,7 @@ public class App extends Application {
 
     }
 
+
     public static String getCurProcessName(Context context) {
         int pid = android.os.Process.myPid();
         ActivityManager activityManager = (ActivityManager) context

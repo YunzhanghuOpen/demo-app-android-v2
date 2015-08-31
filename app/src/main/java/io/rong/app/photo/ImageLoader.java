@@ -18,8 +18,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 
 
-public class ImageLoader
-{
+public class ImageLoader {
 	/**
 	 * 图片缓存的核心类
 	 */
@@ -67,10 +66,8 @@ public class ImageLoader
 	 * 队列的调度方式
 	 *
 	 * @author zhy
-	 *
 	 */
-	public enum Type
-	{
+	public enum Type {
 		FIFO, LIFO
 	}
 
@@ -80,15 +77,11 @@ public class ImageLoader
 	 *
 	 * @return
 	 */
-	public static ImageLoader getInstance()
-	{
+	public static ImageLoader getInstance() {
 
-		if (mInstance == null)
-		{
-			synchronized (ImageLoader.class)
-			{
-				if (mInstance == null)
-				{
+		if (mInstance == null) {
+			synchronized (ImageLoader.class) {
+				if (mInstance == null) {
 					mInstance = new ImageLoader(10, Type.LIFO);
 				}
 			}
@@ -96,32 +89,24 @@ public class ImageLoader
 		return mInstance;
 	}
 
-	private ImageLoader(int threadCount, Type type)
-	{
+	private ImageLoader(int threadCount, Type type) {
 		init(threadCount, type);
 	}
 
-	private void init(int threadCount, Type type)
-	{
+	private void init(int threadCount, Type type) {
 		// loop thread
-		mPoolThread = new Thread()
-		{
+		mPoolThread = new Thread() {
 			@Override
-			public void run()
-			{
+			public void run() {
 				Looper.prepare();
 
-				mPoolThreadHander = new Handler()
-				{
+				mPoolThreadHander = new Handler() {
 					@Override
-					public void handleMessage(Message msg)
-					{
+					public void handleMessage(Message msg) {
 						mThreadPool.execute(getTask());
-						try
-						{
+						try {
 							mPoolSemaphore.acquire();
-						} catch (InterruptedException e)
-						{
+						} catch (InterruptedException e) {
 						}
 					}
 				};
@@ -143,16 +128,18 @@ public class ImageLoader
 			@Override
 			protected int sizeOf(String key, Bitmap value) {
 				return value.getRowBytes() * value.getHeight() / 1024;
-			};
+			}
+
+			;
 
 			/*当缓存大于我们设定的最大值时，会调用这个方法，我们可以用来做内存释放操作*/
 			@Override
 			protected void entryRemoved(boolean evicted, String key,
-					Bitmap oldValue, Bitmap newValue) {
+										Bitmap oldValue, Bitmap newValue) {
 				super.entryRemoved(evicted, key, oldValue, newValue);
-				if (evicted && oldValue != null){
-                    oldValue.recycle();
-                }
+				if (evicted && oldValue != null) {
+					oldValue.recycle();
+				}
 			}
 		};
 
@@ -169,24 +156,19 @@ public class ImageLoader
 	 * @param path
 	 * @param imageView
 	 */
-	public void loadImage(final String path, final ImageView imageView)
-	{
+	public void loadImage(final String path, final ImageView imageView) {
 		// set tag
 		imageView.setTag(path);
 		// UI线程
-		if (mHandler == null)
-		{
-			mHandler = new Handler()
-			{
+		if (mHandler == null) {
+			mHandler = new Handler() {
 				@Override
-				public void handleMessage(Message msg)
-				{
+				public void handleMessage(Message msg) {
 					ImgBeanHolder holder = (ImgBeanHolder) msg.obj;
 					ImageView imageView = holder.imageView;
 					Bitmap bm = holder.bitmap;
 					String path = holder.path;
-					if (imageView.getTag().toString().equals(path))
-					{
+					if (imageView.getTag().toString().equals(path)) {
 						imageView.setImageBitmap(bm);
 					}
 				}
@@ -194,8 +176,7 @@ public class ImageLoader
 		}
 
 		Bitmap bm = getBitmapFromLruCache(path);
-		if (bm != null)
-		{
+		if (bm != null) {
 			ImgBeanHolder holder = new ImgBeanHolder();
 			holder.bitmap = bm;
 			holder.imageView = imageView;
@@ -203,13 +184,10 @@ public class ImageLoader
 			Message message = Message.obtain();
 			message.obj = holder;
 			mHandler.sendMessage(message);
-		} else
-		{
-			addTask(new Runnable()
-			{
+		} else {
+			addTask(new Runnable() {
 				@Override
-				public void run()
-				{
+				public void run() {
 
 					ImageSize imageSize = getImageViewWidth(imageView);
 
@@ -218,7 +196,7 @@ public class ImageLoader
 
 					Bitmap bm = decodeSampledBitmapFromResource(path, reqWidth,
 							reqHeight);
-					if (bm==null) {
+					if (bm == null) {
 						mPoolSemaphore.release();
 						return;
 
@@ -231,7 +209,7 @@ public class ImageLoader
 					holder.path = path;
 					Message message = Message.obtain();
 					message.obj = holder;
-					 Log.e("TAG", "mHandler.sendMessage(message);");
+					Log.e("TAG", "mHandler.sendMessage(message);");
 					mHandler.sendMessage(message);
 					mPoolSemaphore.release();
 				}
@@ -245,15 +223,12 @@ public class ImageLoader
 	 *
 	 * @param runnable
 	 */
-	private synchronized void addTask(Runnable runnable)
-	{
-		try
-		{
+	private synchronized void addTask(Runnable runnable) {
+		try {
 			// 请求信号量，防止mPoolThreadHander为null
 			if (mPoolThreadHander == null)
 				mSemaphore.acquire();
-		} catch (InterruptedException e)
-		{
+		} catch (InterruptedException e) {
 		}
 		mTasks.add(runnable);
 
@@ -265,13 +240,10 @@ public class ImageLoader
 	 *
 	 * @return
 	 */
-	private synchronized Runnable getTask()
-	{
-		if (mType == Type.FIFO)
-		{
+	private synchronized Runnable getTask() {
+		if (mType == Type.FIFO) {
 			return mTasks.removeFirst();
-		} else if (mType == Type.LIFO)
-		{
+		} else if (mType == Type.LIFO) {
 			return mTasks.removeLast();
 		}
 		return null;
@@ -282,15 +254,11 @@ public class ImageLoader
 	 *
 	 * @return
 	 */
-	public static ImageLoader getInstance(int threadCount, Type type)
-	{
+	public static ImageLoader getInstance(int threadCount, Type type) {
 
-		if (mInstance == null)
-		{
-			synchronized (ImageLoader.class)
-			{
-				if (mInstance == null)
-				{
+		if (mInstance == null) {
+			synchronized (ImageLoader.class) {
+				if (mInstance == null) {
 					mInstance = new ImageLoader(threadCount, type);
 				}
 			}
@@ -305,8 +273,7 @@ public class ImageLoader
 	 * @param imageView
 	 * @return
 	 */
-	private ImageSize getImageViewWidth(ImageView imageView)
-	{
+	private ImageSize getImageViewWidth(ImageView imageView) {
 		ImageSize imageSize = new ImageSize();
 		final DisplayMetrics displayMetrics = imageView.getContext()
 				.getResources().getDisplayMetrics();
@@ -318,8 +285,8 @@ public class ImageLoader
 			width = params.width; // Get layout width parameter
 		if (width <= 0)
 			width = getImageViewFieldValue(imageView, "mMaxWidth"); // Check
-																	// maxWidth
-																	// parameter
+		// maxWidth
+		// parameter
 		if (width <= 0)
 			width = displayMetrics.widthPixels;
 		int height = params.height == LayoutParams.WRAP_CONTENT ? 0 : imageView
@@ -328,8 +295,8 @@ public class ImageLoader
 			height = params.height; // Get layout height parameter
 		if (height <= 0)
 			height = getImageViewFieldValue(imageView, "mMaxHeight"); // Check
-																		// maxHeight
-																		// parameter
+		// maxHeight
+		// parameter
 		if (height <= 0)
 			height = displayMetrics.heightPixels;
 		imageSize.width = width;
@@ -341,8 +308,7 @@ public class ImageLoader
 	/**
 	 * 从LruCache中获取一张图片，如果不存在就返回null。
 	 */
-	private Bitmap getBitmapFromLruCache(String key)
-	{
+	private Bitmap getBitmapFromLruCache(String key) {
 		return mLruCache.get(key);
 	}
 
@@ -352,10 +318,8 @@ public class ImageLoader
 	 * @param key
 	 * @param bitmap
 	 */
-	private void addBitmapToLruCache(String key, Bitmap bitmap)
-	{
-		if (getBitmapFromLruCache(key) == null)
-		{
+	private void addBitmapToLruCache(String key, Bitmap bitmap) {
+		if (getBitmapFromLruCache(key) == null) {
 			if (bitmap != null)
 				mLruCache.put(key, bitmap);
 		}
@@ -370,15 +334,13 @@ public class ImageLoader
 	 * @return
 	 */
 	private int calculateInSampleSize(BitmapFactory.Options options,
-			int reqWidth, int reqHeight)
-	{
+									  int reqWidth, int reqHeight) {
 		// 源图片的宽度
 		int width = options.outWidth;
 		int height = options.outHeight;
 		int inSampleSize = 1;
 
-		if (width > reqWidth && height > reqHeight)
-		{
+		if (width > reqWidth && height > reqHeight) {
 			// 计算出实际宽度和目标宽度的比率
 			int widthRatio = Math.round((float) width / (float) reqWidth);
 			int heightRatio = Math.round((float) width / (float) reqWidth);
@@ -386,7 +348,6 @@ public class ImageLoader
 		}
 		return inSampleSize;
 	}
-
 
 
 	/**
@@ -398,33 +359,36 @@ public class ImageLoader
 	 * @return
 	 */
 	private Bitmap decodeSampledBitmapFromResource(String pathName,
-			int reqWidth, int reqHeight)
-	{
+												   int reqWidth, int reqHeight) {
 //        第一次解析将inJustDecodeBounds设置为true，来获取图片大小
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(pathName, options);
-        // 调用上面定义的方法计算inSampleSize值
-        options.inSampleSize = calculateInSampleSize(options, reqWidth,
-                reqHeight);
-        // 使用获取到的inSampleSize值再次解析图片
-        options.inJustDecodeBounds = false;
-        Bitmap bitmap = BitmapFactory.decodeFile(pathName, options);
+		final BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(pathName, options);
+		// 调用上面定义的方法计算inSampleSize值
+		options.inSampleSize = calculateInSampleSize(options, reqWidth,
+				reqHeight);
+		// 使用获取到的inSampleSize值再次解析图片
+		options.inJustDecodeBounds = false;
+		Bitmap bitmap = null;
+		try {
+			bitmap = BitmapFactory.decodeFile(pathName, options);
+		} catch (OutOfMemoryError e) {
+			Log.e("ImageLoader", "java.lang.OutOfMemoryError");
+		}
 
-        return bitmap;
+
+		return bitmap;
 //	return BitmapUtils.loadBitmap(0, pathName);
 
 	}
 
-	private class ImgBeanHolder
-	{
+	private class ImgBeanHolder {
 		Bitmap bitmap;
 		ImageView imageView;
 		String path;
 	}
 
-	private class ImageSize
-	{
+	private class ImageSize {
 		int width;
 		int height;
 	}
@@ -436,22 +400,18 @@ public class ImageLoader
 	 * @param fieldName
 	 * @return
 	 */
-	private static int getImageViewFieldValue(Object object, String fieldName)
-	{
+	private static int getImageViewFieldValue(Object object, String fieldName) {
 		int value = 0;
-		try
-		{
+		try {
 			Field field = ImageView.class.getDeclaredField(fieldName);
 			field.setAccessible(true);
 			int fieldValue = (Integer) field.get(object);
-			if (fieldValue > 0 && fieldValue < Integer.MAX_VALUE)
-			{
+			if (fieldValue > 0 && fieldValue < Integer.MAX_VALUE) {
 				value = fieldValue;
 
 				Log.e("TAG", value + "");
 			}
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 		}
 		return value;
 	}

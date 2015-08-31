@@ -112,9 +112,10 @@
     <string name="rc_called_accept">The other accepted the call request</string>
     <string name="rc_plugins_voip">Voice Call</string>
 
-
- <string name="rc_notification_send"> sent </string>
-    <string name="rc_notification_msg"> messages </string>
-    <string name="rc_notification_contact"> contacts </string>
+      <string name="rc_notification_send">&#160;sent&#160; </string>
+    <string name="rc_notification_msg">&#160;messages</string>
+    <string name="rc_notification_contact"> &#160;contacts </string>
     <string name="rc_notification_ticker_text">You have a new message</string>
+
+
 </resources>

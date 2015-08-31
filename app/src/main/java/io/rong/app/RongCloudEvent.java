@@ -157,11 +157,17 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 new CameraInputProvider(RongContext.getInstance()),//相机
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
         };
+        InputProvider.ExtendProvider[] provider2 = {
+                new PhotoCollectionsProvider(RongContext.getInstance()),//图片
+                new CameraInputProvider(RongContext.getInstance()),//相机
+        };
 
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.PRIVATE, provider);
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.DISCUSSION, provider1);
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.GROUP, provider1);
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.CUSTOMER_SERVICE, provider1);
+        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.APP_PUBLIC_SERVICE, provider2);
+        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.PUBLIC_SERVICE, provider2);
 //        RongIM.getInstance().setPrimaryInputProvider(new InputTestProvider((RongContext) mContext));
 
     }
