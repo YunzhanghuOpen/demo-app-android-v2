@@ -1,6 +1,7 @@
 package io.rong.app.activity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -53,6 +54,7 @@ public class PersonalDetailActivity extends BaseApiActivity implements View.OnCl
     UserInfo userInfo;
     private LoadingDialog mDialog;
 
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +128,8 @@ public class PersonalDetailActivity extends BaseApiActivity implements View.OnCl
                         this.setResult(Constants.DELETE_USERNAME_REQUESTCODE, intent);
 
                     }
+                }else if(status.getCode() == 306){
+                    WinToast.toast(this, status.getMessage());
                 }
             }
         }
@@ -162,7 +166,7 @@ public class PersonalDetailActivity extends BaseApiActivity implements View.OnCl
         switch (item.getItemId()) {
             case R.id.per_item1://加入黑名单
                 if (DemoContext.getInstance() != null && friendid != null) {
-                    RongIM.getInstance().getRongIMClient().addToBlacklist(friendid, new RongIMClient.AddToBlackCallback() {
+                    RongIM.getInstance().getRongIMClient().addToBlacklist(friendid, new RongIMClient.OperationCallback() {
                         @Override
                         public void onSuccess() {
                             WinToast.toast(PersonalDetailActivity.this, "加入黑名单成功");

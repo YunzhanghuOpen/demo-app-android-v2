@@ -58,7 +58,8 @@ public class NewFriendListAdapter extends android.widget.BaseAdapter {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
+
+        ViewHolder viewHolder ;
         if(convertView == null || convertView.getTag() == null){
             convertView = mLayoutInflater.inflate(R.layout.de_item_friend,parent,false);
             viewHolder = new ViewHolder();
@@ -67,7 +68,7 @@ public class NewFriendListAdapter extends android.widget.BaseAdapter {
             viewHolder.mPortraitImg = (AsyncImageView) convertView.findViewById(R.id.item_friend_portrait);
             convertView.setTag(viewHolder);
         }else{
-            convertView.getTag();
+            viewHolder= (ViewHolder) convertView.getTag();
         }
 
         if(viewHolder != null) {

@@ -37,8 +37,6 @@ public class RealTimeLocationActivity extends LocationMapActivity implements Vie
 
     private RelativeLayout mLayout;
 
-    Conversation.ConversationType conversationType;
-    String targetId = null;
 
     @Override
     protected int getContentView() {
@@ -81,6 +79,7 @@ public class RealTimeLocationActivity extends LocationMapActivity implements Vie
 
     @Override
     protected void initData() {
+        super.initData();
 
         final List<String> userIds = RongIMClient.getInstance().getRealTimeLocationParticipants(conversationType, targetId);
 
@@ -113,7 +112,7 @@ public class RealTimeLocationActivity extends LocationMapActivity implements Vie
 
         if (v == mExitImageView) {
             RongIMClient.getInstance().quitRealTimeLocation(conversationType, targetId);
-            Log.d("RealTimeLocationActivity", "--quitRealTimeLocation---");
+//            Log.d("RealTimeLocationActivity", "--quitRealTimeLocation---");
             finish();
         } else if (v == mCloseImageView) {
             finish();

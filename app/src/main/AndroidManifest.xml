@@ -345,13 +345,16 @@
             android:name="RONG_CLOUD_APP_KEY"
             android:value="z3v5yqkbv8v30" />
 
+
+
         <!--end rongcloud-->
 
 
         <!-- 高德地图-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="8d05f0918f71d50e92f923df159aa9ee"/>
+            android:value="f1175b5989cbf80c464f9d65bd7250b7"/>
+
 
         <activity android:name=".activity.RealTimeLocationActivity"></activity>
 

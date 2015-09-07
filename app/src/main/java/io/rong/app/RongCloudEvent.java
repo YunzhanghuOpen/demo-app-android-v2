@@ -106,6 +106,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 }
             }
         }
+
     }
 
     /**
@@ -149,7 +150,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 new CameraInputProvider(RongContext.getInstance()),//相机
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
                 new VoIPInputProvider(RongContext.getInstance()),// 语音通话
-                new ContactsProvider(RongContext.getInstance())//通讯录
+                new ContactsProvider(RongContext.getInstance()),//通讯录
         };
 
         InputProvider.ExtendProvider[] provider1 = {
@@ -157,17 +158,11 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 new CameraInputProvider(RongContext.getInstance()),//相机
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
         };
-        InputProvider.ExtendProvider[] provider2 = {
-                new PhotoCollectionsProvider(RongContext.getInstance()),//图片
-                new CameraInputProvider(RongContext.getInstance()),//相机
-        };
 
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.PRIVATE, provider);
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.DISCUSSION, provider1);
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.GROUP, provider1);
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.CUSTOMER_SERVICE, provider1);
-        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.APP_PUBLIC_SERVICE, provider2);
-        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.PUBLIC_SERVICE, provider2);
 //        RongIM.getInstance().setPrimaryInputProvider(new InputTestProvider((RongContext) mContext));
 
     }
@@ -456,11 +451,12 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
         //real-time location message begin
         if (message.getContent() instanceof RealTimeLocationStartMessage) {
-            RealTimeLocationConstant.RealTimeLocationStatus status = RongIM.getInstance().getRongIMClient().getRealTimeLocationCurrentState(message.getConversationType(), message.getTargetId());
+            RealTimeLocationConstant.RealTimeLocationStatus status = RongIMClient.getInstance().getRealTimeLocationCurrentState(message.getConversationType(), message.getTargetId());
 
-            if (status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_IDLE) {
-                startRealTimeLocation(context, message.getConversationType(), message.getTargetId());
-            } else if (status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_INCOMING) {
+//            if (status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_IDLE) {
+//                startRealTimeLocation(context, message.getConversationType(), message.getTargetId());
+//            } else
+            if (status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_INCOMING) {
                 joinRealTimeLocation(context, message.getConversationType(), message.getTargetId());
             }
             return true;
@@ -513,7 +509,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     }
 
     @Override
-    public boolean onMessageLinkClick(String link) {
+    public boolean onMessageLinkClick(Context context, String link) {
         Log.e(TAG, "----onMessageLongClick:" + link);
 
         return false;

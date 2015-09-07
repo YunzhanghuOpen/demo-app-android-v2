@@ -18,6 +18,7 @@ import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.model.ProviderTag;
 import io.rong.imkit.model.UIMessage;
+import io.rong.imkit.util.AndroidEmoji;
 import io.rong.imkit.widget.ArraysDialogFragment;
 import io.rong.imkit.widget.provider.IContainerItemProvider;
 import io.rong.imlib.location.message.RealTimeLocationStartMessage;
@@ -81,7 +82,7 @@ public class RealTimeLocationMessageProvider extends IContainerItemProvider.Mess
         ArraysDialogFragment.newInstance(name, items).setArraysDialogItemListener(new ArraysDialogFragment.OnArraysDialogItemListener() {
             @Override
             public void OnArraysDialogItemClick(DialogInterface dialog, int which) {
-                if (which == 1) {
+                if (which == 0) {
                     RongIM.getInstance().getRongIMClient().deleteMessages(new int[]{message.getMessageId()}, null);
                 }
 

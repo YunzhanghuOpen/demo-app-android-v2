@@ -629,6 +629,8 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                     edit.apply();
                     Log.e(TAG, "-------login success------");
 
+                    DemoContext.getInstance().setCurrentUserInfo(new UserInfo(user.getResult().getId(), user.getResult().getUsername(), Uri.parse(user.getResult().getPortrait())));
+
                     httpLoginSuccess(user);
                 }
             } else if (user.getCode() == 103) {
@@ -736,9 +738,6 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
             });
             alterDialog.show();
         }
-
         return false;
     }
-
-
 }

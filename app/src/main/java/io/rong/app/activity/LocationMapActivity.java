@@ -1,10 +1,16 @@
 package io.rong.app.activity;
 
+import android.location.Location;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationListener;
+import com.amap.api.location.LocationManagerProxy;
+import com.amap.api.location.LocationProviderProxy;
 import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
 import com.amap.api.maps2d.model.LatLng;
@@ -14,17 +20,49 @@ import com.sea_monster.resource.Resource;
 
 import java.util.List;
 
+import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.imkit.RLog;
+import io.rong.imkit.RongIM;
 import io.rong.imkit.widget.AsyncImageView;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by zhjchen on 8/12/15.
  */
-public abstract class LocationMapActivity extends BasicMapActivity implements AMap.OnMarkerClickListener {
+public abstract class LocationMapActivity extends BasicMapActivity implements AMap.OnMarkerClickListener, AMapLocationListener {
+    private LocationManagerProxy mLocationManagerProxy;
 
+    protected Conversation.ConversationType conversationType;
+    protected String targetId = null;
+
+    @Override
+    protected void initData() {
+        mLocationManagerProxy = LocationManagerProxy.getInstance(this);
+
+        mLocationManagerProxy.requestLocationData(
+                LocationProviderProxy.AMapNetwork, 5 * 1000, 1, this);
+
+        mLocationManagerProxy.setGpsEnable(true);
+
+        Log.e("locationActivity", "---------init-------------");
+    }
+
+    @Override
+    public void onLocationChanged(AMapLocation amapLocation) {
+        if (amapLocation != null && amapLocation.getAMapException().getErrorCode() == 0) {
+            //获取位置信息
+            Double geoLat = amapLocation.getLatitude();
+            Double geoLng = amapLocation.getLongitude();
+
+            Log.e("locationActivity", "--geoLat-" + geoLat);
+//            moveMarker(new LatLng(geoLat, geoLng), DemoContext.getInstance().getCurrentUserInfo());
+
+            RongIMClient.getInstance().updateRealTimeLocationStatus(conversationType, targetId, geoLat, geoLng);
+        }
+    }
 
     public void addMarker(LatLng latLng, final UserInfo userInfo) {
 
@@ -52,6 +90,7 @@ public abstract class LocationMapActivity extends BasicMapActivity implements AM
         Marker marker = getaMap().addMarker(markerOption);
         marker.setObject(userInfo.getUserId());
 
+        RLog.e(this, "addMarker", "addMarker:userId---" + userInfo.getUserId());
     }
 
     public void removeMarker(String userId) {
@@ -71,7 +110,7 @@ public abstract class LocationMapActivity extends BasicMapActivity implements AM
     }
 
 
-    public void moveMarker(LatLng latLng, UserInfo userInfo) {
+    public void moveMarker(final LatLng latLng, final UserInfo userInfo) {
         removeMarker(userInfo.getUserId());
         addMarker(latLng, userInfo);
     }
@@ -84,5 +123,35 @@ public abstract class LocationMapActivity extends BasicMapActivity implements AM
         return true;
     }
 
+    /**
+     * ------ begin ------
+     * 定位
+     *
+     * @param location
+     */
+    @Override
+    public void onLocationChanged(Location location) {
 
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    /**
+     * ----- end ------
+     * 定位
+     *
+     * @param provider
+     */
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
 }

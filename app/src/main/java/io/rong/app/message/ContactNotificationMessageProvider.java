@@ -21,7 +21,7 @@ import io.rong.imkit.model.UIMessage;
 import io.rong.imkit.widget.ArraysDialogFragment;
 import io.rong.imkit.widget.provider.IContainerItemProvider;
 import io.rong.imlib.model.Conversation;
-import io.rong.imlib.model.PublicServiceInfo;
+import io.rong.imlib.model.PublicServiceProfile;
 import io.rong.imlib.model.UserInfo;
 import io.rong.message.ContactNotificationMessage;
 
@@ -59,7 +59,7 @@ public class ContactNotificationMessageProvider extends IContainerItemProvider.M
         if (message.getConversationType().getName().equals(Conversation.ConversationType.APP_PUBLIC_SERVICE.getName()) ||
                 message.getConversationType().getName().equals(Conversation.ConversationType.PUBLIC_SERVICE.getName())) {
             ConversationKey key = ConversationKey.obtain(message.getTargetId(), message.getConversationType());
-            PublicServiceInfo info = RongContext.getInstance().getPublicServiceInfoCache().get(key.getKey());
+            PublicServiceProfile info = RongContext.getInstance().getPublicServiceInfoCache().get(key.getKey());
             if (info != null)
                 name = info.getName();
         } else {

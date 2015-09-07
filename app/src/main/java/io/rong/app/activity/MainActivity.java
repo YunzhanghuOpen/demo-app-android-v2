@@ -47,11 +47,13 @@ import io.rong.app.fragment.CustomerFragment;
 import io.rong.app.fragment.GroupListFragment;
 import io.rong.app.model.Groups;
 import io.rong.app.ui.LoadingDialog;
+import io.rong.app.utils.AppManager;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Group;
+import io.rong.message.ContactNotificationMessage;
 
 public class MainActivity extends BaseApiActivity implements View.OnClickListener, ViewPager.OnPageChangeListener, ActionBar.OnMenuVisibilityListener, Handler.Callback {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -193,8 +195,6 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                 }
             }
         }
-
-
     }
 
     protected void initData() {
@@ -280,21 +280,22 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                     if (conversation.equals("conversation")) {
                         if(RongIM.getInstance()!=null && RongIM.getInstance().getRongIMClient()!=null){
 
-                            RongIM.getInstance().getRongIMClient().getConversation(Conversation.ConversationType.valueOf(conversationType), userId, new RongIMClient.ResultCallback<Conversation>() {
+                            RongIM.getInstance().getRongIMClient().getConversation(Conversation.ConversationType.valueOf(conversationType), targetId, new RongIMClient.ResultCallback<Conversation>() {
                                 @Override
                                 public void onSuccess(Conversation conversation) {
 
-//                                    if(conversation.getLatestMessage()!=null && conversation.getLatestMessage() instanceof ContactNotificationMessage) {
-//                                        new Intent(MainActivity.this, NewFriendListActivity.class);
-//                                    }else{
+                                    if(conversation !=null  ) {
 
-                                        Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon().appendPath("conversation")
-                                                .appendPath(conversationType).appendQueryParameter("targetId", targetId).build();
-                                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                                        intent.setData(uri);
-                                        startActivity(intent);
-
-//                                    }
+                                        if(conversation.getLatestMessage() instanceof ContactNotificationMessage) {
+                                            startActivity(new Intent(MainActivity.this, NewFriendListActivity.class));
+                                        }else{
+                                            Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon().appendPath("conversation")
+                                                    .appendPath(conversationType).appendQueryParameter("targetId", targetId).build();
+                                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                                            intent.setData(uri);
+                                            startActivity(intent);
+                                        }
+                                    }
                                 }
                                 @Override
                                 public void onError(RongIMClient.ErrorCode e) {
@@ -302,8 +303,6 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                                 }
                             });
                         }
-
-
                     }
                 }
 
@@ -316,7 +315,6 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
             mDialog.dismiss();
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -379,7 +377,7 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                                 .appendPath("conversationlist")
                                 .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话是否聚合显示
                                 .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "true")//群组
-                                .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "true")//讨论组
+                                .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//讨论组
                                 .appendQueryParameter(Conversation.ConversationType.APP_PUBLIC_SERVICE.getName(), "false")//应用公众服务。
                                 .appendQueryParameter(Conversation.ConversationType.PUBLIC_SERVICE.getName(), "false")//公共服务号
                                 .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//系统
@@ -536,7 +534,6 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
         switch (item.getItemId()) {
             case R.id.add_item1://发起聊天
                 startActivity(new Intent(this, FriendListActivity.class));
-//                semdMessage();
                 break;
             case R.id.add_item2://选择群组
 
@@ -590,7 +587,6 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
 
 
 
-
     @Override
     public void onCallApiSuccess(AbstractHttpRequest request, Object obj) {
         if (mGetMyGroupsRequest != null && mGetMyGroupsRequest.equals(request)) {
@@ -620,6 +616,7 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                     if (RongIM.getInstance() != null)
                         RongIM.getInstance().disconnect(true);
 
+                    AppManager.getAppManager().AppExit(MainActivity.this);
                     Process.killProcess(Process.myPid());
                 }
             });
@@ -688,37 +685,5 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
             }
         }
     }
-
-//    private void semdMessage() {
-//        String id = "26594";
-//
-//        final RCCrowdfundMessage message = new RCCrowdfundMessage( "agree 100 ");
-//        if (DemoContext.getInstance() != null) {
-//            //获取当前用户的 userid
-//            String userid = DemoContext.getInstance().getSharedPreferences().getString("DEMO_USERID", "defalte");
-//            UserInfo userInfo = DemoContext.getInstance().getUserInfoById(userid);
-//            //把用户信息设置到消息体中，直接发送给对方，可以不设置，非必选项
-//            message.setUserInfo(userInfo);
-//            if (RongIM.getInstance() != null) {
-//
-//                //发送一条添加成功的自定义消息，此条消息不会在ui上展示
-//                RongIM.getInstance().getRongIMClient().sendMessage(Conversation.ConversationType.PRIVATE, id, message, null,null, new RongIMClient.SendMessageCallback() {
-//                    @Override
-//                    public void onError(Integer messageId, RongIMClient.ErrorCode e) {
-//                        Log.e(TAG, Constants.DEBUG + "------RCCrowdfundMessage----onError--");
-//                        if (mDialog != null)
-//                            mDialog.dismiss();
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(Integer integer) {
-//                        Log.e(TAG, Constants.DEBUG + "------RCCrowdfundMessage----onSuccess--" + message.getSponsorNameKey());
-//                        if (mDialog != null)
-//                            mDialog.dismiss();
-//                    }
-//                });
-//            }
-//        }
-//    }
 
 }

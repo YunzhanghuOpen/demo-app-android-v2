@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sea_monster.exception.BaseException;
 
@@ -46,7 +45,7 @@ import io.rong.imlib.RongIMClient;
 import io.rong.imlib.location.RealTimeLocationConstant;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Discussion;
-import io.rong.imlib.model.PublicServiceInfo;
+import io.rong.imlib.model.PublicServiceProfile;
 import io.rong.imlib.model.UserInfo;
 import io.rong.message.InformationNotificationMessage;
 
@@ -103,10 +102,6 @@ public class RongActivity extends BaseActivity implements Handler.Callback, Rong
 
             @Override
             public void onClick(View v) {
-
-                if (!isOpenGPS()) {
-                    return;
-                }
 
                 if (currentLocationStatus == null)
                     currentLocationStatus = RongIMClient.getInstance().getRealTimeLocationCurrentState(mConversationType, targetId);
@@ -199,32 +194,6 @@ public class RongActivity extends BaseActivity implements Handler.Callback, Rong
 //        }
 
 
-    }
-
-    private boolean isOpenGPS() {
-        boolean isOpen = CommonUtils.isOpenGPS(this);
-
-        if (!isOpen) {
-
-            final AlterDialogFragment dialogFragment = AlterDialogFragment.newInstance("GPS", "请检查 GPS 是否打开！", null, "关闭");
-            dialogFragment.setOnAlterDialogBtnListener(new AlterDialogFragment.AlterDialogBtnListener() {
-                @Override
-                public void onDialogPositiveClick(AlterDialogFragment dialog) {
-                    dialogFragment.dismiss();
-                }
-
-                @Override
-                public void onDialogNegativeClick(AlterDialogFragment dialog) {
-
-                }
-            });
-
-            dialogFragment.show(getSupportFragmentManager());
-
-            return isOpen;
-        }
-
-        return true;
     }
 
 
@@ -459,10 +428,10 @@ public class RongActivity extends BaseActivity implements Handler.Callback, Rong
             } else if (mConversationType.equals(Conversation.ConversationType.APP_PUBLIC_SERVICE)) {
                 if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
 
-                    RongIM.getInstance().getRongIMClient().getPublicServiceProfile(Conversation.PublicServiceType.APP_PUBLIC_SERVICE, targetId, new RongIMClient.ResultCallback<PublicServiceInfo>() {
+                    RongIM.getInstance().getRongIMClient().getPublicServiceProfile(Conversation.PublicServiceType.APP_PUBLIC_SERVICE, targetId, new RongIMClient.ResultCallback<PublicServiceProfile>() {
                         @Override
-                        public void onSuccess(PublicServiceInfo publicServiceInfo) {
-                            getSupportActionBar().setTitle(publicServiceInfo.getName().toString());
+                        public void onSuccess(PublicServiceProfile publicServiceProfile) {
+                            getSupportActionBar().setTitle(publicServiceProfile.getName().toString());
                         }
 
                         @Override
@@ -475,10 +444,10 @@ public class RongActivity extends BaseActivity implements Handler.Callback, Rong
             } else if (mConversationType.equals(Conversation.ConversationType.PUBLIC_SERVICE)) {
                 if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
 
-                    RongIM.getInstance().getRongIMClient().getPublicServiceProfile(Conversation.PublicServiceType.PUBLIC_SERVICE, targetId, new RongIMClient.ResultCallback<PublicServiceInfo>() {
+                    RongIM.getInstance().getRongIMClient().getPublicServiceProfile(Conversation.PublicServiceType.PUBLIC_SERVICE, targetId, new RongIMClient.ResultCallback<PublicServiceProfile>() {
                         @Override
-                        public void onSuccess(PublicServiceInfo publicServiceInfo) {
-                            getSupportActionBar().setTitle(publicServiceInfo.getName().toString());
+                        public void onSuccess(PublicServiceProfile publicServiceProfile) {
+                            getSupportActionBar().setTitle(publicServiceProfile.getName().toString());
                         }
 
                         @Override
@@ -826,7 +795,12 @@ public class RongActivity extends BaseActivity implements Handler.Callback, Rong
 
         if (status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_IDLE) {
             hideRealTimeBar();
-            RongIM.getInstance().getRongIMClient().insertMessage(mConversationType, targetId, RongIM.getInstance().getRongIMClient().getCurrentUserId(), InformationNotificationMessage.obtain("位置共享已结束"));
+
+            RealTimeLocationConstant.RealTimeLocationErrorCode errorCode = RongIMClient.getInstance().getRealTimeLocation(mConversationType, targetId);
+
+            if (errorCode == RealTimeLocationConstant.RealTimeLocationErrorCode.RC_REAL_TIME_LOCATION_SUCCESS) {
+                RongIM.getInstance().getRongIMClient().insertMessage(mConversationType, targetId, RongIM.getInstance().getRongIMClient().getCurrentUserId(), InformationNotificationMessage.obtain("位置共享已结束"));
+            }
         } else if (status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_OUTGOING) {//发自定义消息
             showRealTimeLocationBar(status);
         } else if (status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_INCOMING) {
@@ -845,7 +819,8 @@ public class RongActivity extends BaseActivity implements Handler.Callback, Rong
     @Override
     public void onReceiveLocation(double latitude, double longitude, String userId) {
         Log.e(TAG, "onReceiveLocation:---" + userId);
-        EventBus.getDefault().post(RongEvent.RealTimeLocationReceiveEvent.obtain(userId, latitude, longitude));
+//        if (!userId.equals(DemoContext.getInstance().getCurrentUserInfo().getUserId()))
+            EventBus.getDefault().post(RongEvent.RealTimeLocationReceiveEvent.obtain(userId, latitude, longitude));
     }
 
     @Override

@@ -2,8 +2,7 @@
 <resources>
     <declare-styleable name="AsyncImageView">
 
-        <attr name="minShortSideSize" format="dimension">
-        </attr>
+        <attr name="minShortSideSize" format="dimension"/>
 
         <attr name="shape">
             <flag name="square" value="0" />

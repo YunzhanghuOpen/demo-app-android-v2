@@ -3,12 +3,14 @@ package io.rong.app;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import io.rong.app.message.ContactNotificationMessageProvider;
 import io.rong.app.message.DeAgreedFriendRequestMessage;
 import io.rong.app.message.RealTimeLocationMessageProvider;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.ipc.RongExceptionHandler;
+import io.rong.message.TextMessage;
 
 /**
  * Created by bob on 2015/1/30.
@@ -32,6 +34,8 @@ public class App extends Application {
         if ("io.rong.app".equals(getCurProcessName(getApplicationContext())) ||
                 "io.rong.push".equals(getCurProcessName(getApplicationContext()))) {
 
+
+            Log.e("tag","-------app--"+getApplicationInfo().packageName.toString());
             RongIM.init(this);
 
             /**
@@ -56,8 +60,12 @@ public class App extends Application {
             }
         }
 
-    }
 
+
+
+
+
+    }
 
     public static String getCurProcessName(Context context) {
         int pid = android.os.Process.myPid();

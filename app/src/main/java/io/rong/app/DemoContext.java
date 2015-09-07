@@ -32,6 +32,7 @@ public class DemoContext {
     private SharedPreferences mPreferences;
     private RongIM.LocationProvider.LocationCallback mLastLocationCallback;
     private UserInfosDao mUserInfosDao;
+    private UserInfo currentUserInfo;
 
 
     public static DemoContext getInstance() {
@@ -275,4 +276,12 @@ public class DemoContext {
         }
     }
 
+
+    public UserInfo getCurrentUserInfo() {
+        return currentUserInfo;
+    }
+
+    public void setCurrentUserInfo(UserInfo currentUserInfo) {
+        this.currentUserInfo = currentUserInfo;
+    }
 }

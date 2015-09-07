@@ -6,4 +6,9 @@
     <string name="de_plugins_camera">Camera</string>
     <string name="add_contacts">Contacts</string>
 
+    <string name="app_login_show">Username</string>
+    <string name="app_login_password">Password</string>
+    <string name="app_sign_in">Sign in </string>
+    <string name="app_sign_up">Sign up</string>
+
 </resources>

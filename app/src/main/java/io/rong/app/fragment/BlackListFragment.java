@@ -152,7 +152,7 @@ public class BlackListFragment extends Fragment implements SwitchGroup.ItemHande
                     switch (i) {
                         case 0:
                             if (RongIM.getInstance()!=null)
-                                RongIM.getInstance().getRongIMClient().removeFromBlacklist(viewHolder.friend.getUserId(), new RongIMClient.RemoveFromBlacklistCallback() {
+                                RongIM.getInstance().getRongIMClient().removeFromBlacklist(viewHolder.friend.getUserId(), new RongIMClient.OperationCallback() {
                                     @Override
                                     public void onSuccess() {
                                         Log.e(TAG, "----onSuccess--");

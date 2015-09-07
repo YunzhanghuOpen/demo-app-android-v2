@@ -15,6 +15,7 @@ import com.sea_monster.resource.Resource;
 import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.app.model.User;
+import io.rong.app.model.Users;
 import io.rong.app.ui.LoadingDialog;
 import io.rong.app.ui.WinToast;
 import io.rong.app.utils.Constants;
@@ -44,9 +45,7 @@ public class DePersonalDetailActivity extends BaseApiActivity implements View.On
         setContentView(R.layout.de_ac_personal_detail);
         initView();
         initData();
-
     }
-
 
     protected void initView() {
         getSupportActionBar().setTitle(R.string.public_add_address);
@@ -93,18 +92,16 @@ public class DePersonalDetailActivity extends BaseApiActivity implements View.On
         if (mUserHttpRequest == request) {
             if (mDialog != null)
                 mDialog.dismiss();
-            final User user = (User) obj;
+            final Users user = (Users) obj;
             if (user.getCode() == 200) {
-                WinToast.toast(this,R.string.friend_send_success);
-                Log.e("", "--------onCallApiSuccess----发送好友请求成功---------");
-                Intent intent = new Intent();
-                this.setResult( Constants.PERSONAL_REQUESTCODE, intent);
 
+                    WinToast.toast(this,R.string.friend_send_success);
+                    Intent intent = new Intent();
+                    this.setResult( Constants.PERSONAL_REQUESTCODE, intent);
             }else if(user.getCode() == 301){
                 WinToast.toast(this,R.string.friend_send);
             }
         }
-
     }
 
     @Override
@@ -112,7 +109,6 @@ public class DePersonalDetailActivity extends BaseApiActivity implements View.On
         if (mUserHttpRequest == request) {
             if (mDialog != null)
                 mDialog.dismiss();
-            Log.e("", "--------onCallApiSuccess----发送好友请求失败---------");
         }
     }
 
@@ -124,13 +120,12 @@ public class DePersonalDetailActivity extends BaseApiActivity implements View.On
             if (DemoContext.getInstance() != null) {
 //                String targetname = DemoContext.getInstance().getUserInfoById(targetid).getName().toString();
 //                mUserHttpRequest = DemoContext.getInstance().getDemoApi().sendFriendInvite(targetid,"请添加我为好友，I'm "+targetname, this);
-                mUserHttpRequest = DemoContext.getInstance().getDemoApi().sendFriendInvite(targetid,"请添加我为好友 ", this);
+                mUserHttpRequest = DemoContext.getInstance().getDemoApi().sendFriendInvite(targetid, "请添加我为好友 ", this);
 
                 if (mDialog != null && !mDialog.isShowing()) {
                     mDialog.show();
                 }
             }
-
         }
     }
 
