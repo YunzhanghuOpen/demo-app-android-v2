@@ -2,7 +2,6 @@ package io.rong.app.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +14,6 @@ import com.sea_monster.resource.Resource;
 import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.app.model.User;
-import io.rong.app.model.Users;
 import io.rong.app.ui.LoadingDialog;
 import io.rong.app.ui.WinToast;
 import io.rong.app.utils.Constants;
@@ -92,7 +90,7 @@ public class DePersonalDetailActivity extends BaseApiActivity implements View.On
         if (mUserHttpRequest == request) {
             if (mDialog != null)
                 mDialog.dismiss();
-            final Users user = (Users) obj;
+            final User user = (User) obj;
             if (user.getCode() == 200) {
 
                     WinToast.toast(this,R.string.friend_send_success);
