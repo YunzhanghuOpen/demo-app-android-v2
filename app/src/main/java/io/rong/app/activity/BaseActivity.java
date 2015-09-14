@@ -4,9 +4,8 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
-import com.umeng.analytics.MobclickAgent;
-
 import io.rong.app.R;
+import io.rong.app.utils.AppManager;
 
 public abstract class BaseActivity extends ActionBarActivity {
 
@@ -15,17 +14,17 @@ public abstract class BaseActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);// 使得音量键控制媒体声音
         getSupportActionBar().setLogo(R.drawable.de_bar_logo);//actionbar 添加logo
-
+        AppManager.getAppManager().addActivity(this);
     }
 
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onResume(this);
+//        MobclickAgent.onResume(this);
     }
 
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPause(this);
+//        MobclickAgent.onPause(this);
     }
 
 }

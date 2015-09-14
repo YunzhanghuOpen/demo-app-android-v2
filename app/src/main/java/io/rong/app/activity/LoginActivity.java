@@ -147,6 +147,12 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
         setContentView(R.layout.de_ac_login);
         initView();
         initData();
+        initBack();
+    }
+
+    private void initBack() {
+
+
     }
 
     protected void initView() {
@@ -292,7 +298,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
              * http://docs.rongcloud.cn/api/android/imkit/index.html
              */
 
-            String token1 = "goRD6aEizPwyMroHrDiNy0mKqBR0xzzHiUbhLnyx3yBK3kaUFLWcHXyretl2aBcdo5RjLCLkI6BGlT5sEFtMyDgGdR7yGDOY0c6/gCy2bR4=";
+            String token1 = "DZm9f9ZUmwYeDE1mdQb10fgWjImIrgWMbRGw8PRYdyQ3qPUErTU/9VLi1orgZ7hBHT+C3c123x03xqWEmJ+a7KlercKmKEHWwpX8LoUwSDZg0leGNCvCCHH0pl+tlRK7";
             RongIM.connect(token1, new RongIMClient.ConnectCallback() {
                         @Override
                         public void onTokenIncorrect() {
@@ -304,6 +310,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                             Log.e("LoginActivity", "---------onSuccess userId----------:" + userId);
 
                             RongCloudEvent.getInstance().setOtherListener();
+                            mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
 
                         }
 
@@ -622,6 +629,8 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                     edit.apply();
                     Log.e(TAG, "-------login success------");
 
+                    DemoContext.getInstance().setCurrentUserInfo(new UserInfo(user.getResult().getId(), user.getResult().getUsername(), Uri.parse(user.getResult().getPortrait())));
+
                     httpLoginSuccess(user);
                 }
             } else if (user.getCode() == 103) {
@@ -729,9 +738,6 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
             });
             alterDialog.show();
         }
-
         return false;
     }
-
-
 }

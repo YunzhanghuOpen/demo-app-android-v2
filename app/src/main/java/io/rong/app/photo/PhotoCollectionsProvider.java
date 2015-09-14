@@ -2,18 +2,15 @@ package io.rong.app.photo;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.view.View;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
 
 import io.rong.imkit.R;
+import io.rong.imkit.RLog;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.widget.provider.InputProvider;
@@ -22,19 +19,11 @@ import io.rong.imlib.model.Message;
 import io.rong.message.ImageMessage;
 
 public class PhotoCollectionsProvider extends InputProvider.ExtendProvider {
-    HandlerThread mWorkThread;
-
-    Handler mUploadHandler;
-
     private RongContext mContext;
 
     public PhotoCollectionsProvider(RongContext context) {
         super(context);
         this.mContext = context;
-        mWorkThread = new HandlerThread("RongDemo");
-        mWorkThread.start();
-        mUploadHandler = new Handler(mWorkThread.getLooper());
-
     }
 
     @Override
@@ -45,7 +34,8 @@ public class PhotoCollectionsProvider extends InputProvider.ExtendProvider {
 
     @Override
     public CharSequence obtainPluginTitle(Context arg0) {
-        return "相册";
+
+        return arg0.getString(io.rong.app.R.string.de_plugins_image);
     }
 
     @Override
@@ -70,38 +60,9 @@ public class PhotoCollectionsProvider extends InputProvider.ExtendProvider {
                 int intSize = pathList.size();
                 for (int i = 0; i <= intSize - 1; i++) {
                     String localStrPath = pathList.get(i);
-//					localStrPath = "file:/" + localStrPath;
-                    byte[] compressBitmap = BitmapUtils.compressBitmap(480*480,
-                            localStrPath);
-                    if (null != compressBitmap) {
-                        Bitmap bmPhoto = BitmapUtils
-                                .Bytes2Bimap(compressBitmap);
-                        if (null != bmPhoto) {
-                            String strTempPhotoPath;
-                            try {
-                                strTempPhotoPath = BitmapUtils
-                                        .saveFile(bmPhoto,
-                                                UUID.randomUUID()
-                                                        + ".jpeg");
-                                if(bmPhoto != null){
-                                    bmPhoto.recycle();
-                                    bmPhoto = null;
-                                }
-                                if (null != strTempPhotoPath
-                                        && !"".equals(strTempPhotoPath)) {
-                                    localStrPath = strTempPhotoPath;
-                                }
-                            } catch (IOException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            }
-
-
-                        }
-                    }
                     localStrPath = "file://" + localStrPath;
                     Uri pathUri = Uri.parse(localStrPath);
-                    mUploadHandler.post(new MyRunnable(pathUri));
+                    getContext().executorBackground(new AttachRunnable(pathUri));
                 }
             }
         }
@@ -115,43 +76,74 @@ public class PhotoCollectionsProvider extends InputProvider.ExtendProvider {
      * @Description: 用于显示文件的异步线程
      *
      */
-    class MyRunnable implements Runnable {
+    class AttachRunnable implements Runnable {
 
         Uri mUri;
 
-        public MyRunnable(Uri uri) {
+        public AttachRunnable(Uri uri) {
             mUri = uri;
         }
 
         @Override
         public void run() {
-
-            // 封装image类型的IM消息
+            RLog.d(this, "AttachRunnable", "insert image and save to db, uri = " + mUri);
             final ImageMessage content = ImageMessage.obtain(mUri, mUri);
+            if(RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null);
+            RongIM.getInstance().getRongIMClient().insertMessage(getCurrentConversation().getConversationType(), getCurrentConversation().getTargetId(), null, content, new RongIMClient.ResultCallback<Message>() {
+                @Override
+                public void onSuccess(Message message) {
+                    RLog.d(this, "AttachRunnable", "onSuccess insert image");
+                    message.setSentStatus(Message.SentStatus.SENDING);
+                    RongIM.getInstance().getRongIMClient().setMessageSentStatus(message.getMessageId(), Message.SentStatus.SENDING, null);
+                    getContext().executorBackground(new UploadRunnable(message));
+                }
 
-            if (RongIM.getInstance() != null&& RongIM.getInstance().getRongIMClient() != null)
-                RongIM.getInstance().getRongIMClient().sendImageMessage(getCurrentConversation().getConversationType(),getCurrentConversation().getTargetId(),content,null,null,new RongIMClient.SendImageMessageCallback() {
-                    @Override
-                    public void onAttached(Message message) {
+                @Override
+                public void onError(RongIMClient.ErrorCode e) {
+                    RLog.d(this, "AttachRunnable", "onError insert image, error = " + e);
+                }
+            });
+        }
+    }
 
-                    }
+    class UploadRunnable implements Runnable {
+        Message msg;
+        CountDownLatch mLock;
 
-                    @Override
-                    public void onError(Message message, RongIMClient.ErrorCode code) {
+        public UploadRunnable(Message msg) {
+            this.msg = msg;
+        }
 
-                    }
+        @Override
+        public void run() {
+            mLock = new CountDownLatch(1);
+            RLog.d(this, "UploadRunnable", "sendImageMessage");
+            RongIM.getInstance().getRongIMClient().sendImageMessage(msg, null, null, new RongIMClient.SendImageMessageCallback() {
+                @Override
+                public void onAttached(Message message) {
+                    mLock.countDown();
+                }
 
-                    @Override
-                    public void onSuccess(Message message) {
+                @Override
+                public void onError(Message message, RongIMClient.ErrorCode code) {
+                    mLock.countDown();
+                }
 
-                    }
+                @Override
+                public void onSuccess(Message message) {
+                    mLock.countDown();
+                }
 
-                    @Override
-                    public void onProgress(Message message, int progress) {
+                @Override
+                public void onProgress(Message message, int progress) {
 
-                    }
-                });
-
+                }
+            });
+            try {
+                mLock.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 

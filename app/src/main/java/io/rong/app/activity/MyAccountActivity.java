@@ -8,10 +8,11 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.sea_monster.resource.Resource;
+
 import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.app.utils.Constants;
-import com.sea_monster.resource.Resource;
 import io.rong.imkit.widget.AsyncImageView;
 
 /**
@@ -39,7 +40,6 @@ public class MyAccountActivity extends BaseActionBarActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_myaccount);
         initView();
-
     }
 
 
@@ -50,6 +50,7 @@ public class MyAccountActivity extends BaseActionBarActivity implements View.OnC
         mMyPortrait = (RelativeLayout) findViewById(R.id.rl_my_portrait);
         mMyUsername = (RelativeLayout) findViewById(R.id.rl_my_username);
         mTVUsername = (TextView) findViewById(R.id.tv_my_username);
+
         if (DemoContext.getInstance().getSharedPreferences() != null) {
 //            String userId = DemoContext.getInstance().getSharedPreferences().getString("DEMO_USER_ID", null);
             mUserName = DemoContext.getInstance().getSharedPreferences().getString("DEMO_USER_NAME", null);
@@ -62,6 +63,7 @@ public class MyAccountActivity extends BaseActionBarActivity implements View.OnC
         mMyUsername.setOnClickListener(this);
 //        mResourceHandler = new ResourceHandler.Builder().enableBitmapCache().build(this);
 
+
     }
 
 
@@ -69,7 +71,6 @@ public class MyAccountActivity extends BaseActionBarActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rl_my_portrait://头像
-
                 break;
 
             case R.id.rl_my_username://昵称

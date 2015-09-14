@@ -89,7 +89,7 @@ public class PhotoActivity extends BaseActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(mUri != null && mUri.getScheme().startsWith("http")) {
+        if(mUri != null && mUri.getScheme() != null && mUri.getScheme().startsWith("http")) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.de_fix_username, menu);
             return super.onCreateOptionsMenu(menu);

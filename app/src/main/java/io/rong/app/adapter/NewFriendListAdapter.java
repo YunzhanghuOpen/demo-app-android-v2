@@ -58,18 +58,17 @@ public class NewFriendListAdapter extends android.widget.BaseAdapter {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
+
+        ViewHolder viewHolder ;
         if(convertView == null || convertView.getTag() == null){
             convertView = mLayoutInflater.inflate(R.layout.de_item_friend,parent,false);
             viewHolder = new ViewHolder();
             viewHolder.mFrienduUserName = (TextView) convertView.findViewById(R.id.item_friend_username);
-//            viewHolder.mFrienduStateNo = (ImageView) convertView.findViewById(R.id.item_friend_state_no);
-//            viewHolder.mFrienduStateYes = (ImageView) convertView.findViewById(R.id.item_friend_state_yes);
             viewHolder.mFrienduState = (TextView) convertView.findViewById(R.id.item_friend_state);
             viewHolder.mPortraitImg = (AsyncImageView) convertView.findViewById(R.id.item_friend_portrait);
             convertView.setTag(viewHolder);
         }else{
-            convertView.getTag();
+            viewHolder= (ViewHolder) convertView.getTag();
         }
 
         if(viewHolder != null) {
@@ -109,7 +108,7 @@ public class NewFriendListAdapter extends android.widget.BaseAdapter {
     }
 
     public interface OnItemButtonClick{
-        public boolean onButtonClick(int position, View view,int status);
+         boolean onButtonClick(int position, View view,int status);
 
     }
 

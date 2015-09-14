@@ -108,9 +108,9 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    style="@style/DemoMainNewMassage"
-                    android:layout_marginRight="7dp"
-                    android:text="20"
+                    android:id="@+id/customer_noread"
+                    style="@style/DemoMainNewMassage1"
+                    android:layout_marginRight="14dp"
                     android:textColor="@color/main_regist"
                     android:visibility="gone" />
 
@@ -127,10 +127,8 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/main_viewpager"
         android:layout_width="wrap_content"
-
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="#ffffff"
         android:flipInterval="30"
         android:persistentDrawingCache="animation" />
 

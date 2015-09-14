@@ -402,6 +402,7 @@ public class BitmapUtils {
 		return bitmap;
 	}
 
+
 	public static int computeSampleSize(BitmapFactory.Options options,
 
 	int minSideLength, int maxNumOfPixels) {

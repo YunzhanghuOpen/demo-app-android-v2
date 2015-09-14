@@ -210,6 +210,7 @@ public class SOSOLocationActivity extends MapActivity implements
                     .appendQueryParameter("center", mMapView.getMapCenter().getLatitudeE6() / 1E6 + "," + mMapView.getMapCenter()
                             .getLongitudeE6() / 1E6).build();
 
+            Log.e("tag","-----uri---"+uri);
             mMsg = LocationMessage.obtain(poiItem.point.getLatitudeE6() / 1E6,
                     poiItem.point.getLongitudeE6() / 1E6, poiItem.name, uri);
 

@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/re_notice"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
@@ -27,76 +28,12 @@
             android:layout_centerVertical="true"
             android:layout_marginBottom="12dp"
             android:layout_marginTop="13dp"
+            android:visibility="gone"
             android:button="@drawable/rc_switch_btn" />
 
     </RelativeLayout>
 
     <include layout="@layout/de_merge_view" />
-
-    <LinearLayout
-        android:id="@+id/close_notification"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <RelativeLayout
-            android:id="@+id/start_notification"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                style="@style/DemoTextStyleBigBlack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="18dp"
-                android:text="@string/de_notification_start" />
-
-            <TextView
-                android:id="@+id/start_time_notification"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="18dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="18dp" />
-        </RelativeLayout>
-
-        <include layout="@layout/de_merge_view" />
-
-        <RelativeLayout
-            android:id="@+id/end_notification"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                style="@style/DemoTextStyleBigBlack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="18dp"
-                android:text="@string/de_notification_end" />
-
-            <TextView
-                android:id="@+id/end_time_notification"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="18dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="18dp"/>
-        </RelativeLayout>
-
-        <include layout="@layout/de_merge_view" />
-    </LinearLayout>
-
 
     <RelativeLayout
         android:layout_width="fill_parent"
