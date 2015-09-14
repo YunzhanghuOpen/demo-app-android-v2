@@ -26,9 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FilenameFilter;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -37,8 +35,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import io.rong.app.R;
-import io.rong.imkit.tools.PreviewPictureActivity;
-import io.rong.imkit.tools.SelectPictureActivity;
+
 
 
 public class ChoosePictureActivity extends Activity implements ListImageDirPopupWindow.OnImageDirSelected, OnClickListener {
@@ -71,7 +68,7 @@ public class ChoosePictureActivity extends Activity implements ListImageDirPopup
 
     private RelativeLayout mBottomLy;
 
-    private TextView mChooseDir, tv_back, tv_send, tv_title ,mPreview;
+    private TextView mChooseDir, tv_back, tv_save, tv_title;
     private TextView mImageCount;
     int totalCount = 0;
 
@@ -200,12 +197,13 @@ public class ChoosePictureActivity extends Activity implements ListImageDirPopup
     protected void onResume() {
         super.onResume();
         tv_title.setVisibility(View.VISIBLE);
+        tv_save.setVisibility(View.VISIBLE);
         tv_back.setVisibility(View.VISIBLE);
         tv_title.setText("");
         tv_back.setText("返回");
+        tv_save.setText("发送");
         tv_back.setOnClickListener(this);
-        tv_send.setOnClickListener(this);
-        mPreview.setOnClickListener(this);
+        tv_save.setOnClickListener(this);
     }
 
     MineThread mThread;
@@ -342,12 +340,11 @@ public class ChoosePictureActivity extends Activity implements ListImageDirPopup
         mGirdView = (GridView) findViewById(R.id.id_gridView);
         mChooseDir = (TextView) findViewById(R.id.id_choose_dir);
         tv_back = (TextView) findViewById(R.id.title_bar_left);
-        tv_send = (TextView) findViewById(R.id.rc_photo_send);
+        tv_save = (TextView) findViewById(R.id.title_bar_rigth);
         tv_title = (TextView) findViewById(R.id.title_bar_center);
         mImageCount = (TextView) findViewById(R.id.id_total_count);
         mBottomLy = (RelativeLayout) findViewById(R.id.id_bottom_ly);
         ll_title_bar = (LinearLayout) findViewById(R.id.ll_title_bar);
-        mPreview = (TextView) findViewById(R.id.rc_photo_preview);
 
         ViewTreeObserver vto2 = mBottomLy.getViewTreeObserver();
         vto2.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -480,29 +477,11 @@ public class ChoosePictureActivity extends Activity implements ListImageDirPopup
     public void onClick(View v) {
         // TODO Auto-generated method stub
         if (v.getId() == R.id.title_bar_left) {finish();
-        }else if(v.getId() == R.id.rc_photo_send){
+        }else if(v.getId() == R.id.title_bar_rigth){
             Intent intent = new Intent();
             intent.putStringArrayListExtra("data", mAdapter.getPicList());
             setResult(10086, intent);
             finish();
-        }else if(v.getId() == R.id.rc_photo_preview){
-            Toast.makeText(this,"preview",Toast.LENGTH_SHORT).show();
-            // mAdapter.getPicList() 选中的数据
-
-            if (mAdapter.getPicList().size() > 0) {
-                List uriList = new ArrayList<Uri>();
-                for (String castUri : mAdapter.getPicList()){
-                    uriList.add(Uri.parse(castUri));
-                }
-                if (uriList == null){ new Throwable("选中图片的 Uri is null");}
-                Intent preview = new Intent(ChoosePictureActivity.this, PreviewPictureActivity.class);
-                preview.putExtra("ArrayList", (Serializable) uriList);
-                startActivityForResult(preview, 2);
-            } else {
-                Toast.makeText(this,
-                        getResources().getString(io.rong.imkit.R.string.rc_notice_select_one_picture_at_last),
-                        Toast.LENGTH_SHORT).show();
-            }
         }
     }
 
