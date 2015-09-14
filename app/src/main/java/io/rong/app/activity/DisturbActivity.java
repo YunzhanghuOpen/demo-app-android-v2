@@ -276,7 +276,7 @@ public class DisturbActivity extends BaseActionBarActivity implements View.OnCli
                                 Log.e("", "------开始时间----" + starttime);
                                 Log.e("", "------时间间隔----" + spansTime);
 
-                                setConversationTime(mStartTime, (int) Math.abs(spansTime));
+                                setConversationTime(starttime, (int) Math.abs(spansTime));
                             }
                         }
                     }

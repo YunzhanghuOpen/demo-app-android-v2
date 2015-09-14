@@ -47,7 +47,6 @@ import io.rong.app.fragment.CustomerFragment;
 import io.rong.app.fragment.GroupListFragment;
 import io.rong.app.model.Groups;
 import io.rong.app.ui.LoadingDialog;
-import io.rong.app.utils.AppManager;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imlib.RongIMClient;
@@ -616,7 +615,7 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                     if (RongIM.getInstance() != null)
                         RongIM.getInstance().disconnect(true);
 
-                    AppManager.getAppManager().AppExit(MainActivity.this);
+//                    AppManager.getAppManager().AppExit(MainActivity.this);
                     Process.killProcess(Process.myPid());
                 }
             });

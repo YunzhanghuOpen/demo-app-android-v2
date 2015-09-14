@@ -88,7 +88,6 @@ public class AboutRongCloudActivity extends BaseActionBarActivity implements Vie
                 startActivity(new Intent(AboutRongCloudActivity.this, RongWebActivity.class));
                 break;
             case R.id.rl_new_version_update://版本更新
-                startActivity(new Intent(AboutRongCloudActivity.this, ShareLocationActivity.class));
                 break;
         }
     }

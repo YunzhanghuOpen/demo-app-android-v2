@@ -37,7 +37,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
 
-
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -140,8 +139,7 @@
         </activity>
         <activity
             android:name=".activity.DisturbActivity"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
 
 
         <activity
@@ -234,7 +232,6 @@
         <activity android:name=".activity.SOSOLocationActivity" />
 
 
-
         <!--begin rongcloud-->
         <activity
             android:name="io.rong.voipkit.activity.CallSideActivity"
@@ -270,12 +267,11 @@
 
         <service
             android:name="io.rong.imlib.ipc.RongService"
-            android:process=":ipc" >
-        </service>
+            android:process=":ipc"></service>
         <service android:name="io.rong.imlib.ReConnectService" />
 
         <receiver android:name="io.rong.imlib.ConnectChangeReceiver" />
-        <receiver android:name="io.rong.imlib.ipc.PushMessageReceiver" >
+        <receiver android:name="io.rong.imlib.ipc.PushMessageReceiver">
             <intent-filter>
                 <action android:name="io.rong.push.message" />
             </intent-filter>
@@ -300,7 +296,7 @@
 
         <service
             android:name="io.rong.push.PushService"
-            android:process="io.rong.push" > <!-- Waring: The name of the push process can't be changed!!! -->
+            android:process="io.rong.push"> <!-- Waring: The name of the push process can't be changed!!! -->
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 
@@ -309,7 +305,7 @@
         </service>
         <service
             android:name="io.rong.push.CommandService"
-            android:process="io.rong.push" > <!-- Waring: The name of the push process can't be changed!!! -->
+            android:process="io.rong.push"> <!-- Waring: The name of the push process can't be changed!!! -->
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 
@@ -319,7 +315,7 @@
 
         <receiver
             android:name="io.rong.push.PushReceiver"
-            android:process="io.rong.push" > <!-- Waring: The name of the push process can't be changed!!! -->
+            android:process="io.rong.push"> <!-- Waring: The name of the push process can't be changed!!! -->
             <intent-filter>
                 <action android:name="io.rong.push.HeartBeat" />
             </intent-filter>
@@ -346,14 +342,13 @@
             android:value="z3v5yqkbv8v30" />
 
 
-
         <!--end rongcloud-->
 
 
         <!-- 高德地图-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="f1175b5989cbf80c464f9d65bd7250b7"/>
+            android:value="f1175b5989cbf80c464f9d65bd7250b7" />
 
 
         <activity android:name=".activity.RealTimeLocationActivity"></activity>

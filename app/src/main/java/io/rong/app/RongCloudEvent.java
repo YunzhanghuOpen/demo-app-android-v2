@@ -36,6 +36,7 @@ import io.rong.imkit.PushNotificationManager;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.model.UIConversation;
+import io.rong.imkit.widget.AlterDialogFragment;
 import io.rong.imkit.widget.provider.CameraInputProvider;
 import io.rong.imkit.widget.provider.InputProvider;
 import io.rong.imkit.widget.provider.VoIPInputProvider;
@@ -129,7 +130,8 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         RongIM.setConversationBehaviorListener(this);//设置会话界面操作的监听器。
         RongIM.setLocationProvider(this);//设置地理位置提供者,不用位置的同学可以注掉此行代码
         RongIM.setConversationListBehaviorListener(this);
-        RongIM.getInstance().setMessageAttachedUserInfo(true);
+        //消息体内是否有 userinfo 这个属性
+//        RongIM.getInstance().setMessageAttachedUserInfo(true);
 //        RongIM.setPushMessageBehaviorListener(this);//自定义 push 通知。
     }
 
@@ -144,7 +146,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         RongIM.getInstance().setSendMessageListener(this);//设置发出消息接收监听器.
         RongIM.getInstance().getRongIMClient().setConnectionStatusListener(this);//设置连接状态监听器。
 
-//        //扩展功能自定义
+//        扩展功能自定义
         InputProvider.ExtendProvider[] provider = {
                 new PhotoCollectionsProvider(RongContext.getInstance()),//图片
                 new CameraInputProvider(RongContext.getInstance()),//相机
@@ -446,7 +448,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
      * @return 返回True不执行后续SDK操作，返回False继续执行SDK操作。
      */
     @Override
-    public boolean onMessageClick(Context context, View view, Message message) {
+    public boolean onMessageClick(final Context context, final View view, final Message message) {
         Log.e(TAG, "----onMessageClick");
 
         //real-time location message begin
@@ -457,7 +459,39 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 //                startRealTimeLocation(context, message.getConversationType(), message.getTargetId());
 //            } else
             if (status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_INCOMING) {
-                joinRealTimeLocation(context, message.getConversationType(), message.getTargetId());
+
+
+                final AlterDialogFragment alterDialogFragment = AlterDialogFragment.newInstance("", "加入位置共享", "取消", "加入");
+                alterDialogFragment.setOnAlterDialogBtnListener(new AlterDialogFragment.AlterDialogBtnListener() {
+
+                    @Override
+                    public void onDialogPositiveClick(AlterDialogFragment dialog) {
+                        RealTimeLocationConstant.RealTimeLocationStatus status = RongIMClient.getInstance().getRealTimeLocationCurrentState(message.getConversationType(), message.getTargetId());
+
+                        if (status == null || status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_IDLE) {
+                            startRealTimeLocation(context, message.getConversationType(), message.getTargetId());
+                        } else {
+                            joinRealTimeLocation(context, message.getConversationType(), message.getTargetId());
+                        }
+
+                    }
+
+                    @Override
+                    public void onDialogNegativeClick(AlterDialogFragment dialog) {
+                        alterDialogFragment.dismiss();
+                    }
+                });
+
+                alterDialogFragment.show(((FragmentActivity) context).getSupportFragmentManager());
+            } else {
+
+                if (status != null && (status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_OUTGOING || status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_CONNECTED)) {
+
+                    Intent intent = new Intent(((FragmentActivity) context), RealTimeLocationActivity.class);
+                    intent.putExtra("conversationType", message.getConversationType().getValue());
+                    intent.putExtra("targetId", message.getTargetId());
+                    context.startActivity(intent);
+                }
             }
             return true;
         }
@@ -491,7 +525,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     }
 
     private void startRealTimeLocation(Context context, Conversation.ConversationType conversationType, String targetId) {
-        RongIM.getInstance().getRongIMClient().startRealTimeLocation(conversationType, targetId);
+        RongIMClient.getInstance().startRealTimeLocation(conversationType, targetId);
 
         Intent intent = new Intent(((FragmentActivity) context), RealTimeLocationActivity.class);
         intent.putExtra("conversationType", conversationType.getValue());
@@ -500,7 +534,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     }
 
     private void joinRealTimeLocation(Context context, Conversation.ConversationType conversationType, String targetId) {
-        RongIM.getInstance().getRongIMClient().joinRealTimeLocation(conversationType, targetId);
+        RongIMClient.getInstance().joinRealTimeLocation(conversationType, targetId);
 
         Intent intent = new Intent(((FragmentActivity) context), RealTimeLocationActivity.class);
         intent.putExtra("conversationType", conversationType.getValue());
@@ -508,10 +542,15 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         context.startActivity(intent);
     }
 
+    /**
+     * 当点击链接消息时执行。
+     *
+     * @param context 上下文。
+     * @param link    被点击的链接。
+     * @return 如果用户自己处理了点击后的逻辑处理，则返回 true， 否则返回 false, false 走融云默认处理方式。
+     */
     @Override
     public boolean onMessageLinkClick(Context context, String link) {
-        Log.e(TAG, "----onMessageLongClick:" + link);
-
         return false;
     }
 

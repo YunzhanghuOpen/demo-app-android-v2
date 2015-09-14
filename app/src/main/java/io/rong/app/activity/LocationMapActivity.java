@@ -20,10 +20,8 @@ import com.sea_monster.resource.Resource;
 
 import java.util.List;
 
-import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.imkit.RLog;
-import io.rong.imkit.RongIM;
 import io.rong.imkit.widget.AsyncImageView;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
@@ -153,5 +151,16 @@ public abstract class LocationMapActivity extends BasicMapActivity implements AM
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+
+
+    /**
+     * 方法必须重写
+     */
+    @Override
+    protected void onDestroy() {
+        mLocationManagerProxy.setGpsEnable(false);
+        mLocationManagerProxy.destroy();
+        super.onDestroy();
     }
 }
