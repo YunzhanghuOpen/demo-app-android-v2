@@ -571,9 +571,12 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
 
                     if (DemoContext.getInstance() != null)
                         DemoContext.getInstance().setGroupMap(groupM);
+
+                    Log.e(TAG, "---syncGroup-"+isSuccess);
                     if (isSuccess) {
                         if (grouplist.size() > 0) {
                             RongIM.getInstance().getRongIMClient().syncGroup(grouplist, new RongIMClient.OperationCallback() {
+
                                 @Override
                                 public void onSuccess() {
                                     Log.e(TAG, "---syncGroup-onSuccess---");

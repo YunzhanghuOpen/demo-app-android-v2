@@ -1,5 +1,6 @@
 package io.rong.app;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -8,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -132,7 +134,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         RongIM.setConversationListBehaviorListener(this);
         //消息体内是否有 userinfo 这个属性
 //        RongIM.getInstance().setMessageAttachedUserInfo(true);
-//        RongIM.setPushMessageBehaviorListener(this);//自定义 push 通知。
+//        RongIM.getInstance().getRongIMClient().setOnReceivePushMessageListener(this);//自定义 push 通知。
     }
 
     /*
@@ -165,6 +167,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.DISCUSSION, provider1);
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.GROUP, provider1);
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.CUSTOMER_SERVICE, provider1);
+        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.CHATROOM,provider1);
 //        RongIM.getInstance().setPrimaryInputProvider(new InputTestProvider((RongContext) mContext));
 
     }
@@ -175,6 +178,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
      * @param msg
      * @return
      */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public boolean onReceivePushMessage(PushNotificationMessage msg) {
         Log.d(TAG, "onReceived-onPushMessageArrive:" + msg.getContent());
@@ -207,7 +211,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
             notification = new Notification.Builder(RongContext.getInstance())
                     .setLargeIcon(getAppIcon())
-                    .setSmallIcon(R.drawable.ic_launcher)
+                    .setSmallIcon(R.drawable.ic_rongcloud)
                     .setTicker("自定义 notification")
                     .setContentTitle("自定义 title")
                     .setContentText("这是 Content:" + msg.getObjectName())
@@ -316,6 +320,8 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
     @Override
     public Message onSend(Message message) {
+        message.setExtra("my extra");
+        Log.e("qinxiao", "onSend:"+message.getObjectName() + ", extra=" +message.getExtra());
         return message;
     }
 
@@ -326,6 +332,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
      */
     @Override
     public boolean onSent(Message message, RongIM.SentMessageErrorCode sentMessageErrorCode) {
+        Log.e("qinxiao", "onSent:"+message.getObjectName() + ", extra=" +message.getExtra());
 
         if (message.getSentStatus() == Message.SentStatus.FAILED) {
 
@@ -604,6 +611,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         if (messageContent instanceof TextMessage) {//文本消息
 
             TextMessage textMessage = (TextMessage) messageContent;
+            textMessage.getExtra();
         } else if (messageContent instanceof ContactNotificationMessage) {
             Log.e(TAG, "---onConversationClick--ContactNotificationMessage-");
 

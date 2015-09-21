@@ -167,6 +167,7 @@ public class DisturbActivity extends BaseActionBarActivity implements View.OnCli
         mStartNotifacation.setOnClickListener(this);
         mEndNotifacation.setOnClickListener(this);
         mNotificationCheckBox.setOnClickListener(this);
+
         if (DemoContext.getInstance().getSharedPreferences() != null) {
             mIsSetting = DemoContext.getInstance().getSharedPreferences().getBoolean("IS_SETTING", false);
             if (mIsSetting) {
@@ -255,11 +256,12 @@ public class DisturbActivity extends BaseActionBarActivity implements View.OnCli
                         minutes = Integer.parseInt(endtime.substring(3, 5));
                     }
                 }
-
+                Log.e("", "------结束时间---－－－－－－－－－－－－－－－－－－－－－-" );
                 timePickerDialog = new TimePickerDialog(DisturbActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
+                        Log.e("", "------结束时间---＋＋＋＋＋＋＋＋＋＋＋＋＋＋＋" );
                         mEndTime = getDaysTime(hourOfDay, minute);
                         mEndTimeNofication.setText(mEndTime);
                         SharedPreferences.Editor editor = DemoContext.getInstance().getSharedPreferences().edit();
@@ -309,10 +311,8 @@ public class DisturbActivity extends BaseActionBarActivity implements View.OnCli
                                         Log.e(TAG, "----yb-----移除会话通知周期-oonError:" + errorCode.getValue());
                                     }
                                 });
-
                             }
                         });
-
                     }
                 }
                 break;
@@ -365,6 +365,7 @@ public class DisturbActivity extends BaseActionBarActivity implements View.OnCli
                                 SharedPreferences.Editor editor = DemoContext.getInstance().getSharedPreferences().edit();
                                 editor.putBoolean("IS_SETTING", true);
                                 editor.apply();
+                                WinToast.toast(DisturbActivity.this,"设置消息免打扰成功");
                             }
 
                             @Override
@@ -379,4 +380,5 @@ public class DisturbActivity extends BaseActionBarActivity implements View.OnCli
             });
         }
     }
+
 }

@@ -163,6 +163,8 @@ public class RongActivity extends BaseActivity implements Handler.Callback, Rong
 
             //通过intent.getData().getQueryParameter("push") 为true，判断是否是push消息
             if (DemoContext.getInstance() != null && intent.getData().getQueryParameter("push").equals("true")) {
+                String id = intent.getData().getQueryParameter("pushId");
+                RongIMClient.recordNotificationEvent(id);
                 enterActivity(intent);
             }
         } else if (intent != null) {
@@ -176,23 +178,6 @@ public class RongActivity extends BaseActivity implements Handler.Callback, Rong
                 enterFragment(intent);
             }
         }
-
-//        if (intent != null && intent.getData() != null && intent.getData().getScheme().equals("rong")){
-//            if(intent.getData().getQueryParameter("push") != null
-//                    && intent.getData().getQueryParameter("push").equals("true")){
-//                enterActivity(intent);
-//            }else{
-//                if (RongIM.getInstance() == null || RongIM.getInstance().getRongIMClient() == null) {
-//                    if (DemoContext.getInstance() != null) {
-//                        String token = DemoContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "defult");
-//                        reconnect(token);
-//                    }
-//                } else {
-//                    enterFragment(intent);
-//                }
-//            }
-//        }
-
 
     }
 

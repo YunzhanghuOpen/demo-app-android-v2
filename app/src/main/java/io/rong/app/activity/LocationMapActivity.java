@@ -20,8 +20,10 @@ import com.sea_monster.resource.Resource;
 
 import java.util.List;
 
+import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.imkit.RLog;
+import io.rong.imkit.RongIM;
 import io.rong.imkit.widget.AsyncImageView;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;

@@ -263,7 +263,7 @@ public class DemoApi extends BaseApi {
      * @return
      */
 
-    public AbstractHttpRequest<Groups> getMyGroupByGroupId(String groupid, ApiCallback<Groups> callback) {
+    public AbstractHttpRequest<Groups> getGroupByGroupId(String groupid, ApiCallback<Groups> callback) {
 
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
         nameValuePairs.add(new BasicNameValuePair("id", groupid));

@@ -376,7 +376,7 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                                 .appendPath("conversationlist")
                                 .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话是否聚合显示
                                 .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "true")//群组
-                                .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//讨论组
+                                .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "true")//讨论组
                                 .appendQueryParameter(Conversation.ConversationType.APP_PUBLIC_SERVICE.getName(), "false")//应用公众服务。
                                 .appendQueryParameter(Conversation.ConversationType.PUBLIC_SERVICE.getName(), "false")//公共服务号
                                 .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//系统
@@ -684,5 +684,62 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
             }
         }
     }
+
+    private void semdMessage() {
+
+        if(RongIM.getInstance()!= null){
+            final long s1 = System.currentTimeMillis();
+            RongIM.getInstance().getRongIMClient().setConversationNotificationStatus(Conversation.ConversationType.GROUP, "22", Conversation.ConversationNotificationStatus.DO_NOT_DISTURB, new RongIMClient.ResultCallback<Conversation.ConversationNotificationStatus>() {
+                @Override
+                public void onSuccess(Conversation.ConversationNotificationStatus conversationNotificationStatus) {
+                    long s2 = System.currentTimeMillis();
+                    Log.e(TAG,"---onSuccess-long time--"+(s2-s1));
+
+                    Log.e(TAG,"---onSuccess---"+conversationNotificationStatus);
+
+                }
+
+                @Override
+                public void onError(RongIMClient.ErrorCode e) {
+
+                    long s3 = System.currentTimeMillis();
+                    Log.e(TAG,"---onError-long time--"+(s3-s1));
+                    Log.e(TAG,"---onError---"+e);
+                }
+            });
+        }
+
+
+
+    }
+
+    private void semdMessage1() {
+
+        if(RongIM.getInstance()!= null){
+            final long s1 = System.currentTimeMillis();
+            RongIM.getInstance().getRongIMClient().setConversationNotificationStatus(Conversation.ConversationType.GROUP, "22", Conversation.ConversationNotificationStatus.NOTIFY, new RongIMClient.ResultCallback<Conversation.ConversationNotificationStatus>() {
+                @Override
+                public void onSuccess(Conversation.ConversationNotificationStatus conversationNotificationStatus) {
+                    long s2 = System.currentTimeMillis();
+                    Log.e(TAG,"---onSuccess-long time--"+(s2-s1));
+
+                    Log.e(TAG,"---onSuccess---"+conversationNotificationStatus);
+
+                }
+
+                @Override
+                public void onError(RongIMClient.ErrorCode e) {
+
+                    long s3 = System.currentTimeMillis();
+                    Log.e(TAG,"---onError-long time--"+(s3-s1));
+                    Log.e(TAG,"---onError---"+e);
+                }
+            });
+        }
+
+
+
+    }
+
 
 }

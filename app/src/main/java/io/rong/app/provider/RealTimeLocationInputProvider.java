@@ -29,7 +29,9 @@ public class RealTimeLocationInputProvider extends LocationInputProvider {
     @Override
     public void onPluginClick(final View view) {
 
-        if (getCurrentConversation().getConversationType() == Conversation.ConversationType.PRIVATE) {
+        RealTimeLocationConstant.RealTimeLocationErrorCode errorCode = RongIMClient.getInstance().getRealTimeLocation(getCurrentConversation().getConversationType(), getCurrentConversation().getTargetId());
+
+        if (errorCode != null && errorCode != RealTimeLocationConstant.RealTimeLocationErrorCode.RC_REAL_TIME_LOCATION_CONVERSATION_NOT_SUPPORT) {
 
             ArraysDialogFragment arraysDialogFragment = ArraysDialogFragment.newInstance("位置", new String[]{"发送位置", "实时位置共享"});
             arraysDialogFragment.setArraysDialogItemListener(new ArraysDialogFragment.OnArraysDialogItemListener() {
@@ -84,8 +86,6 @@ public class RealTimeLocationInputProvider extends LocationInputProvider {
         intent.putExtra("targetId", getCurrentConversation().getTargetId());
         startActivityForResult(intent, 123);
     }
-
-
 
 
     private void superOnPluginClick(View view) {

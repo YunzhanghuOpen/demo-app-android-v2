@@ -1,6 +1,7 @@
 package io.rong.app.fragment.setting;
 
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -11,7 +12,6 @@ import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.BaseSettingFragment;
 import io.rong.imkit.widget.AlterDialogFragment;
 import io.rong.imlib.RongIMClient;
-import io.rong.imlib.ipc.RLog;
 import io.rong.imlib.model.Conversation;
 
 /**
@@ -72,7 +72,7 @@ public class RongClearConversationMsgFragment  extends BaseSettingFragment imple
                 public void onSuccess(Boolean aBoolean) {
                     ConversationDatabase.getDraftDao().queryBuilder().where(DraftDao.Properties.Type.eq(conversation.getConversationType().getValue()), DraftDao.Properties.Id.eq(conversation.getTargetId())).buildDelete().executeDeleteWithoutDetachingEntities();
 
-                    RLog.d(this, "clearMessages", "-----onSuccess-------");
+                    Log.d("clearMessages", "-----onSuccess-------");
                     Toast.makeText(getActivity(), getString(R.string.rc_setting_clear_msg_success), Toast.LENGTH_SHORT).show();
                 }
 

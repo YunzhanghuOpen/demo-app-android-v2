@@ -2,6 +2,7 @@ package io.rong.app.message;
 
 import android.os.Parcel;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.sea_monster.common.ParcelUtils;
 
@@ -12,7 +13,6 @@ import java.io.UnsupportedEncodingException;
 
 import io.rong.imlib.MessageTag;
 import io.rong.imlib.model.MessageContent;
-import io.rong.message.utils.RLog;
 
 
 @MessageTag(value = "RC:CmdNtf", flag = MessageTag.NONE)
@@ -92,7 +92,7 @@ public class DemoCommandNotificationMessage extends MessageContent {
                 jsonObj.put("data", data);
 
         } catch (JSONException e) {
-            RLog.e(this, "JSONException", e.getMessage());
+            Log.e("JSONException", e.getMessage());
         }
 
         try {
@@ -119,7 +119,7 @@ public class DemoCommandNotificationMessage extends MessageContent {
             setData(jsonObj.optString("data"));
 
         } catch (JSONException e) {
-            RLog.e(this, "JSONException", e.getMessage());
+            Log.e("JSONException", e.getMessage());
         }
     }
 
