@@ -70,31 +70,31 @@ public class BlackListFragment extends Fragment implements SwitchGroup.ItemHande
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
-//        ArrayList<UserInfo> userInfos = null;
-
         //获取好友列表
         if (RongIM.getInstance().getRongIMClient() != null) {
             RongIM.getInstance().getRongIMClient().getBlacklist(new RongIMClient.GetBlacklistCallback() {
                 @Override
                 public void onSuccess(String[] userIds) {
-                    mUserInfoList = DemoContext.getInstance().getUserInfoList(userIds);
 
-                    mFriendsList = new ArrayList<Friend>();
+                    if (userIds != null) {
+                        mUserInfoList = DemoContext.getInstance().getUserInfoList(userIds);
 
-                    if (mUserInfoList != null) {
-                        for (UserInfo userInfo : mUserInfoList) {
-                            Friend friend = new Friend();
-                            friend.setNickname(userInfo.getName());
-                            friend.setPortrait(userInfo.getPortraitUri() + "");
-                            friend.setUserId(userInfo.getUserId());
-                            mFriendsList.add(friend);
+                        mFriendsList = new ArrayList<Friend>();
+
+                        if (mUserInfoList != null) {
+                            for (UserInfo userInfo : mUserInfoList) {
+                                Friend friend = new Friend();
+                                friend.setNickname(userInfo.getName());
+                                friend.setPortrait(userInfo.getPortraitUri() + "");
+                                friend.setUserId(userInfo.getUserId());
+                                mFriendsList.add(friend);
+                            }
                         }
+                        mFriendsList = sortFriends(mFriendsList);
+                        mAdapter = new BlackMultiChoiceAdapter(getActivity(), mFriendsList);
+                        mListView.setAdapter(mAdapter);
+                        fillData();
                     }
-                    mFriendsList = sortFriends(mFriendsList);
-                    mAdapter = new BlackMultiChoiceAdapter(getActivity(), mFriendsList);
-                    mListView.setAdapter(mAdapter);
-                    fillData();
-
                 }
 
                 @Override

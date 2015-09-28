@@ -29,8 +29,8 @@ import io.rong.app.DemoContext;
 public class NetUtils {
     private static HttpClient httpClient = new DefaultHttpClient();
 //    private static final String BASE_URL = "http://119.254.110.241:80/";
-//    private static final String BASE_URL = "http://webim.demo.rong.io/";
-    private static final String BASE_URL = "http://119.254.110.114:7000/";
+    private static final String BASE_URL = "http://webim.demo.rong.io/";
+//    private static final String BASE_URL = "http://119.254.110.114:7000/";
 
 
     /**

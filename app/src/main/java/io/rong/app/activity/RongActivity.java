@@ -33,7 +33,6 @@ import io.rong.app.fragment.FriendMultiChoiceFragment;
 import io.rong.app.model.RongEvent;
 import io.rong.app.ui.LoadingDialog;
 import io.rong.app.ui.WinToast;
-import io.rong.app.utils.CommonUtils;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.common.RongConst;
 import io.rong.imkit.fragment.ConversationFragment;

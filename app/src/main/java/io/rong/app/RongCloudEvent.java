@@ -167,7 +167,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.DISCUSSION, provider1);
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.GROUP, provider1);
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.CUSTOMER_SERVICE, provider1);
-        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.CHATROOM,provider1);
+        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.CHATROOM, provider1);
 //        RongIM.getInstance().setPrimaryInputProvider(new InputTestProvider((RongContext) mContext));
 
     }
