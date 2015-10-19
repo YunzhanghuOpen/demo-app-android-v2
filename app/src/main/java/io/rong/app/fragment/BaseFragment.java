@@ -17,22 +17,25 @@ public abstract class BaseFragment extends Fragment implements ApiCallback {
 
     @Override
     public void onComplete(final AbstractHttpRequest abstractHttpRequest, final Object o) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                onCallApiSuccess(abstractHttpRequest,o);
-            }
-        });
+        if(getActivity()!= null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    onCallApiSuccess(abstractHttpRequest, o);
+                }
+            });
+        }
     }
 
     @Override
     public void onFailure(final AbstractHttpRequest abstractHttpRequest, final BaseException e) {
-
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                onCallApiFailure(abstractHttpRequest, e);
-            }
-        });
+        if(getActivity()!= null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    onCallApiFailure(abstractHttpRequest, e);
+                }
+            });
+        }
     }
 }

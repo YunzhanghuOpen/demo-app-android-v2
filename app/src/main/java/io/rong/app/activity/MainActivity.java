@@ -251,11 +251,12 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
         public void onMessageIncreased(int count) {
             if (count == 0) {
                 mCustomerNoRead.setVisibility(View.GONE);
-            } else if (count > 0 ) {
+            } else if (count > 0) {
                 mCustomerNoRead.setVisibility(View.VISIBLE);
             }
         }
     };
+
     /**
      * 收到push消息后做重连，重新连接融云
      *
@@ -277,17 +278,17 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                     if (mDialog != null)
                         mDialog.dismiss();
                     if (conversation.equals("conversation")) {
-                        if(RongIM.getInstance()!=null && RongIM.getInstance().getRongIMClient()!=null){
+                        if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
 
                             RongIM.getInstance().getRongIMClient().getConversation(Conversation.ConversationType.valueOf(conversationType), targetId, new RongIMClient.ResultCallback<Conversation>() {
                                 @Override
                                 public void onSuccess(Conversation conversation) {
 
-                                    if(conversation !=null  ) {
+                                    if (conversation != null) {
 
-                                        if(conversation.getLatestMessage() instanceof ContactNotificationMessage) {
+                                        if (conversation.getLatestMessage() instanceof ContactNotificationMessage) {
                                             startActivity(new Intent(MainActivity.this, NewFriendListActivity.class));
-                                        }else{
+                                        } else {
                                             Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon().appendPath("conversation")
                                                     .appendPath(conversationType).appendQueryParameter("targetId", targetId).build();
                                             Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -296,6 +297,7 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                                         }
                                     }
                                 }
+
                                 @Override
                                 public void onError(RongIMClient.ErrorCode e) {
 
@@ -564,7 +566,12 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                         if (RongIM.getInstance() != null) {
                             RongIM.getInstance().logout();
                         }
-                        Process.killProcess(Process.myPid());
+                        try {
+                            Thread.sleep(500);
+                            Process.killProcess(Process.myPid());
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
                 alterDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -579,7 +586,6 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 
     @Override
@@ -611,8 +617,12 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                     if (RongIM.getInstance() != null)
                         RongIM.getInstance().disconnect(true);
 
-//                    AppManager.getAppManager().AppExit(MainActivity.this);
-                    Process.killProcess(Process.myPid());
+                    try {
+                        Thread.sleep(500);
+                        Process.killProcess(Process.myPid());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             alterDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {

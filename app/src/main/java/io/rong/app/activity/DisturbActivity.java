@@ -365,7 +365,12 @@ public class DisturbActivity extends BaseActionBarActivity implements View.OnCli
                                 SharedPreferences.Editor editor = DemoContext.getInstance().getSharedPreferences().edit();
                                 editor.putBoolean("IS_SETTING", true);
                                 editor.apply();
-                                WinToast.toast(DisturbActivity.this,"设置消息免打扰成功");
+                                mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        WinToast.toast(DisturbActivity.this, "设置消息免打扰成功");
+                                    }
+                                });
                             }
 
                             @Override

@@ -147,13 +147,8 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
         setContentView(R.layout.de_ac_login);
         initView();
         initData();
-        initBack();
     }
 
-    private void initBack() {
-
-
-    }
 
     protected void initView() {
         ActionBar actionBar = getSupportActionBar();
@@ -283,47 +278,6 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                 mHandler.sendMessage(mess);
                 break;
 
-        }
-    }
-
-    private void initnn() {
-
-        try {
-            /**
-             * IMKit SDK调用第二步
-             *
-             * 建立与服务器的连接
-             *
-             * 详见API
-             * http://docs.rongcloud.cn/api/android/imkit/index.html
-             */
-
-            String token1 = "DZm9f9ZUmwYeDE1mdQb10fgWjImIrgWMbRGw8PRYdyQ3qPUErTU/9VLi1orgZ7hBHT+C3c123x03xqWEmJ+a7KlercKmKEHWwpX8LoUwSDZg0leGNCvCCHH0pl+tlRK7";
-            RongIM.connect(token1, new RongIMClient.ConnectCallback() {
-                        @Override
-                        public void onTokenIncorrect() {
-                            Log.e("LoginActivity", "---------onTokenIncorrect userId----------:");
-                        }
-
-                        @Override
-                        public void onSuccess(String userId) {
-                            Log.e("LoginActivity", "---------onSuccess userId----------:" + userId);
-
-                            RongCloudEvent.getInstance().setOtherListener();
-                            mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
-
-                        }
-
-                        @Override
-                        public void onError(RongIMClient.ErrorCode e) {
-                            mHandler.obtainMessage(HANDLER_LOGIN_FAILURE).sendToTarget();
-                            Log.e("LoginActivity", "---------onError ----------:" + e);
-                        }
-                    }
-            );
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
