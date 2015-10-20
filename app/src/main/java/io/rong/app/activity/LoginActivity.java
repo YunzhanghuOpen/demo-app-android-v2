@@ -147,6 +147,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
         setContentView(R.layout.de_ac_login);
         initView();
         initData();
+        getPushMessage();
     }
 
 
@@ -215,6 +216,76 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
 
     }
 
+    /**
+     * 得到 push 消息
+     */
+    private void getPushMessage() {
+
+        Intent intent = getIntent();
+
+        if(intent!=null&& intent.hasExtra("PUSH_MESSAGE")){
+            boolean isPush = intent.getBooleanExtra("PUSH_MESSAGE",false);
+            if(isPush){
+                if (DemoContext.getInstance() != null) {
+                    String token = DemoContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "default");
+
+                    reconnect(token);
+                }
+            }
+        }
+    }
+    /**
+     * 收到push消息后做重连，重新连接融云
+     *
+     * @param token
+     */
+    private void reconnect(String token) {
+
+        mDialog = new LoadingDialog(this);
+        mDialog.setCancelable(false);
+        mDialog.setText("正在连接中...");
+        mDialog.show();
+
+        try {
+            RongIM.connect(token, new RongIMClient.ConnectCallback() {
+
+                @Override
+                public void onTokenIncorrect() {
+                }
+
+                @Override
+                public void onSuccess(String userId) {
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mDialog.dismiss();
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish();
+                        }
+                    });
+                }
+
+                @Override
+                public void onError(RongIMClient.ErrorCode e) {
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mDialog.dismiss();
+                        }
+                    });
+                }
+            });
+        } catch (Exception e) {
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    mDialog.dismiss();
+                }
+            });
+            e.printStackTrace();
+        }
+
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

@@ -139,6 +139,7 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
         RongIM.getInstance().enableUnreadMessageIcon(true);
         initView();
         initData();
+        getPushMessage();
     }
 
     protected void initView() {
@@ -229,6 +230,50 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
         this.registerReceiver(mBroadcastReciver, intentFilter);
 
 
+    }
+
+    /**
+     * 得到 push 消息
+     */
+    private void getPushMessage() {
+
+        Intent intent = getIntent();
+        if (intent != null && intent.getData() != null && intent.getData().getScheme().equals("rong")) {
+            String content = intent.getData().getQueryParameter("pushContent");
+            String data = intent.getData().getQueryParameter("pushData");
+            String id = intent.getData().getQueryParameter("pushId");
+            RongIMClient.recordNotificationEvent(id);
+            if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
+                RongIM.getInstance().getRongIMClient().clearNotifications();
+            }
+            if (DemoContext.getInstance() != null) {
+                String token = DemoContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "default");
+                if (token.equals("default")) {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                } else {
+                    if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
+                        RongIMClient.ConnectionStatusListener.ConnectionStatus status = RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus();
+                        if (RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTED.equals(status)) {
+
+                            return;
+                        } else if (RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTING.equals(status)) {
+                            return;
+                        } else {
+                            Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
+                            intent1.putExtra("PUSH_MESSAGE", true);
+                            startActivity(intent1);
+                            finish();
+                        }
+                    } else {
+                        Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
+                        intent1.putExtra("PUSH_MESSAGE", true);
+                        startActivity(intent1);
+                        finish();
+                    }
+
+                }
+            }
+        }
     }
 
     public RongIM.OnReceiveUnreadCountChangedListener mCountListener = new RongIM.OnReceiveUnreadCountChangedListener() {
