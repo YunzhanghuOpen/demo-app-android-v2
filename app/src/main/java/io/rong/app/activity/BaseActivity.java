@@ -4,6 +4,8 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
+import com.umeng.analytics.MobclickAgent;
+
 import io.rong.app.R;
 import io.rong.app.utils.AppManager;
 
@@ -19,12 +21,12 @@ public abstract class BaseActivity extends ActionBarActivity {
 
     protected void onResume() {
         super.onResume();
-//        MobclickAgent.onResume(this);
+        MobclickAgent.onResume(this);
     }
 
     protected void onPause() {
         super.onPause();
-//        MobclickAgent.onPause(this);
+        MobclickAgent.onPause(this);
     }
 
 }

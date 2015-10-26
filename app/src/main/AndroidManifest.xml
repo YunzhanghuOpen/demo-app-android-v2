@@ -235,10 +235,10 @@
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="556520bc67e58e4391007357"></meta-data>
+            android:value="562da496e0f55aa867003377"></meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="DEMO_GITHUB"></meta-data>
+            android:value="RongCloudApp"></meta-data>
 
         <activity android:name=".activity.SOSOLocationActivity" />
 
