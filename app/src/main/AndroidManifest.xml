@@ -367,6 +367,10 @@
 
         <activity android:name=".activity.RealTimeLocationActivity"></activity>
 
+        <!-- 新版相册新增AC -->
+        <activity android:name=".picture.PreviewActivity"></activity>
+        <activity android:name=".picture.MultiImageSelectorActivity"></activity>
+
     </application>
 
 

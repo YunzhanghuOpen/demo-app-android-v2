@@ -31,6 +31,7 @@ import io.rong.app.database.UserInfosDao;
 import io.rong.app.message.DeAgreedFriendRequestMessage;
 import io.rong.app.model.User;
 import io.rong.app.photo.PhotoCollectionsProvider;
+import io.rong.app.picture.PhotoInputProvider;
 import io.rong.app.provider.ContactsProvider;
 import io.rong.app.provider.RealTimeLocationInputProvider;
 import io.rong.app.ui.WinToast;
@@ -150,7 +151,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
 //        扩展功能自定义
         InputProvider.ExtendProvider[] provider = {
-                new PhotoCollectionsProvider(RongContext.getInstance()),//图片
+                new PhotoInputProvider(RongContext.getInstance()),//图片
                 new CameraInputProvider(RongContext.getInstance()),//相机
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
                 new VoIPInputProvider(RongContext.getInstance()),// 语音通话
@@ -158,7 +159,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         };
 
         InputProvider.ExtendProvider[] provider1 = {
-                new PhotoCollectionsProvider(RongContext.getInstance()),//图片
+                new PhotoInputProvider(RongContext.getInstance()),//图片
                 new CameraInputProvider(RongContext.getInstance()),//相机
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
         };
