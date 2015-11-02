@@ -4,7 +4,6 @@
     android:layout_height="match_parent">
 
     <FrameLayout
-        android:id="@+id/de_frm_backgroud"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -24,7 +23,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,7 +31,6 @@
             <include layout="@layout/de_merge_public" />
 
         </LinearLayout>
-
 
         <ImageView
             android:id="@+id/de_login_logo"

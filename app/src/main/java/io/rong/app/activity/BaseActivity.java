@@ -29,4 +29,6 @@ public abstract class BaseActivity extends ActionBarActivity {
         MobclickAgent.onPause(this);
     }
 
+
+
 }

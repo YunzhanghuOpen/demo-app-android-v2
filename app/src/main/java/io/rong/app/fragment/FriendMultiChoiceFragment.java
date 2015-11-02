@@ -22,6 +22,7 @@ import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.app.adapter.FriendMultiChoiceAdapter;
 import io.rong.app.ui.LoadingDialog;
+import io.rong.app.utils.Constants;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
@@ -87,7 +88,9 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
             mConversationType = Conversation.ConversationType.valueOf(conversationType);
             if (mConversationType.equals(Conversation.ConversationType.PRIVATE)) {
                 Conversation conversation = RongIM.getInstance().getRongIMClient().getConversation(Conversation.ConversationType.PRIVATE, mTargetId);
-                mMemberIds.add(conversation.getTargetId());
+
+                if (conversation != null && conversation.getConversationType() != null)
+                    mMemberIds.add(conversation.getTargetId());
             } else if (mConversationType.equals(Conversation.ConversationType.DISCUSSION)) {
 
             }
@@ -193,7 +196,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
             mLoadingDialog = new LoadingDialog(this.getActivity());
             if (DemoContext.getInstance() != null) {
 
-                userId = DemoContext.getInstance().getSharedPreferences().getString("DEMO_USERID", null);
+                userId = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_ID, Constants.DEFAULT);
                 UserInfo userInfo = DemoContext.getInstance().getUserInfoById(userId);
                 for (UserInfo item : userInfos) {
                     ids.add(item.getUserId());
@@ -237,7 +240,7 @@ public class FriendMultiChoiceFragment extends FriendListFragment implements Han
                                     if (mLoadingDialog != null) {
                                         mLoadingDialog.dismiss();
                                     }
-                                    RongIM.getInstance().startDiscussionChat(getActivity(),mTargetId,"hello");
+                                    RongIM.getInstance().startDiscussionChat(getActivity(), mTargetId, "hello");
                                     getActivity().finish();
                                 }
 

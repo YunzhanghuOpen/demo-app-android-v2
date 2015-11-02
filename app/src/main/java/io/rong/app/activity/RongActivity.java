@@ -1,5 +1,6 @@
 package io.rong.app.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,12 +9,15 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -33,6 +37,8 @@ import io.rong.app.fragment.FriendMultiChoiceFragment;
 import io.rong.app.model.RongEvent;
 import io.rong.app.ui.LoadingDialog;
 import io.rong.app.ui.WinToast;
+import io.rong.app.utils.Constants;
+import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.common.RongConst;
 import io.rong.imkit.fragment.ConversationFragment;
@@ -40,6 +46,7 @@ import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imkit.fragment.SubConversationListFragment;
 import io.rong.imkit.fragment.UriFragment;
 import io.rong.imkit.widget.AlterDialogFragment;
+import io.rong.imkit.widget.provider.TextInputProvider;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.location.RealTimeLocationConstant;
 import io.rong.imlib.model.Conversation;
@@ -80,6 +87,7 @@ public class RongActivity extends BaseActivity implements Handler.Callback, Rong
 
     private RelativeLayout mRealTimeBar;//real-time bar
     private RealTimeLocationConstant.RealTimeLocationStatus currentLocationStatus;
+    private String mEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +95,7 @@ public class RongActivity extends BaseActivity implements Handler.Callback, Rong
         setContentView(R.layout.de_activity);
         initView();
         initData();
+        checkTextInputEditTextChanged();
 
         if ("RongActivity".equals(this.getClass().getSimpleName()))
             EventBus.getDefault().register(this);
@@ -163,23 +172,98 @@ public class RongActivity extends BaseActivity implements Handler.Callback, Rong
             //通过intent.getData().getQueryParameter("push") 为true，判断是否是push消息
             if (DemoContext.getInstance() != null && intent.getData().getQueryParameter("push").equals("true")) {
                 String id = intent.getData().getQueryParameter("pushId");
-                RongIMClient.recordNotificationEvent(id);
+                RongIM.getInstance().getRongIMClient().recordNotificationEvent(id);
                 enterActivity(intent);
             }
-        } else if (intent != null) {
+
+        }else if (intent != null) {
             //程序切到后台，收到消息后点击进入,会执行这里
             if (RongIM.getInstance() == null || RongIM.getInstance().getRongIMClient() == null) {
                 if (DemoContext.getInstance() != null) {
-                    String token = DemoContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "defult");
+                    String token = DemoContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "default");
                     reconnect(token);
                 }
             } else {
                 enterFragment(intent);
             }
         }
+    }
+
+    private void checkTextInputEditTextChanged() {
+
+        TextInputProvider textInputProvider = new TextInputProvider(RongContext.getInstance());
+        RongIM.setPrimaryInputProvider(textInputProvider);
+
+        textInputProvider.setEditTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+//                Log.e(TAG, "-----rongActivity---beforeTextChanged----");
+
+//
+//                RongIM.getInstance().getRongIMClient().getConversation(mConversationType, targetId, new RongIMClient.ResultCallback<Conversation>() {
+//                    @Override
+//                    public void onSuccess(Conversation conversation) {
+//
+//                        TextInputProvider textInputProvider = (TextInputProvider) RongContext.getInstance().getPrimaryInputProvider();
+//
+//                        textInputProvider.setEditTextContent(conversation.getDraft());
+////                        Log.e(TAG, "-----rongActivity---conversation.getDraft()----"+conversation.getDraft());
+//                    }
+//
+//                    @Override
+//                    public void onError(RongIMClient.ErrorCode e) {
+//
+//                    }
+//                });
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (mConversationType.equals(Conversation.ConversationType.DISCUSSION)) {
+
+                    if (s.length() > 0) {
+                        String str = s.toString().substring(s.toString().length() - 1, s.toString().length());
+
+                        if (str.equals("@")) {
+
+                            Intent intent = new Intent(RongActivity.this, NewTextMessageAcitivty.class);
+                            intent.putExtra("DEMO_REPLY_CONVERSATIONTYPE", mConversationType.toString());
+                            intent.putExtra("DEMO_REPLY_TARGETID", targetId);
+                            startActivityForResult(intent, 29);
+
+                            mEditText = s.toString();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+//                Log.e(TAG, "-----rongActivity---afterTextChanged----");
+            }
+        });
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 29 && resultCode == Constants.MESSAGE_REPLY) {
+            if (data != null && data.hasExtra("REPLY_NAME") && data.hasExtra("REPLY_ID")) {
+                String id = data.getStringExtra("REPLY_ID");
+                String name = data.getStringExtra("REPLY_NAME");
+                TextInputProvider textInputProvider = (TextInputProvider) RongContext.getInstance().getPrimaryInputProvider();
+                textInputProvider.setEditTextContent(mEditText + name + " ");
+
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
+    }
 
     /**
      * 收到 push 以后，打开会话页面
@@ -458,7 +542,6 @@ public class RongActivity extends BaseActivity implements Handler.Callback, Rong
                 }
             }
         } else {
-            Log.e(TAG, "not addRealTimeLocationListener:--33333333333-");
         }
 
     }
@@ -481,7 +564,7 @@ public class RongActivity extends BaseActivity implements Handler.Callback, Rong
                 sb.append(",");
             }
 
-            sb.append(DemoContext.getInstance().getSharedPreferences().getString("DEMO_USER_NAME", "0.0"));
+            sb.append(DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_NAME, "0.0"));
         }
 
         getSupportActionBar().setTitle(sb);
@@ -664,12 +747,6 @@ public class RongActivity extends BaseActivity implements Handler.Callback, Rong
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-
     //real-time location method beign
 
     private void startRealTimeLocation() {
@@ -804,7 +881,7 @@ public class RongActivity extends BaseActivity implements Handler.Callback, Rong
     public void onReceiveLocation(double latitude, double longitude, String userId) {
         Log.e(TAG, "onReceiveLocation:---" + userId);
 //        if (!userId.equals(DemoContext.getInstance().getCurrentUserInfo().getUserId()))
-            EventBus.getDefault().post(RongEvent.RealTimeLocationReceiveEvent.obtain(userId, latitude, longitude));
+        EventBus.getDefault().post(RongEvent.RealTimeLocationReceiveEvent.obtain(userId, latitude, longitude));
     }
 
     @Override

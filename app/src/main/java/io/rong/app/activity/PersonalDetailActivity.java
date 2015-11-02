@@ -104,7 +104,7 @@ public class PersonalDetailActivity extends BaseApiActivity implements View.OnCl
                     mSendMessage.setVisibility(View.GONE);
                 }
             }
-            if (userInfo.getUserId().equals(DemoContext.getInstance().getSharedPreferences().getString("DEMO_USER_ID", "defult"))) {
+            if (userInfo.getUserId().equals(DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_ID, Constants.DEFAULT))) {
                 mSendMessage.setVisibility(View.GONE);
             }
         }

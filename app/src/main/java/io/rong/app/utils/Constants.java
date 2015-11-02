@@ -4,7 +4,7 @@ package io.rong.app.utils;
  * Created by Bob on 2015/4/17.
  */
 public class Constants {
-    public static final String DEBUG = "-bob test-----";
+    public static final String DEBUG = "-----";
     //新的好友
     public static final int FRIENDLIST_REQUESTCODE = 1001;
     //搜索
@@ -23,4 +23,12 @@ public class Constants {
     public static final int FIX_DISCUSSION_NAME = 1008;
     //修改设置页面
     public static final int UPDATE_DISCUTION_NUMBER = 1009;
+    //@消息
+    public static final int MESSAGE_REPLY = 1010;
+    public static final String DEFAULT = "default";
+    public static final String APP_TOKEN = "DEMO_TOKEN";
+    public static final String APP_USER_ID = "DEMO_USERID";
+    public static final String APP_USER_NAME = "DEMO_USER_NAME";
+    public static final String APP_USER_PORTRAIT = "DEMO_USER_PORTRAIT";
+
 }

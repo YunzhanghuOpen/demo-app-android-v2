@@ -42,7 +42,7 @@ import io.rong.imlib.model.UserInfo;
  * 此处是 Demo 的接口，跟融云 SDK 没有关系，此处仅为示例代码，展示 App 的逻辑
  */
 public class DemoApi extends BaseApi {
-    //        private static String HOST = "http://119.254.110.241:80/";
+    //        private static String HOST = "http://webim.demo.rong.io/";
     private static String HOST = "http://webim.demo.rong.io/";
     private final static String DEMO_LOGIN_EMAIL = "email_login";
     private final static String DEMO_FRIENDS = "get_friend";

@@ -53,7 +53,7 @@ public class MyAccountActivity extends BaseActionBarActivity implements View.OnC
 
         if (DemoContext.getInstance().getSharedPreferences() != null) {
 //            String userId = DemoContext.getInstance().getSharedPreferences().getString("DEMO_USER_ID", null);
-            mUserName = DemoContext.getInstance().getSharedPreferences().getString("DEMO_USER_NAME", null);
+            mUserName = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_NAME, null);
             String userPortrait = DemoContext.getInstance().getSharedPreferences().getString("DEMO_USER_PORTRAIT", null);
             mImgMyPortrait.setResource(new Resource(Uri.parse(userPortrait)));
             mTVUsername.setText(mUserName.toString());

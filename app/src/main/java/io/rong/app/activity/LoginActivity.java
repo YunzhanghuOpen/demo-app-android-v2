@@ -1,18 +1,17 @@
 package io.rong.app.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Process;
 import android.support.v7.app.ActionBar;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -31,115 +30,57 @@ import android.widget.TextView;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import io.rong.app.App;
 import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.app.RongCloudEvent;
 import io.rong.app.database.DBManager;
 import io.rong.app.database.UserInfos;
 import io.rong.app.database.UserInfosDao;
-import io.rong.app.model.ApiResult;
 import io.rong.app.model.Friends;
 import io.rong.app.model.Groups;
 import io.rong.app.model.User;
 import io.rong.app.ui.EditTextHolder;
 import io.rong.app.ui.LoadingDialog;
 import io.rong.app.ui.WinToast;
+import io.rong.app.utils.Constants;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Group;
-import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by Bob on 2015/1/30.
  */
 public class LoginActivity extends BaseApiActivity implements View.OnClickListener, Handler.Callback, EditTextHolder.OnEditTextFocusChangeListener {
-    private static final String TAG = "LoginActivity";
-    /**
-     * 用户账户
-     */
-    private EditText mUserNameEt;
-    /**
-     * 密码
-     */
-    private EditText mPassWordEt;
-    /**
-     * 登录button
-     */
-    private Button mSignInBt;
-    /**
-     * 设备id
-     */
-    private String mDeviceId;
-    /**
-     * 忘记密码
-     */
-    private TextView mFogotPassWord;
-    /**
-     * 注册
-     */
-    private TextView mRegister;
-    /**
-     * 输入用户名删除按钮
-     */
-    private FrameLayout mFrUserNameDelete;
-    /**
-     * 输入密码删除按钮
-     */
-    private FrameLayout mFrPasswordDelete;
-    /**
-     * logo
-     */
-    private ImageView mLoginImg;
-    /**
-     * 软键盘的控制
-     */
-    private InputMethodManager mSoftManager;
-    /**
-     * 是否展示title
-     */
-    private RelativeLayout mIsShowTitle;
-    /**
-     * 左侧title
-     */
-    private TextView mLeftTitle;
-    /**
-     * 右侧title
-     */
-    private TextView mRightTitle;
+    private static final String TAG = LoginActivity.class.getSimpleName();
 
-
-    private static final int REQUEST_CODE_REGISTER = 200;
+    private int REQUEST_CODE_REGISTER = 200;
     public static final String INTENT_IMAIL = "intent_email";
     public static final String INTENT_PASSWORD = "intent_password";
-    private static final int HANDLER_LOGIN_SUCCESS = 1;
-    private static final int HANDLER_LOGIN_FAILURE = 2;
-    private static final int HANDLER_LOGIN_HAS_FOCUS = 3;
-    private static final int HANDLER_LOGIN_HAS_NO_FOCUS = 4;
+    private int HANDLER_LOGIN_SUCCESS = 1;
+    private int HANDLER_LOGIN_FAILURE = 2;
+    private int HANDLER_LOGIN_HAS_FOCUS = 3;
+    private int HANDLER_LOGIN_HAS_NO_FOCUS = 4;
 
-
-    private LoadingDialog mDialog;
     private AbstractHttpRequest<User> loginHttpRequest;
     private AbstractHttpRequest<User> getTokenHttpRequest;
     private AbstractHttpRequest<Friends> getUserInfoHttpRequest;
     private AbstractHttpRequest<Groups> mGetMyGroupsRequest;
-
+    private LoadingDialog mDialog;
     private Handler mHandler;
-    private List<User> mUserList;
-    private List<ApiResult> mResultList;
-    private ImageView mImgBackgroud;
+
     EditTextHolder mEditUserNameEt;
     EditTextHolder mEditPassWordEt;
-
     List<UserInfos> friendsList = new ArrayList<UserInfos>();
     UserInfosDao mUserInfosDao;
     String userName;
     private boolean isFirst = false;
-    private boolean isSuccess = false;
+    Drawable drawable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,209 +88,6 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
         setContentView(R.layout.de_ac_login);
         initView();
         initData();
-        getPushMessage();
-    }
-
-
-    protected void initView() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
-        mSoftManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        mUserInfosDao = DBManager.getInstance(LoginActivity.this).getDaoSession().getUserInfosDao();
-        mLoginImg = (ImageView) findViewById(R.id.de_login_logo);
-        mUserNameEt = (EditText) findViewById(R.id.app_username_et);
-        mPassWordEt = (EditText) findViewById(R.id.app_password_et);
-        mSignInBt = (Button) findViewById(R.id.app_sign_in_bt);
-        mRegister = (TextView) findViewById(R.id.de_login_register);
-        mFogotPassWord = (TextView) findViewById(R.id.de_login_forgot);
-        mImgBackgroud = (ImageView) findViewById(R.id.de_img_backgroud);
-        mFrUserNameDelete = (FrameLayout) findViewById(R.id.fr_username_delete);
-        mFrPasswordDelete = (FrameLayout) findViewById(R.id.fr_pass_delete);
-        mIsShowTitle = (RelativeLayout) findViewById(R.id.de_merge_rel);
-        mLeftTitle = (TextView) findViewById(R.id.de_left);
-        mRightTitle = (TextView) findViewById(R.id.de_right);
-        mUserList = new ArrayList<User>();
-        mResultList = new ArrayList<ApiResult>();
-
-        mSignInBt.setOnClickListener(this);
-        mRegister.setOnClickListener(this);
-        mLeftTitle.setOnClickListener(this);
-        mRightTitle.setOnClickListener(this);
-        mHandler = new Handler(this);
-        mDialog = new LoadingDialog(this);
-
-        mEditUserNameEt = new EditTextHolder(mUserNameEt, mFrUserNameDelete, null);
-        mEditPassWordEt = new EditTextHolder(mPassWordEt, mFrPasswordDelete, null);
-
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                Animation animation = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.translate_anim);
-                mImgBackgroud.startAnimation(animation);
-            }
-        });
-
-
-    }
-
-    protected void initData() {
-
-        if (DemoContext.getInstance() != null) {
-            String email = DemoContext.getInstance().getSharedPreferences().getString(INTENT_IMAIL, "");
-            String password = DemoContext.getInstance().getSharedPreferences().getString(INTENT_PASSWORD, "");
-            mUserNameEt.setText(email);
-            mPassWordEt.setText(password);
-        }
-
-        TelephonyManager mTelephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        mDeviceId = mTelephonyManager.getDeviceId();
-
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mUserNameEt.setOnClickListener(LoginActivity.this);
-                mPassWordEt.setOnClickListener(LoginActivity.this);
-                mEditPassWordEt.setmOnEditTextFocusChangeListener(LoginActivity.this);
-                mEditUserNameEt.setmOnEditTextFocusChangeListener(LoginActivity.this);
-            }
-        }, 200);
-
-    }
-
-    /**
-     * 得到 push 消息
-     */
-    private void getPushMessage() {
-
-        Intent intent = getIntent();
-
-        if(intent!=null&& intent.hasExtra("PUSH_MESSAGE")){
-            boolean isPush = intent.getBooleanExtra("PUSH_MESSAGE",false);
-            if(isPush){
-                if (DemoContext.getInstance() != null) {
-                    String token = DemoContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "default");
-
-                    reconnect(token);
-                }
-            }
-        }
-    }
-    /**
-     * 收到push消息后做重连，重新连接融云
-     *
-     * @param token
-     */
-    private void reconnect(String token) {
-
-        mDialog = new LoadingDialog(this);
-        mDialog.setCancelable(false);
-        mDialog.setText("正在连接中...");
-        mDialog.show();
-
-        try {
-            RongIM.connect(token, new RongIMClient.ConnectCallback() {
-
-                @Override
-                public void onTokenIncorrect() {
-                }
-
-                @Override
-                public void onSuccess(String userId) {
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mDialog.dismiss();
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                            finish();
-                        }
-                    });
-                }
-
-                @Override
-                public void onError(RongIMClient.ErrorCode e) {
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mDialog.dismiss();
-                        }
-                    });
-                }
-            });
-        } catch (Exception e) {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mDialog.dismiss();
-                }
-            });
-            e.printStackTrace();
-        }
-
-    }
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.app_sign_in_bt://登录
-
-
-//                initnn();
-                userName = mUserNameEt.getEditableText().toString();
-                String passWord = mPassWordEt.getEditableText().toString();
-                String name = null;
-                if (TextUtils.isEmpty(userName) || TextUtils.isEmpty(passWord)) {
-                    WinToast.toast(this, R.string.login_erro_is_null);
-                    return;
-                }
-
-                if (mDialog != null && !mDialog.isShowing()) {
-                    mDialog.show();
-                }
-                //发起登录 http请求 (注：非融云SDK接口，是demo接口)
-                if (DemoContext.getInstance() != null) {
-                    //如果切换了一个用户，token和 cookie 都需要重新获取
-                    if (DemoContext.getInstance() != null) {
-                        name = DemoContext.getInstance().getSharedPreferences().getString("DEMO_USERNAME", "DEFAULT");
-                    }
-
-                    if (!userName.equals(name)) {
-
-                        loginHttpRequest = DemoContext.getInstance().getDemoApi().login(userName, passWord, this);
-                        isFirst = true;
-                    } else {
-                        isFirst = false;
-                        String cookie = DemoContext.getInstance().getSharedPreferences().getString("DEMO_COOKIE", "DEFAULT");
-                        String token = DemoContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "DEFAULT");
-                        if (!cookie.equals("DEFAULT") && !token.equals("DEFAULT")) {
-                            httpGetTokenSuccess(token);
-                        } else {
-                            loginHttpRequest = DemoContext.getInstance().getDemoApi().login(userName, passWord, this);
-                        }
-
-                    }
-                }
-
-                break;
-            case R.id.de_left://注册
-            case R.id.de_login_register://注册
-                Intent intent = new Intent(this, RegisterActivity.class);
-                startActivityForResult(intent, REQUEST_CODE_REGISTER);
-                break;
-            case R.id.de_login_forgot://忘记密码
-                WinToast.toast(this, "忘记密码");
-                break;
-            case R.id.de_right://忘记密码
-                Intent intent1 = new Intent(this, RegisterActivity.class);
-                startActivityForResult(intent1, REQUEST_CODE_REGISTER);
-                break;
-
-            case R.id.app_username_et:
-            case R.id.app_password_et:
-                Message mess = Message.obtain();
-                mess.what = HANDLER_LOGIN_HAS_FOCUS;
-                mHandler.sendMessage(mess);
-                break;
-
-        }
     }
 
     @Override
@@ -359,20 +97,20 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
 
             if (mDialog != null)
                 mDialog.dismiss();
+
             WinToast.toast(LoginActivity.this, R.string.login_failure);
+
             startActivity(new Intent(this, MainActivity.class));
-
             finish();
-
         } else if (msg.what == HANDLER_LOGIN_SUCCESS) {
+
             if (mDialog != null)
                 mDialog.dismiss();
+
             WinToast.toast(LoginActivity.this, R.string.login_success);
 
             startActivity(new Intent(this, MainActivity.class));
-
             finish();
-
         } else if (msg.what == HANDLER_LOGIN_HAS_FOCUS) {
             mLoginImg.setVisibility(View.GONE);
             mRegister.setVisibility(View.GONE);
@@ -390,112 +128,152 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
         return false;
     }
 
+    protected void initView() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
+        mLoginImg = (ImageView) findViewById(R.id.de_login_logo);
+        mUserNameEt = (EditText) findViewById(R.id.app_username_et);
+        mPassWordEt = (EditText) findViewById(R.id.app_password_et);
+        mSignInBt = (Button) findViewById(R.id.app_sign_in_bt);
+        mRegister = (TextView) findViewById(R.id.de_login_register);
+        mFogotPassWord = (TextView) findViewById(R.id.de_login_forgot);
+        mImgBackgroud = (ImageView) findViewById(R.id.de_img_backgroud);
+        mFrUserNameDelete = (FrameLayout) findViewById(R.id.fr_username_delete);
+        mFrPasswordDelete = (FrameLayout) findViewById(R.id.fr_pass_delete);
+        mIsShowTitle = (RelativeLayout) findViewById(R.id.de_merge_rel);
+        mLeftTitle = (TextView) findViewById(R.id.de_left);
+        mRightTitle = (TextView) findViewById(R.id.de_right);
+
+        mSignInBt.setOnClickListener(this);
+        mRegister.setOnClickListener(this);
+        mLeftTitle.setOnClickListener(this);
+        mRightTitle.setOnClickListener(this);
+        mUserNameEt.setOnClickListener(this);
+        mPassWordEt.setOnClickListener(this);
+
+        drawable = mImgBackgroud.getDrawable();
+
+//        下面的代码为 EditTextView 的展示以及背景动画
+        mEditUserNameEt = new EditTextHolder(mUserNameEt, mFrUserNameDelete, null);
+        mEditPassWordEt = new EditTextHolder(mPassWordEt, mFrPasswordDelete, null);
+        mHandler = new Handler(this);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Animation animation = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.translate_anim);
+                mImgBackgroud.startAnimation(animation);
+                mEditPassWordEt.setmOnEditTextFocusChangeListener(LoginActivity.this);
+                mEditUserNameEt.setmOnEditTextFocusChangeListener(LoginActivity.this);
+            }
+        }, 200);
+    }
+
+    protected void initData() {
+        mSoftManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        mUserInfosDao = DBManager.getInstance(LoginActivity.this).getDaoSession().getUserInfosDao();
+
+        mDialog = new LoadingDialog(this);
+
+        if (DemoContext.getInstance() != null) {
+            String email = DemoContext.getInstance().getSharedPreferences().getString(INTENT_IMAIL, "");
+            String password = DemoContext.getInstance().getSharedPreferences().getString(INTENT_PASSWORD, "");
+            mUserNameEt.setText(email);
+            mPassWordEt.setText(password);
+
+            String token = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_TOKEN, Constants.DEFAULT);
+            String cookie = DemoContext.getInstance().getSharedPreferences().getString("DEMO_COOKIE", Constants.DEFAULT);
+            //当应用第二次打开的时候，需要重新去获取一下这个用户所加入的群组。
+            if (!token.equals(Constants.DEFAULT) && !cookie.equals(Constants.DEFAULT)) {
+
+                if (mDialog != null && !mDialog.isShowing()) {
+                    mDialog.show();
+                }
+                httpGetTokenSuccess(token);
+            }
+        }
+    }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.app_sign_in_bt://登录
+                Login();
+                break;
+            case R.id.de_left://注册
+            case R.id.de_login_register://注册
 
-        if (requestCode == REQUEST_CODE_REGISTER && resultCode == Activity.RESULT_OK) {
-            if (data != null) {
-                mUserNameEt.setText(data.getStringExtra(INTENT_IMAIL));
-                mPassWordEt.setText(data.getStringExtra(INTENT_PASSWORD));
+                Intent intent = new Intent(this, RegisterActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_REGISTER);
+                break;
+
+            case R.id.de_login_forgot://忘记密码
+            case R.id.de_right://忘记密码
+
+                WinToast.toast(LoginActivity.this, R.string.app_fogot_password);
+                break;
+
+            case R.id.app_username_et:
+            case R.id.app_password_et:
+                Message mess = Message.obtain();
+                mess.what = HANDLER_LOGIN_HAS_FOCUS;
+                mHandler.sendMessage(mess);
+                break;
+        }
+    }
+
+    /**
+     * 点击登录按钮，登录
+     */
+    private void Login() {
+        userName = mUserNameEt.getEditableText().toString();
+        String passWord = mPassWordEt.getEditableText().toString();
+        String name = null;
+
+        if (TextUtils.isEmpty(userName) || TextUtils.isEmpty(passWord)) {
+            WinToast.toast(LoginActivity.this, R.string.login_erro_is_null);
+            return;
+        }
+
+        if (mDialog != null && !mDialog.isShowing()) {
+            mDialog.show();
+        }
+
+        //发起登录 http请求 (注：非融云SDK接口，是demo接口)
+        if (DemoContext.getInstance() != null) {
+            //如果切换了一个用户，token和 cookie 都需要重新获取
+            name = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_NAME, Constants.DEFAULT);
+
+            if (!userName.equals(name)) {
+
+                loginHttpRequest = DemoContext.getInstance().getDemoApi().login(userName, passWord, this);
+                isFirst = true;
+            } else {
+                isFirst = false;
+                String cookie = DemoContext.getInstance().getSharedPreferences().getString("DEMO_COOKIE", Constants.DEFAULT);
+                String token = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_TOKEN, Constants.DEFAULT);
+                if (!cookie.equals(Constants.DEFAULT) && !token.equals(Constants.DEFAULT)) {
+                    httpGetTokenSuccess(token);
+                } else {
+                    loginHttpRequest = DemoContext.getInstance().getDemoApi().login(userName, passWord, this);
+                }
             }
         }
-
     }
-
-    private void httpLoginSuccess(User user) {
-
-        if (user.getCode() == 200) {
-            getTokenHttpRequest = DemoContext.getInstance().getDemoApi().getToken(this);
-        }
-    }
-
-
-    private void httpGetTokenSuccess(String token) {
-
-        try {
-            /**
-             * IMKit SDK调用第二步
-             *
-             * 建立与服务器的连接
-             *
-             * 详见API
-             * http://docs.rongcloud.cn/api/android/imkit/index.html
-             */
-            Log.e("LoginActivity", "---------onSuccess gettoken----------:" + token);
-            if ("io.rong.app".equals(App.getCurProcessName(getApplicationContext()))) {
-                RongIM.connect(token, new RongIMClient.ConnectCallback() {
-                            @Override
-                            public void onTokenIncorrect() {
-                                Log.e("LoginActivity", "---------onTokenIncorrect userId----------:");
-                            }
-
-                            @Override
-                            public void onSuccess(String userId) {
-                                Log.e("LoginActivity", "---------onSuccess userId----------:" + userId);
-                                isSuccess = true;
-                                if (isFirst) {
-                                    getUserInfoHttpRequest = DemoContext.getInstance().getDemoApi().getFriends(LoginActivity.this);
-                                    DemoContext.getInstance().deleteUserInfos();
-
-                                } else {
-                                    final List<UserInfos> list = mUserInfosDao.loadAll();
-                                    if (list != null && list.size() > 0) {
-                                        mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
-                                    } else {
-                                        //请求网络
-                                        getUserInfoHttpRequest = DemoContext.getInstance().getDemoApi().getFriends(LoginActivity.this);
-                                    }
-                                }
-                                SharedPreferences.Editor edit = DemoContext.getInstance().getSharedPreferences().edit();
-                                edit.putString("DEMO_USERID", userId);
-                                edit.putString("DEMO_USERNAME", userName);
-                                edit.apply();
-
-                                RongCloudEvent.getInstance().setOtherListener();
-
-                            }
-
-                            @Override
-                            public void onError(RongIMClient.ErrorCode e) {
-                                isSuccess = false;
-                                mHandler.obtainMessage(HANDLER_LOGIN_FAILURE).sendToTarget();
-                                Log.e("LoginActivity", "---------onError ----------:" + e);
-                            }
-                        }
-                );
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (DemoContext.getInstance() != null) {
-            mGetMyGroupsRequest = DemoContext.getInstance().getDemoApi().getMyGroups(LoginActivity.this);
-        }
-
-        if (DemoContext.getInstance() != null) {
-            SharedPreferences.Editor editor = DemoContext.getInstance().getSharedPreferences().edit();
-            editor.putString(INTENT_PASSWORD, mPassWordEt.getText().toString());
-            editor.putString(INTENT_IMAIL, mUserNameEt.getText().toString());
-            editor.apply();
-        }
-    }
-
 
     @Override
     public void onCallApiSuccess(AbstractHttpRequest request, Object obj) {
 
-        if (mGetMyGroupsRequest != null && mGetMyGroupsRequest.equals(request)) {
-            getMyGroupApiSuccess(obj);
-        } else if (loginHttpRequest != null && loginHttpRequest.equals(request)) {
+        if (loginHttpRequest != null && loginHttpRequest.equals(request)) {
             loginApiSuccess(obj);
         } else if (getTokenHttpRequest != null && getTokenHttpRequest.equals(request)) {
             getTokenApiSuccess(obj);
         } else if (getUserInfoHttpRequest != null && getUserInfoHttpRequest.equals(request)) {
             getFriendsApiSuccess(obj);
+        } else if (mGetMyGroupsRequest != null && mGetMyGroupsRequest.equals(request)) {
+            getMyGroupApiSuccess(obj);
         }
     }
-
 
     @Override
     public void onCallApiFailure(AbstractHttpRequest request, BaseException e) {
@@ -506,27 +284,210 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
         } else if (getTokenHttpRequest != null && getTokenHttpRequest.equals(request)) {
             if (mDialog != null)
                 mDialog.dismiss();
+        } else if (mGetMyGroupsRequest != null && mGetMyGroupsRequest.equals(request)) {
+            Log.e(TAG, "-------getGroup failure----");
+        }
+    }
+
+    /**
+     * 以下是demo 的逻辑，与sdk 没有关系。
+     * 1，登录成功，获得 cookie，将 cookie 保存到 SharedPreferences 中，以后每次网络请求都需要携带 cookie
+     * 2，获得 cookie 以后，再去请求 demo server 获得 token。
+     *
+     * @param obj
+     */
+    private void loginApiSuccess(Object obj) {
+        if (obj instanceof User) {
+            final User user = (User) obj;
+            if (user.getCode() == 200) {
+                if (DemoContext.getInstance() != null && user.getResult() != null) {
+                    SharedPreferences.Editor edit = DemoContext.getInstance().getSharedPreferences().edit();
+                    edit.putString(Constants.APP_USER_NAME, user.getResult().getUsername());
+                    edit.putString(Constants.APP_USER_PORTRAIT, user.getResult().getPortrait());
+                    edit.apply();
+
+                    //请求 demo server 获得 token。
+                    getTokenHttpRequest = DemoContext.getInstance().getDemoApi().getToken(this);
+                    Log.i(TAG, "----login success---");
+                }
+            } else if (user.getCode() == 103) {
+
+                if (mDialog != null)
+                    mDialog.dismiss();
+
+                WinToast.toast(LoginActivity.this, R.string.app_pass_error);
+            } else if (user.getCode() == 104) {
+
+                if (mDialog != null)
+                    mDialog.dismiss();
+
+                WinToast.toast(LoginActivity.this, R.string.app_user_error);
+            }
+        }
+    }
+
+    /**
+     * 获得 token 成功，
+     * 获得 token 成功以后，再去请求 demo server 获得自己所加入得群组。
+     *
+     * @param obj
+     */
+    private void getTokenApiSuccess(Object obj) {
+        if (obj instanceof User) {
+            final User user = (User) obj;
+            if (user.getCode() == 200) {
+                if (DemoContext.getInstance() != null && user.getResult() != null) {
+                    //获得token，通过token 去做 connect 操作
+                    httpGetTokenSuccess(user.getResult().getToken());
+
+                    SharedPreferences.Editor edit = DemoContext.getInstance().getSharedPreferences().edit();
+                    edit.putString(Constants.APP_TOKEN, user.getResult().getToken());
+                    edit.putString(INTENT_PASSWORD, mPassWordEt.getText().toString());
+                    edit.putString(INTENT_IMAIL, mUserNameEt.getText().toString());
+                    edit.putBoolean("DEMO_ISFIRST", false);
+                    edit.apply();
+                    Log.i(TAG, "----getToken success--" + user.getResult().getToken());
+
+                }
+            } else if (user.getCode() == 110) {
+
+                WinToast.toast(LoginActivity.this, R.string.app_first_login);
+
+            } else if (user.getCode() == 111) {
+
+                WinToast.toast(LoginActivity.this, R.string.app_cookie_null);
+            }
+        }
+    }
+
+    /**
+     * 融云 第二步：connect 操作
+     *
+     * @param token
+     */
+    private void httpGetTokenSuccess(String token) {
+
+        try {
+            RongIM.connect(token, new RongIMClient.ConnectCallback() {
+                        @Override
+                        public void onTokenIncorrect() {
+                            Log.e(TAG, "----connect onTokenIncorrect--");
+                        }
+
+                        @Override
+                        public void onSuccess(String userId) {
+
+                            Log.d(TAG, "----connect onSuccess userId----:" + userId);
+
+                            if (isFirst) {
+                                getUserInfoHttpRequest = DemoContext.getInstance().getDemoApi().getFriends(LoginActivity.this);
+                                DemoContext.getInstance().deleteUserInfos();
+                            } else {
+                                final List<UserInfos> list = mUserInfosDao.loadAll();
+                                if (list == null || list.size() == 0) {
+                                    //请求网络
+                                    getUserInfoHttpRequest = DemoContext.getInstance().getDemoApi().getFriends(LoginActivity.this);
+                                }
+                            }
+
+                            SharedPreferences.Editor edit = DemoContext.getInstance().getSharedPreferences().edit();
+                            edit.putString(Constants.APP_USER_ID, userId);
+                            edit.apply();
+
+                            RongCloudEvent.getInstance().setOtherListener();
+
+                            //请求 demo server 获得自己所加入得群组。
+                            mGetMyGroupsRequest = DemoContext.getInstance().getDemoApi().getMyGroups(LoginActivity.this);
+                        }
+
+                        @Override
+                        public void onError(RongIMClient.ErrorCode e) {
+                            mHandler.obtainMessage(HANDLER_LOGIN_FAILURE).sendToTarget();
+                            Log.e(TAG, "----connect onError ErrorCode----:" + e);
+                        }
+                    }
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获得自己所加入得群组成功以后，调用 syncGroup 方法，同步自己所加入得群组
+     *
+     * @param obj
+     */
+    private void getMyGroupApiSuccess(Object obj) {
+        if (obj instanceof Groups) {
+            final Groups groups = (Groups) obj;
+            if (groups.getCode() == 200) {
+                List<Group> grouplist = new ArrayList<Group>();
+                if (groups.getResult() != null) {
+                    try {
+                        for (int i = 0; i < groups.getResult().size(); i++) {
+
+
+                            String id = groups.getResult().get(i).getId();
+                            String name = groups.getResult().get(i).getName();
+                            name = URLDecoder.decode(name, "UTF-8");
+
+                            if (groups.getResult().get(i).getPortrait() != null) {
+                                Uri uri = Uri.parse(groups.getResult().get(i).getPortrait());
+                                grouplist.add(new Group(id, name, uri));
+                            } else {
+                                grouplist.add(new Group(id, name, null));
+                            }
+                        }
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    HashMap<String, Group> groupM = new HashMap<String, Group>();
+
+                    for (int i = 0; i < grouplist.size(); i++) {
+                        groupM.put(groups.getResult().get(i).getId(), grouplist.get(i));
+                        Log.i(TAG, "----get MyGroup id----" + groups.getResult().get(i).getId());
+                    }
+
+
+                    if (DemoContext.getInstance() != null)
+                        DemoContext.getInstance().setGroupMap(groupM);
+                    mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
+                    if (grouplist.size() > 0 && RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
+                        RongIM.getInstance().getRongIMClient().syncGroup(grouplist, new RongIMClient.OperationCallback() {
+
+                            @Override
+                            public void onSuccess() {
+                                Log.i(TAG, "---syncGroup-onSuccess---");
+//                                mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
+                            }
+
+                            @Override
+                            public void onError(RongIMClient.ErrorCode errorCode) {
+                                Log.e(TAG, "---syncGroup-onError---" + errorCode);
+//                                mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
+                            }
+                        });
+                    }
+                }
+            }
         }
     }
 
     /**
      * 获得好友列表
+     * 获取好友列表接口  返回好友数据  (注：非融云SDK接口，是demo接口)
      *
      * @param obj
      */
     private void getFriendsApiSuccess(Object obj) {
-
-        //获取好友列表接口  返回好友数据  (注：非融云SDK接口，是demo接口)
-
         if (obj instanceof Friends) {
             final Friends friends = (Friends) obj;
             if (friends.getCode() == 200) {
                 mHandler.post(new Runnable() {
-
                     @Override
                     public void run() {
-                        ArrayList<UserInfo> friendLists = new ArrayList<UserInfo>();
-
                         for (int i = 0; i < friends.getResult().size(); i++) {
                             UserInfos userInfos = new UserInfos();
 
@@ -562,121 +523,22 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                                 mUserInfosDao.insertOrReplace(f);
                             }
                         }
-                        mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
                     }
-
                 });
             }
         }
     }
 
-    private void getMyGroupApiSuccess(Object obj) {
-        if (obj instanceof Groups) {
-            final Groups groups = (Groups) obj;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-            if (groups.getCode() == 200) {
-                List<Group> grouplist = new ArrayList<Group>();
-                if (groups.getResult() != null) {
-                    for (int i = 0; i < groups.getResult().size(); i++) {
-
-                        String id = groups.getResult().get(i).getId();
-                        String name = groups.getResult().get(i).getName();
-                        if (groups.getResult().get(i).getPortrait() != null) {
-                            Uri uri = Uri.parse(groups.getResult().get(i).getPortrait());
-                            grouplist.add(new Group(id, name, uri));
-                        } else {
-                            grouplist.add(new Group(id, name, null));
-                        }
-                    }
-                    HashMap<String, Group> groupM = new HashMap<String, Group>();
-                    for (int i = 0; i < grouplist.size(); i++) {
-                        groupM.put(groups.getResult().get(i).getId(), grouplist.get(i));
-                        Log.e("login", "------get Group id---------" + groups.getResult().get(i).getId());
-                    }
-
-                    if (DemoContext.getInstance() != null)
-                        DemoContext.getInstance().setGroupMap(groupM);
-
-                    Log.e(TAG, "---syncGroup-"+isSuccess);
-                    if (isSuccess) {
-                        if (grouplist.size() > 0) {
-                            RongIM.getInstance().getRongIMClient().syncGroup(grouplist, new RongIMClient.OperationCallback() {
-
-                                @Override
-                                public void onSuccess() {
-                                    Log.e(TAG, "---syncGroup-onSuccess---");
-                                }
-
-                                @Override
-                                public void onError(RongIMClient.ErrorCode errorCode) {
-                                    Log.e(TAG, "---syncGroup-onError---");
-                                }
-                            });
-                        }
-                    }
-                }
-            } else {
-//                    WinToast.toast(this, groups.getCode());
+        if (requestCode == REQUEST_CODE_REGISTER && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                mUserNameEt.setText(data.getStringExtra(INTENT_IMAIL));
+                mPassWordEt.setText(data.getStringExtra(INTENT_PASSWORD));
             }
         }
     }
-
-    private void getTokenApiSuccess(Object obj) {
-
-        if (obj instanceof User) {
-            final User user = (User) obj;
-            if (user.getCode() == 200) {
-
-                httpGetTokenSuccess(user.getResult().getToken());
-
-                SharedPreferences.Editor edit = DemoContext.getInstance().getSharedPreferences().edit();
-                edit.putString("DEMO_TOKEN", user.getResult().getToken());
-                edit.putBoolean("DEMO_ISFIRST", false);
-                edit.apply();
-                Log.e(TAG, "------getTokenHttpRequest -success--" + user.getResult().getToken());
-            } else if (user.getCode() == 110) {
-                WinToast.toast(LoginActivity.this, "请先登陆");
-            } else if (user.getCode() == 111) {
-                WinToast.toast(LoginActivity.this, "cookie 为空");
-            }
-        }
-    }
-
-    private void loginApiSuccess(Object obj) {
-
-        if (obj instanceof User) {
-
-            final User user = (User) obj;
-
-            if (user.getCode() == 200) {
-                if (DemoContext.getInstance() != null && user.getResult() != null) {
-                    SharedPreferences.Editor edit = DemoContext.getInstance().getSharedPreferences().edit();
-                    edit.putString("DEMO_USER_ID", user.getResult().getId());
-                    edit.putString("DEMO_USER_NAME", user.getResult().getUsername());
-                    edit.putString("DEMO_USER_PORTRAIT", user.getResult().getPortrait());
-                    edit.apply();
-                    Log.e(TAG, "-------login success------");
-
-                    DemoContext.getInstance().setCurrentUserInfo(new UserInfo(user.getResult().getId(), user.getResult().getUsername(), Uri.parse(user.getResult().getPortrait())));
-
-                    httpLoginSuccess(user);
-                }
-            } else if (user.getCode() == 103) {
-
-                if (mDialog != null)
-                    mDialog.dismiss();
-
-                WinToast.toast(LoginActivity.this, "密码错误");
-            } else if (user.getCode() == 104) {
-
-                if (mDialog != null)
-                    mDialog.dismiss();
-
-                WinToast.toast(LoginActivity.this, "账号错误");
-            }
-        }
-    }
-
 
     @Override
     public void onEditTextFocusChange(View v, boolean hasFocus) {
@@ -740,32 +602,74 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        if (KeyEvent.KEYCODE_BACK == event.getKeyCode()) {
-
-
-            final AlertDialog.Builder alterDialog = new AlertDialog.Builder(this);
-            alterDialog.setMessage("确定退出应用？");
-            alterDialog.setCancelable(true);
-
-            alterDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (RongIM.getInstance() == null)
-                        RongIM.getInstance().logout();
-
-                    Process.killProcess(Process.myPid());
-                }
-            });
-            alterDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-            alterDialog.show();
-        }
-        return false;
+    protected void onResume() {
+        super.onResume();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+            bitmap.recycle();
+        }
+
+        if (loginHttpRequest != null || getTokenHttpRequest != null || getUserInfoHttpRequest != null || mGetMyGroupsRequest != null) {
+            loginHttpRequest = null;
+            getTokenHttpRequest = null;
+            getUserInfoHttpRequest = null;
+            mGetMyGroupsRequest = null;
+        }
+    }
+
+    /**
+     * 用户账户
+     */
+    private EditText mUserNameEt;
+    /**
+     * 密码
+     */
+    private EditText mPassWordEt;
+    /**
+     * 登录button
+     */
+    private Button mSignInBt;
+    /**
+     * 忘记密码
+     */
+    private TextView mFogotPassWord;
+    /**
+     * 注册
+     */
+    private TextView mRegister;
+    /**
+     * 输入用户名删除按钮
+     */
+    private FrameLayout mFrUserNameDelete;
+    /**
+     * 输入密码删除按钮
+     */
+    private FrameLayout mFrPasswordDelete;
+    /**
+     * logo
+     */
+    private ImageView mLoginImg;
+    /**
+     * 软键盘的控制
+     */
+    private InputMethodManager mSoftManager;
+    /**
+     * 是否展示title
+     */
+    private RelativeLayout mIsShowTitle;
+    /**
+     * 左侧title
+     */
+    private TextView mLeftTitle;
+    /**
+     * 右侧title
+     */
+    private TextView mRightTitle;
+    private ImageView mImgBackgroud;
 }

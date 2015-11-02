@@ -3,7 +3,6 @@ package io.rong.app.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,13 +22,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.exception.InternalException;
 import com.sea_monster.network.AbstractHttpRequest;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import io.rong.app.DemoContext;
 import io.rong.app.R;
@@ -37,82 +32,23 @@ import io.rong.app.model.Status;
 import io.rong.app.ui.EditTextHolder;
 import io.rong.app.ui.WinToast;
 import io.rong.app.utils.CommonUtils;
-import io.rong.app.utils.NetUtils;
 
 /**
  * Created by Bob on 2015/2/6.
  */
 public class RegisterActivity extends BaseApiActivity implements View.OnClickListener, EditTextHolder.OnEditTextFocusChangeListener, Handler.Callback {
 
-    private static final String TAG = RegisterActivity.class.getSimpleName();
+    private String TAG = RegisterActivity.class.getSimpleName();
     private static final int HANDLER_REGIST_HAS_NO_FOCUS = 1;
     private static final int HANDLER_REGIST_HAS_FOCUS = 2;
 
-    /**
-     * 注册邮箱
-     */
-    private EditText mRegistEmail;
-    /**
-     * 密码
-     */
-    private EditText mRegistPassword;
-    /**
-     * 昵称
-     */
-    private EditText mRegistNickName;
-    /**
-     * 注册button
-     */
-    private Button mRegisteButton;
-    /**
-     * 用户协议
-     */
-    private TextView mRegisteUserAgreement;
-    /**
-     * 输入邮箱删除按钮
-     */
-    private FrameLayout mEmailDeleteFramelayout;
-    /**
-     * 输入密码删除按钮
-     */
-    private FrameLayout mPasswordDeleteFramelayout;
-    /**
-     * 输入昵称删除按钮
-     */
-    private FrameLayout mNickNameDeleteFramelayout;
-    /**
-     * 提示消息
-     */
-    private TextView mRegistReminder;
-    /**
-     * logo
-     */
-    private ImageView mLogoImg;
-    /**
-     * 左侧title
-     */
-    private TextView mLeftTitle;
-    /**
-     * 右侧title
-     */
-    private TextView mRightTitle;
-    /**
-     * backgroud
-     */
-    private ImageView mImgBackgroud;
-    EditTextHolder mEditUserNameEt;
-    EditTextHolder mEditPassWordEt;
-    EditTextHolder mEditNickNameEt;
     private Handler mHandler;
     /**
      * 软键盘的控制
      */
     private InputMethodManager mSoftManager;
     private AbstractHttpRequest<Status> httpRequest;
-    /**
-     * 是否展示title
-     */
-    private RelativeLayout mIsShowTitle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +89,7 @@ public class RegisterActivity extends BaseApiActivity implements View.OnClickLis
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         event.getKeyCode();
-        switch (event.getKeyCode()){
+        switch (event.getKeyCode()) {
             case KeyEvent.KEYCODE_BACK:
             case KeyEvent.KEYCODE_ESCAPE:
                 Message mess = Message.obtain();
@@ -161,8 +97,6 @@ public class RegisterActivity extends BaseApiActivity implements View.OnClickLis
                 mHandler.sendMessage(mess);
 
                 break;
-
-
         }
         return super.dispatchKeyEvent(event);
     }
@@ -242,7 +176,6 @@ public class RegisterActivity extends BaseApiActivity implements View.OnClickLis
                 }
                 if (DemoContext.getInstance() != null)
                     httpRequest = DemoContext.getInstance().getDemoApi().register(email, nickName, phone, password, this);
-//                fillData(email,password,nickName,phone);
 
                 break;
             case R.id.register_user_agreement://用户协议
@@ -257,37 +190,14 @@ public class RegisterActivity extends BaseApiActivity implements View.OnClickLis
                 break;
 
             case R.id.de_left://登录
-                startActivity(new Intent(this,LoginActivity.class));
+                startActivity(new Intent(this, LoginActivity.class));
                 finish();
                 break;
             case R.id.de_right://忘记密码
-                WinToast.toast(this,"忘记密码");
+                WinToast.toast(this, "忘记密码");
                 break;
         }
     }
-
-
-
-    private void fillData() {
-        new AsyncTask<Void, Void, String>() {
-
-            @Override
-            protected String doInBackground(Void... params) {
-                Map<String, String> requestParameter = new HashMap<String, String>();
-
-                requestParameter.put("", "");
-
-                String result = NetUtils.sendPostRequest("", requestParameter);
-                return result;
-            }
-
-            @Override
-            protected void onPostExecute(String result) {
-                Log.e(TAG,"--------onPostExecute-----+"+result);
-            }
-        }.execute();
-    }
-
 
     protected void onPause() {
         super.onPause();
@@ -306,7 +216,6 @@ public class RegisterActivity extends BaseApiActivity implements View.OnClickLis
 
             if (obj instanceof Status) {
                 Status status = (Status) obj;
-                Gson gson = new Gson();
                 if (status.getCode() == 200) {
                     WinToast.toast(this, R.string.register_success);
 
@@ -333,7 +242,7 @@ public class RegisterActivity extends BaseApiActivity implements View.OnClickLis
             if (e instanceof InternalException) {
                 InternalException ie = (InternalException) e;
 
-                Log.e(TAG, "------------------ RegisterActivity---------------:" + ie.getMessage());
+                Log.e(TAG, "----RegisterActivity---------------:" + ie.getMessage());
                 if (ie.getCode() == 403) {
                     WinToast.toast(this, R.string.register_user_exits);
                 }
@@ -379,4 +288,65 @@ public class RegisterActivity extends BaseApiActivity implements View.OnClickLis
                 break;
         }
     }
+
+
+    /**
+     * 注册邮箱
+     */
+    private EditText mRegistEmail;
+    /**
+     * 密码
+     */
+    private EditText mRegistPassword;
+    /**
+     * 昵称
+     */
+    private EditText mRegistNickName;
+    /**
+     * 注册button
+     */
+    private Button mRegisteButton;
+    /**
+     * 用户协议
+     */
+    private TextView mRegisteUserAgreement;
+    /**
+     * 输入邮箱删除按钮
+     */
+    private FrameLayout mEmailDeleteFramelayout;
+    /**
+     * 输入密码删除按钮
+     */
+    private FrameLayout mPasswordDeleteFramelayout;
+    /**
+     * 输入昵称删除按钮
+     */
+    private FrameLayout mNickNameDeleteFramelayout;
+    /**
+     * 提示消息
+     */
+    private TextView mRegistReminder;
+    /**
+     * logo
+     */
+    private ImageView mLogoImg;
+    /**
+     * 左侧title
+     */
+    private TextView mLeftTitle;
+    /**
+     * 右侧title
+     */
+    private TextView mRightTitle;
+    /**
+     * backgroud
+     */
+    private ImageView mImgBackgroud;
+    /**
+     * 是否展示title
+     */
+    private RelativeLayout mIsShowTitle;
+    EditTextHolder mEditUserNameEt;
+    EditTextHolder mEditPassWordEt;
+    EditTextHolder mEditNickNameEt;
 }

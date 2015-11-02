@@ -109,8 +109,7 @@ public class GroupListAdapter extends BaseAdapter  {
     }
 
     public interface OnItemButtonClick{
-        public boolean onButtonClick(int position, View view);
-
+         boolean onButtonClick(int position, View view);
     }
 
     static class ViewHolder {

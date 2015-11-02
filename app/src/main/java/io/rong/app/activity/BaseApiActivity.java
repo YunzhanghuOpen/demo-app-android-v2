@@ -15,6 +15,11 @@ public abstract class BaseApiActivity extends BaseActivity implements ApiCallbac
 
     public abstract void onCallApiFailure(AbstractHttpRequest request, BaseException e);
 
+    /**
+     * 网络请求成功回调
+     * @param abstractHttpRequest
+     * @param o
+     */
     @Override
     public void onComplete(final AbstractHttpRequest abstractHttpRequest, final Object o) {
         runOnUiThread(new Runnable() {
@@ -25,6 +30,11 @@ public abstract class BaseApiActivity extends BaseActivity implements ApiCallbac
         });
     }
 
+    /**
+     * 网络请求失败回调
+     * @param abstractHttpRequest
+     * @param e
+     */
     @Override
     public void onFailure(final AbstractHttpRequest abstractHttpRequest, final BaseException e) {
 

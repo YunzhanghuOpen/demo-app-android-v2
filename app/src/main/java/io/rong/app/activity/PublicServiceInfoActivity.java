@@ -1,6 +1,7 @@
 package io.rong.app.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import io.rong.app.R;
 
@@ -15,6 +16,7 @@ public class PublicServiceInfoActivity extends BaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("","---------PublicServiceInfoActivity------------");
         setContentView(R.layout.de_pub_account_info);
 
     }

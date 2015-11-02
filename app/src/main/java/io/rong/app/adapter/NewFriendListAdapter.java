@@ -12,7 +12,7 @@ import java.util.List;
 
 import io.rong.app.R;
 import io.rong.app.model.ApiResult;
-import io.rong.imkit.widget.AsyncImageView ;
+import io.rong.imkit.widget.AsyncImageView;
 
 /**
  * Created by Bob on 2015/3/26.
@@ -83,22 +83,19 @@ public class NewFriendListAdapter extends android.widget.BaseAdapter {
                 switch (mResults.get(position).getStatus()){
                     case 1://好友
                         viewHolder.mFrienduState.setText("已添加");
-                        viewHolder.mFrienduState.setBackground(null);
                         break;
                     case 2://请求添加
                         viewHolder.mFrienduState.setText("请求添加");
-                        viewHolder.mFrienduState.setBackground(null);
                         break;
                     case 3://请求被添加
                         viewHolder.mFrienduState.setText("添加");
+                        viewHolder.mFrienduState.setBackground(mContext.getResources().getDrawable(R.drawable.de_add_friend_selector));
                         break;
                     case 4://请求被拒绝
                         viewHolder.mFrienduState.setText("请求被拒绝");
-                        viewHolder.mFrienduState.setBackground(null);
                         break;
                     case 5://我被对方删除
                         viewHolder.mFrienduState.setText("被删除");
-                        viewHolder.mFrienduState.setBackground(null);
                         break;
 
                 }

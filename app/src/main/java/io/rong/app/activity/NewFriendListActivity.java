@@ -195,9 +195,9 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
         final DeAgreedFriendRequestMessage message = new DeAgreedFriendRequestMessage(id, "agree");
         if (DemoContext.getInstance() != null) {
             //获取当前用户的 userid
-            String userid = DemoContext.getInstance().getSharedPreferences().getString("DEMO_USERID", "defalte");
-            String username = DemoContext.getInstance().getSharedPreferences().getString("DEMO_USER_NAME", "defalte");
-            String userportrait = DemoContext.getInstance().getSharedPreferences().getString("DEMO_USER_PORTRAIT", "defalte");
+            String userid = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_ID, Constants.DEFAULT);
+            String username = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_NAME, Constants.DEFAULT);
+            String userportrait = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_PORTRAIT, Constants.DEFAULT);
 
             UserInfo userInfo = new UserInfo(userid,username,Uri.parse(userportrait));
             //把用户信息设置到消息体中，直接发送给对方，可以不设置，非必选项

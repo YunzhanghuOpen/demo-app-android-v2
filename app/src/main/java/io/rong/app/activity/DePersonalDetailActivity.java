@@ -57,7 +57,7 @@ public class DePersonalDetailActivity extends BaseApiActivity implements View.On
     protected void initData() {
         mAddFriend.setOnClickListener(this);
         mDialog = new LoadingDialog(this);
-        userID = DemoContext.getInstance().getSharedPreferences().getString("DEMO_USERID","defalt");
+        userID = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_ID,Constants.DEFAULT);
 
         if (getIntent().hasExtra("SEARCH_USERID")&&getIntent().hasExtra("SEARCH_USERNAME")&&getIntent().hasExtra("SEARCH_PORTRAIT")) {
             String userid = getIntent().getStringExtra("SEARCH_USERID");

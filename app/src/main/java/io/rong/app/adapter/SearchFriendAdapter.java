@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.sea_monster.resource.Resource;
+
 import java.util.List;
 
 import io.rong.app.R;
@@ -44,6 +46,8 @@ public class SearchFriendAdapter extends android.widget.BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
+        Resource res = new Resource(mResults.get(position).getPortrait());
+
         if(convertView == null || convertView.getTag() == null){
             convertView = mLayoutInflater.inflate(R.layout.de_item_search,parent,false);
             viewHolder = new ViewHolder();
@@ -56,7 +60,8 @@ public class SearchFriendAdapter extends android.widget.BaseAdapter {
 
         if(viewHolder != null) {
             viewHolder.mSearchName.setText(mResults.get(position).getUsername());
-//            viewHolder.mImageView.setImageDrawable(mResults.get(position).getPortrait());
+            viewHolder.mImageView.setDefaultDrawable(mContext.getResources().getDrawable(R.drawable.de_default_portrait));
+            viewHolder.mImageView.setResource(res);
         }
 
         return convertView;

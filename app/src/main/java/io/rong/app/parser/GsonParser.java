@@ -1,6 +1,7 @@
 package io.rong.app.parser;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -33,7 +34,13 @@ public class GsonParser<T extends Serializable> extends JsonObjectParser<T> {
 
     @Override
     public T jsonParse(JsonReader reader) throws JSONException, IOException, ParseException, InternalException,JsonSyntaxException {
-        return gson.fromJson(reader, this.type);
+        try {
+            Log.d("GsonParser", reader.toString());
+            return gson.fromJson(reader, this.type);
+        } catch (Exception e2) {
+            e2.printStackTrace();
+        }
+        return null;
     }
 
     @Override

@@ -225,6 +225,33 @@ public class DemoContext {
     }
 
     /**
+     * 根据userids获得好友列表
+     *
+     * @return
+     */
+    public ArrayList<UserInfo> getUserInfoList(List list) {
+
+        List<UserInfo> userInfoList = new ArrayList<UserInfo>();
+        List<UserInfos> userInfosList = new ArrayList<UserInfos>();
+        UserInfo userInfo;
+        UserInfos userInfos;
+
+        for(int i = 0;i<list.size();i++){
+            userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(list.get(i))).unique();
+            userInfosList.add(userInfos);
+            if (mUserInfosDao.getKey(userInfosList.get(i)) != null) {
+                userInfo = new UserInfo(userInfosList.get(i).getUserid(), userInfosList.get(i).getUsername(), Uri.parse(userInfosList.get(i).getPortrait()));
+                userInfoList.add(userInfo);
+            }
+        }
+
+        if (userInfosList == null)
+            return null;
+
+
+        return (ArrayList) userInfoList;
+    }
+    /**
      * 通过groupid 获得groupname
      *
      * @param groupid

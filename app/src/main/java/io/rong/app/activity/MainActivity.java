@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,6 +48,7 @@ import io.rong.app.fragment.CustomerFragment;
 import io.rong.app.fragment.GroupListFragment;
 import io.rong.app.model.Groups;
 import io.rong.app.ui.LoadingDialog;
+import io.rong.app.utils.Constants;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imlib.RongIMClient;
@@ -60,65 +62,7 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
     public static final String ACTION_DMEO_RECEIVE_MESSAGE = "action_demo_receive_message";
     public static final String ACTION_DMEO_GROUP_MESSAGE = "action_demo_group_message";
     public static final String ACTION_DMEO_AGREE_REQUEST = "action_demo_agree_request";
-    private RelativeLayout mMainConversationLiner;
-    private RelativeLayout mMainGroupLiner;
-    private RelativeLayout mMainChatroomLiner;
-    private RelativeLayout mMainCustomerLiner;
-
-
-    /**
-     * 聊天室的fragment
-     */
-    private Fragment mChatroomFragment = null;
-
-    /**
-     * 客服的fragment
-     */
-    private Fragment mCustomerFragment = null;
-    /**
-     * 会话列表的fragment
-     */
-    private Fragment mConversationFragment = null;
-    /**
-     * 群组的fragment
-     */
-    private Fragment mGroupListFragment = null;
-    /**
-     * 会话TextView
-     */
-    private TextView mMainConversationTv;
-    /**
-     * 群组TextView
-     */
-    private TextView mMainGroupTv;
-
-    private TextView mUnreadNumView;
-    /**
-     * 聊天室TextView
-     */
-    private TextView mMainChatroomTv;
-    /**
-     * 客服TextView
-     */
-    private TextView mMainCustomerTv;
-
-    private FragmentManager mFragmentManager;
-
-
-    private ViewPager mViewPager;
-    /**
-     * 下划线
-     */
-    private ImageView mMainSelectImg;
-
-    private DemoFragmentPagerAdapter mDemoFragmentPagerAdapter;
-
-    private LayoutInflater mInflater;
-    /**
-     * 下划线长度
-     */
-    int indicatorWidth;
-    private LinearLayout mMainShow;
+    public static final String ACTION_DMEO_AT_ME = "action_demo_at_me";
 
     private boolean hasNewFriends = false;
     private Menu mMenu;
@@ -126,10 +70,8 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
     private LoadingDialog mDialog;
 
     private AbstractHttpRequest<Groups> mGetMyGroupsRequest;
-    private int mNetNum = 0;
     ActivityManager activityManager;
     private Handler mHandler;
-    private TextView mCustomerNoRead;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,6 +82,49 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
         initView();
         initData();
         getPushMessage();
+    }
+
+    /**
+     * 得到 push 消息
+     */
+    private void getPushMessage() {
+
+        Intent intent = getIntent();
+        if (intent != null && intent.getData() != null && intent.getData().getScheme().equals("rong")) {
+            String content = intent.getData().getQueryParameter("pushContent");
+            String data = intent.getData().getQueryParameter("pushData");
+            String id = intent.getData().getQueryParameter("pushId");
+            RongIMClient.recordNotificationEvent(id);
+            Log.e("RongPushActivity", "--content--" + content + "--data--" + data + "--id--" + id);
+            if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
+                RongIM.getInstance().getRongIMClient().clearNotifications();
+            }
+            if (DemoContext.getInstance() != null) {
+                String token = DemoContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "default");
+                if (token.equals("default")) {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                } else {
+                    if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
+                        RongIMClient.ConnectionStatusListener.ConnectionStatus status = RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus();
+                        if (RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTED.equals(status)) {
+                            return;
+                        } else if (RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTING.equals(status)) {
+                            return;
+                        } else {
+                            Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
+                            intent1.putExtra("PUSH_MESSAGE", true);
+                            startActivity(intent1);
+                            finish();
+                        }
+                    } else {
+                        Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
+                        intent1.putExtra("PUSH_MESSAGE", true);
+                        startActivity(intent1);
+                        finish();
+                    }
+                }
+            }
+        }
     }
 
     protected void initView() {
@@ -210,17 +195,16 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
 
         final Conversation.ConversationType[] conversationTypes = {Conversation.ConversationType.PRIVATE, Conversation.ConversationType.DISCUSSION,
                 Conversation.ConversationType.GROUP, Conversation.ConversationType.SYSTEM,
-                Conversation.ConversationType.APP_PUBLIC_SERVICE, Conversation.ConversationType.PUBLIC_SERVICE};
+                Conversation.ConversationType.PUBLIC_SERVICE};
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 RongIM.getInstance().setOnReceiveUnreadCountChangedListener(mCountListener, conversationTypes);
-                RongIM.getInstance().setOnReceiveUnreadCountChangedListener(mCountListener1, Conversation.ConversationType.CUSTOMER_SERVICE);
+                RongIM.getInstance().setOnReceiveUnreadCountChangedListener(mCountListener1, Conversation.ConversationType.APP_PUBLIC_SERVICE);
             }
         }, 500);
-
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ACTION_DMEO_RECEIVE_MESSAGE);
@@ -228,52 +212,6 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
             mBroadcastReciver = new ReceiveMessageBroadcastReciver();
         }
         this.registerReceiver(mBroadcastReciver, intentFilter);
-
-
-    }
-
-    /**
-     * 得到 push 消息
-     */
-    private void getPushMessage() {
-
-        Intent intent = getIntent();
-        if (intent != null && intent.getData() != null && intent.getData().getScheme().equals("rong")) {
-            String content = intent.getData().getQueryParameter("pushContent");
-            String data = intent.getData().getQueryParameter("pushData");
-            String id = intent.getData().getQueryParameter("pushId");
-            RongIMClient.recordNotificationEvent(id);
-            if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
-                RongIM.getInstance().getRongIMClient().clearNotifications();
-            }
-            if (DemoContext.getInstance() != null) {
-                String token = DemoContext.getInstance().getSharedPreferences().getString("DEMO_TOKEN", "default");
-                if (token.equals("default")) {
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                } else {
-                    if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
-                        RongIMClient.ConnectionStatusListener.ConnectionStatus status = RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus();
-                        if (RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTED.equals(status)) {
-
-                            return;
-                        } else if (RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTING.equals(status)) {
-                            return;
-                        } else {
-                            Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
-                            intent1.putExtra("PUSH_MESSAGE", true);
-                            startActivity(intent1);
-                            finish();
-                        }
-                    } else {
-                        Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
-                        intent1.putExtra("PUSH_MESSAGE", true);
-                        startActivity(intent1);
-                        finish();
-                    }
-
-                }
-            }
-        }
     }
 
     public RongIM.OnReceiveUnreadCountChangedListener mCountListener = new RongIM.OnReceiveUnreadCountChangedListener() {
@@ -423,8 +361,7 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                                 .appendPath("conversationlist")
                                 .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话是否聚合显示
                                 .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "true")//群组
-                                .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "true")//讨论组
-                                .appendQueryParameter(Conversation.ConversationType.APP_PUBLIC_SERVICE.getName(), "false")//应用公众服务。
+                                .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//讨论组
                                 .appendQueryParameter(Conversation.ConversationType.PUBLIC_SERVICE.getName(), "false")//公共服务号
                                 .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//系统
                                 .build();
@@ -552,7 +489,6 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -565,7 +501,6 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
         } else {
             mMenu.getItem(0).setIcon(getResources().getDrawable(R.drawable.de_ic_add));
             mMenu.getItem(0).getSubMenu().getItem(2).setIcon(getResources().getDrawable(R.drawable.de_btn_main_contacts));
-
         }
 
         return true;
@@ -607,15 +542,19 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-
                         if (RongIM.getInstance() != null) {
+                            if (DemoContext.getInstance() != null) {
+                                SharedPreferences.Editor edit = DemoContext.getInstance().getSharedPreferences().edit();
+                                edit.putString(Constants.APP_TOKEN, Constants.DEFAULT);
+                                edit.apply();
+                            }
                             RongIM.getInstance().logout();
-                        }
-                        try {
-                            Thread.sleep(500);
-                            Process.killProcess(Process.myPid());
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            try {
+                                Thread.sleep(500);
+                                Process.killProcess(Process.myPid());
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });
@@ -631,7 +570,6 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public void onCallApiSuccess(AbstractHttpRequest request, Object obj) {
@@ -668,6 +606,7 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+
                 }
             });
             alterDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -684,6 +623,8 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
 
     @Override
     protected void onDestroy() {
+
+        Log.e(TAG, "----onDestroy----");
         if (mBroadcastReciver != null) {
             this.unregisterReceiver(mBroadcastReciver);
         }
@@ -736,4 +677,60 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
         }
     }
 
+    private RelativeLayout mMainConversationLiner;
+    private RelativeLayout mMainGroupLiner;
+    private RelativeLayout mMainChatroomLiner;
+    private RelativeLayout mMainCustomerLiner;
+    /**
+     * 聊天室的fragment
+     */
+    private Fragment mChatroomFragment = null;
+    /**
+     * 客服的fragment
+     */
+    private Fragment mCustomerFragment = null;
+    /**
+     * 会话列表的fragment
+     */
+    private Fragment mConversationFragment = null;
+    /**
+     * 群组的fragment
+     */
+    private Fragment mGroupListFragment = null;
+    /**
+     * 会话TextView
+     */
+    private TextView mMainConversationTv;
+    /**
+     * 群组TextView
+     */
+    private TextView mMainGroupTv;
+
+    private TextView mUnreadNumView;
+    /**
+     * 聊天室TextView
+     */
+    private TextView mMainChatroomTv;
+    /**
+     * 客服TextView
+     */
+    private TextView mMainCustomerTv;
+
+    private FragmentManager mFragmentManager;
+
+    private ViewPager mViewPager;
+    /**
+     * 下划线
+     */
+    private ImageView mMainSelectImg;
+
+    private DemoFragmentPagerAdapter mDemoFragmentPagerAdapter;
+
+    private LayoutInflater mInflater;
+    /**
+     * 下划线长度
+     */
+    int indicatorWidth;
+    private LinearLayout mMainShow;
+    private TextView mCustomerNoRead;
 }

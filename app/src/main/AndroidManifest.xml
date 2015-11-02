@@ -71,6 +71,9 @@
         <activity
             android:name=".activity.RegisterActivity"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.GroupDetailActivity"
+            android:screenOrientation="portrait"></activity>
 
         <activity
             android:name=".activity.AboutRongCloudActivity"
@@ -103,6 +106,9 @@
             android:name=".activity.DePersonalDetailActivity"
             android:screenOrientation="portrait"></activity>
         <activity
+            android:name=".activity.PersonalDetailActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
             android:name=".activity.UpdateLogActivity"
             android:screenOrientation="portrait"></activity>
 
@@ -115,9 +121,7 @@
         <activity
             android:name=".activity.RongWebActivity"
             android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".activity.PersonalDetailActivity"
-            android:screenOrientation="portrait"></activity>
+
         <activity android:name=".activity.BlackListActivity"></activity>
 
 
@@ -128,11 +132,20 @@
 
         <activity
             android:name=".activity.PublicServiceSearchActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity
+            android:name=".activity.DisturbActivity"
+            android:screenOrientation="portrait">
+        </activity>
 
         <activity
             android:name=".activity.UpdateDiscussionActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+
+        </activity>
 
 
         <activity
@@ -147,15 +160,16 @@
                     android:scheme="rong" />
             </intent-filter>
 
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="io.rong.app"
+                    android:pathPrefix="/publicServiceInfo"
+                    android:scheme="rong" />
+            </intent-filter>
+
         </activity>
-        <activity
-            android:name=".activity.DisturbActivity"
-            android:screenOrientation="portrait"></activity>
-
-
-        <activity
-            android:name=".activity.GroupDetailActivity"
-            android:screenOrientation="portrait"></activity>
 
         <activity
             android:name=".activity.ConversationSettingActivity"
@@ -170,7 +184,6 @@
                     android:pathPrefix="/conversationSetting/"
                     android:scheme="demo" />
             </intent-filter>
-
 
         </activity>
 
@@ -209,11 +222,7 @@
                     android:pathPrefix="/friend/"
                     android:scheme="rong" />
             </intent-filter>
-
-
         </activity>
-        <activity android:name=".photo.ChoosePictureActivity"></activity>
-        <activity android:name=".activity.PhotoActivity" />
 
         <activity
             android:name=".activity.RongSubActivity"
@@ -233,14 +242,13 @@
             android:name="TencentMapSDK"
             android:value="7JYBZ-4Y3W4-JMUU7-DJHQU-NOYH7-SRBBU" />
 
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="562da496e0f55aa867003377"></meta-data>
-        <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="RongCloudApp"></meta-data>
 
         <activity android:name=".activity.SOSOLocationActivity" />
+        <activity android:name=".activity.PhotoActivity" />
+
+        <!-- 新版相册新增AC -->
+        <activity android:name=".picture.PreviewActivity"></activity>
+        <activity android:name=".picture.MultiImageSelectorActivity"></activity>
 
 
         <!--begin rongcloud-->
@@ -355,7 +363,6 @@
             <!--android:name="RONG_CLOUD_APP_KEY"-->
             <!--android:value="lmxuhwagxrxmd" />-->
 
-
         <!--end rongcloud-->
 
 
@@ -366,6 +373,9 @@
 
 
         <activity android:name=".activity.RealTimeLocationActivity"></activity>
+
+        <activity android:name=".activity.NewTextMessageAcitivty"></activity>
+
 
     </application>
 

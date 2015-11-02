@@ -51,7 +51,7 @@
             <item
                 android:id="@+id/set_item5"
                 android:icon="@drawable/de_btn_main_sign_out"
-                android:title="@string/set_sign_out" />
+                android:title="@string/set_logout" />
         </menu>
     </item>
 </menu>

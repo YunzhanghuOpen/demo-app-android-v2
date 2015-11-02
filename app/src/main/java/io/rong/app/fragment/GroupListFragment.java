@@ -55,6 +55,7 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
     private Handler mHandler;
     private LoadingDialog mDialog;
 
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.de_fr_group_list, container, false);
@@ -71,6 +72,7 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
         return view;
     }
 
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mGroupListView.setOnItemClickListener(this);
@@ -79,12 +81,16 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
     }
 
     private void initData() {
-        mResultList = new ArrayList<ApiResult>();
+        mResultList = new ArrayList<>();
+
         if (DemoContext.getInstance() != null) {
             mGroupMap = DemoContext.getInstance().getGroupMap();
             mGetAllGroupsRequest = DemoContext.getInstance().getDemoApi().getAllGroups(this);
         }
+
+
     }
+
 
     private class UpdateGroupBroadcastReciver extends BroadcastReceiver {
 
@@ -93,6 +99,7 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
 
             if (intent.getAction().equals(MainActivity.ACTION_DMEO_GROUP_MESSAGE)) {
                 initData();
+                Log.e(TAG, "---push----UpdateGroupBroadcastReciver---");
             }
         }
     }
@@ -115,15 +122,9 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
                         @Override
                         public boolean onButtonClick(int position, View view) {
 
-                            if (mDemoGroupListAdapter == null)
-                                return false;
-
                             result = mDemoGroupListAdapter.getItem(position);
 
                             if (result == null)
-                                return false;
-
-                            if (mGroupMap == null)
                                 return false;
 
                             if (mGroupMap.containsKey(result.getId())) {
@@ -131,14 +132,9 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
                             } else {
 
                                 if (DemoContext.getInstance() != null) {
-
-                                   if( result.getNumber().equals("500")){
-                                       WinToast.toast(getActivity(),"群组人数已满");
-                                       return false;
-                                   }
-
                                     if (mDialog != null && !mDialog.isShowing())
                                         mDialog.show();
+
                                     mUserRequest = DemoContext.getInstance().getDemoApi().joinGroup(result.getId(), GroupListFragment.this);
                                 }
 
@@ -229,10 +225,8 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (mResultList != null && position != -1 && position < mResultList.size()) {
 
-            Uri uri = Uri.parse("demo://" + getActivity().getApplicationInfo().packageName).buildUpon()
-                    .appendPath("conversationSetting")
-                    .appendPath(String.valueOf(Conversation.ConversationType.GROUP))
-                    .appendQueryParameter("targetId", mResultList.get(position).getId()).build();
+            Uri uri = Uri.parse("demo://" + getActivity().getApplicationInfo().packageName).buildUpon().appendPath("conversationSetting")
+                    .appendPath(String.valueOf(Conversation.ConversationType.GROUP)).appendQueryParameter("targetId", mResultList.get(position).getId()).build();
 
             Intent intent = new Intent(getActivity(), GroupDetailActivity.class);
             intent.putExtra("INTENT_GROUP", mResultList.get(position));
@@ -259,7 +253,11 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
     }
 
     private void updateAdapter() {
+        Log.e("", "------updateAdapter------");
         if (mDemoGroupListAdapter != null) {
+//            Intent intent = getActivity().getIntent();
+//            Bundle bundle = intent.getExtras();
+//            mGroupMap = (HashMap<String, Group>) bundle.get("result");
 
             mDemoGroupListAdapter = new GroupListAdapter(getActivity(), mResultList, mGroupMap);
             mGroupListView.setAdapter(mDemoGroupListAdapter);
@@ -267,6 +265,7 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
             mDemoGroupListAdapter.setOnItemButtonClick(new GroupListAdapter.OnItemButtonClick() {
                 @Override
                 public boolean onButtonClick(int position, View view) {
+
                     result = mDemoGroupListAdapter.getItem(position);
 
                     if (result == null)

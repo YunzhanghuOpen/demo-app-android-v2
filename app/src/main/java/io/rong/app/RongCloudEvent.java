@@ -30,34 +30,40 @@ import io.rong.app.database.UserInfos;
 import io.rong.app.database.UserInfosDao;
 import io.rong.app.message.DeAgreedFriendRequestMessage;
 import io.rong.app.model.User;
-import io.rong.app.photo.PhotoCollectionsProvider;
 import io.rong.app.provider.ContactsProvider;
 import io.rong.app.provider.RealTimeLocationInputProvider;
 import io.rong.app.ui.WinToast;
 import io.rong.imkit.PushNotificationManager;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
+import io.rong.imkit.model.GroupUserInfo;
 import io.rong.imkit.model.UIConversation;
 import io.rong.imkit.widget.AlterDialogFragment;
 import io.rong.imkit.widget.provider.CameraInputProvider;
+import io.rong.imkit.widget.provider.ImageInputProvider;
 import io.rong.imkit.widget.provider.InputProvider;
 import io.rong.imkit.widget.provider.VoIPInputProvider;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.location.RealTimeLocationConstant;
 import io.rong.imlib.location.message.RealTimeLocationStartMessage;
 import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Discussion;
 import io.rong.imlib.model.Group;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;
 import io.rong.imlib.model.UserInfo;
 import io.rong.message.ContactNotificationMessage;
+import io.rong.message.DiscussionNotificationMessage;
 import io.rong.message.ImageMessage;
 import io.rong.message.InformationNotificationMessage;
 import io.rong.message.LocationMessage;
+import io.rong.message.PublicServiceMultiRichContentMessage;
+import io.rong.message.PublicServiceRichContentMessage;
 import io.rong.message.RichContentMessage;
 import io.rong.message.TextMessage;
 import io.rong.message.VoiceMessage;
 import io.rong.notification.PushNotificationMessage;
+
 
 /**
  * Created by zhjchen on 1/29/15.
@@ -81,7 +87,7 @@ import io.rong.notification.PushNotificationMessage;
 public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListener, RongIM.OnSendMessageListener,
         RongIM.UserInfoProvider, RongIM.GroupInfoProvider, RongIM.ConversationBehaviorListener,
         RongIMClient.ConnectionStatusListener, RongIM.LocationProvider, RongIMClient.OnReceivePushMessageListener, RongIM.ConversationListBehaviorListener,
-        ApiCallback, Handler.Callback {
+        ApiCallback, Handler.Callback, RongIM.GroupUserInfoProvider {
 
     private static final String TAG = RongCloudEvent.class.getSimpleName();
 
@@ -109,7 +115,6 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 }
             }
         }
-
     }
 
     /**
@@ -132,12 +137,14 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         RongIM.setConversationBehaviorListener(this);//设置会话界面操作的监听器。
         RongIM.setLocationProvider(this);//设置地理位置提供者,不用位置的同学可以注掉此行代码
         RongIM.setConversationListBehaviorListener(this);
+        RongIM.setGroupUserInfoProvider(this, true);
         //消息体内是否有 userinfo 这个属性
 //        RongIM.getInstance().setMessageAttachedUserInfo(true);
-//        RongIM.getInstance().getRongIMClient().setOnReceivePushMessageListener(this);//自定义 push 通知。
+        //自定义 push 通知。
+//        RongIM.getInstance().getRongIMClient().setOnReceivePushMessageListener(this);
     }
 
-    /*
+    /**
      * 连接成功注册。
      * <p/>
      * 在RongIM-connect-onSuccess后调用。
@@ -150,17 +157,17 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
 //        扩展功能自定义
         InputProvider.ExtendProvider[] provider = {
-                new PhotoCollectionsProvider(RongContext.getInstance()),//图片
+                new ImageInputProvider(RongContext.getInstance()),//图片
                 new CameraInputProvider(RongContext.getInstance()),//相机
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
                 new VoIPInputProvider(RongContext.getInstance()),// 语音通话
-                new ContactsProvider(RongContext.getInstance()),//通讯录
         };
 
         InputProvider.ExtendProvider[] provider1 = {
-                new PhotoCollectionsProvider(RongContext.getInstance()),//图片
+                new ImageInputProvider(RongContext.getInstance()),//图片
                 new CameraInputProvider(RongContext.getInstance()),//相机
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
+                new ContactsProvider(RongContext.getInstance()),//通讯录
         };
 
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.PRIVATE, provider);
@@ -168,8 +175,6 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.GROUP, provider1);
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.CUSTOMER_SERVICE, provider1);
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.CHATROOM, provider1);
-//        RongIM.getInstance().setPrimaryInputProvider(new InputTestProvider((RongContext) mContext));
-
     }
 
     /**
@@ -266,13 +271,14 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             Log.d(TAG, "onReceived-ImageMessage:" + imageMessage.getRemoteUri());
         } else if (messageContent instanceof VoiceMessage) {//语音消息
             VoiceMessage voiceMessage = (VoiceMessage) messageContent;
+
             Log.d(TAG, "onReceived-voiceMessage:" + voiceMessage.getUri().toString());
         } else if (messageContent instanceof RichContentMessage) {//图文消息
             RichContentMessage richContentMessage = (RichContentMessage) messageContent;
             Log.d(TAG, "onReceived-RichContentMessage:" + richContentMessage.getContent());
         } else if (messageContent instanceof InformationNotificationMessage) {//小灰条消息
             InformationNotificationMessage informationNotificationMessage = (InformationNotificationMessage) messageContent;
-            Log.d(TAG, "onReceived-informationNotificationMessage:" + informationNotificationMessage.getMessage());
+            Log.e(TAG, "onReceived-informationNotificationMessage:" + informationNotificationMessage.getMessage());
             if (DemoContext.getInstance() != null)
                 getFriendByUserIdHttpRequest = DemoContext.getInstance().getDemoApi().getUserInfoByUserId(message.getSenderUserId(), (ApiCallback<User>) this);
         } else if (messageContent instanceof DeAgreedFriendRequestMessage) {//好友添加成功消息
@@ -288,28 +294,41 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             in.putExtra("rongCloud", contactContentMessage);
             in.putExtra("has_message", true);
             mContext.sendBroadcast(in);
+        } else if (messageContent instanceof DiscussionNotificationMessage) {//讨论组通知消息
+            DiscussionNotificationMessage discussionNotificationMessage = (DiscussionNotificationMessage) messageContent;
+            Log.d(TAG, "onReceived-discussionNotificationMessage:getExtra;" + discussionNotificationMessage.getOperator());
+            setDiscutionName(message.getTargetId());
         } else {
             Log.d(TAG, "onReceived-其他消息，自己来判断处理");
         }
 
         return false;
+    }
 
+    private void setDiscutionName(String targetId) {
+
+        if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
+            RongIM.getInstance().getRongIMClient().getDiscussion(targetId, new RongIMClient.ResultCallback<Discussion>() {
+                @Override
+                public void onSuccess(Discussion discussion) {
+
+                    RongIM.getInstance().refreshDiscussionCache(discussion);
+                    Log.e(TAG, "------discussion.getName---" + discussion.getName());
+                }
+
+                @Override
+                public void onError(RongIMClient.ErrorCode e) {
+
+                }
+            });
+        }
     }
 
     /**
      * @param deAgreedFriendRequestMessage
      */
     private void receiveAgreeSuccess(DeAgreedFriendRequestMessage deAgreedFriendRequestMessage) {
-//        if (DemoContext.getInstance() != null) {
-//            if(deAgreedFriendRequestMessage.getUserInfo()!=null) {
-//                if(DemoContext.getInstance().hasUserId(deAgreedFriendRequestMessage.getUserInfo().getUserId())){
-//                    DemoContext.getInstance().updateUserInfos(deAgreedFriendRequestMessage.getUserInfo().getUserId(), "1");
-//                }else{
-//                    DemoContext.getInstance().insertOrReplaceUserInfo(deAgreedFriendRequestMessage.getUserInfo(), "1");
-//                }
-//
-//            }
-//        }
+
         Intent in = new Intent();
         in.setAction(MainActivity.ACTION_DMEO_AGREE_REQUEST);
         in.putExtra("AGREE_REQUEST", true);
@@ -317,11 +336,21 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
     }
 
-
+    /**
+     * 消息发送前监听器处理接口（是否发送成功可以从SentStatus属性获取）。
+     *
+     * @param message 发送的消息实例。
+     * @return 处理后的消息实例。
+     */
     @Override
     public Message onSend(Message message) {
-        message.setExtra("my extra");
-        Log.e("qinxiao", "onSend:"+message.getObjectName() + ", extra=" +message.getExtra());
+
+        MessageContent messageContent = message.getContent();
+
+        if (messageContent instanceof TextMessage) {//文本消息
+            TextMessage textMessage = (TextMessage) messageContent;
+        }
+
         return message;
     }
 
@@ -332,7 +361,6 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
      */
     @Override
     public boolean onSent(Message message, RongIM.SentMessageErrorCode sentMessageErrorCode) {
-        Log.e("qinxiao", "onSent:"+message.getObjectName() + ", extra=" +message.getExtra());
 
         if (message.getSentStatus() == Message.SentStatus.FAILED) {
 
@@ -351,7 +379,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
         if (messageContent instanceof TextMessage) {//文本消息
             TextMessage textMessage = (TextMessage) messageContent;
-            Log.d(TAG, "onSent-TextMessage:" + textMessage.getContent());
+            Log.e(TAG, "onSent-TextMessage:" + textMessage.getContent());
         } else if (messageContent instanceof ImageMessage) {//图片消息
             ImageMessage imageMessage = (ImageMessage) messageContent;
             Log.d(TAG, "onSent-ImageMessage:" + imageMessage.getRemoteUri());
@@ -419,12 +447,10 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     @Override
     public boolean onUserPortraitClick(Context context, Conversation.ConversationType conversationType, UserInfo user) {
         Log.e(TAG, "----onUserPortraitClick");
-
         /**
          * demo 代码  开发者需替换成自己的代码。
          */
         if (user != null) {
-
             if (conversationType.equals(Conversation.ConversationType.PUBLIC_SERVICE) || conversationType.equals(Conversation.ConversationType.APP_PUBLIC_SERVICE)) {
                 RongIM.getInstance().startPublicServiceProfile(mContext, conversationType, user.getUserId());
             } else {
@@ -433,17 +459,14 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 in.putExtra("SEARCH_USERID", user.getUserId());
                 in.putExtra("SEARCH_CONVERSATIONTYPE", conversationType);
                 context.startActivity(in);
-
             }
         }
-
         return false;
     }
 
     @Override
     public boolean onUserPortraitLongClick(Context context, Conversation.ConversationType conversationType, UserInfo userInfo) {
         Log.e(TAG, "----onUserPortraitLongClick");
-
         return true;
     }
 
@@ -480,7 +503,6 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                         } else {
                             joinRealTimeLocation(context, message.getConversationType(), message.getTargetId());
                         }
-
                     }
 
                     @Override
@@ -514,6 +536,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         } else if (message.getContent() instanceof RichContentMessage) {
             RichContentMessage mRichContentMessage = (RichContentMessage) message.getContent();
             Log.d("Begavior", "extra:" + mRichContentMessage.getExtra());
+            Log.e(TAG, "----RichContentMessage-------");
 
         } else if (message.getContent() instanceof ImageMessage) {
             ImageMessage imageMessage = (ImageMessage) message.getContent();
@@ -524,8 +547,13 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 intent.putExtra("thumbnail", imageMessage.getThumUri());
 
             context.startActivity(intent);
-        }
+        } else if (message.getContent() instanceof PublicServiceMultiRichContentMessage) {
+            Log.e(TAG, "----PublicServiceMultiRichContentMessage-------");
 
+        } else if (message.getContent() instanceof PublicServiceRichContentMessage) {
+            Log.e(TAG, "----PublicServiceRichContentMessage-------");
+
+        }
         Log.d("Begavior", message.getObjectName() + ":" + message.getMessageId());
 
         return false;
@@ -607,7 +635,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     @Override
     public boolean onConversationClick(Context context, View view, UIConversation conversation) {
         MessageContent messageContent = conversation.getMessageContent();
-
+        Log.e(TAG, "--------onConversationClick-------");
         if (messageContent instanceof TextMessage) {//文本消息
 
             TextMessage textMessage = (TextMessage) messageContent;
@@ -618,6 +646,15 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             context.startActivity(new Intent(context, NewFriendListActivity.class));
             return true;
         }
+
+        if (conversation.getConversationType().equals(Conversation.ConversationType.DISCUSSION)) {
+            Intent in = new Intent();
+            in.setAction(MainActivity.ACTION_DMEO_AT_ME);
+            in.putExtra("DEMO_TARGETID", conversation.getConversationTargetId());
+            in.putExtra("DEMO_PRESS", true);
+            mContext.sendBroadcast(in);
+        }
+
         return false;
     }
 
@@ -684,4 +721,11 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     }
 
 
+    @Override
+    public GroupUserInfo getGroupUserInfo(String userId) {
+        if (userId.equals("47830"))
+            return new GroupUserInfo("47830", "张璐");
+        else
+            return null;
+    }
 }

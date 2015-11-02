@@ -70,6 +70,8 @@ public class BlackListFragment extends Fragment implements SwitchGroup.ItemHande
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
+//        ArrayList<UserInfo> userInfos = null;
+
         //获取好友列表
         if (RongIM.getInstance().getRongIMClient() != null) {
             RongIM.getInstance().getRongIMClient().getBlacklist(new RongIMClient.GetBlacklistCallback() {

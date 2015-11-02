@@ -3,7 +3,6 @@ package io.rong.app;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import io.rong.app.message.ContactNotificationMessageProvider;
 import io.rong.app.message.DeAgreedFriendRequestMessage;
@@ -30,11 +29,9 @@ public class App extends Application {
          *
          * 只有两个进程需要初始化，主进程和 push 进程
          */
-        if ("io.rong.app".equals(getCurProcessName(getApplicationContext())) ||
+        if (getApplicationInfo().packageName.equals(getCurProcessName(getApplicationContext())) ||
                 "io.rong.push".equals(getCurProcessName(getApplicationContext()))) {
 
-
-            Log.e("tag","-------app--"+getApplicationInfo().packageName.toString());
             RongIM.init(this);
 
             /**
@@ -42,12 +39,13 @@ public class App extends Application {
              *
              * 注册相关代码，只需要在主进程里做。
              */
-            if ("io.rong.app".equals(getCurProcessName(getApplicationContext()))) {
+            if (getApplicationInfo().packageName.equals(getCurProcessName(getApplicationContext()))) {
 
                 RongCloudEvent.init(this);
                 DemoContext.init(this);
 
                 Thread.setDefaultUncaughtExceptionHandler(new RongExceptionHandler(this));
+
                 try {
                     RongIM.registerMessageType(DeAgreedFriendRequestMessage.class);
 
@@ -72,4 +70,6 @@ public class App extends Application {
         }
         return null;
     }
+
+
 }
