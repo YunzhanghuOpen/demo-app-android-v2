@@ -2,6 +2,7 @@ package io.rong.app.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -15,9 +16,11 @@ import com.sea_monster.network.AbstractHttpRequest;
 import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.app.model.Status;
+import io.rong.app.ui.LoadingDialog;
 import io.rong.app.ui.WinToast;
 import io.rong.app.utils.Constants;
 import io.rong.imkit.RongContext;
+import io.rong.imkit.RongIM;
 import io.rong.imlib.model.UserInfo;
 
 /**
@@ -30,6 +33,8 @@ public class UpdateNameActivity extends BaseApiActivity {
 
     private Handler mHandler;
     private AbstractHttpRequest<Status> httpRequest;
+    private LoadingDialog mDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,7 @@ public class UpdateNameActivity extends BaseApiActivity {
 
 
     protected void initView() {
+        mDialog = new LoadingDialog(this);
         getSupportActionBar().setTitle(R.string.my_username);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);
@@ -74,6 +80,11 @@ public class UpdateNameActivity extends BaseApiActivity {
                 Status status = (Status) obj;
 
                 if (status.getCode() == 200) {
+
+                    if (mDialog != null) {
+                        mDialog.dismiss();
+                    }
+
                     WinToast.toast(this, R.string.update_profile_success);
                     Intent intent = new Intent();
                     intent.putExtra("UPDATA_RESULT", mNewName.getText().toString());
@@ -81,17 +92,23 @@ public class UpdateNameActivity extends BaseApiActivity {
                     SharedPreferences.Editor edit = DemoContext.getInstance().getSharedPreferences().edit();
                     edit.putString(Constants.APP_USER_NAME, mNewName.getText().toString());
                     edit.apply();
+
+                    String userid = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_ID, Constants.DEFAULT);
+                    String portraitUri = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_PORTRAIT,Constants.DEFAULT);
+                    RongIM.getInstance().refreshUserInfoCache(new UserInfo(userid, mNewName.getText().toString(), Uri.parse(portraitUri)));
+
 //                    refreshUserInfo(new UserInfo(DemoContext.getInstance().getSharedPreferences().getString("DEMO_USER_ID", null), mNewName.getText().toString(), null));
                     finish();
                 }
             }
-
         }
     }
 
     @Override
     public void onCallApiFailure(AbstractHttpRequest request, BaseException e) {
         WinToast.toast(this, R.string.update_profile_faiture);
+        if (mDialog != null)
+            mDialog.dismiss();
     }
 
     @Override
@@ -109,6 +126,9 @@ public class UpdateNameActivity extends BaseApiActivity {
                     WinToast.toast(this, R.string.profile_not_null);
                     break;
                 } else {
+                    if (mDialog != null && !mDialog.isShowing()) {
+                        mDialog.show();
+                    }
                     if (DemoContext.getInstance() != null) {
                         httpRequest = DemoContext.getInstance().getDemoApi().updateProfile(mNewName.getText().toString(), this);
                     }

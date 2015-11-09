@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -159,7 +160,7 @@ public class DemoContext {
             return null;
         }
 
-
+        Log.e("democontext","------userInfos-getUsername:--"+userInfos.getUsername()+"----id--"+userInfos.getUserid());
         return new UserInfo(userInfos.getUserid(), userInfos.getUsername(), Uri.parse(userInfos.getPortrait()));
     }
 

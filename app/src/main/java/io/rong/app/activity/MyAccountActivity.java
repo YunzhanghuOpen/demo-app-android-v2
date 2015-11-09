@@ -21,7 +21,7 @@ import io.rong.imkit.widget.AsyncImageView;
 public class MyAccountActivity extends BaseActionBarActivity implements View.OnClickListener {
 
     private static final int RESULTCODE = 10;
-    ;
+
     /**
      * 头像
      */

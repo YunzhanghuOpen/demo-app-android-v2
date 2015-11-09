@@ -29,6 +29,7 @@ import java.util.Locale;
 import de.greenrobot.event.EventBus;
 import io.rong.app.DemoContext;
 import io.rong.app.R;
+import io.rong.app.adapter.SubConversationListAdapterEx;
 import io.rong.app.common.DemoApi;
 import io.rong.app.database.DBManager;
 import io.rong.app.database.UserInfos;
@@ -412,6 +413,8 @@ public class RongActivity extends BaseActivity implements Handler.Callback, Rong
                     tag = "subconversationlist";
                     String fragmentName = SubConversationListFragment.class.getCanonicalName();
                     fragment = Fragment.instantiate(this, fragmentName);
+                    SubConversationListFragment sub = (SubConversationListFragment) fragment;
+                    sub.setAdapter(new SubConversationListAdapterEx(RongContext.getInstance()));
                 } else if (intent.getData().getPathSegments().get(0).equals("friend")) {
                     tag = "friend";
                     String fragmentName = FriendMultiChoiceFragment.class.getCanonicalName();
@@ -602,6 +605,8 @@ public class RongActivity extends BaseActivity implements Handler.Callback, Rong
                 tag = "subconversationlist";
                 String fragmentName = SubConversationListFragment.class.getCanonicalName();
                 fragment = Fragment.instantiate(this, fragmentName);
+                SubConversationListFragment sub = (SubConversationListFragment) fragment;
+                sub.setAdapter(new SubConversationListAdapterEx(RongContext.getInstance()));
             }
         }
 

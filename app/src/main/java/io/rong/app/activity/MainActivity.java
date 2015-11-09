@@ -43,12 +43,14 @@ import java.util.Locale;
 
 import io.rong.app.DemoContext;
 import io.rong.app.R;
+import io.rong.app.adapter.ConversationListAdapterEx;
 import io.rong.app.fragment.ChatRoomListFragment;
 import io.rong.app.fragment.CustomerFragment;
 import io.rong.app.fragment.GroupListFragment;
 import io.rong.app.model.Groups;
 import io.rong.app.ui.LoadingDialog;
 import io.rong.app.utils.Constants;
+import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imlib.RongIMClient;
@@ -357,10 +359,11 @@ public class MainActivity extends BaseApiActivity implements View.OnClickListene
                     //TODO
                     if (mConversationFragment == null) {
                         ConversationListFragment listFragment = ConversationListFragment.getInstance();
+                        listFragment.setAdapter(new ConversationListAdapterEx(RongContext.getInstance()));
                         Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon()
                                 .appendPath("conversationlist")
                                 .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话是否聚合显示
-                                .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "true")//群组
+                                .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "false")//群组
                                 .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//讨论组
                                 .appendQueryParameter(Conversation.ConversationType.PUBLIC_SERVICE.getName(), "false")//公共服务号
                                 .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//系统

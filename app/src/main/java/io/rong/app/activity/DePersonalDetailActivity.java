@@ -1,7 +1,9 @@
 package io.rong.app.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -13,10 +15,14 @@ import com.sea_monster.resource.Resource;
 
 import io.rong.app.DemoContext;
 import io.rong.app.R;
+import io.rong.app.database.DBManager;
+import io.rong.app.database.UserInfos;
+import io.rong.app.database.UserInfosDao;
 import io.rong.app.model.User;
 import io.rong.app.ui.LoadingDialog;
 import io.rong.app.ui.WinToast;
 import io.rong.app.utils.Constants;
+import io.rong.imkit.RongIM;
 import io.rong.imkit.widget.AsyncImageView;
 import io.rong.imlib.model.UserInfo;
 
@@ -36,7 +42,10 @@ public class DePersonalDetailActivity extends BaseApiActivity implements View.On
     private LoadingDialog mDialog;
     private UserInfo user;
     String userID;
+    private AbstractHttpRequest<User> getUserInfoByUserIdHttpRequest;
+    private UserInfosDao mUserInfosDao;
 
+    String targetId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +61,7 @@ public class DePersonalDetailActivity extends BaseApiActivity implements View.On
         mFriendImg = (AsyncImageView) findViewById(R.id.friend_adapter_img);
         mFriendName = (TextView) findViewById(R.id.de_name);
         mAddFriend = (Button) findViewById(R.id.de_add_friend);
+        mUserInfosDao = DBManager.getInstance(this).getDaoSession().getUserInfosDao();
     }
 
     protected void initData() {
@@ -70,6 +80,7 @@ public class DePersonalDetailActivity extends BaseApiActivity implements View.On
 
         if (getIntent().hasExtra("USER")) {
             user = getIntent().getParcelableExtra("USER");
+            targetId = user.getUserId();
             mFriendName.setText(user.getName());
             mFriendImg.setResource(new Resource(user.getPortraitUri()));
             if(user.getUserId().equals(userID)){
@@ -82,6 +93,8 @@ public class DePersonalDetailActivity extends BaseApiActivity implements View.On
                 mAddFriend.setVisibility(View.GONE);
             }
         }
+
+        getUserInfoByUserIdHttpRequest = DemoContext.getInstance().getDemoApi().getUserInfoByUserId(targetId, this);
 
     }
 
@@ -99,8 +112,28 @@ public class DePersonalDetailActivity extends BaseApiActivity implements View.On
             }else if(user.getCode() == 301){
                 WinToast.toast(this,R.string.friend_send);
             }
+        }else if (getUserInfoByUserIdHttpRequest != null && getUserInfoByUserIdHttpRequest.equals(request)) {
+            if (obj instanceof User) {
+                final User user = (User) obj;
+
+                if (user.getCode() == 200) {
+                    UserInfos addFriend = new UserInfos();
+                    addFriend.setUsername(user.getResult().getUsername());
+                    addFriend.setUserid(user.getResult().getId());
+                    addFriend.setPortrait(user.getResult().getPortrait());
+                    addFriend.setStatus("0");
+                    mUserInfosDao.insertOrReplace(addFriend);
+
+                    mFriendName.setText(user.getResult().getUsername());
+
+                    Log.e("-onCallApiSuccess--","--refreshUserInfoCache---"+user.getResult().getId()+"---name-"+user.getResult().getName());
+                    RongIM.getInstance().refreshUserInfoCache(new UserInfo(user.getResult().getId(), user.getResult().getUsername(), Uri.parse(user.getResult().getPortrait())));
+
+                    if (mDialog != null)
+                        mDialog.dismiss();
+                }
+            }}
         }
-    }
 
     @Override
     public void onCallApiFailure(AbstractHttpRequest request, BaseException e) {

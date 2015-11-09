@@ -377,6 +377,13 @@
         <activity android:name=".activity.NewTextMessageAcitivty"></activity>
 
 
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="56370b99e0f55a3fe4001f08"></meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="RongCloudApp"></meta-data>
     </application>
 
 
