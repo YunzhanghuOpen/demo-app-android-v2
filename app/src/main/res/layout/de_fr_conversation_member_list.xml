@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <io.rong.app.ui.DemoGridView
+    <io.rong.app.ui.widget.DemoGridView
         android:id="@+id/de_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

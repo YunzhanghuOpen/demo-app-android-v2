@@ -6,26 +6,26 @@
 
     <fragment
         android:id="@+id/set_to_add"
-        android:name="io.rong.app.fragment.setting.RongConversationAddMemberFragment"
+        android:name="io.rong.app.ui.fragment.setting.RongConversationAddMemberFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <fragment
         android:id="@+id/set_to_top"
-        android:name="io.rong.app.fragment.setting.RongSetConversationToTopFragment"
+        android:name="io.rong.app.ui.fragment.setting.RongSetConversationToTopFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <fragment
         android:id="@+id/set_to_noti"
-        android:name="io.rong.app.fragment.setting.RongSetConversationNotificationFragment"
+        android:name="io.rong.app.ui.fragment.setting.RongSetConversationNotificationFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
 
     <fragment
         android:id="@+id/set_to_clear"
-        android:name="io.rong.app.fragment.setting.RongClearConversationMsgFragment"
+        android:name="io.rong.app.ui.fragment.setting.RongClearConversationMsgFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

@@ -11,15 +11,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
-        <!--<fragment-->
-            <!--android:id="@+id/de_fr_add_friend"-->
-            <!--android:name="io.rong.imkit.fragment.ConversationAddMemberFragment"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content" />-->
         <fragment
             android:id="@+id/de_fr_add_friend"
-            android:name="io.rong.app.fragment.setting.RongConversationAddMemberFragment"
+            android:name="io.rong.app.ui.fragment.setting.RongConversationAddMemberFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -27,10 +21,10 @@
             android:id="@+id/de_set_chatroom_name"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:visibility="gone"
             android:layout_marginLeft="17dp"
             android:layout_marginRight="12dp"
-            android:background="@android:color/white">
+            android:background="@android:color/white"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -45,15 +39,14 @@
             <TextView
                 android:id="@+id/de_chatroom_name"
                 style="@style/DemoTextStyleMiddle"
-                android:layout_width="wrap_content"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="8dp"
-                android:gravity="center_vertical"
-                android:singleLine="true"
-                android:text="dd" />
+                android:gravity="center_vertical|end"
+                android:singleLine="true" />
 
             <View
                 android:layout_width="match_parent"
@@ -63,38 +56,21 @@
 
         </RelativeLayout>
 
-        <!--<fragment-->
-            <!--android:id="@+id/de_fr_to_top"-->
-            <!--android:name="io.rong.imkit.fragment.SetConversationToTopFragment"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content" />-->
-
-        <!--<fragment-->
-            <!--android:id="@+id/de_fr_set_conver"-->
-            <!--android:name="io.rong.imkit.fragment.SetConversationNotificationFragment"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content" />-->
-
-        <!--<fragment-->
-            <!--android:id="@+id/de_fr_clear"-->
-            <!--android:name="io.rong.imkit.fragment.ClearConversationMsgFragment"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content" />-->
         <fragment
             android:id="@+id/de_fr_to_top"
-            android:name="io.rong.app.fragment.setting.RongSetConversationToTopFragment"
+            android:name="io.rong.app.ui.fragment.setting.RongSetConversationToTopFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <fragment
             android:id="@+id/de_fr_set_conver"
-            android:name="io.rong.app.fragment.setting.RongSetConversationNotificationFragment"
+            android:name="io.rong.app.ui.fragment.setting.RongSetConversationNotificationFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <fragment
             android:id="@+id/de_fr_clear"
-            android:name="io.rong.app.fragment.setting.RongClearConversationMsgFragment"
+            android:name="io.rong.app.ui.fragment.setting.RongClearConversationMsgFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -106,9 +82,9 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="17dp"
-            android:visibility="gone"
             android:background="@drawable/de_red_selector"
             android:text="@string/group_quit"
-            android:textColor="@color/rc_text_color_secondary_inverse" />
+            android:textColor="@color/rc_text_color_secondary_inverse"
+            android:visibility="gone" />
     </LinearLayout>
 </ScrollView>

@@ -19,7 +19,6 @@ public class User implements Parcelable, Serializable {
 
     private String passwd;
 
-
     /**
      * 返回码
      */

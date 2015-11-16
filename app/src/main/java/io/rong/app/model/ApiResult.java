@@ -1,11 +1,16 @@
 package io.rong.app.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
+
+import io.rong.common.ParcelUtils;
 
 /**
  * Created by Bob on 2015/3/4.
  */
-public class ApiResult implements Serializable {
+public class ApiResult implements Serializable,Parcelable {
 
     /**
      * id，用户userid，群组 groupid
@@ -54,17 +59,27 @@ public class ApiResult implements Serializable {
 
     private int env;
 
-    public int getEnv() {
-        return env;
-    }
-
-    public void setEnv(int env) {
-        this.env = env;
-    }
 
     public ApiResult() {
 
     }
+
+
+    public ApiResult(Parcel in) {
+        setId(ParcelUtils.readFromParcel(in));
+        setName(ParcelUtils.readFromParcel(in));
+        setUsername(ParcelUtils.readFromParcel(in));
+        setPortrait(ParcelUtils.readFromParcel(in));
+        setToken(ParcelUtils.readFromParcel(in));
+        setIntroduce(ParcelUtils.readFromParcel(in));
+        setNumber(ParcelUtils.readFromParcel(in));
+        setMax_number(ParcelUtils.readFromParcel(in));
+        setCreat_datetime(ParcelUtils.readFromParcel(in));
+        setCreate_user_id(ParcelUtils.readFromParcel(in));
+        setStatus(ParcelUtils.readIntFromParcel(in));
+    }
+
+
 
     public String getIntroduce() {
         return introduce;
@@ -163,4 +178,38 @@ public class ApiResult implements Serializable {
     public void setToken(String token) {
         this.token = token;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
+        ParcelUtils.writeToParcel(parcel, getId());
+        ParcelUtils.writeToParcel(parcel, getName());
+        ParcelUtils.writeToParcel(parcel, getUsername());
+        ParcelUtils.writeToParcel(parcel, getPortrait());
+        ParcelUtils.writeToParcel(parcel, getToken());
+        ParcelUtils.writeToParcel(parcel, getIntroduce());
+        ParcelUtils.writeToParcel(parcel, getNumber());
+        ParcelUtils.writeToParcel(parcel, getMax_number());
+        ParcelUtils.writeToParcel(parcel, getCreat_datetime());
+        ParcelUtils.writeToParcel(parcel, getCreate_user_id());
+        ParcelUtils.writeToParcel(parcel, getStatus());
+    }
+
+    public static final Creator<ApiResult> CREATOR = new Creator<ApiResult>() {
+
+        @Override
+        public ApiResult createFromParcel(Parcel source) {
+            return new ApiResult(source);
+        }
+
+        @Override
+        public ApiResult[] newArray(int size) {
+            return new ApiResult[size];
+        }
+    };
 }

@@ -8,14 +8,13 @@ import com.sea_monster.common.ParcelUtils;
 import java.io.Serializable;
 
 /**
- * Created by Bob_ge on 15/9/7.
+ * Created by Bob on 15/9/7.
  */
 public class Users implements Parcelable, Serializable {
 
     private String userId;
 
     private String passwd;
-
 
     /**
      * 返回码

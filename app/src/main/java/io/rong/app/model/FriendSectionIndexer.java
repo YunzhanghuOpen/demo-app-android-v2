@@ -4,7 +4,7 @@ import android.widget.SectionIndexer;
 
 import java.util.Arrays;
 
-import io.rong.app.adapter.CompositeAdapter;
+import io.rong.app.ui.adapter.CompositeAdapter;
 
 
 public class FriendSectionIndexer implements SectionIndexer {
@@ -15,7 +15,6 @@ public class FriendSectionIndexer implements SectionIndexer {
 	/**
 	 * Constructor.
 	 * 
-
 	 */
 	public FriendSectionIndexer(CompositeAdapter.Partition<Friend>[] data) {
 

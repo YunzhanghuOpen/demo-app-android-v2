@@ -39,7 +39,7 @@ public class NetUtils {
      * @return 响应的数据
      */
     public static String sendGetRequest(String requestUrl) {
-        HttpGet httpGet = new HttpGet( requestUrl);
+        HttpGet httpGet = new HttpGet( BASE_URL + requestUrl);
 //        HttpGet httpGet = new HttpGet(BASE_URL + requestUrl);
         if (DemoContext.getInstance().getSharedPreferences() != null) {
             httpGet.addHeader("cookie", DemoContext.getInstance().getSharedPreferences().getString("DEMO_COOKIE", null));

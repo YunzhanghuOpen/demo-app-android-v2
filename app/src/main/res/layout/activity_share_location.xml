@@ -30,7 +30,7 @@
             android:paddingBottom="19dp"
             android:src="@drawable/real_time_location_exit" />
 
-        <io.rong.app.view.RealTimeLocationHorizontalScrollView
+        <io.rong.app.ui.widget.RealTimeLocationHorizontalScrollView
             android:id="@+id/scroll_view"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
