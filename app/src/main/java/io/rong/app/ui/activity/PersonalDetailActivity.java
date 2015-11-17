@@ -126,7 +126,6 @@ public class PersonalDetailActivity extends BaseApiActivity {
                 }
                 mPersonalImg.setResource(new Resource(userInfo.getPortraitUri()));
                 mPersonalName.setText(userInfo.getName());
-                mSendMessage.setVisibility(View.GONE);
             }
         } else if (getIntent().hasExtra("CONTACTS_USER")) {
 

@@ -211,7 +211,6 @@
         <!--会话页面-->
         <activity
             android:name=".ui.activity.ConversationActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
 
@@ -386,8 +385,6 @@
         <meta-data
             android:name="TencentMapSDK"
             android:value="7JYBZ-4Y3W4-JMUU7-DJHQU-NOYH7-SRBBU" />
-
-      
 
     </application>
 
