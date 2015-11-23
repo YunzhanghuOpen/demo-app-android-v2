@@ -2,9 +2,11 @@ package io.rong.app.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 
 import io.rong.app.R;
 import io.rong.app.ui.adapter.SubConversationListAdapterEx;
+import io.rong.imkit.RongContext;
 import io.rong.imkit.fragment.SubConversationListFragment;
 
 /**
@@ -17,11 +19,12 @@ public class SubConversationListActivity extends BaseActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.subconversationlist);
-
-        SubConversationListFragment fragment = (SubConversationListFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.subconversationlist);
-        fragment.setAdapter(new SubConversationListAdapterEx(this));
+        setContentView(R.layout.rong_activity);
+        SubConversationListFragment fragment = new SubConversationListFragment();
+        fragment.setAdapter(new SubConversationListAdapterEx(RongContext.getInstance()));
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.rong_content, fragment);
+        transaction.commit();
 
         Intent intent = getIntent();
         //聚合会话参数

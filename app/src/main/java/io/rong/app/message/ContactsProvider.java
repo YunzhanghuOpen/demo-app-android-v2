@@ -39,6 +39,7 @@ public class ContactsProvider extends InputProvider.ExtendProvider {
 
     /**
      * 设置展示的图标
+     *
      * @param context
      * @return
      */
@@ -49,6 +50,7 @@ public class ContactsProvider extends InputProvider.ExtendProvider {
 
     /**
      * 设置图标下的title
+     *
      * @param context
      * @return
      */
@@ -59,6 +61,7 @@ public class ContactsProvider extends InputProvider.ExtendProvider {
 
     /**
      * click 事件
+     *
      * @param view
      */
     @Override
@@ -121,7 +124,8 @@ public class ContactsProvider extends InputProvider.ExtendProvider {
         if (cursor != null) {
             cursor.moveToFirst();
             int nameFieldColumnIndex = cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME);
-            contact[0] = cursor.getString(nameFieldColumnIndex);
+            if (contact.length > 0)
+                contact[0] = cursor.getString(nameFieldColumnIndex);
 
             String ContactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
             Cursor phone = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + ContactId, null, null);

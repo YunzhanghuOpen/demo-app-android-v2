@@ -14,7 +14,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -41,6 +40,7 @@ import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.UriFragment;
 import io.rong.imkit.widget.AlterDialogFragment;
+import io.rong.imkit.widget.provider.InputProvider;
 import io.rong.imkit.widget.provider.TextInputProvider;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.location.RealTimeLocationConstant;
@@ -92,7 +92,6 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.conversation);
-        ImageView imageView = (ImageView) findViewById(R.id.img);
 
         mDialog = new LoadingDialog(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -130,42 +129,48 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
 
     private void checkTextInputEditTextChanged() {
 
-        TextInputProvider textInputProvider = new TextInputProvider(RongContext.getInstance());
-        RongIM.setPrimaryInputProvider(textInputProvider);
+        InputProvider.MainInputProvider provider = RongContext.getInstance().getPrimaryInputProvider();
+        if(provider instanceof TextInputProvider) {
+            TextInputProvider textInputProvider = (TextInputProvider) provider;
+            textInputProvider.setEditTextChangedListener(new TextWatcher() {
 
-        textInputProvider.setEditTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
 
-            }
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (mConversationType.equals(Conversation.ConversationType.DISCUSSION)) {
 
-                if (mConversationType.equals(Conversation.ConversationType.DISCUSSION)) {
+                        if (s.length() > 0) {
+                            String str = s.toString().substring(s.toString().length() - 1, s.toString().length());
 
-                    if (s.length() > 0) {
-                        String str = s.toString().substring(s.toString().length() - 1, s.toString().length());
+                            if (str.equals("@")) {
 
-                        if (str.equals("@")) {
+                                Intent intent = new Intent(ConversationActivity.this, NewTextMessageActivity.class);
+                                intent.putExtra("DEMO_REPLY_CONVERSATIONTYPE", mConversationType.toString());
 
-                            Intent intent = new Intent(ConversationActivity.this, NewTextMessageAcitivty.class);
-                            intent.putExtra("DEMO_REPLY_CONVERSATIONTYPE", mConversationType.toString());
-                            intent.putExtra("DEMO_REPLY_TARGETID", mTargetId);
-                            startActivityForResult(intent, 29);
+                                if (mTargetIds != null) {
+                                    UriFragment fragment = (UriFragment) getSupportFragmentManager().getFragments().get(0);
+                                    //得到讨论组的 targetId
+                                    mTargetId = fragment.getUri().getQueryParameter("targetId");
+                                }
+                                intent.putExtra("DEMO_REPLY_TARGETID", mTargetId);
+                                startActivityForResult(intent, 29);
 
-                            mEditText = s.toString();
+                                mEditText = s.toString();
+                            }
                         }
                     }
                 }
-            }
 
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-
+                @Override
+                public void afterTextChanged(Editable s) {
+                }
+            });
+        }
     }
 
     /**
@@ -290,7 +295,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
         } else if (conversationType.equals(Conversation.ConversationType.PUBLIC_SERVICE)) {
             setPublicServiceActionBar(targetId);
         } else if (conversationType.equals(Conversation.ConversationType.CUSTOMER_SERVICE)) {
-            getSupportActionBar().setTitle(R.string.de_actionbar_discussion);
+            getSupportActionBar().setTitle(R.string.main_customer);
         } else {
             getSupportActionBar().setTitle(R.string.de_actionbar_sub_defult);
         }
@@ -303,6 +308,9 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
      * @param targetId
      */
     private void setGroupActionBar(String targetId) {
+        if (targetId == null)
+            return;
+
         if (DemoContext.getInstance() != null) {
             getSupportActionBar().setTitle(DemoContext.getInstance().getGroupNameById(targetId));
         }
@@ -312,6 +320,8 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
      * 设置应用公众服务界面 ActionBar
      */
     private void setAppPublicServiceActionBar(String targetId) {
+        if (targetId == null)
+            return;
         if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
 
             RongIM.getInstance().getRongIMClient().getPublicServiceProfile(Conversation.PublicServiceType.APP_PUBLIC_SERVICE
@@ -333,6 +343,9 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
      * 设置公共服务号 ActionBar
      */
     private void setPublicServiceActionBar(String targetId) {
+
+        if (targetId == null)
+            return;
 
         if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
 
@@ -653,6 +666,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
             }
         }
 
+
     }
 
     //real-time location method beign
@@ -810,7 +824,6 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
 
     @Override
     public void onStatusChange(final RealTimeLocationConstant.RealTimeLocationStatus status) {
-        Log.e(TAG, "onStatusChange:---" + status);
         currentLocationStatus = status;
 
         EventBus.getDefault().post(status);
@@ -836,14 +849,11 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
 
     @Override
     public void onReceiveLocation(double latitude, double longitude, String userId) {
-        Log.e(TAG, "onReceiveLocation:---" + userId);
-//        if (!userId.equals(DemoContext.getInstance().getCurrentUserInfo().getUserId()))
         EventBus.getDefault().post(RongEvent.RealTimeLocationReceiveEvent.obtain(userId, latitude, longitude));
     }
 
     @Override
     public void onParticipantsJoin(String userId) {
-        Log.e(TAG, "onParticipantsJoin:---" + userId);
         EventBus.getDefault().post(RongEvent.RealTimeLocationJoinEvent.obtain(userId));
 
         if (RongIMClient.getInstance().getCurrentUserId().equals(userId)) {
@@ -854,7 +864,6 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
     @Override
     public void onParticipantsQuit(String userId) {
         EventBus.getDefault().post(RongEvent.RealTimeLocationQuitEvent.obtain(userId));
-        Log.e(TAG, "onParticipantsQuit:---" + userId);
     }
 
     @Override
@@ -863,7 +872,6 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
     }
 
     /*－－－－－－－－－－－－－地理位置共享 end－－－－－－－－－*/
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
@@ -874,4 +882,6 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
         }
         return false;
     }
+
+
 }

@@ -26,7 +26,7 @@ import io.rong.imlib.model.UserInfo;
 /**
  * Created by Bob on 15/11/16.
  */
-public class NewTextMessageAcitivty extends BaseApiActivity implements AdapterView.OnItemClickListener {
+public class NewTextMessageActivity extends BaseApiActivity implements AdapterView.OnItemClickListener {
     private ListView mReplyListView;
     private String mTargetId;
     private Conversation.ConversationType mConversationType;
@@ -76,7 +76,7 @@ public class NewTextMessageAcitivty extends BaseApiActivity implements AdapterVi
 
                         mUserInfoList = DemoContext.getInstance().getUserInfoList(mNumberlist);
 
-                        mNewTextReplyAdapter = new NewTextReplyAdapter(NewTextMessageAcitivty.this, mUserInfoList);
+                        mNewTextReplyAdapter = new NewTextReplyAdapter(NewTextMessageActivity.this, mUserInfoList);
                         mReplyListView.setAdapter(mNewTextReplyAdapter);
                     }
 

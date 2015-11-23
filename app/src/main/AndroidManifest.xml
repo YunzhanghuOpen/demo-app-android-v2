@@ -166,7 +166,7 @@
 
         <activity android:name=".ui.activity.RealTimeLocationActivity"></activity>
 
-        <activity android:name=".ui.activity.NewTextMessageAcitivty"></activity>
+        <activity android:name=".ui.activity.NewTextMessageActivity"></activity>
 
         <!--公众-->
         <activity
@@ -385,6 +385,14 @@
         <meta-data
             android:name="TencentMapSDK"
             android:value="7JYBZ-4Y3W4-JMUU7-DJHQU-NOYH7-SRBBU" />
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="56370b99e0f55a3fe4001f08"></meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="RongCloudApp"></meta-data>
+
 
     </application>
 

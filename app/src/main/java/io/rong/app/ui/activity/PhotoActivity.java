@@ -28,8 +28,35 @@ public class PhotoActivity extends BaseActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_photo);
-        initView();
-        initData();
+
+        mPhotoFragment = (PhotoFragment)getSupportFragmentManager().findFragmentById(R.id.photo_fragment);
+        Uri uri = getIntent().getParcelableExtra("photo");
+        Uri thumbUri = getIntent().getParcelableExtra("thumbnail");
+
+        mUri = uri;
+        if (uri != null)
+            mPhotoFragment.initPhoto(uri, thumbUri, new PhotoFragment.PhotoDownloadListener() {
+                @Override
+                public void onDownloaded(Uri uri) {
+                    mDownloaded = uri;
+                }
+
+                @Override
+                public void onDownloadError() {
+
+                }
+            });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if(mUri != null && mUri.getScheme() != null && mUri.getScheme().startsWith("http")) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.de_fix_username, menu);
+            return super.onCreateOptionsMenu(menu);
+        } else {
+            return super.onCreateOptionsMenu(menu);
+        }
     }
 
     @Override
@@ -83,37 +110,4 @@ public class PhotoActivity extends BaseActionBarActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if(mUri != null && mUri.getScheme() != null && mUri.getScheme().startsWith("http")) {
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.de_fix_username, menu);
-            return super.onCreateOptionsMenu(menu);
-        } else {
-            return super.onCreateOptionsMenu(menu);
-        }
-    }
-
-    protected void initView() {
-        mPhotoFragment = (PhotoFragment)getSupportFragmentManager().findFragmentById(R.id.photo_fragment);
-    }
-
-    protected void initData() {
-        Uri uri = getIntent().getParcelableExtra("photo");
-        Uri thumbUri = getIntent().getParcelableExtra("thumbnail");
-
-        mUri = uri;
-        if (uri != null)
-            mPhotoFragment.initPhoto(uri, thumbUri, new PhotoFragment.PhotoDownloadListener() {
-                @Override
-                public void onDownloaded(Uri uri) {
-                    mDownloaded = uri;
-                }
-
-                @Override
-                public void onDownloadError() {
-
-                }
-            });
-    }
 }

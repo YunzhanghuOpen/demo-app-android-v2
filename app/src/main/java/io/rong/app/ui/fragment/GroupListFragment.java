@@ -222,6 +222,10 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
 
         if (DemoContext.getInstance() != null && result != null) {
             HashMap<String, Group> groupHashMap = DemoContext.getInstance().getGroupMap();
+
+            if (result.getId() == null)
+                return;
+
             if (i == 1) {
                 if (result.getPortrait() != null)
                     groupHashMap.put(result.getId(), new Group(result.getId(), result.getName(), Uri.parse(result.getPortrait())));

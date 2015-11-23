@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -123,7 +121,6 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
 
 
         initData();
-//        ViewServer.get(this).addWindow(this);
     }
 
     protected void initData() {
@@ -559,19 +556,12 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
-//        ViewServer.get(this).setFocusedWindow(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        ViewServer.get(this).removeWindow(this);
-        if (drawable instanceof BitmapDrawable) {
-            Log.e(TAG, "------OnDestory---");
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            Bitmap bitmap = bitmapDrawable.getBitmap();
-            bitmap.recycle();
-        }
+
 
         if (loginHttpRequest != null || getUserInfoHttpRequest != null || mGetMyGroupsRequest != null) {
             loginHttpRequest = null;

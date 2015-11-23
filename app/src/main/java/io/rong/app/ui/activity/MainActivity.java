@@ -296,6 +296,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                                 .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "false")//群组
                                 .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//讨论组
                                 .appendQueryParameter(Conversation.ConversationType.PUBLIC_SERVICE.getName(), "false")//公共服务号
+                                .appendQueryParameter(Conversation.ConversationType.APP_PUBLIC_SERVICE.getName(), "false")//订阅号
                                 .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//系统
                                 .build();
                         listFragment.setUri(uri);
