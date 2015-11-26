@@ -130,7 +130,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
     private void checkTextInputEditTextChanged() {
 
         InputProvider.MainInputProvider provider = RongContext.getInstance().getPrimaryInputProvider();
-        if(provider instanceof TextInputProvider) {
+        if (provider instanceof TextInputProvider) {
             TextInputProvider textInputProvider = (TextInputProvider) provider;
             textInputProvider.setEditTextChangedListener(new TextWatcher() {
 
@@ -328,7 +328,8 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                     , targetId, new RongIMClient.ResultCallback<PublicServiceProfile>() {
                 @Override
                 public void onSuccess(PublicServiceProfile publicServiceProfile) {
-                    getSupportActionBar().setTitle(publicServiceProfile.getName().toString());
+                    if (publicServiceProfile != null)
+                        getSupportActionBar().setTitle(publicServiceProfile.getName().toString());
                 }
 
                 @Override
@@ -353,7 +354,8 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                     , targetId, new RongIMClient.ResultCallback<PublicServiceProfile>() {
                 @Override
                 public void onSuccess(PublicServiceProfile publicServiceProfile) {
-                    getSupportActionBar().setTitle(publicServiceProfile.getName().toString());
+                    if (publicServiceProfile != null)
+                        getSupportActionBar().setTitle(publicServiceProfile.getName().toString());
                 }
 
                 @Override
