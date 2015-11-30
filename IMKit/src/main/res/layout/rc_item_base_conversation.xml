@@ -61,7 +61,7 @@
         android:id="@id/rc_conversation_status"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:layout_alignLeft="@id/rc_conversation_msg_block"
+        android:layout_alignRight="@id/rc_conversation_msg_block"
         android:layout_below="@+id/rc_conversation_time"
         android:layout_marginRight="8dp"
         android:layout_marginTop="10dp"

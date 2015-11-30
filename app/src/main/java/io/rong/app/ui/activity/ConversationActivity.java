@@ -103,6 +103,14 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
             return;
 
         mTargetId = intent.getData().getQueryParameter("targetId");
+
+        //10000 为 Demo Server 加好友的 id，若 targetId 为 10000，则为加好友消息，默认跳转到 NewFriendListActivity
+        // Demo 逻辑
+        if(mTargetId != null && mTargetId.equals("10000")){
+            startActivity(new Intent(ConversationActivity.this,NewFriendListActivity.class));
+            return;
+        }
+
         //intent.getData().getLastPathSegment();//获得当前会话类型
         mConversationType = Conversation.ConversationType.valueOf(intent.getData()
                 .getLastPathSegment().toUpperCase(Locale.getDefault()));

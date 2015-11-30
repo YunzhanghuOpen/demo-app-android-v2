@@ -41,6 +41,7 @@ import io.rong.imkit.widget.provider.CameraInputProvider;
 import io.rong.imkit.widget.provider.ImageInputProvider;
 import io.rong.imkit.widget.provider.InputProvider;
 import io.rong.imkit.widget.provider.TextInputProvider;
+import io.rong.imkit.widget.provider.VoIPInputProvider;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.location.RealTimeLocationConstant;
 import io.rong.imlib.location.message.RealTimeLocationStartMessage;
@@ -170,7 +171,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 new ImageInputProvider(RongContext.getInstance()),//图片
                 new CameraInputProvider(RongContext.getInstance()),//相机
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
-//                new VoIPInputProvider(RongContext.getInstance()),// 语音通话
+                new VoIPInputProvider(RongContext.getInstance()),// 语音通话
         };
 
         InputProvider.ExtendProvider[] provider1 = {
