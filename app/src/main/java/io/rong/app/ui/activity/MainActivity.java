@@ -108,7 +108,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         final Conversation.ConversationType[] conversationTypes = {Conversation.ConversationType.PRIVATE, Conversation.ConversationType.DISCUSSION,
                 Conversation.ConversationType.GROUP, Conversation.ConversationType.SYSTEM,
-                Conversation.ConversationType.PUBLIC_SERVICE};
+                Conversation.ConversationType.PUBLIC_SERVICE, Conversation.ConversationType.APP_PUBLIC_SERVICE};
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {

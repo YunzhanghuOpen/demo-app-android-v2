@@ -465,6 +465,20 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                         addFriend.setStatus("0");
                         friendsList.add(addFriend);
 
+                        UserInfos addUserInfo = new UserInfos();
+                        if(DemoContext.getInstance()!=null){
+                            String id = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_ID,Constants.DEFAULT);
+                            String name = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_NAME,Constants.DEFAULT);
+                            String portrait = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_PORTRAIT,Constants.DEFAULT);
+
+                            addUserInfo.setUsername(name);
+                            addUserInfo.setUserid(id);
+                            addUserInfo.setPortrait(portrait);
+                            addUserInfo.setStatus("0");
+                            friendsList.add(addUserInfo);
+                        }
+
+
                         if (friendsList != null) {
                             for (UserInfos friend : friendsList) {
                                 UserInfos f = new UserInfos();

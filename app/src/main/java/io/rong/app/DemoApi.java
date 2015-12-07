@@ -456,13 +456,6 @@ public class DemoApi extends BaseApi {
                                         UserInfo userInfo = new UserInfo(user.getResult().getId(), user.getResult().getUsername(), Uri.parse(user.getResult().getPortrait()));
                                         listener.onSuccess(userInfo);
 
-                                        UserInfos f = new UserInfos();
-                                        f.setUserid(userInfo.getUserId());
-                                        f.setUsername(userInfo.getName());
-                                        f.setPortrait(userInfo.getPortraitUri().toString());
-                                        f.setStatus("0");
-
-                                        DemoContext.getInstance().insertOrReplaceUserInfos(f);
                                     }
                                 }
                             });

@@ -688,6 +688,10 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                     addFriend.setUserid(user.getResult().getId());
                     addFriend.setPortrait(user.getResult().getPortrait());
                     addFriend.setStatus("0");
+
+                    UserInfo userInfo  = new UserInfo(user.getResult().getId(),user.getResult().getUsername(),Uri.parse(user.getResult().getPortrait()));
+                    RongIM.getInstance().refreshUserInfoCache(userInfo);
+
                     if (DemoContext.getInstance() != null)
                         DemoContext.getInstance().insertOrReplaceUserInfos(addFriend);
                 }
