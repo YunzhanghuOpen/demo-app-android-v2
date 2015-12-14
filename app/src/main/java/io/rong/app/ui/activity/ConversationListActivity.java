@@ -157,7 +157,7 @@ public class ConversationListActivity extends BaseApiActivity {
                     if (DemoContext.getInstance() != null)
                         DemoContext.getInstance().setGroupMap(groupM);
 
-                    if (grouplist.size() > 0)
+                    if (grouplist.size() > 0 && RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
                         RongIM.getInstance().getRongIMClient().syncGroup(grouplist, new RongIMClient.OperationCallback() {
                             @Override
                             public void onSuccess() {
@@ -169,7 +169,7 @@ public class ConversationListActivity extends BaseApiActivity {
                                 Log.e(TAG, "---syncGroup-onError---");
                             }
                         });
-
+                    }
                     if (mDialog != null)
                         mDialog.dismiss();
 

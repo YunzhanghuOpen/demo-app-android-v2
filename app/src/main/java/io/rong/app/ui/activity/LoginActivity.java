@@ -407,25 +407,17 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
 
                     if (grouplist.size() > 0 && RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
 
-                        final long time1 = System.currentTimeMillis();
                         RongIM.getInstance().getRongIMClient().syncGroup(grouplist, new RongIMClient.OperationCallback() {
 
                             @Override
                             public void onSuccess() {
                                 Log.i(TAG, "---syncGroup-onSuccess---");
 
-                                long time2 = System.currentTimeMillis() - time1;
-
-                                Log.e(TAG, "-----syncGroup-onSuccess-" + time2);
-
                             }
 
                             @Override
                             public void onError(RongIMClient.ErrorCode errorCode) {
                                 Log.e(TAG, "---syncGroup-onError---" + errorCode);
-                                long time2 = System.currentTimeMillis() - time1;
-
-                                Log.e(TAG, "-----syncGroup-onError-" + time2);
                             }
                         });
                     }

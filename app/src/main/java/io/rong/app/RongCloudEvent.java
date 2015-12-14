@@ -31,7 +31,6 @@ import io.rong.app.ui.activity.PhotoActivity;
 import io.rong.app.ui.activity.RealTimeLocationActivity;
 import io.rong.app.ui.activity.SOSOLocationActivity;
 import io.rong.app.ui.widget.WinToast;
-import io.rong.imkit.PushNotificationManager;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.model.GroupUserInfo;
@@ -147,7 +146,8 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         RongIM.setLocationProvider(this);//设置地理位置提供者,不用位置的同学可以注掉此行代码
         RongIM.setConversationListBehaviorListener(this);//会话列表界面操作的监听器
         RongIM.getInstance().setSendMessageListener(this);//设置发出消息接收监听器.
-        RongIM.getInstance().setGroupUserInfoProvider(this,true);
+        RongIM.setGroupUserInfoProvider(this, true);
+//        RongIM.setOnReceivePushMessageListener(this);//自定义 push 通知。
         //消息体内是否有 userinfo 这个属性
 //        RongIM.getInstance().setMessageAttachedUserInfo(true);
     }
@@ -161,7 +161,6 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
         RongIM.getInstance().getRongIMClient().setOnReceiveMessageListener(this);//设置消息接收监听器。
         RongIM.getInstance().getRongIMClient().setConnectionStatusListener(this);//设置连接状态监听器。
-//        RongIM.getInstance().getRongIMClient().setOnReceivePushMessageListener(this);//自定义 push 通知。
 
         TextInputProvider textInputProvider = new TextInputProvider(RongContext.getInstance());
         RongIM.setPrimaryInputProvider(textInputProvider);
@@ -198,8 +197,6 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     @Override
     public boolean onReceivePushMessage(PushNotificationMessage msg) {
         Log.d(TAG, "onReceived-onPushMessageArrive:" + msg.getContent());
-
-        PushNotificationManager.getInstance().onReceivePush(msg);
 
         Intent intent = new Intent();
         Uri uri;
