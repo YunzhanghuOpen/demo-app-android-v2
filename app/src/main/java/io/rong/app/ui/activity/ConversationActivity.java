@@ -38,6 +38,7 @@ import io.rong.app.ui.widget.WinToast;
 import io.rong.app.utils.Constants;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
+import io.rong.imkit.fragment.ConversationFragment;
 import io.rong.imkit.fragment.UriFragment;
 import io.rong.imkit.widget.AlterDialogFragment;
 import io.rong.imkit.widget.provider.InputProvider;
@@ -90,7 +91,6 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.conversation);
 
         mDialog = new LoadingDialog(this);
@@ -103,14 +103,12 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
             return;
 
         mTargetId = intent.getData().getQueryParameter("targetId");
-
         //10000 为 Demo Server 加好友的 id，若 targetId 为 10000，则为加好友消息，默认跳转到 NewFriendListActivity
         // Demo 逻辑
-        if(mTargetId != null && mTargetId.equals("10000")){
-            startActivity(new Intent(ConversationActivity.this,NewFriendListActivity.class));
+        if (mTargetId != null && mTargetId.equals("10000")) {
+            startActivity(new Intent(ConversationActivity.this, NewFriendListActivity.class));
             return;
         }
-
         //intent.getData().getLastPathSegment();//获得当前会话类型
         mConversationType = Conversation.ConversationType.valueOf(intent.getData()
                 .getLastPathSegment().toUpperCase(Locale.getDefault()));
@@ -121,7 +119,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
 
         setActionBarTitle(mConversationType, mTargetId);
 
-        //@ 消息
+        //讨论组 @ 消息
         checkTextInputEditTextChanged();
 
         isPushMessage(intent);
@@ -131,7 +129,36 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
 
         if ("ConversationActivity".equals(this.getClass().getSimpleName()))
             EventBus.getDefault().register(this);
+
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        if (intent == null || intent.getData() == null)
+            return;
+
+        mTargetId = intent.getData().getQueryParameter("targetId");
+
+        mConversationType = Conversation.ConversationType.valueOf(intent.getData()
+                .getLastPathSegment().toUpperCase(Locale.getDefault()));
+
+        title = intent.getData().getQueryParameter("title");
+
+        mTargetIds = intent.getData().getQueryParameter("targetIds");
+
+        setActionBarTitle(mConversationType, mTargetId);
+
+        ConversationFragment fragment = (ConversationFragment) getSupportFragmentManager().findFragmentById(R.id.conversation);
+
+        Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon()
+                .appendPath("conversation").appendPath(mConversationType.getName().toLowerCase())
+                .appendQueryParameter("targetId", mTargetId).build();
+
+        fragment.setUri(uri);
+    }
+
 
     private String mEditText;
 
@@ -197,6 +224,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
 
             //通过intent.getData().getQueryParameter("push") 为true，判断是否是push消息
             if (intent.getData().getQueryParameter("push").equals("true")) {
+                //只有收到系统消息和不落地 push 消息的时候，pushId 不为 null。而且这两种消息只能通过 server 来发送，客户端发送不了。
                 String id = intent.getData().getQueryParameter("pushId");
                 RongIM.getInstance().getRongIMClient().recordNotificationEvent(id);
 
@@ -274,6 +302,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
 
     }
 
+
     /**
      * 设置会话页面 Title
      *
@@ -336,8 +365,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                     , targetId, new RongIMClient.ResultCallback<PublicServiceProfile>() {
                 @Override
                 public void onSuccess(PublicServiceProfile publicServiceProfile) {
-                    if (publicServiceProfile != null)
-                        getSupportActionBar().setTitle(publicServiceProfile.getName().toString());
+                    getSupportActionBar().setTitle(publicServiceProfile.getName().toString());
                 }
 
                 @Override
@@ -362,8 +390,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                     , targetId, new RongIMClient.ResultCallback<PublicServiceProfile>() {
                 @Override
                 public void onSuccess(PublicServiceProfile publicServiceProfile) {
-                    if (publicServiceProfile != null)
-                        getSupportActionBar().setTitle(publicServiceProfile.getName().toString());
+                    getSupportActionBar().setTitle(publicServiceProfile.getName().toString());
                 }
 
                 @Override
@@ -607,7 +634,6 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
     public void onCallApiFailure(AbstractHttpRequest request, BaseException e) {
         Log.e(TAG, "---push--onCallApiFailure-");
     }
-
 
     @Override
     protected void onResume() {

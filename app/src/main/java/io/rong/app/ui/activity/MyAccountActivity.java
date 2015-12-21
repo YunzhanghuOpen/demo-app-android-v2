@@ -18,10 +18,9 @@ import io.rong.imkit.widget.AsyncImageView;
 /**
  * Created by Administrator on 2015/3/2.
  */
-public class MyAccountActivity extends BaseActionBarActivity implements View.OnClickListener {
+public class MyAccountActivity extends BaseActionBarActivity  {
 
     private static final int RESULTCODE = 10;
-    ;
     /**
      * 头像
      */
@@ -39,11 +38,7 @@ public class MyAccountActivity extends BaseActionBarActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_myaccount);
-        initView();
-    }
 
-
-    protected void initView() {
         getSupportActionBar().setTitle(R.string.de_actionbar_myacc);
 
         mImgMyPortrait = (AsyncImageView) findViewById(R.id.img_my_portrait);
@@ -52,33 +47,20 @@ public class MyAccountActivity extends BaseActionBarActivity implements View.OnC
         mTVUsername = (TextView) findViewById(R.id.tv_my_username);
 
         if (DemoContext.getInstance().getSharedPreferences() != null) {
-//            String userId = DemoContext.getInstance().getSharedPreferences().getString("DEMO_USER_ID", null);
             mUserName = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_NAME, null);
             String userPortrait = DemoContext.getInstance().getSharedPreferences().getString("DEMO_USER_PORTRAIT", null);
             mImgMyPortrait.setResource(new Resource(Uri.parse(userPortrait)));
             mTVUsername.setText(mUserName.toString());
         }
 
-        mMyPortrait.setOnClickListener(this);
-        mMyUsername.setOnClickListener(this);
-//        mResourceHandler = new ResourceHandler.Builder().enableBitmapCache().build(this);
-
-
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.rl_my_portrait://头像
-                break;
-
-            case R.id.rl_my_username://昵称
-                Intent intent = new Intent(this, UpdateNameActivity.class);
+        mMyUsername.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MyAccountActivity.this, UpdateNameActivity.class);
                 intent.putExtra("USERNAME", mUserName);
                 startActivityForResult(intent, RESULTCODE);
-                break;
-        }
+            }
+        });
     }
 
     @Override

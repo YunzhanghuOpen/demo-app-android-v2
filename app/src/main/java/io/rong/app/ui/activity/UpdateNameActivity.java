@@ -3,6 +3,7 @@ package io.rong.app.ui.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import com.sea_monster.network.AbstractHttpRequest;
 import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.app.model.Status;
+import io.rong.app.ui.widget.LoadingDialog;
 import io.rong.app.ui.widget.WinToast;
 import io.rong.app.utils.Constants;
 
@@ -26,6 +28,8 @@ public class UpdateNameActivity extends BaseApiActivity {
 
     private AbstractHttpRequest<Status> httpRequest;
 
+    private LoadingDialog mDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +40,8 @@ public class UpdateNameActivity extends BaseApiActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);
 
         mNewName = (EditText) findViewById(R.id.et_new_name);
+        mDialog = new LoadingDialog(this);
+
         if (getIntent() != null) {
             mNewName.setText(getIntent().getStringExtra("USERNAME"));
             mNewName.setSelection(getIntent().getStringExtra("USERNAME").length());
@@ -50,6 +56,8 @@ public class UpdateNameActivity extends BaseApiActivity {
 
                 if (status.getCode() == 200) {
                     WinToast.toast(this, R.string.update_profile_success);
+                    if (mDialog != null)
+                        mDialog.dismiss();
                     Intent intent = new Intent();
                     intent.putExtra("UPDATA_RESULT", mNewName.getText().toString());
                     this.setResult(Constants.FIX_USERNAME_REQUESTCODE, intent);
@@ -82,10 +90,14 @@ public class UpdateNameActivity extends BaseApiActivity {
                 if(DemoContext.getInstance() == null)
                     return  true;
 
-                if(mNewName.getText().toString()!=null){
+                if(!TextUtils.isEmpty(mNewName.getText().toString())){
+
+                    if (mDialog != null && !mDialog.isShowing())
+                        mDialog.show();
 
                     httpRequest = DemoContext.getInstance().getDemoApi().updateProfile(mNewName.getText().toString(), this);
-                }else{
+
+                } else {
                     WinToast.toast(this, R.string.profile_not_null);
                 }
                 break;

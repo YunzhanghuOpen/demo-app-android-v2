@@ -196,7 +196,6 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public boolean onReceivePushMessage(PushNotificationMessage msg) {
-        Log.d(TAG, "onReceived-onPushMessageArrive:" + msg.getContent());
 
         Intent intent = new Intent();
         Uri uri;
