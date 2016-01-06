@@ -33,6 +33,7 @@ import io.rong.app.ui.activity.SOSOLocationActivity;
 import io.rong.app.ui.widget.WinToast;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
+import io.rong.imkit.model.GroupUserInfo;
 import io.rong.imkit.model.UIConversation;
 import io.rong.imkit.widget.AlterDialogFragment;
 import io.rong.imkit.widget.provider.CameraInputProvider;
@@ -84,7 +85,7 @@ import io.rong.notification.PushNotificationMessage;
 public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListener, RongIM.OnSendMessageListener,
         RongIM.UserInfoProvider, RongIM.GroupInfoProvider, RongIM.ConversationBehaviorListener,
         RongIMClient.ConnectionStatusListener, RongIM.LocationProvider, RongIMClient.OnReceivePushMessageListener, RongIM.ConversationListBehaviorListener,
-        ApiCallback, Handler.Callback {
+        ApiCallback, Handler.Callback, RongIM.GroupUserInfoProvider {
 
     private static final String TAG = RongCloudEvent.class.getSimpleName();
 
@@ -145,7 +146,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         RongIM.setLocationProvider(this);//设置地理位置提供者,不用位置的同学可以注掉此行代码
         RongIM.setConversationListBehaviorListener(this);//会话列表界面操作的监听器
         RongIM.getInstance().setSendMessageListener(this);//设置发出消息接收监听器.
-//        RongIM.setGroupUserInfoProvider(this, true);
+        RongIM.setGroupUserInfoProvider(this, true);
 //        RongIM.setOnReceivePushMessageListener(this);//自定义 push 通知。
         //消息体内是否有 userinfo 这个属性
 //        RongIM.getInstance().setMessageAttachedUserInfo(true);
@@ -694,7 +695,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                     addFriend.setPortrait(user.getResult().getPortrait());
                     addFriend.setStatus("0");
 
-                    UserInfo userInfo  = new UserInfo(user.getResult().getId(),user.getResult().getUsername(),Uri.parse(user.getResult().getPortrait()));
+                    UserInfo userInfo = new UserInfo(user.getResult().getId(), user.getResult().getUsername(), Uri.parse(user.getResult().getPortrait()));
                     RongIM.getInstance().refreshUserInfoCache(userInfo);
 
                     if (DemoContext.getInstance() != null)
@@ -735,11 +736,17 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         return false;
     }
 
-//    @Override
-//    public GroupUserInfo getGroupUserInfo(String userId) {
-//        if (userId.equals("47830"))
-//            return new GroupUserInfo("25","47830", "张璐");
-//        else
-//            return null;
-//    }
+    /**
+     * 可以根据群组 id 修改群成员的群昵称
+     * @param groupId
+     * @param userId
+     * @return
+     */
+    @Override
+    public GroupUserInfo getGroupUserInfo(String groupId, String userId) {
+
+        GroupUserInfo groupUserInfo = new GroupUserInfo("49", "22830", "hehe");
+        RongIM.getInstance().refreshGroupUserInfoCache(groupUserInfo);
+        return groupUserInfo;
+    }
 }
