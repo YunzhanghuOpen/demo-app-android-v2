@@ -52,4 +52,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:19.1.0'
     compile project(':IMKit')
     compile 'com.squareup.picasso:picasso:2.4.0'
+    compile files('src/main/libs/fastjson-1.2.5.jar')
 }
