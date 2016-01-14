@@ -13,10 +13,10 @@
                 android:id="@+id/add_item1"
                 android:icon="@drawable/de_btn_main_chat"
                 android:title="@string/add_chat" />
-            <item
-                android:id="@+id/add_item2"
-                android:icon="@drawable/de_btn_main_groups"
-                android:title="@string/add_select_group" />
+            <!--<item-->
+                <!--android:id="@+id/add_item2"-->
+                <!--android:icon="@drawable/de_btn_main_groups"-->
+                <!--android:title="@string/add_select_group" />-->
             <item
                 android:id="@+id/add_item3"
                 android:icon="@drawable/de_btn_main_contacts"
@@ -51,7 +51,7 @@
             <item
                 android:id="@+id/set_item5"
                 android:icon="@drawable/de_btn_main_sign_out"
-                android:title="@string/set_sign_out" />
+                android:title="@string/set_logout" />
         </menu>
     </item>
 </menu>

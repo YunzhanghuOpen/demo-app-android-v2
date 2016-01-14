@@ -6,7 +6,7 @@ import com.sea_monster.resource.Resource;
 
 import java.io.Serializable;
 
-import io.rong.app.libs.pinyin.PinyinHelper;
+import io.rong.app.utils.pinyin.PinyinHelper;
 
 /**
  * Created by Bob on 2015/3/24.

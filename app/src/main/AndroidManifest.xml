@@ -44,20 +44,22 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
 
+        <!--登录页面-->
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".ui.activity.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+        <!--主页面-->
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -68,75 +70,107 @@
                     android:scheme="rong" />
             </intent-filter>
         </activity>
+        <!--注册页面-->
         <activity
-            android:name=".activity.RegisterActivity"
+            android:name=".ui.activity.RegisterActivity"
+            android:screenOrientation="portrait"></activity>
+        <!--发起聊天页面-->
+        <activity
+            android:name=".ui.activity.FriendListActivity"
+            android:screenOrientation="portrait"></activity>
+        <!--通讯录-->
+        <activity
+            android:name=".ui.activity.ContactsActivity"
             android:screenOrientation="portrait"></activity>
 
+        <!--我的账号-->
         <activity
-            android:name=".activity.AboutRongCloudActivity"
+            android:name=".ui.activity.MyAccountActivity"
             android:screenOrientation="portrait"></activity>
+        <!--修改昵称-->
         <activity
-            android:name=".activity.MyAccountActivity"
+            android:name=".ui.activity.UpdateNameActivity"
             android:screenOrientation="portrait"></activity>
+        <!--新消息提醒-->
         <activity
-            android:name=".activity.NewMessageRemindActivity"
+            android:name=".ui.activity.NewMessageRemindActivity"
             android:screenOrientation="portrait"></activity>
+        <!--消息免打扰-->
         <activity
-            android:name=".activity.PrivacyActivity"
+            android:name=".ui.activity.DisturbActivity"
             android:screenOrientation="portrait"></activity>
+        <!--隐私-->
         <activity
-            android:name=".activity.UpdateNameActivity"
+            android:name=".ui.activity.PrivacyActivity"
             android:screenOrientation="portrait"></activity>
+        <!--关于融云-->
         <activity
-            android:name=".activity.FriendListActivity"
+            android:name=".ui.activity.AboutRongCloudActivity"
             android:screenOrientation="portrait"></activity>
+        <!--关于融云－更新日志-->
+        <activity android:name=".ui.activity.UpdateLogActivity"></activity>
+        <!--关于融云－功能介绍-->
+        <activity android:name=".ui.activity.FunctionIntroducedActivity"></activity>
+        <!--关于融云－开发者文档-->
+        <activity android:name=".ui.activity.DocumentActivity"></activity>
+        <!--关于融云－官方网站-->
+        <activity android:name=".ui.activity.RongWebActivity"></activity>
+        <!--黑名单列表-->
         <activity
-            android:name=".activity.ContactsActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".activity.SearchFriendActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".activity.NewFriendListActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".activity.DePersonalDetailActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".activity.UpdateLogActivity"
+            android:name=".ui.activity.BlackListActivity"
             android:screenOrientation="portrait"></activity>
 
+        <!--群组详情-->
         <activity
-            android:name=".activity.FunctionIntroducedActivity"
+            android:name=".ui.activity.GroupDetailActivity"
             android:screenOrientation="portrait"></activity>
+        <!--SOSO 地图位置-->
         <activity
-            android:name=".activity.DocumentActivity"
-            android:screenOrientation="portrait"></activity>
+            android:name=".ui.activity.SOSOLocationActivity"
+            android:screenOrientation="portrait" />
+        <!--点击会话页面图片展示页面-->
         <activity
-            android:name=".activity.RongWebActivity"
-            android:screenOrientation="portrait"></activity>
+            android:name=".ui.activity.PhotoActivity"
+            android:screenOrientation="portrait" />
+        <!--搜索好友-->
         <activity
-            android:name=".activity.PersonalDetailActivity"
+            android:name=".ui.activity.SearchFriendActivity"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.BlackListActivity"></activity>
+        <!--新的朋友列表-->
+        <activity
+            android:name=".ui.activity.NewFriendListActivity"
+            android:screenOrientation="portrait"></activity>
+        <!--更新讨论组名称-->
+        <activity
+            android:name=".ui.activity.UpdateDiscussionActivity"
+            android:screenOrientation="portrait"></activity>
+        <!--修改群名片-->
+        <activity
+            android:name=".ui.activity.UpdateGroupUserInfoActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <!--个人详情-->
+        <activity
+            android:name=".ui.activity.PersonalDetailActivity"
+            android:screenOrientation="portrait"></activity>
 
 
         <activity
-            android:name=".activity.PublicServiceActivity"
+            android:name=".ui.activity.PublicServiceActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
 
         <activity
-            android:name=".activity.PublicServiceSearchActivity"
+            android:name=".ui.activity.PublicServiceSearchActivity"
             android:screenOrientation="portrait"></activity>
 
-        <activity
-            android:name=".activity.UpdateDiscussionActivity"
-            android:screenOrientation="portrait"></activity>
+        <activity android:name=".ui.activity.RealTimeLocationActivity"></activity>
 
+        <activity android:name=".ui.activity.NewTextMessageActivity"></activity>
 
+        <!--公众-->
         <activity
-            android:name=".activity.PublicServiceInfoActivity"
+            android:name=".ui.activity.PublicServiceInfoActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -147,18 +181,19 @@
                     android:scheme="rong" />
             </intent-filter>
 
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="io.rong.app"
+                    android:pathPrefix="/publicServiceInfo"
+                    android:scheme="rong" />
+            </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.DisturbActivity"
-            android:screenOrientation="portrait"></activity>
 
-
+        <!--设置页面-->
         <activity
-            android:name=".activity.GroupDetailActivity"
-            android:screenOrientation="portrait"></activity>
-
-        <activity
-            android:name=".activity.ConversationSettingActivity"
+            android:name=".ui.activity.ConversationSettingActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -171,19 +206,16 @@
                     android:scheme="demo" />
             </intent-filter>
 
-
         </activity>
 
-
+        <!--会话页面-->
         <activity
-            android:name=".activity.RongActivity"
-            android:launchMode="singleTask"
+            android:name=".ui.activity.ConversationActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
@@ -191,34 +223,15 @@
                     android:pathPrefix="/conversation/"
                     android:scheme="rong" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data
-                    android:host="io.rong.app"
-                    android:pathPrefix="/conversationlist"
-                    android:scheme="rong" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data
-                    android:host="io.rong.app"
-                    android:pathPrefix="/friend/"
-                    android:scheme="rong" />
-            </intent-filter>
-
 
         </activity>
-        <activity android:name=".photo.ChoosePictureActivity"></activity>
-        <activity android:name=".activity.PhotoActivity" />
-
+        <!--聚合会话列表-->
         <activity
-            android:name=".activity.RongSubActivity"
+            android:name=".ui.activity.SubConversationListActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -228,19 +241,23 @@
                     android:scheme="rong" />
             </intent-filter>
         </activity>
-        <!-- soso -->
-        <meta-data
-            android:name="TencentMapSDK"
-            android:value="7JYBZ-4Y3W4-JMUU7-DJHQU-NOYH7-SRBBU" />
 
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="556520bc67e58e4391007357"></meta-data>
-        <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="DEMO_GITHUB"></meta-data>
+        <!--会话列表-->
+        <activity
+            android:name=".ui.activity.ConversationListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
 
-        <activity android:name=".activity.SOSOLocationActivity" />
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="io.rong.app"
+                    android:path="/conversationlist"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
 
 
         <!--begin rongcloud-->
@@ -351,21 +368,24 @@
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
             android:value="z3v5yqkbv8v30" />
-        <!--<meta-data-->
-            <!--android:name="RONG_CLOUD_APP_KEY"-->
-            <!--android:value="lmxuhwagxrxmd" />-->
-
 
         <!--end rongcloud-->
 
+        <!-- 请将CHANNAL改为app的发布渠道 < -->
+        <meta-data
+            android:name="InstallChannel"
+            android:value="CHANNAL" />
 
         <!-- 高德地图-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="f1175b5989cbf80c464f9d65bd7250b7" />
 
+        <!-- soso -->
+        <meta-data
+            android:name="TencentMapSDK"
+            android:value="7JYBZ-4Y3W4-JMUU7-DJHQU-NOYH7-SRBBU" />
 
-        <activity android:name=".activity.RealTimeLocationActivity"></activity>
 
         <!-- 新版相册新增AC -->
         <activity android:name=".picture.PreviewActivity"></activity>

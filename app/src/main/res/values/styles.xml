@@ -56,7 +56,7 @@
         <item name="android:background">@drawable/rc_unread_count_bg</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@android:color/tab_indicator_text</item>
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">9sp</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_width">18dp</item>
@@ -102,7 +102,25 @@
         <item name="android:windowExitAnimation">@anim/slide_out</item>
     </style>
 
+    <style name="MyCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
 
+        <item name="android:button">@drawable/de_pic_checkbox</item>
+
+        <item name="android:paddingLeft">2.0dip</item>
+
+        <item name="android:maxHeight">10.0dip</item>
+
+    </style>
+
+    <style name="PicCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
+
+        <item name="android:button">@drawable/de_pic_chebox_photo</item>
+
+        <item name="android:paddingLeft">2.0dip</item>
+
+        <item name="android:maxHeight">10.0dip</item>
+
+    </style>
 
     <style name="MyCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
 

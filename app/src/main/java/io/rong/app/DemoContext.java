@@ -1,7 +1,6 @@
 package io.rong.app;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
@@ -11,8 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import io.rong.app.activity.SOSOLocationActivity;
-import io.rong.app.common.DemoApi;
 import io.rong.app.database.DBManager;
 import io.rong.app.database.UserInfos;
 import io.rong.app.database.UserInfosDao;
@@ -31,9 +28,12 @@ public class DemoContext {
     private HashMap<String, Group> groupMap;
     private SharedPreferences mPreferences;
     private RongIM.LocationProvider.LocationCallback mLastLocationCallback;
-    private UserInfosDao mUserInfosDao;
-    private UserInfo currentUserInfo;
+    private UserInfosDao mUserInfoDao;
 
+
+    public static void init(Context context) {
+        mDemoContext = new DemoContext(context);
+    }
 
     public static DemoContext getInstance() {
 
@@ -44,49 +44,36 @@ public class DemoContext {
     }
 
     private DemoContext() {
+
     }
 
     private DemoContext(Context context) {
         mContext = context;
         mDemoContext = this;
-        //http初始化 用于登录、注册使用
+
         mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-
-        RongIM.setLocationProvider(new LocationProvider());
-
+        //http初始化 用于登录、注册使用
         mDemoApi = new DemoApi(context);
 
-        mUserInfosDao = DBManager.getInstance(mContext).getDaoSession().getUserInfosDao();
-    }
-
-    public static void init(Context context) {
-        mDemoContext = new DemoContext(context);
-    }
-
-    public SharedPreferences getSharedPreferences() {
-        return mPreferences;
+        mUserInfoDao = DBManager.getInstance(mContext).getDaoSession().getUserInfosDao();
     }
 
 
-    public void setGroupMap(HashMap<String, Group> groupMap) {
-        this.groupMap = groupMap;
+    /**
+     * 查询所有数据
+     */
+    public List<UserInfos> loadAllUserInfos() {
+
+        return mUserInfoDao.loadAll();
     }
 
-    public HashMap<String, Group> getGroupMap() {
-        return groupMap;
-    }
-
-
-    public DemoApi getDemoApi() {
-        return mDemoApi;
-    }
 
     /**
      * 删除 userinfos 表
      */
     public void deleteUserInfos() {
 
-        mUserInfosDao.deleteAll();
+        mUserInfoDao.deleteAll();
     }
 
     /**
@@ -97,14 +84,25 @@ public class DemoContext {
      */
     public void updateUserInfos(String targetid, String status) {
 
-        UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(targetid)).unique();
+        UserInfos userInfos = mUserInfoDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(targetid)).unique();
         userInfos.setStatus(status);
         userInfos.setUsername(userInfos.getUsername());
         userInfos.setPortrait(userInfos.getPortrait());
         userInfos.setUserid(userInfos.getUserid());
 
-        mUserInfosDao.update(userInfos);
+        mUserInfoDao.update(userInfos);
 
+    }
+
+    /**
+     * 向数据库插入数据
+     *
+     * @param info 用户信息
+     */
+    public void insertOrReplaceUserInfos(UserInfos info) {
+
+
+        mUserInfoDao.insertOrReplace(info);
     }
 
     /**
@@ -120,7 +118,7 @@ public class DemoContext {
         userInfos.setUsername(info.getName());
         userInfos.setPortrait(String.valueOf(info.getPortraitUri()));
         userInfos.setUserid(info.getUserId());
-        mUserInfosDao.insertOrReplace(userInfos);
+        mUserInfoDao.insertOrReplace(userInfos);
     }
 
     /**
@@ -132,7 +130,7 @@ public class DemoContext {
     public boolean searcheUserInfosById(String userId) {
         if (userId != null) {
 
-            UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
+            UserInfos userInfos = mUserInfoDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
 
             if (userInfos == null)
                 return false;
@@ -145,6 +143,26 @@ public class DemoContext {
     }
 
     /**
+     * 通过userid 查找 UserInfos，查找的是本地的数据库
+     *
+     * @param userId
+     * @return
+     */
+    public UserInfos getUserInfosById(String userId) {
+
+        if (userId == null)
+            return null;
+
+        UserInfos userInfos = mUserInfoDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
+
+        if (userInfos == null)
+            return null;
+
+        return userInfos;
+    }
+
+
+    /**
      * 通过userid 查找 UserInfo，查找的是本地的数据库
      *
      * @param userId
@@ -154,7 +172,7 @@ public class DemoContext {
 
         if (userId == null)
             return null;
-        UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
+        UserInfos userInfos = mUserInfoDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
         if (userInfos == null && DemoContext.getInstance() != null) {
             return null;
         }
@@ -167,7 +185,7 @@ public class DemoContext {
 
         if (userId != null) {
 
-            UserInfos userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
+            UserInfos userInfos = mUserInfoDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userId)).unique();
 
             if (userInfos == null) {
                 return false;
@@ -177,6 +195,28 @@ public class DemoContext {
     }
 
     /**
+     * 获得好友列表 ID
+     *
+     * @return
+     */
+    public List getFriendListId() {
+        List userInfoList = new ArrayList();
+
+        List<UserInfos> userInfos = mUserInfoDao.queryBuilder().where(UserInfosDao.Properties.Status.eq("1")).list();
+
+        if (userInfos == null)
+            return null;
+
+        for (int i = 0; i < userInfos.size(); i++) {
+
+            userInfoList.add(userInfos.get(i).getUserid());
+        }
+
+        return userInfoList;
+    }
+
+
+    /**
      * 获得好友列表
      *
      * @return
@@ -184,7 +224,7 @@ public class DemoContext {
     public ArrayList<UserInfo> getFriendList() {
         List<UserInfo> userInfoList = new ArrayList<UserInfo>();
 
-        List<UserInfos> userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Status.eq("1")).list();
+        List<UserInfos> userInfos = mUserInfoDao.queryBuilder().where(UserInfosDao.Properties.Status.eq("1")).list();
 
         if (userInfos == null)
             return null;
@@ -210,13 +250,41 @@ public class DemoContext {
         UserInfos userInfos;
 
         for (int i = 0; i < userIds.length; i++) {
-            userInfos = mUserInfosDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userIds[i])).unique();
+            userInfos = mUserInfoDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(userIds[i])).unique();
             userInfosList.add(userInfos);
-            if (mUserInfosDao.getKey(userInfosList.get(i)) != null) {
+            if (mUserInfoDao.getKey(userInfosList.get(i)) != null) {
                 userInfo = new UserInfo(userInfosList.get(i).getUserid(), userInfosList.get(i).getUsername(), Uri.parse(userInfosList.get(i).getPortrait()));
                 userInfoList.add(userInfo);
             }
         }
+        if (userInfosList == null)
+            return null;
+
+
+        return (ArrayList) userInfoList;
+    }
+
+    /**
+     * 根据userids获得好友列表
+     *
+     * @return
+     */
+    public ArrayList<UserInfo> getUserInfoList(List list) {
+
+        List<UserInfo> userInfoList = new ArrayList<UserInfo>();
+        List<UserInfos> userInfosList = new ArrayList<UserInfos>();
+        UserInfo userInfo;
+        UserInfos userInfos;
+
+        for (int i = 0; i < list.size(); i++) {
+            userInfos = mUserInfoDao.queryBuilder().where(UserInfosDao.Properties.Userid.eq(list.get(i))).unique();
+            userInfosList.add(userInfos);
+            if (mUserInfoDao.getKey(userInfosList.get(i)) != null) {
+                userInfo = new UserInfo(userInfosList.get(i).getUserid(), userInfosList.get(i).getUsername(), Uri.parse(userInfosList.get(i).getPortrait()));
+                userInfoList.add(userInfo);
+            }
+        }
+
         if (userInfosList == null)
             return null;
 
@@ -247,6 +315,25 @@ public class DemoContext {
     }
 
 
+    public SharedPreferences getSharedPreferences() {
+        return mPreferences;
+    }
+
+
+    public void setGroupMap(HashMap<String, Group> groupMap) {
+        this.groupMap = groupMap;
+    }
+
+    public HashMap<String, Group> getGroupMap() {
+        return groupMap;
+    }
+
+
+    public DemoApi getDemoApi() {
+        return mDemoApi;
+    }
+
+
     public RongIM.LocationProvider.LocationCallback getLastLocationCallback() {
         return mLastLocationCallback;
     }
@@ -256,32 +343,4 @@ public class DemoContext {
     }
 
 
-    class LocationProvider implements RongIM.LocationProvider {
-
-        /**
-         * 位置信息提供者:LocationProvider 的回调方法，打开第三方地图页面。
-         *
-         * @param context  上下文
-         * @param callback 回调
-         */
-        @Override
-        public void onStartLocation(Context context, RongIM.LocationProvider.LocationCallback callback) {
-            /**
-             * demo 代码  开发者需替换成自己的代码。
-             */
-            DemoContext.getInstance().setLastLocationCallback(callback);
-            Intent intent = new Intent(context, SOSOLocationActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);//SOSO地图
-        }
-    }
-
-
-    public UserInfo getCurrentUserInfo() {
-        return currentUserInfo;
-    }
-
-    public void setCurrentUserInfo(UserInfo currentUserInfo) {
-        this.currentUserInfo = currentUserInfo;
-    }
 }
