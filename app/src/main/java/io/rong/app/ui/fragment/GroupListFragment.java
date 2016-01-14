@@ -52,6 +52,7 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
     private Handler mHandler;
     private LoadingDialog mDialog;
     public static final String GroupListData = "GroupListData";
+    public static String maxGroupList = "1000";
 
     Bundle mBundle;
 
@@ -118,6 +119,7 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
                 final Groups groups = (Groups) obj;
                 if (groups.getCode() == 200) {
                     for (int i = 0; i < groups.getResult().size(); i++) {
+                        maxGroupList = groups.getResult().get(0).getMax_number();
                         mResultList.add(groups.getResult().get(i));
                     }
 
@@ -185,7 +187,7 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
 
                 if (DemoContext.getInstance() != null) {
 
-                    if (result.getNumber().equals("500")) {
+                    if (result.getNumber().equals(maxGroupList)) {
                         WinToast.toast(getActivity(), "群组人数已满");
                         return false;
                     }

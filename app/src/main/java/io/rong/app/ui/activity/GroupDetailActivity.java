@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,7 +27,6 @@ import io.rong.app.utils.Constants;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.widget.AsyncImageView;
 import io.rong.imlib.RongIMClient;
-import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Group;
 
 /**
@@ -146,7 +144,7 @@ public class GroupDetailActivity extends BaseApiActivity implements View.OnClick
             case R.id.join_group:
                 if (DemoContext.getInstance() != null) {
 
-                    if (mApiResult.getNumber().equals("500")) {
+                    if (mApiResult.getNumber().equals(GroupListFragment.maxGroupList)) {
                         WinToast.toast(GroupDetailActivity.this, R.string.group_is_full);
                         return;
                     }
@@ -194,7 +192,6 @@ public class GroupDetailActivity extends BaseApiActivity implements View.OnClick
                 final Status status = (Status) obj;
                 if (status.getCode() == 200 && mApiResult != null) {
                     WinToast.toast(this, R.string.group_join_success);
-                    Log.e(TAG, "-----------join success ----");
                     GroupListFragment.setGroupMap(mApiResult, 1);
 
                     if (RongIM.getInstance() != null)
@@ -249,7 +246,6 @@ public class GroupDetailActivity extends BaseApiActivity implements View.OnClick
                     Intent intent = new Intent();
                     intent.putExtra("result", DemoContext.getInstance().getGroupMap());
                     this.setResult(Constants.GROUP_QUIT_REQUESTCODE, intent);
-                    Log.e(TAG, "-----------quit success ----");
                 }
             }
         }
