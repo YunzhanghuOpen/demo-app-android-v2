@@ -80,7 +80,7 @@
 
     <string name="rc_notice_network_unavailable">当前网络不可用</string>
     <string name="rc_notice_disconnect">无法连接到服务器</string>
-    <string name="rc_notice_tick">该账号已经在其他设备登录</string>
+    <string name="rc_notice_tick">该帐号已经在其他设备登录</string>
     <string name="rc_notice_connecting">正在连接服务器</string>
     <string name="rc_notice_create_discussion">正在创建讨论组</string>
     <string name="rc_notice_create_discussion_fail">创建讨论组失败</string>
@@ -118,6 +118,7 @@
     <string name="rc_read_all">阅读全文</string>
 
     <string name="rc_voip_cpu_error">很抱歉，该功能暂时不支持您的机型</string>
+    
     
     <string name="rc_notification_ticker_text">您有了一条新消息</string>
     <string name="rc_notification_new_msg">%1$s发来了%2$d条消息</string>

@@ -365,7 +365,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                     , targetId, new RongIMClient.ResultCallback<PublicServiceProfile>() {
                 @Override
                 public void onSuccess(PublicServiceProfile publicServiceProfile) {
-                    getSupportActionBar().setTitle(publicServiceProfile.getName().toString());
+                    getSupportActionBar().setTitle(publicServiceProfile.getName());
                 }
 
                 @Override
@@ -390,7 +390,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                     , targetId, new RongIMClient.ResultCallback<PublicServiceProfile>() {
                 @Override
                 public void onSuccess(PublicServiceProfile publicServiceProfile) {
-                    getSupportActionBar().setTitle(publicServiceProfile.getName().toString());
+                    getSupportActionBar().setTitle(publicServiceProfile.getName());
                 }
 
                 @Override
@@ -446,7 +446,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
         if (DemoContext.getInstance() != null) {
 
             for (int i = 0; i < ids.length; i++) {
-                sb.append(DemoContext.getInstance().getUserInfoById(ids[i]).getName().toString());
+                sb.append(DemoContext.getInstance().getUserInfoById(ids[i]).getName());
                 sb.append(",");
             }
 
@@ -469,7 +469,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
             if (userInfos == null) {
                 getSupportActionBar().setTitle("");
             } else {
-                getSupportActionBar().setTitle(userInfos.getUsername().toString());
+                getSupportActionBar().setTitle(userInfos.getUsername());
             }
         }
 
