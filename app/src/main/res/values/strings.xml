@@ -149,6 +149,8 @@
 
     <string name="de_plugins_image">图片</string>
     <string name="de_plugins_camera">相机</string>
+
+
     <string name="de_group_list_default_discussion_name">讨论组</string>
     <string name="de_message_content_draft">[草稿]</string>
     <string name="de_message_at_me">[有人@我]</string>

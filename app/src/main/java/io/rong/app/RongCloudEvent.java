@@ -24,6 +24,7 @@ import io.rong.app.message.AgreedFriendRequestMessage;
 import io.rong.app.message.ContactsProvider;
 import io.rong.app.message.provider.RealTimeLocationInputProvider;
 import io.rong.app.model.User;
+import io.rong.app.picture.PhotoInputProvider;
 import io.rong.app.ui.activity.MainActivity;
 import io.rong.app.ui.activity.NewFriendListActivity;
 import io.rong.app.ui.activity.PersonalDetailActivity;
@@ -167,6 +168,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
 //        扩展功能自定义
         InputProvider.ExtendProvider[] provider = {
+//                new PhotoInputProvider(RongContext.getInstance()),//图片
                 new ImageInputProvider(RongContext.getInstance()),//图片
                 new CameraInputProvider(RongContext.getInstance()),//相机
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
@@ -174,6 +176,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         };
 
         InputProvider.ExtendProvider[] provider1 = {
+//                new PhotoInputProvider(RongContext.getInstance()),//图片
                 new ImageInputProvider(RongContext.getInstance()),//图片
                 new CameraInputProvider(RongContext.getInstance()),//相机
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置

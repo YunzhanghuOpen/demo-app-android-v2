@@ -122,4 +122,23 @@
 
     </style>
 
+    <style name="MyCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
+
+        <item name="android:button">@drawable/de_pic_checkbox</item>
+
+        <item name="android:paddingLeft">2.0dip</item>
+
+        <item name="android:maxHeight">10.0dip</item>
+
+    </style>
+
+    <style name="PicCheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
+
+        <item name="android:button">@drawable/de_pic_chebox_photo</item>
+
+        <item name="android:paddingLeft">2.0dip</item>
+
+        <item name="android:maxHeight">10.0dip</item>
+
+    </style>
 </resources>
