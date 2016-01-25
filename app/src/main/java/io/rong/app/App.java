@@ -17,16 +17,10 @@ import io.rong.imlib.ipc.RongExceptionHandler;
  */
 public class App extends Application {
 
-//    public static RefWatcher getRefWatcher(Context context) {
-//        App application = (App) context.getApplicationContext();
-////        return application.refWatcher;
-//    }
-
     @Override
     public void onCreate() {
 
         super.onCreate();
-//        LeakCanary.install(this);
         /**
          * 注意：
          *
