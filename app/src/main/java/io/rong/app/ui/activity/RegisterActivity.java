@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.exception.InternalException;
 import com.sea_monster.network.AbstractHttpRequest;
@@ -169,7 +168,6 @@ public class RegisterActivity extends BaseApiActivity implements View.OnClickLis
                 }
                 if (DemoContext.getInstance() != null)
                     httpRequest = DemoContext.getInstance().getDemoApi().register(email, nickName, phone, password, this);
-//                fillData(email,password,nickName,phone);
 
                 break;
             case R.id.register_user_agreement://用户协议

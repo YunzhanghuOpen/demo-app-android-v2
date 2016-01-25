@@ -39,8 +39,6 @@ public class ContactNotificationMessageProvider extends IContainerItemProvider.M
             if (!TextUtils.isEmpty(content.getMessage()))
                 viewHolder.contentTextView.setText(content.getMessage());
         }
-
-
     }
 
     @Override

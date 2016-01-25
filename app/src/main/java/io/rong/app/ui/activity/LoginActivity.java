@@ -121,6 +121,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
 
 
         initData();
+//        ViewServer.get(this).addWindow(this);
     }
 
     protected void initData() {
@@ -141,6 +142,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                 if (mDialog != null && !mDialog.isShowing()) {
                     mDialog.show();
                 }
+
                 httpGetTokenSuccess(token);
             }
         }
@@ -327,6 +329,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
     private void httpGetTokenSuccess(String token) {
 
         try {
+            Log.i(TAG, "----connect token--"+token);
             RongIM.connect(token, new RongIMClient.ConnectCallback() {
                         @Override
                         public void onTokenIncorrect() {
@@ -405,19 +408,28 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
 
                     mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
 
-                    if (grouplist.size() > 0 && RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
+                    if ( RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
+//                    if (grouplist.size() > 0 && RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
 
+                        final long time1 = System.currentTimeMillis();
                         RongIM.getInstance().getRongIMClient().syncGroup(grouplist, new RongIMClient.OperationCallback() {
 
                             @Override
                             public void onSuccess() {
                                 Log.i(TAG, "---syncGroup-onSuccess---");
 
+                                long time2 = System.currentTimeMillis() - time1;
+
+                                Log.e(TAG, "-----syncGroup-onSuccess-" + time2);
+
                             }
 
                             @Override
                             public void onError(RongIMClient.ErrorCode errorCode) {
                                 Log.e(TAG, "---syncGroup-onError---" + errorCode);
+                                long time2 = System.currentTimeMillis() - time1;
+
+                                Log.e(TAG, "-----syncGroup-onError-" + time2);
                             }
                         });
                     }
@@ -469,6 +481,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                             addUserInfo.setStatus("0");
                             friendsList.add(addUserInfo);
                         }
+
 
 
                         if (friendsList != null) {
@@ -562,12 +575,19 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
+//        ViewServer.get(this).setFocusedWindow(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+//        ViewServer.get(this).removeWindow(this);
+//        if (drawable instanceof BitmapDrawable) {
+//            Log.e(TAG, "------OnDestory---");
+//            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+//            Bitmap bitmap = bitmapDrawable.getBitmap();
+//            bitmap.recycle();
+//        }
 
         if (loginHttpRequest != null || getUserInfoHttpRequest != null || mGetMyGroupsRequest != null) {
             loginHttpRequest = null;

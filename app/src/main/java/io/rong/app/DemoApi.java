@@ -37,6 +37,7 @@ import io.rong.imlib.model.UserInfo;
 /**
  * demo api 请求，需要设置cookie，否则会提示 “user not login”
  * 此处是 Demo 的接口，跟融云 SDK 没有关系，此处仅为示例代码，展示 App 的逻辑
+ * BaseApi 为 SDK 源码内的代码，此处只是一个演示的过程。
  */
 public class DemoApi extends BaseApi {
     private static String HOST = "http://webim.demo.rong.io/";
@@ -289,7 +290,6 @@ public class DemoApi extends BaseApi {
         NetworkManager.getInstance().requestAsync(httpRequest);
 
         return httpRequest;
-
     }
 
     /**

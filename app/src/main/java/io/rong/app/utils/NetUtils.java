@@ -39,20 +39,17 @@ public class NetUtils {
      * @return 响应的数据
      */
     public static String sendGetRequest(String requestUrl) {
+
         HttpGet httpGet = new HttpGet( BASE_URL + requestUrl);
 //        HttpGet httpGet = new HttpGet(BASE_URL + requestUrl);
         if (DemoContext.getInstance().getSharedPreferences() != null) {
             httpGet.addHeader("cookie", DemoContext.getInstance().getSharedPreferences().getString("DEMO_COOKIE", null));
-        }else{
-            Log.e("", "0313----yb DEMO_COOKIE  null ----:");
         }
         try {
             HttpResponse response = httpClient.execute(httpGet);
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 HttpEntity entity = response.getEntity();
-//                response.addHeader("cookie", DemoContext.getInstance().getSharedPreferences().getString("DEMO_COOKIE", null));
                 getCookie(httpClient);
-//                return entity.getContent();  //当需要返回为输入流InputStream时的返回值
                 return EntityUtils.toString(entity); // 当返回的类型为Json数据时，调用此返回方法
             }
         } catch (Exception e) {
@@ -85,10 +82,8 @@ public class NetUtils {
             HttpResponse response = httpClient.execute(httpPost);
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 HttpEntity entity = response.getEntity();
-//                response.addHeader("cookie", DemoContext.getInstance().getSharedPreferences().getString("DEMO_COOKIE", null));
 
                 getCookie(httpClient);
-//                return entity.getContent();  //当需要返回为输入流InputStream时的返回值
                 return EntityUtils.toString(entity);
             }
         } catch (Exception e) {

@@ -20,6 +20,7 @@ public abstract class BaseActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
 //        MobclickAgent.onResume(this);
+
     }
 
     protected void onPause() {

@@ -7,4 +7,6 @@
     <integer name="rc_image_quality">85</integer>
     <!--原图压缩宽、高-->
     <integer name="rc_image_size">960</integer>
+    <!-- 设置发送输入状态 -->
+    <bool name="rc_typing_status">true</bool>
 </resources>

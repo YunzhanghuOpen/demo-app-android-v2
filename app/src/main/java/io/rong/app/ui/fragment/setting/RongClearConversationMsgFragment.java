@@ -1,6 +1,7 @@
 package io.rong.app.ui.fragment.setting;
 
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -67,6 +68,7 @@ public class RongClearConversationMsgFragment  extends BaseSettingFragment imple
 
                 @Override
                 public void onSuccess(Boolean aBoolean) {
+                    Log.d("clearMessages", "-----onSuccess-------");
                     Toast.makeText(getActivity(), getString(R.string.rc_setting_clear_msg_success), Toast.LENGTH_SHORT).show();
                 }
 
