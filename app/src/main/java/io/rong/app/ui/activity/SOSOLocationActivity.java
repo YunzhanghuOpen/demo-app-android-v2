@@ -32,7 +32,6 @@ import java.util.List;
 
 import io.rong.app.DemoContext;
 import io.rong.app.R;
-import io.rong.imkit.RongIM;
 import io.rong.message.LocationMessage;
 
 /**
@@ -118,11 +117,13 @@ public class SOSOLocationActivity extends MapActivity implements
 
     }
 
+    PoiItem poiItem;
     @Override
     public void onLocationChanged(final TencentLocation tencentLocation,
                                   int code, String s) {
         if (TencentLocation.ERROR_OK == code) {
             Toast.makeText(this, "定位成功", Toast.LENGTH_SHORT).show();
+            Log.e("SOSOLocationActivity", "----------------onLocationChanged----dddd--");
 
 
             mHandler.post(new Runnable() {
@@ -131,10 +132,21 @@ public class SOSOLocationActivity extends MapActivity implements
                     GeoPoint point = new GeoPoint((int) (tencentLocation.getLatitude() * 1E6),
                             (int) (tencentLocation.getLongitude() * 1E6)); // 用给定的经纬度构造一个GeoPoint，单位是微度
                     mMapView.getController().setCenter(point);
-                    mWorkHandler.post(new POISearchRunnable());
+                    poiItem = new PoiItem();
+                    poiItem.name = tencentLocation.getAddress();
+                    poiItem.point = mMapView.getMapCenter();
+
+                    if(getIntent().hasExtra("location"))
+                        mHandler.obtainMessage(RENDER_POI, poiItem).sendToTarget();
+                    else
+                        mHandler.obtainMessage(SHWO_TIPS, poiItem).sendToTarget();
+
                 }
             });
+
             TencentLocationManager.getInstance(this).removeUpdates(this);
+
+
         } else {
             Toast.makeText(this, "定位失败", Toast.LENGTH_SHORT).show();
         }
@@ -142,7 +154,7 @@ public class SOSOLocationActivity extends MapActivity implements
 
     @Override
     public void onStatusUpdate(String s, int i, String s2) {
-
+        Log.e("SOSOLocationActivity", "----------------onStatusUpdate------");
     }
 
     @Override
@@ -195,7 +207,7 @@ public class SOSOLocationActivity extends MapActivity implements
                     .appendQueryParameter("center", mMapView.getMapCenter().getLatitudeE6() / 1E6 + "," + mMapView.getMapCenter()
                             .getLongitudeE6() / 1E6).build();
 
-            Log.d("uri",uri.toString());
+            Log.d("uri", uri.toString());
 
             mMsg = LocationMessage.obtain(poiItem.point.getLatitudeE6() / 1E6,
                     poiItem.point.getLongitudeE6() / 1E6, poiItem.name, uri);
@@ -212,7 +224,8 @@ public class SOSOLocationActivity extends MapActivity implements
                     .appendQueryParameter("center", mMapView.getMapCenter().getLatitudeE6() / 1E6 + "," + mMapView.getMapCenter()
                             .getLongitudeE6() / 1E6).build();
 
-            Log.e("tag","-----uri---"+uri);
+            Log.e("tag", "-----uri---" + uri);
+            Log.e("tag", "-----uri--poiItem.name-" + poiItem.name);
             mMsg = LocationMessage.obtain(poiItem.point.getLatitudeE6() / 1E6,
                     poiItem.point.getLongitudeE6() / 1E6, poiItem.name, uri);
 
@@ -239,6 +252,8 @@ public class SOSOLocationActivity extends MapActivity implements
             case MotionEvent.ACTION_UP:
                 mLastSearchRunnable = new POISearchRunnable();
                 mWorkHandler.post(new POISearchRunnable());
+
+//                mHandler.obtainMessage(SHWO_TIPS, poiItem).sendToTarget();
                 break;
             default:
                 break;

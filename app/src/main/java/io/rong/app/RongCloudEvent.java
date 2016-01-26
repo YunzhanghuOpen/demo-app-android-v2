@@ -36,7 +36,6 @@ import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.model.GroupUserInfo;
 import io.rong.imkit.model.UIConversation;
-import io.rong.imkit.tools.PhotoFragment;
 import io.rong.imkit.widget.AlterDialogFragment;
 import io.rong.imkit.widget.provider.CameraInputProvider;
 import io.rong.imkit.widget.provider.ImageInputProvider;
@@ -54,7 +53,6 @@ import io.rong.imlib.model.MessageContent;
 import io.rong.imlib.model.UserInfo;
 import io.rong.message.ContactNotificationMessage;
 import io.rong.message.DiscussionNotificationMessage;
-import io.rong.message.FileMessage;
 import io.rong.message.ImageMessage;
 import io.rong.message.InformationNotificationMessage;
 import io.rong.message.LocationMessage;
@@ -403,9 +401,6 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         } else if (messageContent instanceof RichContentMessage) {//图文消息
             RichContentMessage richContentMessage = (RichContentMessage) messageContent;
             Log.d(TAG, "onSent-RichContentMessage:" + richContentMessage.getContent());
-        } else if (messageContent instanceof FileMessage) {
-            FileMessage fileMessage = (FileMessage) messageContent;
-            Log.d(TAG, "onSent-FileMessage:");
         } else {
             Log.d(TAG, "onSent-其他消息，自己来判断处理");
         }
@@ -576,11 +571,6 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         } else if (message.getContent() instanceof PublicServiceRichContentMessage) {
             Log.e(TAG, "----PublicServiceRichContentMessage-------");
 
-        } else if (message.getContent() instanceof FileMessage) {
-
-            FileMessage fileMessage = (FileMessage) message.getContent();
-
-            downLoadFile(context, fileMessage);
         }
 
         Log.d("Begavior", message.getObjectName() + ":" + message.getMessageId());
@@ -588,29 +578,6 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         return false;
     }
 
-    /**
-     * @param fileMessage
-     */
-    private void downLoadFile(Context context, FileMessage fileMessage) {
-
-
-        PhotoFragment photoFragment = new PhotoFragment();
-        Uri remoteUri = fileMessage.getRemoteUri();
-        Uri themUri = fileMessage.getThumUri();
-        photoFragment.initPhoto(remoteUri, themUri, new PhotoFragment.PhotoDownloadListener() {
-            @Override
-            public void onDownloaded(Uri file) {
-
-                Log.e(TAG, "------------------" + file);
-            }
-
-            @Override
-            public void onDownloadError() {
-                Log.e(TAG, "--------------onDownloadError----");
-            }
-        });
-
-    }
 
     private void startRealTimeLocation(Context context, Conversation.ConversationType conversationType, String targetId) {
         RongIMClient.getInstance().startRealTimeLocation(conversationType, targetId);
