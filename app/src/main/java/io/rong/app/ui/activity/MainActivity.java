@@ -47,11 +47,10 @@ import io.rong.imlib.model.Conversation;
 import io.rong.message.ContactNotificationMessage;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, ViewPager.OnPageChangeListener, ActionBar.OnMenuVisibilityListener {
-    private  String TAG = MainActivity.class.getSimpleName();
+    private String TAG = MainActivity.class.getSimpleName();
 
     public static final String ACTION_DMEO_RECEIVE_MESSAGE = "action_demo_receive_message";
     public static final String ACTION_DMEO_AGREE_REQUEST = "action_demo_agree_request";
-
     private boolean hasNewFriends = false;
     private Menu mMenu;
     private ReceiveMessageBroadcastReciver mBroadcastReciver;
@@ -62,6 +61,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_main);
+
         RongIM.getInstance().enableNewComingMessageIcon(true);
         RongIM.getInstance().enableUnreadMessageIcon(true);
 
@@ -135,9 +135,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
      *
      */
     private void getConversationPush() {
-        if (getIntent() != null && getIntent().hasExtra("PUSH_CONVERSATIONTYPE") &&getIntent().hasExtra("PUSH_TARGETID") ) {
+        if (getIntent() != null && getIntent().hasExtra("PUSH_CONVERSATIONTYPE") && getIntent().hasExtra("PUSH_TARGETID")) {
 
-            final String conversationType  = getIntent().getStringExtra("PUSH_CONVERSATIONTYPE");
+            final String conversationType = getIntent().getStringExtra("PUSH_CONVERSATIONTYPE");
             final String targetId = getIntent().getStringExtra("PUSH_TARGETID");
 
             if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
@@ -246,7 +246,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
 
     @Override
-    public void onPageScrolled(int i, float v, int i2) {
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
     }
 
@@ -293,10 +293,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon()
                                 .appendPath("conversationlist")
                                 .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话是否聚合显示
-                                .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "false")//群组
+                                .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "true")//群组
                                 .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//讨论组
                                 .appendQueryParameter(Conversation.ConversationType.PUBLIC_SERVICE.getName(), "false")//公共服务号
-                                .appendQueryParameter(Conversation.ConversationType.APP_PUBLIC_SERVICE.getName(), "false")//订阅号
+                                .appendQueryParameter(Conversation.ConversationType.APP_PUBLIC_SERVICE.getName(), "false")//公共服务号
                                 .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//系统
                                 .build();
                         listFragment.setUri(uri);
@@ -431,10 +431,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         inflater.inflate(R.menu.de_main_menu, menu);
         if (hasNewFriends) {
             mMenu.getItem(0).setIcon(getResources().getDrawable(R.drawable.de_ic_add_hasmessage));
-            mMenu.getItem(0).getSubMenu().getItem(1).setIcon(getResources().getDrawable(R.drawable.de_btn_main_contacts_select));
+            mMenu.getItem(0).getSubMenu().getItem(2).setIcon(getResources().getDrawable(R.drawable.de_btn_main_contacts_select));
         } else {
             mMenu.getItem(0).setIcon(getResources().getDrawable(R.drawable.de_ic_add));
-            mMenu.getItem(0).getSubMenu().getItem(1).setIcon(getResources().getDrawable(R.drawable.de_btn_main_contacts));
+            mMenu.getItem(0).getSubMenu().getItem(2).setIcon(getResources().getDrawable(R.drawable.de_btn_main_contacts));
         }
 
         return true;
@@ -446,11 +446,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.add_item1://发起聊天
                 startActivity(new Intent(this, FriendListActivity.class));
                 break;
-//            case R.id.add_item2://选择群组
-//
-//                if (RongIM.getInstance() != null)
-//                    RongIM.getInstance().startSubConversationList(this, Conversation.ConversationType.GROUP);
-//                break;
+
+            case R.id.add_item2://选择群组
+
+                if (RongIM.getInstance() != null)
+                    RongIM.getInstance().startSubConversationList(this, Conversation.ConversationType.GROUP);
+                break;
             case R.id.add_item3://通讯录
                 startActivity(new Intent(MainActivity.this, ContactsActivity.class));
                 break;
@@ -506,6 +507,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
 
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
@@ -546,7 +548,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void onDestroy() {
 
-        Log.e(TAG, "----onDestroy----");
         if (mBroadcastReciver != null) {
             this.unregisterReceiver(mBroadcastReciver);
         }

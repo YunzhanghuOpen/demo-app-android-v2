@@ -387,10 +387,6 @@
             android:value="7JYBZ-4Y3W4-JMUU7-DJHQU-NOYH7-SRBBU" />
 
 
-        <!-- 新版相册新增AC -->
-        <activity android:name=".picture.PreviewActivity"></activity>
-        <activity android:name=".picture.MultiImageSelectorActivity"></activity>
-
     </application>
 
 

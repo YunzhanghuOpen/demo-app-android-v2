@@ -8,8 +8,8 @@ android {
         applicationId "io.rong.app"
         minSdkVersion 9
         targetSdkVersion 19
-        versionCode 2016011822
-        versionName "2.4.5 Stable"
+        versionCode 2016020122
+        versionName "2.4.7 Stable"
     }
 
     signingConfigs {
@@ -49,9 +49,8 @@ android {
 }
 dependencies {
     compile fileTree(dir: 'src/main/libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.android.support:appcompat-v7:19.1.0'
     compile project(':IMKit')
-    compile 'com.squareup.picasso:picasso:2.4.0'
     compile files('src/main/libs/TencentLocationSDK_v4.4.6_r206631_151119_1441.jar')
     compile files('src/main/libs/TencentMapSDK_Raster_v1.1.2.16281.jar')
 }

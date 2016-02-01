@@ -14,29 +14,21 @@ import io.rong.imlib.model.Conversation;
 /**
  * Created by Administrator on 2015/3/6.
  */
-public class CustomerFragment extends Fragment implements View.OnClickListener {
-
-    /**
-     * 客服聊天的按钮
-     */
-    private TextView mCustomerChat;
+public class CustomerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.de_fr_customer, container, false);
-        mCustomerChat = (TextView) view.findViewById(R.id.customer_chat);
-        mCustomerChat.setOnClickListener(this);
+
+        TextView mCustomerChat = (TextView) view.findViewById(R.id.customer_chat);
+        mCustomerChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.APP_PUBLIC_SERVICE, "KEFU144542424649464", "在线客服");
+            }
+        });
 
         return view;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.customer_chat:
-                if (RongIM.getInstance() != null)
-                    RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.APP_PUBLIC_SERVICE, "KEFU144542424649464", "在线客服");
-                break;
-        }
-    }
 }

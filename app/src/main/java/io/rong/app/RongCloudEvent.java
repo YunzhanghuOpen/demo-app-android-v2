@@ -24,7 +24,6 @@ import io.rong.app.message.AgreedFriendRequestMessage;
 import io.rong.app.message.ContactsProvider;
 import io.rong.app.message.provider.RealTimeLocationInputProvider;
 import io.rong.app.model.User;
-import io.rong.app.picture.PhotoInputProvider;
 import io.rong.app.ui.activity.MainActivity;
 import io.rong.app.ui.activity.NewFriendListActivity;
 import io.rong.app.ui.activity.PersonalDetailActivity;

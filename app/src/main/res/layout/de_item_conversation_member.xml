@@ -8,11 +8,11 @@
 
     <io.rong.imkit.widget.AsyncImageView
         android:id="@+id/icon"
-        app:RCShape="square"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        app:RCShape="square" />
 
     <ImageView
         android:id="@+id/icon2"
@@ -20,7 +20,7 @@
         android:layout_height="56dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/text1"
