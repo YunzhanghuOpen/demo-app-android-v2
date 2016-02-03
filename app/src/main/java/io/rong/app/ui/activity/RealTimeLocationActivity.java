@@ -15,9 +15,9 @@ import com.sea_monster.exception.BaseException;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
+import io.rong.app.DemoApi;
 import io.rong.app.DemoContext;
 import io.rong.app.R;
-import io.rong.app.DemoApi;
 import io.rong.app.model.RongEvent;
 import io.rong.app.ui.widget.RealTimeLocationHorizontalScrollView;
 import io.rong.imlib.RongIMClient;

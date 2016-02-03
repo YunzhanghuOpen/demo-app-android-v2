@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/de_action_white"
     android:orientation="vertical">
 
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/isData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="暂无数据"
+        android:layout_gravity="center"
+        />
 
     <ListView
-        android:id="@+id/de_new_friend_list"
+        android:id="@+id/shiplistview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"></ListView>
 
-    </ListView>
-
-</LinearLayout>
+</FrameLayout>

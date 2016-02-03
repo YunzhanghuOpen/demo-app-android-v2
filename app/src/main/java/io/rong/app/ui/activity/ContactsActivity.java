@@ -3,292 +3,323 @@ package io.rong.app.ui.activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 
-import io.rong.app.DemoContext;
 import io.rong.app.R;
-import io.rong.app.ui.adapter.ContactsMultiChoiceAdapter;
-import io.rong.app.ui.adapter.FriendListAdapter;
-import io.rong.app.model.Friend;
-import io.rong.app.ui.widget.PinnedHeaderListView;
-import io.rong.app.ui.widget.SwitchGroup;
-import io.rong.app.ui.widget.SwitchItemView;
-import io.rong.app.utils.Constants;
+import io.rong.app.RongCloudEvent;
+import io.rong.app.db.DBManager;
+import io.rong.app.db.FriendDao;
+import io.rong.app.server.broadcast.BroadcastManager;
+import io.rong.app.server.pinyin.CharacterParser;
+import io.rong.app.server.pinyin.Friend;
+import io.rong.app.server.pinyin.PinyinComparator;
+import io.rong.app.server.pinyin.SideBar;
+import io.rong.app.server.utils.NToast;
+import io.rong.app.ui.adapter.FriendAdapter;
 import io.rong.imkit.RongIM;
-import io.rong.imlib.model.Conversation;
-import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by Administrator on 2015/3/26.
  */
-public class ContactsActivity extends BaseActionBarActivity implements SwitchGroup.ItemHander, View.OnClickListener, TextWatcher, FriendListAdapter.OnFilterFinished, AdapterView.OnItemClickListener{
+public class ContactsActivity extends BaseActivity implements View.OnClickListener {
 
     private String TAG = ContactsActivity.class.getSimpleName();
-    protected ContactsMultiChoiceAdapter mAdapter;
-    private PinnedHeaderListView mListView;
-    private SwitchGroup mSwitchGroup;
+
+    private EditText mSearch;
+
+    private ListView mListView;
+
+    private List<Friend> dataLsit = new ArrayList<>();
+
+    private List<Friend> sourceDataList = new ArrayList<>();
+
+
     /**
-     * 好友list
+     * 好友列表的 adapter
      */
-    protected List<Friend> mFriendsList;
-    private TextView textView;
-    private ReceiveMessageBroadcastReciver mBroadcastReciver;
+    private FriendAdapter adapter;
+    /**
+     * 右侧好友指示 Bar
+     */
+    private SideBar mSidBar;
+    /**
+     * 中部展示的字母提示
+     */
+    public TextView dialog;
+
+    /**
+     * 汉字转换成拼音的类
+     */
+    private CharacterParser characterParser;
+    /**
+     * 根据拼音来排列ListView里面的数据类
+     */
+    private PinyinComparator pinyinComparator;
+
+    private LayoutInflater infalter;
+
+    private TextView mNoFriends;
+    private TextView unread;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_address_fragment);
-
         getSupportActionBar().setTitle(R.string.add_contacts);
-        mListView = (PinnedHeaderListView) findViewById(R.id.de_ui_friend_list);
-        mSwitchGroup = (SwitchGroup) findViewById(R.id.de_ui_friend_message);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);
+        initView();
+        initData();
 
-        mListView.setPinnedHeaderView(LayoutInflater.from(this).inflate(R.layout.de_item_friend_index,
-                mListView, false));
-        //TODO
-        textView = (TextView) mListView.getPinnedHeaderView();
-
-        mListView.setFastScrollEnabled(false);
-
-        mListView.setOnItemClickListener(this);
-        mSwitchGroup.setItemHander(this);
-
-        mListView.setHeaderDividersEnabled(false);
-        mListView.setFooterDividersEnabled(false);
-
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(MainActivity.ACTION_DMEO_AGREE_REQUEST);
-        if (mBroadcastReciver == null) {
-            mBroadcastReciver = new ReceiveMessageBroadcastReciver();
+        if (dataLsit != null && dataLsit.size() > 0) {
+            sourceDataList = filledData(dataLsit); //过滤数据为有字母的字段  现在有字母 别的数据没有
+        } else {
+            mNoFriends.setVisibility(View.VISIBLE);
+            NToast.shortToast(mContext, "暂无好友数据");
         }
-        registerReceiver(mBroadcastReciver, intentFilter);
 
-        getFriendList();
+        //还原除了带字母字段的其他数据
+        for (int i = 0; i < dataLsit.size(); i++) {
+            sourceDataList.get(i).setName(dataLsit.get(i).getName());
+            sourceDataList.get(i).setUserId(dataLsit.get(i).getUserId());
+            sourceDataList.get(i).setPortraitUri(dataLsit.get(i).getPortraitUri());
+            sourceDataList.get(i).setDisplayName(dataLsit.get(i).getDisplayName());
+        }
+
+        // 根据a-z进行排序源数据
+        Collections.sort(sourceDataList, pinyinComparator);
+
+        infalter = LayoutInflater.from(this);
+        View headView = infalter.inflate(R.layout.item_contact_list_header,
+                null);
+        unread = (TextView)headView.findViewById(R.id.tv_unread);
+        RelativeLayout re_newfriends = (RelativeLayout) headView.findViewById(R.id.re_newfriends);
+        re_newfriends.setOnClickListener(this);
+        adapter = new FriendAdapter(this, sourceDataList);
+        mListView.addHeaderView(headView);
+        mListView.setAdapter(adapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0) {
+                    if (RongIM.getInstance() != null) {
+                        Friend bean = sourceDataList.get(position - 1);
+                        RongIM.getInstance().startPrivateChat(mContext, bean.getUserId(), bean.getName());
+                    }
+                }
+            }
+        });
+        mSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //当输入框里面的值为空，更新为原来的列表，否则为过滤数据列表
+                filterData(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        refreshUIListener();
     }
 
-    private void getFriendList() {
+    private void initData() {
+        List<io.rong.app.db.Friend> list = DBManager.getInstance(mContext).getDaoSession().getFriendDao().loadAll();
+        if (list != null && list.size() > 0) {
+            for (io.rong.app.db.Friend friend : list) {
+                dataLsit.add(new Friend(friend.getUserId(), friend.getName(), friend.getPortraitUri(), friend.getDisplayName(), null, null));
+            }
 
-        ArrayList<UserInfo> userInfos = null;
-
-        //获取好友列表
-        if (DemoContext.getInstance() != null) {
-            userInfos = DemoContext.getInstance().getFriendList();
         }
-        mFriendsList = new ArrayList<Friend>();
+    }
 
-        if (userInfos != null) {
-            for (UserInfo userInfo : userInfos) {
-                Friend friend = new Friend();
-                friend.setNickname(userInfo.getName());
-                friend.setPortrait(userInfo.getPortraitUri() + "");
-                friend.setUserId(userInfo.getUserId());
-                mFriendsList.add(friend);
+    private void initView() {
+        //实例化汉字转拼音类
+        characterParser = CharacterParser.getInstance();
+        pinyinComparator = PinyinComparator.getInstance();
+        mSearch = (EditText) findViewById(R.id.search);
+        mListView = (ListView) findViewById(R.id.listview);
+        mNoFriends = (TextView) findViewById(R.id.show_no_friend);
+        mSidBar = (SideBar) findViewById(R.id.sidrbar);
+        dialog = (TextView) findViewById(R.id.dialog);
+        mSidBar.setTextView(dialog);
+        //设置右侧触摸监听
+        mSidBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
+
+            @Override
+            public void onTouchingLetterChanged(String s) {
+                //该字母首次出现的位置
+                int position = adapter.getPositionForSection(s.charAt(0));
+                if (position != -1) {
+                    mListView.setSelection(position);
+                }
+
+            }
+        });
+    }
+
+
+    public TextView getDialog() {
+        return dialog;
+    }
+
+    public void setDialog(TextView dialog) {
+        this.dialog = dialog;
+    }
+
+
+    /**
+     * 根据输入框中的值来过滤数据并更新ListView
+     *
+     * @param filterStr
+     */
+    private void filterData(String filterStr) {
+        List<Friend> filterDateList = new ArrayList<Friend>();
+
+        if (TextUtils.isEmpty(filterStr)) {
+            filterDateList = sourceDataList;
+        } else {
+            filterDateList.clear();
+            for (Friend friendModel : sourceDataList) {
+                String name = friendModel.getName();
+                if (name.indexOf(filterStr.toString()) != -1 || characterParser.getSelling(name).startsWith(filterStr.toString())) {
+                    filterDateList.add(friendModel);
+                }
             }
         }
-        mFriendsList = sortFriends(mFriendsList);
-//        mFriendsList.get(0).getSearchKey();
-        mAdapter = new ContactsMultiChoiceAdapter(this, mFriendsList);
-        mListView.setAdapter(mAdapter);
 
-        fillData();
-
+        // 根据a-z进行排序
+        Collections.sort(filterDateList, pinyinComparator);
+        adapter.updateListView(filterDateList);
     }
 
-    private class ReceiveMessageBroadcastReciver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals(MainActivity.ACTION_DMEO_AGREE_REQUEST)) {
-                updateDate();
+
+    /**
+     * 为ListView填充数据
+     *
+     * @param
+     * @return
+     */
+    private List<Friend> filledData(List<Friend> lsit) {
+        List<Friend> mFriendList = new ArrayList<Friend>();
+
+        for (int i = 0; i < lsit.size(); i++) {
+            Friend friendModel = new Friend();
+            friendModel.setName(lsit.get(i).getName());
+            //汉字转换成拼音
+            String pinyin = characterParser.getSelling(lsit.get(i).getName());
+            String sortString = pinyin.substring(0, 1).toUpperCase();
+
+            // 正则表达式，判断首字母是否是英文字母
+            if (sortString.matches("[A-Z]")) {
+                friendModel.setLetters(sortString.toUpperCase());
+            } else {
+                friendModel.setLetters("#");
             }
+
+            mFriendList.add(friendModel);
         }
+        return mFriendList;
 
-    }
-
-    private final void fillData() {
-
-//        mAdapter.removeAll();
-        mAdapter.setAdapterData(mFriendsList);
-        mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onClick(View v) {
-
-        if (v instanceof SwitchItemView) {
-            CharSequence tag = ((SwitchItemView) v).getText();
-
-            if (mAdapter != null && mAdapter.getSectionIndexer() != null) {
-                Object[] sections = mAdapter.getSectionIndexer().getSections();
-                int size = sections.length;
-
-                for (int i = 0; i < size; i++) {
-                    if (tag.equals(sections[i])) {
-                        int index = mAdapter.getPositionForSection(i);
-                        mListView.setSelection(index + mListView.getHeaderViewsCount());
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Object tagObj = view.getTag();
-
-        if (tagObj != null && tagObj instanceof ContactsMultiChoiceAdapter.ViewHolder) {
-            ContactsMultiChoiceAdapter.ViewHolder viewHolder = (ContactsMultiChoiceAdapter.ViewHolder) tagObj;
-            String friendId = viewHolder.friend.getUserId();
-            if (friendId == "★001") {
+        switch (v.getId()) {
+            case R.id.re_newfriends:
+                unread.setVisibility(View.GONE);
                 Intent intent = new Intent(this, NewFriendListActivity.class);
-                startActivityForResult(intent,20);
-            } else if (friendId == "★002") {
-                if (RongIM.getInstance() != null) {
-                    RongIM.getInstance().startSubConversationList(this, Conversation.ConversationType.GROUP);
+                startActivityForResult(intent, 20);
+                break;
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        finish();
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void refreshUIListener() {
+        BroadcastManager.getInstance(mContext).addAction(RongCloudEvent.UPDATEFRIEND, new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String command = intent.getAction();
+                if (!TextUtils.isEmpty(command)) {
+                    List<io.rong.app.db.Friend> list = DBManager.getInstance(mContext).getDaoSession().getFriendDao().loadAll();
+                    if (list != null && list.size() > 0) {
+                        if (dataLsit!= null ) {
+                            dataLsit.clear();
+                        }
+                        if (sourceDataList != null) {
+                            sourceDataList.clear();
+                        }
+                        for (io.rong.app.db.Friend friend : list) {
+                            dataLsit.add(new Friend(friend.getUserId(), friend.getName(), friend.getPortraitUri()));
+                        }
+
+                    }
+                    if (dataLsit != null && dataLsit.size() > 0) {
+                        sourceDataList = filledData(dataLsit); //过滤数据为有字母的字段  现在有字母 别的数据没有
+                    } else {
+                        mNoFriends.setVisibility(View.VISIBLE);
+                        NToast.shortToast(mContext, "暂无好友数据");
+                    }
+
+                    //还原除了带字母字段的其他数据
+                    for (int i = 0; i < dataLsit.size(); i++) {
+                        sourceDataList.get(i).setName(dataLsit.get(i).getName());
+                        sourceDataList.get(i).setUserId(dataLsit.get(i).getUserId());
+                        sourceDataList.get(i).setPortraitUri(dataLsit.get(i).getPortraitUri());
+                        sourceDataList.get(i).setDisplayName(dataLsit.get(i).getDisplayName());
+                    }
+
+                    // 根据a-z进行排序源数据
+                    Collections.sort(sourceDataList, pinyinComparator);
+                    adapter.updateListView(sourceDataList);
+
+
                 }
-            } else if (friendId == "★003") {
-                Intent intent = new Intent(this, PublicServiceActivity.class);
-                startActivity(intent);
-            } else {
-                Intent intent = new Intent(this, PersonalDetailActivity.class);
-                intent.putExtra("CONTACTS_USER", viewHolder.friend.getUserId());
-                startActivityForResult(intent, 19);
             }
-        }
+        });
+
+        BroadcastManager.getInstance(mContext).addAction(RongCloudEvent.UPDATEREDDOT, new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String command = intent.getAction();
+                if (!TextUtils.isEmpty(command)) {
+                    unread.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
-
-    /**
-     * 好友数据排序
-     *
-     * @param friends 好友 List
-     * @return 排序后的好友 List
-     */
-    private ArrayList<Friend> sortFriends(List<Friend> friends) {
-
-        String[] searchLetters = getResources().getStringArray(R.array.de_search_letters);
-
-        HashMap<String, ArrayList<Friend>> userMap = new HashMap<String, ArrayList<Friend>>();
-
-        ArrayList<Friend> friendsArrayList = new ArrayList<Friend>();
-
-        for (Friend friend : friends) {
-
-            String letter = new String(new char[]{friend.getSearchKey()});
-
-            if (userMap.containsKey(letter)) {
-                ArrayList<Friend> friendList = userMap.get(letter);
-                friendList.add(friend);
-
-            } else {
-                ArrayList<Friend> friendList = new ArrayList<Friend>();
-                friendList.add(friend);
-                userMap.put(letter, friendList);
-            }
-
-        }
-        ArrayList<Friend> friendList = new ArrayList<Friend>();
-        friendList.add(new Friend("★001", "新的朋友", getResources().getResourceName(R.drawable.de_address_new_friend)));
-        friendList.add(new Friend("★002", "群聊",getResources().getResourceName(R.drawable.de_address_group) ));
-        friendList.add(new Friend("★003", "公众号", getResources().getResourceName(R.drawable.de_address_public)));
-        userMap.put("★", friendList);
-        for (int i = 0; i < searchLetters.length; i++) {
-            String letter = searchLetters[i];
-            ArrayList<Friend> fArrayList = userMap.get(letter);
-            if (fArrayList != null) {
-                friendsArrayList.addAll(fArrayList);
-            }
-        }
-
-        return friendsArrayList;
-    }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.e(TAG, Constants.DEBUG + "-----onActivityResult-resultCode---");
-        if (resultCode == Constants.DELETE_USERNAME_REQUESTCODE) {
-            Log.e(TAG, Constants.DEBUG + "-----onActivityResult-resultCode---" + resultCode);
-            updateDate();
-        }
-
-        if(requestCode == 20){
-            Log.e(TAG, Constants.DEBUG + "-----onActivityResult-requestCode---" + requestCode);
-            updateDate();
-        }
-
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void updateDate() {
-        if(mAdapter !=null){
-            mAdapter = null;
-        }
-        ArrayList<UserInfo> userInfos = null;
-        //获取好友列表
-        if (DemoContext.getInstance() != null) {
-            userInfos = DemoContext.getInstance().getFriendList();
-        }
-        mFriendsList = new ArrayList<Friend>();
-
-        if (userInfos != null) {
-            for (UserInfo userInfo : userInfos) {
-                Friend friend = new Friend();
-                friend.setNickname(userInfo.getName());
-                friend.setPortrait(userInfo.getPortraitUri() + "");
-                friend.setUserId(userInfo.getUserId());
-                mFriendsList.add(friend);
-            }
-        }
-        mFriendsList = sortFriends(mFriendsList);
-//        mFriendsList.get(0).getSearchKey();
-        mAdapter = new ContactsMultiChoiceAdapter(this, mFriendsList);
-
-        mListView.setAdapter(mAdapter);
-        fillData();
-    }
-
-    @Override
-    public void onDestroy() {
-        if (mBroadcastReciver != null) {
-           unregisterReceiver(mBroadcastReciver);
-        }
-        if (mAdapter != null) {
-            mAdapter.destroy();
-            mAdapter = null;
-        }
+    protected void onDestroy() {
         super.onDestroy();
-    }
-
-    @Override
-    public void onFilterFinished() {
-
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
+        BroadcastManager.getInstance(mContext).destroy(RongCloudEvent.UPDATEFRIEND);
+        BroadcastManager.getInstance(mContext).destroy(RongCloudEvent.UPDATEREDDOT);
     }
 }

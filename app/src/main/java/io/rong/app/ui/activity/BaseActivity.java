@@ -33,15 +33,15 @@ public abstract class BaseActivity extends ActionBarActivity implements OnDataLi
 
     }
 
-    protected void onResume() {
-        super.onResume();
-//        MobclickAgent.onResume(this);
-    }
-
-    protected void onPause() {
-        super.onPause();
-//        MobclickAgent.onPause(this);
-    }
+//    protected void onResume() {
+//        super.onResume();
+////        MobclickAgent.onResume(this);
+//    }
+//
+//    protected void onPause() {
+//        super.onPause();
+////        MobclickAgent.onPause(this);
+//    }
 
 
     /**

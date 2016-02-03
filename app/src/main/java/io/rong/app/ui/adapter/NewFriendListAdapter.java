@@ -1,28 +1,95 @@
 package io.rong.app.ui.adapter;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.List;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
+import io.rong.app.App;
 import io.rong.app.R;
-import io.rong.app.model.ApiResult;
-import io.rong.imkit.widget.AsyncImageView;
+import io.rong.app.server.response.UserRelationshipResponse;
+import io.rong.app.server.widget.CircleImageView;
 
 /**
  * Created by Bob on 2015/3/26.
  */
 
-public class NewFriendListAdapter extends android.widget.BaseAdapter {
+public class NewFriendListAdapter extends BaseAdapters {
+    private ViewHoler holer;
 
-    private Context mContext;
-    private LayoutInflater mLayoutInflater;
-    private List<ApiResult> mResults;
+    public NewFriendListAdapter(Context context) {
+        super(context);
+    }
+
+    @Override
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            holer = new ViewHoler();
+            convertView = mInflater.inflate(R.layout.rs_ada_user_ship, null);
+            holer.mName = (TextView) convertView.findViewById(R.id.ship_name);
+            holer.mMessage = (TextView) convertView.findViewById(R.id.ship_message);
+            holer.mHead = (CircleImageView) convertView.findViewById(R.id.new_header);
+            holer.mState = (TextView) convertView.findViewById(R.id.ship_state);
+            convertView.setTag(holer);
+        } else {
+            holer = (ViewHoler) convertView.getTag();
+        }
+        final UserRelationshipResponse.ResultEntity bean = (UserRelationshipResponse.ResultEntity) dataSet.get(position);
+        holer.mName.setText(bean.getUser().getNickname());
+        ImageLoader.getInstance().displayImage(bean.getUser().getPortraitUri(),holer.mHead, App.getOptions());
+        holer.mMessage.setText(bean.getMessage());
+        holer.mState.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnItemButtonClick != null) {
+                    mOnItemButtonClick.onButtonClick(position, v, bean.getStatus());
+                }
+            }
+        });
+
+        switch (bean.getStatus()) {
+            case 11: //收到了好友邀请
+                holer.mState.setText("接受");
+                holer.mState.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.de_add_friend_selector));
+                break;
+            case 10: // 发出了好友邀请
+                holer.mState.setText("已请求");
+                holer.mState.setBackgroundDrawable(null);
+                break;
+            case 21: // 忽略好友邀请
+                holer.mState.setText("已忽略");
+                holer.mState.setBackgroundDrawable(null);
+                break;
+            case 20: // 已是好友
+                holer.mState.setText("已添加");
+                holer.mState.setBackgroundDrawable(null);
+                break;
+            case 30: // 删除了好友关系
+                holer.mState.setText("已删除");
+                holer.mState.setBackgroundDrawable(null);
+                break;
+        }
+        return convertView;
+    }
+
+    /**
+     * displayName :
+     * message : 手机号:18622222222昵称:的用户请求添加你为好友
+     * status : 11
+     * updatedAt : 2016-01-07T06:22:55.000Z
+     * user : {"id":"i3gRfA1ml","nickname":"nihaoa","portraitUri":""}
+     */
+
+    class ViewHoler {
+        CircleImageView mHead;
+        TextView mName;
+        TextView mState;
+        TextView mtime;
+        TextView mMessage;
+    }
+
     OnItemButtonClick mOnItemButtonClick;
 
     public OnItemButtonClick getOnItemButtonClick() {
@@ -33,90 +100,8 @@ public class NewFriendListAdapter extends android.widget.BaseAdapter {
         this.mOnItemButtonClick = onItemButtonClick;
     }
 
-    public NewFriendListAdapter(List<ApiResult> results, Context context){
-        this.mResults = results;
-        this.mContext = context;
-        mLayoutInflater = LayoutInflater.from(context);
-    }
+    public interface OnItemButtonClick {
+        boolean onButtonClick(int position, View view, int status);
 
-
-    @Override
-    public int getCount() {
-        return mResults.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return mResults.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-
-        ViewHolder viewHolder ;
-        if(convertView == null || convertView.getTag() == null){
-            convertView = mLayoutInflater.inflate(R.layout.de_item_friend,parent,false);
-            viewHolder = new ViewHolder();
-            viewHolder.mFrienduUserName = (TextView) convertView.findViewById(R.id.item_friend_username);
-            viewHolder.mFrienduState = (TextView) convertView.findViewById(R.id.item_friend_state);
-            viewHolder.mPortraitImg = (AsyncImageView) convertView.findViewById(R.id.item_friend_portrait);
-            convertView.setTag(viewHolder);
-        }else{
-            viewHolder= (ViewHolder) convertView.getTag();
-        }
-
-        if(viewHolder != null) {
-            viewHolder.mFrienduUserName.setText(mResults.get(position).getUsername());
-            viewHolder.mFrienduState.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(mOnItemButtonClick !=null)
-                        mOnItemButtonClick.onButtonClick(position, v,mResults.get(position).getStatus());
-                }
-            });
-                switch (mResults.get(position).getStatus()){
-                    case 1://好友
-                        viewHolder.mFrienduState.setText("已添加");
-                        viewHolder.mFrienduState.setBackground(null);
-                        break;
-                    case 2://请求添加
-                        viewHolder.mFrienduState.setText("请求添加");
-                        viewHolder.mFrienduState.setBackground(null);
-                        break;
-                    case 3://请求被添加
-                        viewHolder.mFrienduState.setText("添加");
-                        viewHolder.mFrienduState.setBackground(mContext.getResources().getDrawable(R.drawable.de_add_friend_selector));
-                        break;
-                    case 4://请求被拒绝
-                        viewHolder.mFrienduState.setText("请求被拒绝");
-                        viewHolder.mFrienduState.setBackground(null);
-                        break;
-                    case 5://我被对方删除
-                        viewHolder.mFrienduState.setText("被删除");
-                        viewHolder.mFrienduState.setBackground(null);
-                        break;
-
-                }
-        }
-
-        return convertView;
-    }
-
-    public interface OnItemButtonClick{
-         boolean onButtonClick(int position, View view,int status);
-
-    }
-
-    static class ViewHolder{
-        TextView mFrienduUserName;
-
-        TextView mFrienduState;
-        AsyncImageView mPortraitImg;
     }
 }

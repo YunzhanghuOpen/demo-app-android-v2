@@ -25,7 +25,7 @@
     <string name="main_chatroom">聊天室</string>
     <string name="main_customer">客服</string>
     <string name="add_chat">发起聊天</string>
-    <string name="add_select_group">选择群组</string>
+    <string name="add_select_group">创建群组</string>
     <string name="add_voip">网络电话</string>
     <string name="add_contacts">通讯录</string>
     <string name="set_personal_information">我的账号</string>
@@ -44,7 +44,7 @@
     <string name="register_is_null">"邮箱、密码、昵称 不能为空"</string>
     <string name="register_success">"注册成功"</string>
     <string name="register_failure">"注册失败"</string>
-    <string name="register_input_email">"输入邮箱"</string>
+    <string name="register_input_email">"输入手机"</string>
     <string name="register_input_password">"输入密码"</string>
     <string name="register_input_nickname">"昵称"</string>
     <string name="register_btn_argee">"注册"</string>
@@ -158,5 +158,6 @@
     <string name="preview">预览</string>
     <string name="msg_no_camera">没有系统相机</string>
     <string name="msg_amount_limit">已经达到最高选择数量</string>
+    <string name="start_chat">发起聊天</string>
 
 </resources>

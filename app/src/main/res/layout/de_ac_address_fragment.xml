@@ -1,28 +1,60 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
-    <io.rong.app.ui.widget.PinnedHeaderListView
-        android:id="@+id/de_ui_friend_list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:fadingEdge="none"
-        android:background="@color/main_backgroud_search"
-        android:fastScrollEnabled="false"
-        android:scrollbars="none" />
+    <EditText
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="搜索"
+        android:singleLine="true"
+        android:textSize="14sp" />
 
-    <io.rong.app.ui.widget.SwitchGroup
-        android:id="@+id/de_ui_friend_message"
-        android:layout_width="25dp"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="8dp"
-        android:paddingTop="10dp"
-        app:orientation1="vertical"
-        app:pinned_item1="@layout/de_item_pinned"
-        app:pinned_item_array1="@array/de_search_letters" />
 
-</RelativeLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/show_no_friend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="暂无好友"
+            android:layout_gravity="center"
+            />
+
+
+
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:divider="@null"></ListView>
+
+        <TextView
+            android:id="@+id/group_dialog"
+            android:layout_width="80.0dip"
+            android:layout_height="80.0dip"
+            android:layout_gravity="center"
+            android:background="@drawable/rc_bg_toast"
+            android:gravity="center"
+            android:textColor="#ffffffff"
+            android:textSize="30.0dip"
+            android:visibility="invisible" />
+
+        <io.rong.app.server.pinyin.SideBar
+            android:id="@+id/sidrbar"
+            android:layout_width="30.0dip"
+            android:layout_height="fill_parent"
+            android:layout_gravity="right|center" />
+
+    </FrameLayout>
+
+</LinearLayout>

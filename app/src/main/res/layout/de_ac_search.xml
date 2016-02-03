@@ -18,7 +18,9 @@
             android:layout_gravity="bottom"
             android:layout_marginBottom="2dp"
             android:layout_marginLeft="12dp"
+            android:hint="请输入11位手机号..."
             android:layout_weight="4"
+            android:inputType="phone"
             android:background="@drawable/rc_ed_public_service_search_selector"
             android:paddingRight="24dp"
             android:singleLine="true"
@@ -39,8 +41,37 @@
     </LinearLayout>
 
 
-    <ListView
-        android:id="@+id/de_search_list"
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/search_result"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/search_header"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="10dp" />
+
+        <TextView
+            android:id="@+id/search_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:textColor="@color/group_list_gray"
+            android:textSize="18sp" />
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/rp_arrow" />
+
+
+    </LinearLayout>
 </LinearLayout>

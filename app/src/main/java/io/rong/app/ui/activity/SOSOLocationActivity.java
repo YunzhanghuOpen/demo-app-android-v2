@@ -32,7 +32,6 @@ import java.util.List;
 
 import io.rong.app.DemoContext;
 import io.rong.app.R;
-import io.rong.imkit.RongIM;
 import io.rong.message.LocationMessage;
 
 /**

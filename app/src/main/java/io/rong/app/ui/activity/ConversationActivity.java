@@ -2,6 +2,7 @@ package io.rong.app.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -88,11 +89,15 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
     private AbstractHttpRequest<Groups> mGetMyGroupsRequest;
     private LoadingDialog mDialog;
 
+    private SharedPreferences sp;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.conversation);
-
+        sp = getSharedPreferences("config",MODE_PRIVATE);
         mDialog = new LoadingDialog(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);
@@ -260,11 +265,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
      */
     private void enterActivity() {
 
-        if (DemoContext.getInstance() == null)
-            return;
-
-        String token = DemoContext.getInstance().getSharedPreferences()
-                .getString(Constants.APP_TOKEN, Constants.DEFAULT);
+        String token = sp.getString("loginToken","");
 
         if (token.equals(Constants.DEFAULT)) {
 
@@ -288,7 +289,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
             public void onSuccess(String s) {
                 Log.i(TAG, "---onSuccess--" + s);
                 if (RongCloudEvent.getInstance() != null)
-                    RongCloudEvent.getInstance().setOtherListener();
+                    RongCloudEvent.getInstance().setConnectedListener();
 
                 if (DemoContext.getInstance() != null)
                     mGetMyGroupsRequest = DemoContext.getInstance().getDemoApi().getMyGroups(ConversationActivity.this);
@@ -345,11 +346,10 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
      * @param targetId
      */
     private void setGroupActionBar(String targetId) {
-        if (targetId == null)
-            return;
-
-        if (DemoContext.getInstance() != null) {
-            getSupportActionBar().setTitle(DemoContext.getInstance().getGroupNameById(targetId));
+        if (!TextUtils.isEmpty(title)) {
+            getSupportActionBar().setTitle(title);
+        }else {
+            getSupportActionBar().setTitle(targetId);
         }
     }
 
@@ -365,7 +365,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                     , targetId, new RongIMClient.ResultCallback<PublicServiceProfile>() {
                 @Override
                 public void onSuccess(PublicServiceProfile publicServiceProfile) {
-                    getSupportActionBar().setTitle(publicServiceProfile.getName().toString());
+                    getSupportActionBar().setTitle(publicServiceProfile.getName());
                 }
 
                 @Override
@@ -461,18 +461,12 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
      * 设置私聊界面 ActionBar
      */
     private void setPrivateActionBar(String targetId) {
-
-        if (DemoContext.getInstance() != null) {
-
-            UserInfos userInfos = DemoContext.getInstance().getUserInfosById(targetId);
-
-            if (userInfos == null) {
-                getSupportActionBar().setTitle("");
-            } else {
-                getSupportActionBar().setTitle(userInfos.getUsername().toString());
-            }
+        if (!TextUtils.isEmpty(title)) {
+            setTitle(title);
+            getSupportActionBar().setTitle(title);
+        } else {
+            getSupportActionBar().setTitle(targetId);
         }
-
     }
 
     @Override

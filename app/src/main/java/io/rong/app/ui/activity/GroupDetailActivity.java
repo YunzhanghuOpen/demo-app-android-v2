@@ -144,10 +144,10 @@ public class GroupDetailActivity extends BaseApiActivity implements View.OnClick
             case R.id.join_group:
                 if (DemoContext.getInstance() != null) {
 
-                    if (mApiResult.getNumber().equals(GroupListFragment.maxGroupList)) {
-                        WinToast.toast(GroupDetailActivity.this, R.string.group_is_full);
-                        return;
-                    }
+//                    if (mApiResult.getNumber().equals(GroupListFragment.maxGroupList)) {
+//                        WinToast.toast(GroupDetailActivity.this, R.string.group_is_full);
+//                        return;
+//                    }
 
                     if (mDialog != null && !mDialog.isShowing())
                         mDialog.show();
@@ -192,7 +192,7 @@ public class GroupDetailActivity extends BaseApiActivity implements View.OnClick
                 final Status status = (Status) obj;
                 if (status.getCode() == 200 && mApiResult != null) {
                     WinToast.toast(this, R.string.group_join_success);
-                    GroupListFragment.setGroupMap(mApiResult, 1);
+//                    GroupListFragment.setGroupMap(mApiResult, 1);
 
                     if (RongIM.getInstance() != null)
                         RongIM.getInstance().getRongIMClient().joinGroup(mApiResult.getId(), mApiResult.getName(), new RongIMClient.OperationCallback() {
@@ -223,7 +223,7 @@ public class GroupDetailActivity extends BaseApiActivity implements View.OnClick
                 final Status status = (Status) obj;
                 if (status.getCode() == 200) {
 //                    WinToast.toast(this, "quit success ");
-                    GroupListFragment.setGroupMap(mApiResult, 0);
+//                    GroupListFragment.setGroupMap(mApiResult, 0);
 
                     Message mess = Message.obtain();
                     mess.what = NO_JOIN;

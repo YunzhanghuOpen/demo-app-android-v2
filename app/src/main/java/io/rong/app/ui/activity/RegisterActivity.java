@@ -1,373 +1,354 @@
 package io.rong.app.ui.activity;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.ActionBar;
+import android.text.Editable;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
+import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.sea_monster.exception.BaseException;
-import com.sea_monster.exception.InternalException;
-import com.sea_monster.network.AbstractHttpRequest;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import io.rong.app.DemoContext;
 import io.rong.app.R;
-import io.rong.app.model.Status;
-import io.rong.app.ui.widget.EditTextHolder;
-import io.rong.app.ui.widget.WinToast;
-import io.rong.app.utils.CommonUtils;
-import io.rong.app.utils.NetUtils;
+import io.rong.app.server.network.http.HttpException;
+import io.rong.app.server.response.CheckPhoneResponse;
+import io.rong.app.server.response.RegisterResponse;
+import io.rong.app.server.response.SendCodeResponse;
+import io.rong.app.server.response.VerifyCodeResponse;
+import io.rong.app.server.utils.AMUtils;
+import io.rong.app.server.utils.NToast;
+import io.rong.app.server.utils.downtime.DownTimer;
+import io.rong.app.server.utils.downtime.DownTimerListener;
+import io.rong.app.server.widget.ClearWriteEditText;
+import io.rong.app.server.widget.LoadDialog;
 
 /**
- * Created by Bob on 2015/2/6.
+ * Created by AMing on 16/1/14.
+ * Company RongCloud
  */
-public class RegisterActivity extends BaseApiActivity implements View.OnClickListener, EditTextHolder.OnEditTextFocusChangeListener, Handler.Callback {
+public class RegisterActivity extends BaseActivity implements View.OnClickListener, DownTimerListener {
 
     private static final String TAG = RegisterActivity.class.getSimpleName();
-    private static final int HANDLER_REGIST_HAS_NO_FOCUS = 1;
-    private static final int HANDLER_REGIST_HAS_FOCUS = 2;
+    private static final int CHECKPHONE = 1;
+    private static final int SENDCODE = 2;
+    private static final int VERIFYCODE = 3;
+    private static final int REGISTER = 4;
+    private static final int REGIST_BACK = 1001;
 
+    private ClearWriteEditText mPhoneEdit, mCodeEdit, mNickEdit, mPasswordEdit;
+
+    private Button mGetCode, mConfirm;
+
+    private String mPhone, mCode, mNickName, mPassword, mCodeToken;
+
+    private boolean isRequestCode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_register);
-
         ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();//隐藏ActionBar
-        mRegistEmail = (EditText) findViewById(R.id.et_register_mail);
-        mRegistPassword = (EditText) findViewById(R.id.et_register_password);
-        mRegistNickName = (EditText) findViewById(R.id.et_register_nickname);
-        mRegisteUserAgreement = (TextView) findViewById(R.id.register_user_agreement);
-        mRegisteButton = (Button) findViewById(R.id.register_agree_button);
-        mRegistReminder = (TextView) findViewById(R.id.de_regist_reminder);
-        mLogoImg = (ImageView) findViewById(R.id.de_logo);
-        mLeftTitle = (TextView) findViewById(R.id.de_left);
-        mRightTitle = (TextView) findViewById(R.id.de_right);
-        mImgBackgroud = (ImageView) findViewById(R.id.de_img_backgroud);
-        mIsShowTitle = (RelativeLayout) findViewById(R.id.de_merge_rel);
-        mEmailDeleteFramelayout = (FrameLayout) findViewById(R.id.et_register_delete);
-        mPasswordDeleteFramelayout = (FrameLayout) findViewById(R.id.et_password_delete);
-        mNickNameDeleteFramelayout = (FrameLayout) findViewById(R.id.et_nickname_delete);
-        mHandler = new Handler(this);
-        mSoftManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        mHandler.post(new Runnable() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);
+        actionBar.setTitle("注册");
+        initView();
+    }
+
+    private void initView() {
+        mPhoneEdit = (ClearWriteEditText) findViewById(R.id.reg_phone);
+        mCodeEdit = (ClearWriteEditText) findViewById(R.id.reg_code);
+        mNickEdit = (ClearWriteEditText) findViewById(R.id.reg_username);
+        mPasswordEdit = (ClearWriteEditText) findViewById(R.id.reg_password);
+        mGetCode = (Button) findViewById(R.id.reg_getcode);
+        mConfirm = (Button) findViewById(R.id.reg_button);
+
+        mGetCode.setOnClickListener(this);
+        mGetCode.setClickable(false);
+        mConfirm.setOnClickListener(this);
+
+        addEditTextListener();
+
+    }
+
+    private void addEditTextListener() {
+        mPhoneEdit.addTextChangedListener(new TextWatcher() {
             @Override
-            public void run() {
-                Animation animation = AnimationUtils.loadAnimation(RegisterActivity.this, R.anim.translate_anim);
-                mImgBackgroud.startAnimation(animation);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() == 11) {
+                    if (AMUtils.isMobile(s.toString().trim())) {
+                        Toast.makeText(mContext, "正则验证通过", Toast.LENGTH_SHORT).show();
+                        mPhone = s.toString().trim();
+                        request(CHECKPHONE, true);
+                        AMUtils.onInactive(mContext, mPhoneEdit);
+                    } else {
+                        Toast.makeText(mContext, "正则验证无效,请检查手机号", Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    mGetCode.setClickable(false);
+                    mGetCode.setBackgroundDrawable(getResources().getDrawable(R.drawable.rs_select_btn_gray));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
-        initData();
-    }
-
-    protected void initData() {
-        mRegisteButton.setOnClickListener(this);
-        mRegisteUserAgreement.setOnClickListener(this);
-        mLeftTitle.setOnClickListener(this);
-        mRightTitle.setOnClickListener(this);
-        mEditUserNameEt = new EditTextHolder(mRegistEmail, mEmailDeleteFramelayout, null);
-        mEditNickNameEt = new EditTextHolder(mRegistNickName, mNickNameDeleteFramelayout, null);
-        mEditPassWordEt = new EditTextHolder(mRegistPassword, mPasswordDeleteFramelayout, null);
-
-        mHandler.postDelayed(new Runnable() {
+        mCodeEdit.addTextChangedListener(new TextWatcher() {
             @Override
-            public void run() {
-                mRegistEmail.setOnClickListener(RegisterActivity.this);
-                mRegistNickName.setOnClickListener(RegisterActivity.this);
-                mRegistPassword.setOnClickListener(RegisterActivity.this);
-                mEditUserNameEt.setmOnEditTextFocusChangeListener(RegisterActivity.this);
-                mEditNickNameEt.setmOnEditTextFocusChangeListener(RegisterActivity.this);
-                mEditPassWordEt.setmOnEditTextFocusChangeListener(RegisterActivity.this);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
-        }, 200);
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() == 4) {
+                    AMUtils.onInactive(mContext, mCodeEdit);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        mPasswordEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 5) {
+                    mConfirm.setClickable(true);
+                    mConfirm.setBackgroundDrawable(getResources().getDrawable(R.drawable.rs_select_btn_blue));
+                } else {
+                    mConfirm.setClickable(false);
+                    mConfirm.setBackgroundDrawable(getResources().getDrawable(R.drawable.rs_select_btn_gray));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
+
     @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        event.getKeyCode();
-        switch (event.getKeyCode()) {
-            case KeyEvent.KEYCODE_BACK:
-            case KeyEvent.KEYCODE_ESCAPE:
-                Message mess = Message.obtain();
-                mess.what = HANDLER_REGIST_HAS_NO_FOCUS;
-                mHandler.sendMessage(mess);
-                break;
+    public Object doInBackground(int requestCode) throws HttpException {
+        switch (requestCode) {
+            case CHECKPHONE:
+                return action.checkPhoneAvailable("86", mPhone);
+            case SENDCODE:
+                return action.sendCode("86", mPhone);
+            case VERIFYCODE:
+                return action.verifyCode("86", mPhone, mCode);
+            case REGISTER:
+                return action.register(mNickName, mPassword, mCodeToken);
         }
-        return super.dispatchKeyEvent(event);
+        return super.doInBackground(requestCode);
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (getCurrentFocus() != null && getCurrentFocus().getWindowToken() != null) {
-                mSoftManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                Message mess = Message.obtain();
-                mess.what = HANDLER_REGIST_HAS_NO_FOCUS;
-                mHandler.sendMessage(mess);
+    public void onSuccess(int requestCode, Object result) {
+        if (result != null) {
+            switch (requestCode) {
+                case CHECKPHONE:
+                    CheckPhoneResponse cprres = (CheckPhoneResponse) result;
+                    if (cprres.getCode() == 200) {
+                        if (cprres.isResult() == true) {
+                            mGetCode.setClickable(true);
+                            mGetCode.setBackgroundDrawable(getResources().getDrawable(R.drawable.rs_select_btn_blue));
+                            Toast.makeText(mContext, "手机号可用", Toast.LENGTH_SHORT).show();
+                        } else {
+                            mGetCode.setClickable(false);
+                            mGetCode.setBackgroundDrawable(getResources().getDrawable(R.drawable.rs_select_btn_gray));
+                            Toast.makeText(mContext, "手机号已被注册", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    break;
+                case SENDCODE:
+                    SendCodeResponse scrres = (SendCodeResponse) result;
+                    if (scrres.getCode() == 200) {
+                        NToast.shortToast(mContext, "短信已发出,请注意查收短信");
+                    } else if (scrres.getCode() == 5000) {
+                        NToast.shortToast(mContext, "短信发送超过频率限制!");
+                    }
+                    break;
+
+                case VERIFYCODE:
+                    VerifyCodeResponse vcres = (VerifyCodeResponse) result;
+                    switch (vcres.getCode()) {
+                        case 200:
+                            mCodeToken = vcres.getResult().getVerification_token();
+                            if (!TextUtils.isEmpty(mCodeToken)) {
+                                request(REGISTER);
+                            } else {
+                                NToast.shortToast(mContext, "code token is null");
+                                LoadDialog.dismiss(mContext);
+                            }
+                            break;
+                        case 1000:
+                            //验证码错误
+                            NToast.shortToast(mContext, "验证码错误");
+                            LoadDialog.dismiss(mContext);
+                            break;
+                        case 2000:
+                            //验证码过期
+                            NToast.shortToast(mContext, "验证码过期请重新请求");
+                            LoadDialog.dismiss(mContext);
+                            break;
+                    }
+                    break;
+
+                case REGISTER:
+                    RegisterResponse rres = (RegisterResponse) result;
+                    switch (rres.getCode()) {
+                        case 200:
+                            LoadDialog.dismiss(mContext);
+                            NToast.shortToast(mContext, "注册成功!");
+                            Intent data = new Intent();
+                            data.putExtra("phone", mPhone);
+                            data.putExtra("password", mPassword);
+                            data.putExtra("nickname", mNickName);
+                            data.putExtra("id", rres.getResult().getId());
+                            setResult(REGIST_BACK, data);
+                            this.finish();
+                            break;
+                        case 400:
+                            // 错误的请求
+                            break;
+                        case 404:
+                            //token 不存在
+                            break;
+                        case 500:
+                            //应用服务端内部错误
+                            break;
+                    }
+                    break;
             }
         }
-        return super.onTouchEvent(event);
     }
 
     @Override
-    public boolean handleMessage(Message msg) {
-
-        switch (msg.what) {
-            case HANDLER_REGIST_HAS_NO_FOCUS:
-                mIsShowTitle.setVisibility(View.GONE);
-                mRegistReminder.setVisibility(View.VISIBLE);
-                mLogoImg.setVisibility(View.VISIBLE);
+    public void onFailure(int requestCode, int state, Object result) {
+        switch (requestCode) {
+            case CHECKPHONE:
+                Toast.makeText(mContext, "手机号可用请求失败", Toast.LENGTH_SHORT).show();
                 break;
-            case HANDLER_REGIST_HAS_FOCUS:
-                mLogoImg.setVisibility(View.GONE);
-                mRegistReminder.setVisibility(View.GONE);
-                mIsShowTitle.setVisibility(View.VISIBLE);
-                mLeftTitle.setText(R.string.app_sign_in);
-                mRightTitle.setText(R.string.app_fogot_password);
+            case SENDCODE:
+                NToast.shortToast(mContext, "获取验证码请求失败");
+                break;
+            case VERIFYCODE:
+                LoadDialog.dismiss(mContext);
+                NToast.shortToast(mContext, "验证码是否可用请求失败");
+                break;
+            case REGISTER:
+                LoadDialog.dismiss(mContext);
+                NToast.shortToast(mContext, "注册请求失败");
                 break;
         }
-
-        return false;
     }
+
+    @Override
+    public android.support.v4.app.FragmentManager getSupportFragmentManager() {
+        return null;
+    }
+
+    private DownTimer downTimer;
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.register_agree_button://注册button
-                String email = mRegistEmail.getText().toString();
-                String password = mRegistPassword.getText().toString();
-                String phone = "123";
-                String nickName = mRegistNickName.getText().toString();
+            case R.id.reg_getcode:
+                if (TextUtils.isEmpty(mPhoneEdit.getText().toString().trim())) {
+                    NToast.longToast(mContext,"手机号不能为空");
+                }else {
+                    isRequestCode = true;
+                    downTimer = new DownTimer();
+                    downTimer.setListener(this);
+                    downTimer.startDown(60 * 1000);
+                    request(SENDCODE);
+                }
+                break;
+            case R.id.reg_button:
+                mPhone = mPhoneEdit.getText().toString().trim();
+                mCode = mCodeEdit.getText().toString().trim();
+                mNickName = mNickEdit.getText().toString().trim();
+                mPassword = mPasswordEdit.getText().toString().trim();
 
-                if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(nickName)) {
-                    WinToast.toast(this, R.string.register_is_null);
+                if (TextUtils.isEmpty(mPhone)) {
+                    NToast.shortToast(mContext, "手机号不能为空");
+                    mPhoneEdit.setShakeAnimation();
                     return;
-                } else if (!CommonUtils.isEmail(email)) {
-                    WinToast.toast(this, R.string.register_email_error);
+                }
+                if (TextUtils.isEmpty(mCode)) {
+                    NToast.shortToast(mContext, "验证码不能为空");
+                    mCodeEdit.setShakeAnimation();
                     return;
                 }
-                if (DemoContext.getInstance() != null)
-                    httpRequest = DemoContext.getInstance().getDemoApi().register(email, nickName, phone, password, this);
-//                fillData(email,password,nickName,phone);
+                if (TextUtils.isEmpty(mPassword)) {
+                    NToast.shortToast(mContext, "密码不能为空");
+                    mPasswordEdit.setShakeAnimation();
+                    return;
+                }
+                if (mPassword.contains(" ")) {
+                    NToast.shortToast(mContext, "密码不能包含空格");
+                    mPasswordEdit.setShakeAnimation();
+                    return;
+                }
+
+
+                if (TextUtils.isEmpty(mNickName)) {
+                    NToast.shortToast(mContext, "昵称不能为空");
+                    mNickEdit.setShakeAnimation();
+                    return;
+                }
+                if (mNickName.contains(" ")) {
+                    NToast.shortToast(mContext, "昵称不包含空格");
+                    mNickEdit.setShakeAnimation();
+                    return;
+                }
+
+                if (!isRequestCode) {
+                    NToast.shortToast(mContext, "未向服务端获取验证码");
+                    return;
+                }
+
+                LoadDialog.show(mContext);
+                request(VERIFYCODE,true);
 
                 break;
-            case R.id.register_user_agreement://用户协议
-
-                break;
-            case R.id.et_register_mail:
-            case R.id.et_register_password:
-            case R.id.et_register_nickname:
-                Message mess = Message.obtain();
-                mess.what = HANDLER_REGIST_HAS_FOCUS;
-                mHandler.sendMessage(mess);
-                break;
-
-            case R.id.de_left://登录
-                startActivity(new Intent(this, LoginActivity.class));
-                finish();
-                break;
-            case R.id.de_right://忘记密码
-                WinToast.toast(this, "忘记密码");
-                break;
-        }
-    }
-
-
-    private void fillData() {
-        new AsyncTask<Void, Void, String>() {
-
-            @Override
-            protected String doInBackground(Void... params) {
-                Map<String, String> requestParameter = new HashMap<String, String>();
-
-                requestParameter.put("", "");
-
-                String result = NetUtils.sendPostRequest("", requestParameter);
-                return result;
-            }
-
-            @Override
-            protected void onPostExecute(String result) {
-                Log.e(TAG, "--------onPostExecute-----+" + result);
-            }
-        }.execute();
-    }
-
-
-    protected void onPause() {
-        super.onPause();
-        if (mSoftManager == null) {
-            mSoftManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        }
-        if (getCurrentFocus() != null) {
-            mSoftManager.hideSoftInputFromWindow(getCurrentFocus()
-                    .getWindowToken(), 0);// 隐藏软键盘
         }
     }
 
     @Override
-    public void onCallApiSuccess(AbstractHttpRequest request, Object obj) {
-        if (httpRequest!=null && httpRequest.equals(request)) {
-
-            if (obj instanceof Status) {
-                Status status = (Status) obj;
-                if (status.getCode() == 200) {
-                    WinToast.toast(this, R.string.register_success);
-
-                    Intent intent = new Intent();
-                    intent.putExtra(LoginActivity.INTENT_IMAIL, mRegistEmail.getText().toString());
-                    intent.putExtra(LoginActivity.INTENT_PASSWORD, mRegistPassword.getText().toString());
-                    setResult(Activity.RESULT_OK, intent);
-                    finish();
-                } else if (status.getCode() == 101) {
-                    WinToast.toast(this, R.string.register_user_exits);
-                } else {
-                    WinToast.toast(this, R.string.register_failure);
-                }
-            }
-        }
+    public void onTick(long millisUntilFinished) {
+        mGetCode.setText("seconds:" + String.valueOf(millisUntilFinished / 1000));
+        mGetCode.setClickable(false);
+        mGetCode.setBackgroundDrawable(getResources().getDrawable(R.drawable.rs_select_btn_gray));
     }
 
     @Override
-    public void onCallApiFailure(AbstractHttpRequest request, BaseException e) {
-
-        if (httpRequest!=null && httpRequest.equals(request)) {
-
-            if (e instanceof InternalException) {
-                InternalException ie = (InternalException) e;
-
-                Log.e(TAG, "--RegisterActivity-:" + ie.getMessage());
-                if (ie.getCode() == 403) {
-                    WinToast.toast(this, R.string.register_user_exits);
-                }
-            }
-        }
-    }
-
-    /**
-     * 本地判断确认密码是否合法
-     *
-     * @return
-     */
-    private boolean isUserPasswordRepeateLegal() {
-        String strRegisterPassWordRepeat = mRegistPassword.getText()
-                .toString();
-        if (TextUtils.isEmpty(strRegisterPassWordRepeat)) {
-            return false;
-        }
-        int lenP = strRegisterPassWordRepeat.length();
-        if (lenP < 6) {
-            return false;
-        }
-        if (!TextUtils.isEmpty(strRegisterPassWordRepeat)
-                && !mRegistPassword.equals(strRegisterPassWordRepeat)) {
-            return false;
-        }
-        return true;
+    public void onFinish() {
+        mGetCode.setText("获取验证码");
+        mGetCode.setClickable(true);
+        mGetCode.setBackgroundDrawable(getResources().getDrawable(R.drawable.rs_select_btn_blue));
     }
 
     @Override
-    public void onEditTextFocusChange(View v, boolean hasFocus) {
-
-        switch (v.getId()) {
-
-            case R.id.et_register_mail:
-            case R.id.et_register_password:
-            case R.id.et_register_nickname:
-                Message mess = Message.obtain();
-                if (hasFocus) {
-                    mess.what = HANDLER_REGIST_HAS_FOCUS;
-                }
-                mHandler.sendMessage(mess);
-                break;
-        }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        finish();
+        return super.onOptionsItemSelected(item);
     }
-
-
-    /**
-     * 注册邮箱
-     */
-    private EditText mRegistEmail;
-    /**
-     * 密码
-     */
-    private EditText mRegistPassword;
-    /**
-     * 昵称
-     */
-    private EditText mRegistNickName;
-    /**
-     * 注册button
-     */
-    private Button mRegisteButton;
-    /**
-     * 用户协议
-     */
-    private TextView mRegisteUserAgreement;
-    /**
-     * 输入邮箱删除按钮
-     */
-    private FrameLayout mEmailDeleteFramelayout;
-    /**
-     * 输入密码删除按钮
-     */
-    private FrameLayout mPasswordDeleteFramelayout;
-    /**
-     * 输入昵称删除按钮
-     */
-    private FrameLayout mNickNameDeleteFramelayout;
-    /**
-     * 提示消息
-     */
-    private TextView mRegistReminder;
-    /**
-     * logo
-     */
-    private ImageView mLogoImg;
-    /**
-     * 左侧title
-     */
-    private TextView mLeftTitle;
-    /**
-     * 右侧title
-     */
-    private TextView mRightTitle;
-    /**
-     * backgroud
-     */
-    private ImageView mImgBackgroud;
-    EditTextHolder mEditUserNameEt;
-    EditTextHolder mEditPassWordEt;
-    EditTextHolder mEditNickNameEt;
-    private Handler mHandler;
-    /**
-     * 软键盘的控制
-     */
-    private InputMethodManager mSoftManager;
-    private AbstractHttpRequest<Status> httpRequest;
-    /**
-     * 是否展示title
-     */
-    private RelativeLayout mIsShowTitle;
 }

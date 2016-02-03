@@ -1,197 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/de_frm_backgroud"
+    <io.rong.app.server.widget.ClearWriteEditText
+        android:id="@+id/reg_phone"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/de_img_backgroud"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="-200dp"
-            android:layout_marginRight="-350dp"
-            android:scaleType="center"
-            android:src="@drawable/de_bg" />
-
-    </FrameLayout>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="40dp"
+        android:drawableLeft="@drawable/ic_phone"
+        android:drawablePadding="5dip"
+        android:hint="输入手机号"
+        android:maxLength="11"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:singleLine="true"
+        android:textColor="@color/de_title_bg" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/de_regist_title"
-            android:layout_width="match_parent"
+
+        <io.rong.app.server.widget.ClearWriteEditText
+            android:id="@+id/reg_code"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:orientation="vertical"
-            android:visibility="visible">
-
-            <TextView
-                android:id="@+id/de_regist_reminder"
-                style="@style/DemoTextStyleMiddle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="19dp"
-                android:text="@string/register_declaration" />
-
-            <ImageView
-                android:id="@+id/de_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/de_btn_login_logo" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
-
-            <include layout="@layout/de_merge_public" />
-
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="22dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="32dp"
-            android:padding="8dp">
-
-            <EditText
-                android:id="@+id/et_register_mail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:background="@drawable/rc_ed_public_service_search_selector"
-                android:gravity="left|center_vertical"
-                android:hint="@string/register_input_email"
-                android:inputType="textEmailAddress"
-                android:singleLine="true"
-                android:textColor="@android:color/white" />
-
-            <FrameLayout
-                android:id="@+id/et_register_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignRight="@+id/et_register_mail"
-                android:layout_centerVertical="true"
-                android:visibility="gone">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:src="@drawable/de_register_delete" />
-            </FrameLayout>
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="22dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="10dp"
-            android:padding="8dp">
-
-            <EditText
-                android:id="@+id/et_register_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:background="@drawable/rc_ed_public_service_search_selector"
-                android:gravity="left|center_vertical"
-                android:hint="@string/register_input_password"
-                android:inputType="textPassword"
-                android:singleLine="true"
-                android:textColor="@android:color/white" />
-
-            <FrameLayout
-                android:id="@+id/et_password_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignRight="@+id/et_register_password"
-                android:layout_centerVertical="true"
-                android:visibility="gone">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:src="@drawable/de_register_delete" />
-            </FrameLayout>
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="22dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="10dp"
-            android:padding="8dp">
-
-            <EditText
-                android:id="@+id/et_register_nickname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:background="@drawable/rc_ed_public_service_search_selector"
-                android:gravity="left|center_vertical"
-                android:hint="@string/register_input_nickname"
-                android:singleLine="true"
-                android:textColor="@android:color/white" />
-
-            <FrameLayout
-                android:id="@+id/et_nickname_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignRight="@+id/et_register_nickname"
-                android:layout_centerVertical="true"
-                android:visibility="gone">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:src="@drawable/de_register_delete" />
-            </FrameLayout>
-        </RelativeLayout>
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="6"
+            android:drawableLeft="@drawable/ic_code"
+            android:drawablePadding="5dip"
+            android:hint="输入验证码"
+            android:inputType="number"
+            android:maxLength="4"
+            android:singleLine="true"
+            android:textColor="@color/de_title_bg" />
 
 
         <Button
-            android:id="@+id/register_agree_button"
-            android:layout_width="match_parent"
+            android:id="@+id/reg_getcode"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="38dp"
-            android:background="@drawable/de_btn_login_sign_in"
-            android:text="@string/register_agree"
-            android:textColor="@color/main_regist"
-            android:textSize="18sp" />
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="4"
+            android:background="@drawable/rs_select_btn_gray"
+            android:clickable="false"
+            android:minHeight="1dp"
+            android:minWidth="1dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="获取验证码"
+            android:textColor="#FFF"
+            android:textSize="12dp" />
 
-        <TextView
-            android:id="@+id/register_user_agreement"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:text="@string/register_user_agreement"
-            android:textColor="@color/main_regist"
-            android:textSize="15sp" />
     </LinearLayout>
 
-</RelativeLayout>
+    <io.rong.app.server.widget.ClearWriteEditText
+        android:id="@+id/reg_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="40dp"
+        android:drawableLeft="@drawable/ic_password"
+        android:drawablePadding="5dip"
+        android:hint="输入密码"
+        android:inputType="textPassword"
+        android:maxLength="16"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:password="true"
+        android:singleLine="true"
+        android:textColor="@color/de_title_bg" />
+
+    <io.rong.app.server.widget.ClearWriteEditText
+        android:id="@+id/reg_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="40dp"
+        android:drawableLeft="@drawable/ic_name"
+        android:drawablePadding="5dip"
+        android:hint="输入昵称"
+        android:inputType="textPersonName"
+        android:maxLength="32"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:singleLine="true"
+        android:textColor="@color/de_title_bg" />
+
+    <Button
+        android:id="@+id/reg_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/rs_select_btn_gray"
+        android:clickable="false"
+        android:text="同意并注册"
+        android:textColor="#FFF" />
+
+</LinearLayout>

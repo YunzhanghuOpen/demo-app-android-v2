@@ -81,6 +81,7 @@
         <!--通讯录-->
         <activity
             android:name=".ui.activity.ContactsActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan"
             android:screenOrientation="portrait"></activity>
 
         <!--我的账号-->
@@ -167,7 +168,12 @@
         <activity android:name=".ui.activity.RealTimeLocationActivity"></activity>
 
         <activity android:name=".ui.activity.NewTextMessageActivity"></activity>
-
+        <!--选择联系人 多人聊天-->
+        <activity android:name=".ui.activity.SelectFriendsActivity"></activity>
+        <activity android:name=".ui.activity.CreateGroupActivity"></activity>
+        <activity android:name=".ui.activity.NewGroupDetailActivity"></activity>
+        <activity android:name=".ui.activity.ChangeGroupInfoActivity"></activity>
+        <activity android:name=".ui.activity.ForgetPasswordActivity"></activity>
         <!--公众-->
         <activity
             android:name=".ui.activity.PublicServiceInfoActivity"
@@ -367,7 +373,7 @@
 
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
-            android:value="z3v5yqkbv8v30" />
+            android:value="p5tvi9dst25b4" />
 
         <!--end rongcloud-->
 

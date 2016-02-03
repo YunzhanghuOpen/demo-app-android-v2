@@ -35,7 +35,7 @@ public class CustomerFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.customer_chat:
                 if (RongIM.getInstance() != null)
-                    RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.APP_PUBLIC_SERVICE, "KEFU144542424649464", "在线客服");
+                    RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.CUSTOMER_SERVICE, "KEFU144595511648939", "在线客服");
                 break;
         }
     }

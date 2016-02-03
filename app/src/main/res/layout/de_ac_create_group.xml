@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_Group_portrait"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            style="@style/DemoTextStyleBigBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="33dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="33dp"
+            android:text="群组头像" />
+
+        <io.rong.imkit.widget.AsyncImageView
+            android:id="@+id/img_Group_portrait"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:padding="5dp"
+            android:src="@drawable/de_ic_my_portrait"
+            app:RCDefDrawable="@drawable/rc_default_portrait"
+            app:RCShape="square" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/group_list_liner" />
+
+    <TextView
+
+        android:id="@+id/create_member"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="15dp"
+        android:text="已邀请成员(9)"
+        android:textColor="@color/group_list_black_textview"
+        android:textSize="16sp" />
+
+    <io.rong.app.server.widget.HorizontalListView
+        android:id="@+id/create_listview"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="2dp"></io.rong.app.server.widget.HorizontalListView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/group_list_liner" />
+
+    <io.rong.app.server.widget.ClearWriteEditText
+        android:id="@+id/create_groupname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:hint="群组昵称(2-32字符)"
+        android:maxLength="32" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/group_list_liner" />
+
+    <Button
+        android:id="@+id/create_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/rs_select_btn_blue"
+        android:text="确认创建"
+        android:textColor="#FFF" />
+
+</LinearLayout>

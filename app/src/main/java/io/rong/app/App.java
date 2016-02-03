@@ -4,18 +4,28 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+
 import io.rong.app.message.AgreedFriendRequestMessage;
 import io.rong.app.message.provider.ContactNotificationMessageProvider;
 import io.rong.app.message.provider.NewDiscussionConversationProvider;
 import io.rong.app.message.provider.RealTimeLocationMessageProvider;
+import io.rong.app.server.utils.NLog;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.ipc.RongExceptionHandler;
+
 
 /**
  * Created by bob on 2015/1/30.
  */
 public class App extends Application {
+
+    private static DisplayImageOptions options;
 
     @Override
     public void onCreate() {
@@ -34,7 +44,7 @@ public class App extends Application {
                 "io.rong.push".equals(getCurProcessName(getApplicationContext()))) {
 
             RongIM.init(this);
-
+            NLog.setDebug(true); //打印参数
             /**
              * 融云SDK事件监听处理
              *
@@ -44,7 +54,6 @@ public class App extends Application {
 
                 RongCloudEvent.init(this);
                 DemoContext.init(this);
-
                 Thread.setDefaultUncaughtExceptionHandler(new RongExceptionHandler(this));
 
                 try {
@@ -59,6 +68,29 @@ public class App extends Application {
                 }
             }
         }
+
+
+        options = new DisplayImageOptions.Builder()
+                .showImageForEmptyUri(R.drawable.de_default_portrait)
+                .showImageOnFail(R.drawable.de_default_portrait)
+                .showImageOnLoading(R.drawable.de_default_portrait)
+                .displayer(new FadeInBitmapDisplayer(300))
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+
+        //初始化图片下载组件
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+                .threadPriority(Thread.NORM_PRIORITY - 2)
+                .denyCacheImageMultipleSizesInMemory()
+                .diskCacheSize(50 * 1024 * 1024)
+                .diskCacheFileCount(200)
+                .diskCacheFileNameGenerator(new Md5FileNameGenerator())
+                .defaultDisplayImageOptions(options)
+                .build();
+
+        //Initialize ImageLoader with configuration.
+        ImageLoader.getInstance().init(config);
     }
 
     public static String getCurProcessName(Context context) {
@@ -75,4 +107,12 @@ public class App extends Application {
     }
 
 
+
+    public static DisplayImageOptions getOptions() {
+        return options;
+    }
+
+    public static void setOptions(DisplayImageOptions options) {
+        App.options = options;
+    }
 }

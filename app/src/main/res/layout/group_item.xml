@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/catalog"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1.0"
+        android:paddingBottom="5dip"
+        android:paddingLeft="5dip"
+        android:paddingTop="5dip"
+        android:background="#33cccccc"
+        android:text="A"
+        android:textColor="#454545" />
+
+
+    <LinearLayout
+        android:id="@+id/groupitem"
+        android:background="@drawable/btn_list_item_bg"
+        android:layout_width="fill_parent"
+        android:layout_height="52dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:id="@+id/groupuri"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginLeft="12dp"
+            android:src="@drawable/rc_default_portrait" />
+
+        <TextView
+            android:id="@+id/groupname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="12dp"
+            android:text="群组一"
+            android:textColor="#353535"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1px"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="#ccc" />
+
+</LinearLayout>

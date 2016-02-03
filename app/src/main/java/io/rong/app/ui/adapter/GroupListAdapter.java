@@ -4,62 +4,51 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import java.util.List;
 
+import io.rong.app.App;
 import io.rong.app.R;
-import io.rong.app.model.ApiResult;
-import io.rong.imlib.model.Group;
-import io.rong.imkit.widget.AsyncImageView ;
-
+import io.rong.app.server.pinyin.Group;
 
 /**
  * Created by Bob on 2015/1/31.
  */
-public class GroupListAdapter extends BaseAdapter  {
-    private static final String TAG = GroupListAdapter.class.getSimpleName();
-    private Context mContext;
-    private LayoutInflater mLayoutInflater;
-    private List<ApiResult> mResults;
-    private ArrayList<View> mViewList;
-    HashMap<String, Group> groupMap;
+public class GroupListAdapter extends android.widget.BaseAdapter implements SectionIndexer{
 
-    OnItemButtonClick mOnItemButtonClick;
+    private Context context;
 
-    public OnItemButtonClick getOnItemButtonClick() {
-        return mOnItemButtonClick;
+    private List<Group> list;
+
+    public GroupListAdapter(Context context) {
+        this.context = context;
     }
 
-    public void setOnItemButtonClick(OnItemButtonClick onItemButtonClick) {
-        this.mOnItemButtonClick = onItemButtonClick;
+    public GroupListAdapter(Context context, List<Group> list) {
+        this.context = context;
+        this.list = list;
     }
 
-
-    public GroupListAdapter(Context context, List<ApiResult> result, HashMap<String, Group> group) {
-
-        this.mResults = result;
-        mLayoutInflater = LayoutInflater.from(context);
-        mContext = context;
-        this.groupMap = group;
-        mViewList = new ArrayList<View>();
-
-
+    /**
+     * 传入新的数据 刷新UI的方法
+     */
+    public void updateListView(List<Group> list) {
+        this.list = list;
+        notifyDataSetChanged();
     }
+
 
     @Override
     public int getCount() {
-        return mResults.size();
-
+        return list.size();
     }
 
     @Override
-    public ApiResult getItem(int position) {
-        return mResults.get(position);
+    public Object getItem(int position) {
+        return list.get(position);
     }
 
     @Override
@@ -68,56 +57,74 @@ public class GroupListAdapter extends BaseAdapter  {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        if (convertView == null || convertView.getTag() == null) {
-            convertView = mLayoutInflater.inflate(R.layout.de_item_group, parent,false);
+        final Group mContent = list.get(position);
+        if (convertView == null) {
             viewHolder = new ViewHolder();
-            viewHolder.mGroupName = (TextView) convertView.findViewById(R.id.group_adaper_name);
-            viewHolder.mGroupCurrentNum = (TextView) convertView.findViewById(R.id.group_current_num);
-            viewHolder.mGroupCurrentSum = (TextView) convertView.findViewById(R.id.group_current_sum);
-            viewHolder.mGroupLastmessge = (TextView) convertView.findViewById(R.id.group_last_mess);
-            viewHolder.mImageView = (AsyncImageView) convertView.findViewById(R.id.group_adapter_img);
-            viewHolder.mSelectButton = (ImageView) convertView.findViewById(R.id.group_select);
+            convertView = LayoutInflater.from(context).inflate(R.layout.group_item, null);
+            viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.groupname);
+            viewHolder.tvLetter = (TextView) convertView.findViewById(R.id.catalog);
+            viewHolder.mImageView = (ImageView) convertView.findViewById(R.id.groupuri);
             convertView.setTag(viewHolder);
         } else {
-            viewHolder= (ViewHolder) convertView.getTag();
-        }
-        if (viewHolder != null) {
-            viewHolder.mSelectButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(mOnItemButtonClick !=null)
-                        mOnItemButtonClick.onButtonClick(position, v);
-                }
-            });
-            viewHolder.mGroupName.setText(mResults.get(position).getName());
-            viewHolder.mGroupCurrentNum.setText(mResults.get(position).getNumber() + "/");
-            viewHolder.mGroupCurrentSum.setText(mResults.get(position).getMax_number());
-            viewHolder.mGroupLastmessge.setText(mResults.get(position).getIntroduce());
-            String groupid = mResults.get(position).getId();
-            if (groupMap != null) {
-                if (groupMap.containsKey(groupid)) {
-                    viewHolder.mSelectButton.setBackgroundResource(R.drawable.de_group_chat_selector);
-                } else {
-                    viewHolder.mSelectButton.setBackgroundResource(R.drawable.de_group_join_selector);
-                }
-            }
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        //根据position获取分类的首字母的Char ascii值
+        int section = getSectionForPosition(position);
+        //如果当前位置等于该分类首字母的Char的位置 ，则认为是第一次出现
+        if (position == getPositionForSection(section)) {
+            viewHolder.tvLetter.setVisibility(View.VISIBLE);
+            viewHolder.tvLetter.setText(mContent.getLetters());
+        } else {
+            viewHolder.tvLetter.setVisibility(View.GONE);
+        }
+        viewHolder.tvTitle.setText(this.list.get(position).getName());
+        ImageLoader.getInstance().displayImage(list.get(position).getPortraitUri(),viewHolder.mImageView, App.getOptions());
         return convertView;
     }
 
-    public interface OnItemButtonClick{
-         boolean onButtonClick(int position, View view);
+    @Override
+    public Object[] getSections() {
+        return new Object[0];
     }
 
-    static class ViewHolder {
-        TextView mGroupName;
-        TextView mGroupCurrentNum;
-        TextView mGroupCurrentSum;
-        TextView mGroupLastmessge;
-        AsyncImageView mImageView;
-        ImageView mSelectButton;
+    @Override
+    public int getPositionForSection(int sectionIndex) {
+        for (int i = 0; i < getCount(); i++) {
+            String sortStr = list.get(i).getLetters();
+            char firstChar = sortStr.toUpperCase().charAt(0);
+            if (firstChar == sectionIndex) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    @Override
+    public int getSectionForPosition(int position) {
+        return list.get(position).getLetters().charAt(0);
+    }
+
+
+    final static class ViewHolder {
+        /**
+         * 首字母
+         */
+        TextView tvLetter;
+        /**
+         * 昵称
+         */
+        TextView tvTitle;
+        /**
+         * 头像
+         */
+        ImageView mImageView;
+        /**
+         * userid
+         */
+//        TextView tvUserId;
     }
 }

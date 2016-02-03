@@ -57,19 +57,19 @@ public class ChatRoomListFragment extends Fragment implements AdapterView.OnItem
             switch (position) {
 
                 case 0:
-                    RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.CHATROOM, "chatroom001", "融云客服");
+//                    RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.CHATROOM, "chatroom001", "融云客服");
                     break;
                 case 1:
-                    RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.CHATROOM, "chatroom002", "Caskia");
+//                    RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.CHATROOM, "chatroom002", "Caskia");
                     break;
                 case 2:
-                    RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.CHATROOM, "chatroom003", "大象设计");
+//                    RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.CHATROOM, "chatroom003", "大象设计");
                     break;
                 case 3:
-                    RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.CHATROOM, "chatroom004", "DaveDing");
+//                    RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.CHATROOM, "chatroom004", "DaveDing");
                     break;
                 case 4:
-                    RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.CHATROOM, "chatroom005", "lovry");
+//                    RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.CHATROOM, "chatroom005", "lovry");
                     break;
             }
         }

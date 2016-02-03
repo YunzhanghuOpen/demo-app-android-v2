@@ -114,7 +114,7 @@ public class ConversationListActivity extends BaseApiActivity {
             public void onSuccess(String s) {
                 Log.i(TAG, "---onSuccess--" + s);
                 if (RongCloudEvent.getInstance() != null)
-                    RongCloudEvent.getInstance().setOtherListener();
+                    RongCloudEvent.getInstance().setConnectedListener();
 
                 if (DemoContext.getInstance() != null)
                     mGetMyGroupsRequest = DemoContext.getInstance().getDemoApi().getMyGroups(ConversationListActivity.this);
