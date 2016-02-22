@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -21,7 +22,9 @@ import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -36,6 +39,7 @@ import io.rong.app.model.RongEvent;
 import io.rong.app.ui.widget.LoadingDialog;
 import io.rong.app.ui.widget.WinToast;
 import io.rong.app.utils.Constants;
+import io.rong.common.RLog;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationFragment;
@@ -43,7 +47,9 @@ import io.rong.imkit.fragment.UriFragment;
 import io.rong.imkit.widget.AlterDialogFragment;
 import io.rong.imkit.widget.provider.InputProvider;
 import io.rong.imkit.widget.provider.TextInputProvider;
+import io.rong.imlib.MessageTag;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.TypingMessage.TypingStatus;
 import io.rong.imlib.location.RealTimeLocationConstant;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Discussion;
@@ -51,6 +57,10 @@ import io.rong.imlib.model.Group;
 import io.rong.imlib.model.PublicServiceProfile;
 import io.rong.imlib.model.UserInfo;
 import io.rong.message.InformationNotificationMessage;
+import io.rong.message.TextMessage;
+import io.rong.message.VoiceMessage;
+
+//import io.rong.imlib.TypingMessage.TypingStatus;
 
 /**
  * Created by Bob on 15/11/3.
@@ -59,7 +69,7 @@ import io.rong.message.InformationNotificationMessage;
  * 2，加载会话页面
  * 3，push 和 通知 判断
  */
-public class ConversationActivity extends BaseApiActivity implements RongIMClient.RealTimeLocationListener {
+public class ConversationActivity extends BaseApiActivity implements RongIMClient.RealTimeLocationListener, Handler.Callback {
 
     private String TAG = ConversationActivity.class.getSimpleName();
     /**
@@ -87,6 +97,15 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
     private RealTimeLocationConstant.RealTimeLocationStatus currentLocationStatus;
     private AbstractHttpRequest<Groups> mGetMyGroupsRequest;
     private LoadingDialog mDialog;
+
+    private final String TextTypingTitle = "对方正在输入...";
+    private final String VoiceTypingTitle = "对方正在讲话...";
+
+    private Handler mHandler;
+
+    public static final int SET_TEXT_TYPING_TITLE = 1;
+    public static final int SET_VOICE_TYPING_TITLE = 2;
+    public static final int SET_TARGETID_TITLE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,8 +146,39 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
         //地理位置共享，若不是用地理位置共享，可忽略
         setRealTime();
 
+
         if ("ConversationActivity".equals(this.getClass().getSimpleName()))
             EventBus.getDefault().register(this);
+
+        mHandler = new Handler(this);
+
+        RongIMClient.setTypingStatusListener(new RongIMClient.TypingStatusListener() {
+            @Override
+            public void onTypingStatusChanged(Conversation.ConversationType type, String targetId, Collection<TypingStatus> typingStatusSet) {
+                //当输入状态的会话类型和targetID与当前会话一致时，才需要显示
+                if (type.equals(mConversationType) && targetId.equals(mTargetId)) {
+                    int count = typingStatusSet.size();
+                    RLog.d(this, "onTypingStatusChanged", "count = " + count);
+                    //count表示当前会话中正在输入的用户数量，目前只支持单聊，所以判断大于0就可以给予显示了
+                    if (count > 0) {
+                        Iterator iterator = typingStatusSet.iterator();
+                        TypingStatus status = (TypingStatus) iterator.next();
+                        String objectName = status.getTypingContentType();
+
+                        MessageTag textTag = TextMessage.class.getAnnotation(MessageTag.class);
+                        MessageTag voiceTag = VoiceMessage.class.getAnnotation(MessageTag.class);
+                        //匹配对方正在输入的是文本消息还是语音消息
+                        if (objectName.equals(textTag.value())) {
+                            mHandler.sendEmptyMessage(SET_TEXT_TYPING_TITLE);
+                        } else if (objectName.equals(voiceTag.value())) {
+                            mHandler.sendEmptyMessage(SET_VOICE_TYPING_TITLE);
+                        }
+                    } else {//当前会话没有用户正在输入，标题栏仍显示原来标题
+                        mHandler.sendEmptyMessage(SET_TARGETID_TITLE);
+                    }
+                }
+            }
+        });
 
     }
 
@@ -365,7 +415,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                     , targetId, new RongIMClient.ResultCallback<PublicServiceProfile>() {
                 @Override
                 public void onSuccess(PublicServiceProfile publicServiceProfile) {
-                    getSupportActionBar().setTitle(publicServiceProfile.getName());
+                    getSupportActionBar().setTitle(publicServiceProfile.getName().toString());
                 }
 
                 @Override
@@ -390,7 +440,8 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                     , targetId, new RongIMClient.ResultCallback<PublicServiceProfile>() {
                 @Override
                 public void onSuccess(PublicServiceProfile publicServiceProfile) {
-                    getSupportActionBar().setTitle(publicServiceProfile.getName());
+                    if (publicServiceProfile != null && publicServiceProfile.getName() != null)
+                        getSupportActionBar().setTitle(publicServiceProfile.getName().toString());
                 }
 
                 @Override
@@ -446,7 +497,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
         if (DemoContext.getInstance() != null) {
 
             for (int i = 0; i < ids.length; i++) {
-                sb.append(DemoContext.getInstance().getUserInfoById(ids[i]).getName());
+                sb.append(DemoContext.getInstance().getUserInfoById(ids[i]).getName().toString());
                 sb.append(",");
             }
 
@@ -469,7 +520,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
             if (userInfos == null) {
                 getSupportActionBar().setTitle("");
             } else {
-                getSupportActionBar().setTitle(userInfos.getUsername());
+                getSupportActionBar().setTitle(userInfos.getUsername().toString());
             }
         }
 
@@ -919,5 +970,22 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
         return false;
     }
 
+    @Override
+    public boolean handleMessage(android.os.Message msg) {
+        switch (msg.what) {
+            case SET_TEXT_TYPING_TITLE:
+                getSupportActionBar().setTitle(TextTypingTitle);
+                break;
+            case SET_VOICE_TYPING_TITLE:
+                getSupportActionBar().setTitle(VoiceTypingTitle);
+                break;
+            case SET_TARGETID_TITLE:
+                setActionBarTitle(mConversationType, mTargetId);
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
 
 }
