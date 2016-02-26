@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="暂无好友"
+        android:textColor="@color/group_list_gray"
         android:visibility="gone" />
 
 

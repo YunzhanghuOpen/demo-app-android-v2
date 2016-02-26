@@ -16,7 +16,6 @@ import java.util.List;
 import io.rong.app.R;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.widget.AsyncImageView;
-import io.rong.imlib.model.Conversation;
 
 /**
  * Created by Administrator on 2015/3/6.

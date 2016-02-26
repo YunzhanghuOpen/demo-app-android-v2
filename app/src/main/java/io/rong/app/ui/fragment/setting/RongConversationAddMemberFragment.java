@@ -1,8 +1,11 @@
 package io.rong.app.ui.fragment.setting;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,6 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.rong.app.R;
+import io.rong.app.server.broadcast.BroadcastManager;
+import io.rong.app.server.utils.NToast;
+import io.rong.app.ui.activity.SelectFriendsActivity;
+import io.rong.app.ui.fragment.SettingFragment;
 import io.rong.app.ui.fragment.setting.adapter.RongConversationAddMemberAdapter;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
@@ -26,7 +33,7 @@ import io.rong.imlib.model.UserInfo;
 /**
  * Created by Bob on 15/7/31.
  */
-public class RongConversationAddMemberFragment extends BaseFragment implements  RongConversationAddMemberAdapter.OnDeleteIconListener, AdapterView.OnItemClickListener {
+public class RongConversationAddMemberFragment extends BaseFragment implements RongConversationAddMemberAdapter.OnDeleteIconListener, AdapterView.OnItemClickListener {
     static final int PREPARE_LIST = 1;
     static final int REMOVE_ITEM = 2;
     static final int SHOW_TOAST = 3;
@@ -63,6 +70,50 @@ public class RongConversationAddMemberFragment extends BaseFragment implements  
         if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
             initData();
         }
+        BroadcastManager.getInstance(getActivity()).addAction(SelectFriendsActivity.DISCUSSIONUPDATE, new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String command = intent.getAction();
+                if (!TextUtils.isEmpty(command)) {
+                    if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
+                        RongIM.getInstance().getRongIMClient().getDiscussion(mTargetId, new RongIMClient.ResultCallback<Discussion>() {
+                            @Override
+                            public void onSuccess(Discussion discussion) {
+                                mIdList.clear();
+                                mIdList = discussion.getMemberIdList();
+                                if (mMembers != null) {
+                                    mMembers.clear();
+                                    for (String s : mIdList) {
+                                        UserInfo userInfo = RongContext.getInstance().getUserInfoFromCache(s);
+                                        if (userInfo == null) {
+                                            mMembers.add(new UserInfo(s, null, null));
+                                        } else
+                                            mMembers.add(userInfo);
+                                    }
+                                    UserInfo addBtn = new UserInfo("RongAddBtn", null, null);
+                                    mMembers.add(addBtn);
+
+                                    String curUserId = RongIM.getInstance().getRongIMClient().getCurrentUserId();
+                                    if (mAdapter.getCreatorId() != null && mConversationType.equals(Conversation.ConversationType.DISCUSSION) && curUserId.equals(mAdapter.getCreatorId())) {
+                                        UserInfo deleteBtn = new UserInfo("RongDelBtn", null, null);
+                                        mMembers.add(deleteBtn);
+                                    }
+
+                                    mAdapter.clear();
+                                    mAdapter.addCollection(mMembers);
+                                    mAdapter.notifyDataSetChanged();
+                                }
+                            }
+
+                            @Override
+                            public void onError(RongIMClient.ErrorCode errorCode) {
+
+                            }
+                        });
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -142,6 +193,7 @@ public class RongConversationAddMemberFragment extends BaseFragment implements  
         }
     }
 
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         UserInfo userInfo = mAdapter.getItem(position);
@@ -161,6 +213,10 @@ public class RongConversationAddMemberFragment extends BaseFragment implements  
 
     @Override
     public void onDeleteIconClick(View view, final int position) {
+        if (mAdapter != null && mAdapter.getCount() <= 2) {
+            NToast.shortToast(getActivity(), "小于两人讨论组不能移除成员");
+            return;
+        }
         UserInfo temp = mAdapter.getItem(position);
         RongIM.getInstance().getRongIMClient().removeMemberFromDiscussion(mTargetId, temp.getUserId(), new RongIMClient.OperationCallback() {
             @Override
@@ -210,7 +266,7 @@ public class RongConversationAddMemberFragment extends BaseFragment implements  
                 mAdapter.notifyDataSetChanged();
                 break;
             case REMOVE_ITEM:
-                int position =  (Integer) msg.obj;
+                int position = (Integer) msg.obj;
                 mAdapter.remove(position);
                 mAdapter.notifyDataSetChanged();
                 break;
@@ -228,6 +284,12 @@ public class RongConversationAddMemberFragment extends BaseFragment implements  
     @Override
     public void onRestoreUI() {
         initData();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        BroadcastManager.getInstance(getActivity()).destroy(SelectFriendsActivity.DISCUSSIONUPDATE);
     }
 
 }

@@ -14,11 +14,14 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import io.rong.app.R;
+import io.rong.app.server.utils.NToast;
 import io.rong.app.ui.activity.FriendListActivity;
 import io.rong.app.ui.activity.MainActivity;
+import io.rong.app.ui.activity.SelectFriendsActivity;
 import io.rong.app.ui.activity.UpdateDiscussionActivity;
 import io.rong.app.utils.Constants;
 import io.rong.imkit.RongContext;
@@ -32,6 +35,7 @@ import io.rong.imlib.model.Discussion;
  * Created by Bob on 2015/3/27.
  */
 public class SettingFragment extends DispatchResultFragment implements View.OnClickListener {
+    public static final int STARTADDDISCUSSIONMEMBER = 23;
     private String TAG = SettingFragment.class.getSimpleName();
     private String targetId;
     private Conversation.ConversationType mConversationType;
@@ -71,14 +75,31 @@ public class SettingFragment extends DispatchResultFragment implements View.OnCl
 
             RongContext.getInstance().setOnMemberSelectListener(new RongIM.OnSelectMemberListener() {
                 @Override
-                public void startSelectMember(Context context, Conversation.ConversationType conversationType, String id) {
+                public void startSelectMember(Context context, Conversation.ConversationType conversationType, final String id) {
                     mConversationType = Conversation.ConversationType.valueOf(getActivity().getIntent().getData().getLastPathSegment().toUpperCase(Locale.getDefault()));
+                    //TODO 先获取成员再开启设置界面  代码未编写
+                    if (mConversationType == Conversation.ConversationType.DISCUSSION && RongIM.getInstance() != null) {
+                        RongIM.getInstance().getRongIMClient().getDiscussion(id, new RongIMClient.ResultCallback<Discussion>() {
+                            @Override
+                            public void onSuccess(Discussion discussion) {
+                                Intent in = new Intent(getActivity(), SelectFriendsActivity.class);
+                                in.putStringArrayListExtra("DISCUSSIONMEMBER", (ArrayList<String>) discussion.getMemberIdList());
+                                in.putExtra("DEMO_FRIEND_TARGETID", id);
+                                in.putExtra("CONVERSATION_DISCUSSION", true);
+                                startActivityForResult(in, STARTADDDISCUSSIONMEMBER);
+                            }
 
-                    Intent in = new Intent(getActivity(), FriendListActivity.class);
-                    in.putExtra("DEMO_FRIEND_TARGETID", id);
-                    in.putExtra("DEMO_FRIEND_CONVERSATTIONTYPE", conversationType.toString());
-                    in.putExtra("DEMO_FRIEND_ISTRUE", true);
-                    startActivityForResult(in, 22);
+                            @Override
+                            public void onError(RongIMClient.ErrorCode errorCode) {
+
+                            }
+                        });
+                    } else {
+                        Intent in = new Intent(getActivity(), SelectFriendsActivity.class);
+                        in.putExtra("DEMO_FRIEND_TARGETID", id);
+                        in.putExtra("CONVERSATION_PRIVATE", true);
+                        startActivityForResult(in, 22);
+                    }
                 }
             });
         }
@@ -130,6 +151,8 @@ public class SettingFragment extends DispatchResultFragment implements View.OnCl
 
     }
 
+
+
     @Override
     public boolean handleMessage(Message msg) {
         return false;
@@ -138,8 +161,7 @@ public class SettingFragment extends DispatchResultFragment implements View.OnCl
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.de_fr_delete:
-
+            case R.id.de_fr_delete: //删除并退出讨论组
                 if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null)
                     RongIM.getInstance().getRongIMClient().quitDiscussion(targetId, new RongIMClient.OperationCallback() {
                         @Override

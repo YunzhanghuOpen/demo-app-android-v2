@@ -40,11 +40,8 @@ import io.rong.app.R;
 import io.rong.app.RongCloudEvent;
 import io.rong.app.db.DBManager;
 import io.rong.app.db.Friend;
-import io.rong.app.db.Group;
-import io.rong.app.db.Qun;
 import io.rong.app.server.broadcast.BroadcastManager;
 import io.rong.app.server.network.http.HttpException;
-import io.rong.app.server.response.GetGroupResponse;
 import io.rong.app.server.response.UserRelationshipResponse;
 import io.rong.app.server.utils.NToast;
 import io.rong.app.ui.adapter.ConversationListAdapterEx;
@@ -117,8 +114,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mViewPager.setOffscreenPageLimit(4);
         mViewPager.setOnPageChangeListener(this);
         initAMData();
-        initRedDotListener();
         initData();
+        initRedDotListener();
     }
 
     private void initRedDotListener() {
@@ -129,8 +126,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 if (!TextUtils.isEmpty(command)) {
                     if (mMenu != null) {
                         mMenu.getItem(0).setIcon(getResources().getDrawable(R.drawable.de_ic_add_hasmessage));
-                        mMenu.getItem(0).getSubMenu().getItem(1).setIcon(getResources().getDrawable(R.drawable.de_btn_main_contacts_select));
-                        supportInvalidateOptionsMenu();
+                        mMenu.getItem(0).getSubMenu().getItem(2).setIcon(getResources().getDrawable(R.drawable.de_btn_main_contacts_select));
                     }
                 }
             }
@@ -526,10 +522,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         inflater.inflate(R.menu.de_main_menu, menu);
         if (hasNewFriends) {
             mMenu.getItem(0).setIcon(getResources().getDrawable(R.drawable.de_ic_add_hasmessage));
-            mMenu.getItem(0).getSubMenu().getItem(1).setIcon(getResources().getDrawable(R.drawable.de_btn_main_contacts_select));
+            mMenu.getItem(0).getSubMenu().getItem(2).setIcon(getResources().getDrawable(R.drawable.de_btn_main_contacts_select));
         } else {
             mMenu.getItem(0).setIcon(getResources().getDrawable(R.drawable.de_ic_add));
-            mMenu.getItem(0).getSubMenu().getItem(1).setIcon(getResources().getDrawable(R.drawable.de_btn_main_contacts));
+            mMenu.getItem(0).getSubMenu().getItem(2).setIcon(getResources().getDrawable(R.drawable.de_btn_main_contacts));
         }
 
         return true;
@@ -552,7 +548,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case R.id.add_item3://通讯录
                 startActivity(new Intent(MainActivity.this, ContactsActivity.class));
-                mMenu.getItem(0).getSubMenu().getItem(1).setIcon(getResources().getDrawable(R.drawable.de_btn_main_contacts));
+                mMenu.getItem(0).getSubMenu().getItem(2).setIcon(getResources().getDrawable(R.drawable.de_btn_main_contacts));
                 break;
             case R.id.set_item1://我的账号
                 startActivity(new Intent(MainActivity.this, MyAccountActivity.class));

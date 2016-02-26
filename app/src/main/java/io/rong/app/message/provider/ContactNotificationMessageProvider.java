@@ -13,6 +13,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import io.rong.app.R;
+import io.rong.app.server.network.http.HttpException;
+import io.rong.app.server.response.ContactNotificationMessageData;
+import io.rong.app.server.utils.json.JsonMananger;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.model.ConversationKey;
@@ -34,19 +37,41 @@ public class ContactNotificationMessageProvider extends IContainerItemProvider.M
     @Override
     public void bindView(View v, int position, ContactNotificationMessage content, UIMessage message) {
         ViewHolder viewHolder = (ViewHolder) v.getTag();
-
         if (content != null) {
-            if (!TextUtils.isEmpty(content.getMessage()))
-                viewHolder.contentTextView.setText(content.getMessage());
+            if (!TextUtils.isEmpty(content.getExtra())) {
+                ContactNotificationMessageData bean = null;
+                try {
+                    bean = JsonMananger.jsonToBean(content.getExtra(), ContactNotificationMessageData.class);
+                } catch (HttpException e) {
+                    e.printStackTrace();
+                }
+                if (content.getOperation().equals("AcceptResponse")) {
+                    viewHolder.contentTextView.setText(bean.getSourceUserNickname() + "已同意你的好友请求");
+                }
+                if (content.getOperation().equals("Request")) {
+                    viewHolder.contentTextView.setText(content.getMessage());
+                }
+            }
         }
 
 
     }
 
+
     @Override
     public Spannable getContentSummary(ContactNotificationMessage data) {
-        if (data != null && !TextUtils.isEmpty(data.getMessage()))
+        if (data != null && !TextUtils.isEmpty(data.getExtra())) {
+            ContactNotificationMessageData bean = null;
+            try {
+                bean = JsonMananger.jsonToBean(data.getExtra(), ContactNotificationMessageData.class);
+            } catch (HttpException e) {
+                e.printStackTrace();
+            }
+            if (data.getOperation().equals("AcceptResponse")) {
+                return new SpannableString(bean.getSourceUserNickname() + "已同意你的好友请求");
+            }
             return new SpannableString(data.getMessage());
+        }
         return null;
     }
 

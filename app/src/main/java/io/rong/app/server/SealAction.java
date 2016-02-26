@@ -15,6 +15,7 @@ import io.rong.app.server.request.AgreeFriendsRequest;
 import io.rong.app.server.request.ChangePasswordRequest;
 import io.rong.app.server.request.CheckPhoneRequest;
 import io.rong.app.server.request.CreateGroupRequest;
+import io.rong.app.server.request.DeleteFriendRequest;
 import io.rong.app.server.request.DeleteGroupMemberRequest;
 import io.rong.app.server.request.DismissGroupRequest;
 import io.rong.app.server.request.FriendInvitationRequest;
@@ -23,6 +24,7 @@ import io.rong.app.server.request.QuitGroupRequest;
 import io.rong.app.server.request.RegisterRequest;
 import io.rong.app.server.request.RestPasswordRequest;
 import io.rong.app.server.request.SendCodeRequest;
+import io.rong.app.server.request.SetFriendDisplayNameRequest;
 import io.rong.app.server.request.SetGroupDisplayNameRequest;
 import io.rong.app.server.request.SetGroupNameRequest;
 import io.rong.app.server.request.SetGroupPortraitRequest;
@@ -34,6 +36,7 @@ import io.rong.app.server.response.AgreeFriendsResponse;
 import io.rong.app.server.response.ChangePasswordResponse;
 import io.rong.app.server.response.CheckPhoneResponse;
 import io.rong.app.server.response.CreateGroupResponse;
+import io.rong.app.server.response.DeleteFriendResponse;
 import io.rong.app.server.response.DeleteGroupMemberResponse;
 import io.rong.app.server.response.DismissGroupResponse;
 import io.rong.app.server.response.FriendInvitationResponse;
@@ -48,6 +51,7 @@ import io.rong.app.server.response.QuitGroupResponse;
 import io.rong.app.server.response.RegisterResponse;
 import io.rong.app.server.response.RestPasswordResponse;
 import io.rong.app.server.response.SendCodeResponse;
+import io.rong.app.server.response.SetFriendDisplayNameResponse;
 import io.rong.app.server.response.SetGroupDisplayNameResponse;
 import io.rong.app.server.response.SetGroupPortraitResponse;
 import io.rong.app.server.response.SetNameResponse;
@@ -321,13 +325,13 @@ public class SealAction extends BaseAction {
      * 通过手机验证码重置密码
      *
      * @param password         密码，6 到 20 个字节，不能包含空格
-     * @param activation_token 调用 /user/verify_code 成功后返回的 activation_token
+     * @param verification_token 调用 /user/verify_code 成功后返回的 activation_token
      * @return
      * @throws HttpException
      */
-    public RestPasswordResponse restPassword(String password, String activation_token) throws HttpException {
+    public RestPasswordResponse restPassword(String password, String verification_token) throws HttpException {
         String uri = getURL("user/reset_password");
-        String json = JsonMananger.beanToJson(new RestPasswordRequest(password, activation_token));
+        String json = JsonMananger.beanToJson(new RestPasswordRequest(password, verification_token));
         StringEntity entity = null;
         try {
             entity = new StringEntity(json, ENCODING);
@@ -683,6 +687,7 @@ public class SealAction extends BaseAction {
 
     /**
      * 修改自己的当前的群昵称
+     *
      * @param groupId
      * @param displayName
      * @return
@@ -702,6 +707,55 @@ public class SealAction extends BaseAction {
         SetGroupDisplayNameResponse response = null;
         if (!TextUtils.isEmpty(result)) {
             response = jsonToBean(result, SetGroupDisplayNameResponse.class);
+        }
+        return response;
+    }
+
+    /**
+     * 删除好友  未测试
+     * @param friendId
+     * @return
+     * @throws HttpException
+     */
+    public DeleteFriendResponse deleteFriend(String friendId) throws HttpException {
+        String url = getURL("friendship/delete");
+        String json = JsonMananger.beanToJson(new DeleteFriendRequest(friendId));
+        StringEntity entity = null;
+        try {
+            entity = new StringEntity(json, ENCODING);
+            entity.setContentType(CONTENTTYPE);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String result = httpManager.post(mContext, url, entity, CONTENTTYPE);
+        DeleteFriendResponse response = null;
+        if (!TextUtils.isEmpty(result)) {
+            response = jsonToBean(result, DeleteFriendResponse.class);
+        }
+        return response;
+    }
+
+    /**
+     * 设置好友的备注名称 未测试
+     * @param friendId
+     * @param displayName
+     * @return
+     * @throws HttpException
+     */
+    public SetFriendDisplayNameResponse setFriendDisplayName(String friendId, String displayName)throws HttpException{
+        String url = getURL("friendship/set_display_name");
+        String json = JsonMananger.beanToJson(new SetFriendDisplayNameRequest(friendId,displayName));
+        StringEntity entity = null;
+        try {
+            entity = new StringEntity(json, ENCODING);
+            entity.setContentType(CONTENTTYPE);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String result = httpManager.post(mContext, url, entity, CONTENTTYPE);
+        SetFriendDisplayNameResponse response = null;
+        if (!TextUtils.isEmpty(result)) {
+            response = jsonToBean(result, SetFriendDisplayNameResponse.class);
         }
         return response;
     }

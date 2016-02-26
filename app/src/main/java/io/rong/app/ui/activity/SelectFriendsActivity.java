@@ -3,7 +3,6 @@ package io.rong.app.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,6 +30,7 @@ import java.util.Map;
 import io.rong.app.App;
 import io.rong.app.R;
 import io.rong.app.db.DBManager;
+import io.rong.app.server.broadcast.BroadcastManager;
 import io.rong.app.server.network.http.HttpException;
 import io.rong.app.server.pinyin.CharacterParser;
 import io.rong.app.server.pinyin.Friend;
@@ -55,6 +55,7 @@ public class SelectFriendsActivity extends BaseActivity {
 
     private static final int ADDGROUPMEMBER = 21;
     private static final int DELEGROUPMEMBER = 23;
+    public static final java.lang.String DISCUSSIONUPDATE = "DISCUSSIONUPDATE";
     /**
      * 好友列表的 ListView
      */
@@ -89,23 +90,39 @@ public class SelectFriendsActivity extends BaseActivity {
     private List<Friend> sourceDataList = new ArrayList<>();
 
     private boolean isCrateGroup;
+    private boolean isConversationActivityStartDiscussion;
+    private boolean isConversationActivityStartPrivate;
 
     private List<GetGroupMemberResponse.ResultEntity> addGroupMemberList;
     private List<GetGroupMemberResponse.ResultEntity> deleteGroupMemberList;
     private String groupId;
     private String deleGroupId;
+    private String conversationStartId;
+    private String conversationStartType = "null";
+    private ArrayList<String> discListMember;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_start_disc);
         isCrateGroup = getIntent().getBooleanExtra("createGroup", false);
+        isConversationActivityStartDiscussion = getIntent().getBooleanExtra("CONVERSATION_DISCUSSION", false);
+        isConversationActivityStartPrivate = getIntent().getBooleanExtra("CONVERSATION_PRIVATE", false);
         addGroupMemberList = (List<GetGroupMemberResponse.ResultEntity>) getIntent().getSerializableExtra("AddGroupMember");
         groupId = getIntent().getStringExtra("GroupId");
         deleteGroupMemberList = (List<GetGroupMemberResponse.ResultEntity>) getIntent().getSerializableExtra("DeleteGroupMember");
         deleGroupId = getIntent().getStringExtra("DeleteGroupId");
 
-        if (deleteGroupMemberList != null) {
+        if (isConversationActivityStartPrivate) {
+            conversationStartType = "PRIVATE";
+            conversationStartId = getIntent().getStringExtra("DEMO_FRIEND_TARGETID");
+            getSupportActionBar().setTitle("选择讨论组成员");
+        } else if (isConversationActivityStartDiscussion) {
+            conversationStartType = "DISCUSSION";
+            conversationStartId = getIntent().getStringExtra("DEMO_FRIEND_TARGETID");
+            discListMember = getIntent().getStringArrayListExtra("DISCUSSIONMEMBER");
+            getSupportActionBar().setTitle("选择讨论组成员");
+        } else if (deleteGroupMemberList != null) {
             getSupportActionBar().setTitle("移除群组成员");
         } else if (addGroupMemberList != null) {
             getSupportActionBar().setTitle("增加群组成员");
@@ -119,12 +136,29 @@ public class SelectFriendsActivity extends BaseActivity {
         initView();
         initData();
 
+
         if (addGroupMemberList != null && addGroupMemberList.size() > 0) {
             for (GetGroupMemberResponse.ResultEntity g : addGroupMemberList) {
                 for (int i = 0; i < sourceDataList.size(); i++) {
                     if (sourceDataList.get(i).getUserId().contains(g.getUser().getId())) {
                         sourceDataList.remove(sourceDataList.get(i));
                     }
+                }
+            }
+        } else if (conversationStartType.equals("DISCUSSION")) {
+            if (discListMember != null && discListMember.size() > 1) {
+                for (String s : discListMember) {
+                    for (int i = 0; i < sourceDataList.size(); i++) {
+                        if (sourceDataList.get(i).getUserId().contains(s)) {
+                            sourceDataList.remove(sourceDataList.get(i));
+                        }
+                    }
+                }
+            }
+        } else if (conversationStartType.equals("PRIVATE")) {
+            for (int i = 0; i < sourceDataList.size(); i++) {
+                if (sourceDataList.get(i).getUserId().contains(conversationStartId)) {
+                    sourceDataList.remove(sourceDataList.get(i));
                 }
             }
         }
@@ -182,7 +216,6 @@ public class SelectFriendsActivity extends BaseActivity {
             sourceDataList = filledData(dataLsit); //过滤数据为有字母的字段  现在有字母 别的数据没有
         } else {
             mNoFriends.setVisibility(View.VISIBLE);
-            NToast.shortToast(mContext, "暂无好友数据");
         }
 
         //还原除了带字母字段的其他数据
@@ -433,7 +466,40 @@ public class SelectFriendsActivity extends BaseActivity {
                         createGroupList.add(sourceDataList.get(i));
                     }
                 }
-                if (deleteGroupMemberList != null && startDisList != null && sourceDataList.size() > 0) {
+
+                if (isConversationActivityStartDiscussion) {
+                    if (RongIM.getInstance() != null) {
+                        RongIM.getInstance().getRongIMClient().addMemberToDiscussion(conversationStartId, startDisList, new RongIMClient.OperationCallback() {
+                            @Override
+                            public void onSuccess() {
+                                NToast.shortToast(SelectFriendsActivity.this, "添加成功");
+                                //TODO 数据没有刷新  io/rong/app/ui/fragment/setting/RongConversationAddMemberFragment.java  onActivityResult
+                                BroadcastManager.getInstance(mContext).sendBroadcast(DISCUSSIONUPDATE);
+                                finish();
+                            }
+
+                            @Override
+                            public void onError(RongIMClient.ErrorCode errorCode) {
+
+                            }
+                        });
+                    }
+                } else if (isConversationActivityStartPrivate) {
+                    if (RongIM.getInstance() != null) { // 没有被调用 二人讨论组时候
+                        RongIM.getInstance().getRongIMClient().addMemberToDiscussion(conversationStartId, startDisList, new RongIMClient.OperationCallback() {
+                            @Override
+                            public void onSuccess() {
+                                NToast.shortToast(SelectFriendsActivity.this, "增加成功");
+                                finish();
+                            }
+
+                            @Override
+                            public void onError(RongIMClient.ErrorCode errorCode) {
+
+                            }
+                        });
+                    }
+                } else if (deleteGroupMemberList != null && startDisList != null && sourceDataList.size() > 0) {
                     DialogWithYesOrNoUtils.getInstance().showDialog(mContext, "确认移除以下群成员?", new DialogWithYesOrNoUtils.DialogCallBack() {
 
                         @Override
@@ -536,6 +602,7 @@ public class SelectFriendsActivity extends BaseActivity {
         return mFriendList;
 
     }
+
 
     @Override
     protected void onDestroy() {

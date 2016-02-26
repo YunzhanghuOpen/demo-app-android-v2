@@ -14,7 +14,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import io.rong.app.App;
 import io.rong.app.R;
-import io.rong.app.model.IFilterModel;
 import io.rong.app.server.network.http.HttpException;
 import io.rong.app.server.response.FriendInvitationResponse;
 import io.rong.app.server.response.GetUserInfoByPhoneResponse;

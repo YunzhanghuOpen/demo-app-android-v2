@@ -12,12 +12,14 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import io.rong.app.message.AgreedFriendRequestMessage;
 import io.rong.app.message.provider.ContactNotificationMessageProvider;
+import io.rong.app.message.provider.GroupNotificationMessageProvider;
 import io.rong.app.message.provider.NewDiscussionConversationProvider;
 import io.rong.app.message.provider.RealTimeLocationMessageProvider;
 import io.rong.app.server.utils.NLog;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.ipc.RongExceptionHandler;
+import io.rong.message.GroupNotificationMessage;
 
 
 /**
@@ -58,9 +60,10 @@ public class App extends Application {
 
                 try {
                     RongIM.registerMessageType(AgreedFriendRequestMessage.class);
-
+                    RongIM.registerMessageType(GroupNotificationMessage.class);
                     RongIM.registerMessageTemplate(new ContactNotificationMessageProvider());
                     RongIM.registerMessageTemplate(new RealTimeLocationMessageProvider());
+                    RongIM.registerMessageTemplate(new GroupNotificationMessageProvider());
                     //@ 消息模板展示
                     RongContext.getInstance().registerConversationTemplate(new NewDiscussionConversationProvider());
                 } catch (Exception e) {
@@ -112,7 +115,4 @@ public class App extends Application {
         return options;
     }
 
-    public static void setOptions(DisplayImageOptions options) {
-        App.options = options;
-    }
 }

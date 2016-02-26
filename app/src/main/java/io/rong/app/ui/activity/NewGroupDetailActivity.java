@@ -20,11 +20,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.io.Serializable;
 import java.util.List;
 
-import de.greenrobot.dao.query.QueryBuilder;
 import io.rong.app.App;
 import io.rong.app.R;
 import io.rong.app.RongCloudEvent;
-import io.rong.app.database.QunDao;
 import io.rong.app.db.DBManager;
 import io.rong.app.db.Qun;
 import io.rong.app.server.broadcast.BroadcastManager;

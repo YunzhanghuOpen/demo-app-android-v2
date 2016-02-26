@@ -1,7 +1,5 @@
 package io.rong.app.model;
 
-import io.rong.imlib.model.MessageContent;
-
 /**
  * Created by zhjchen on 8/12/15.
  */

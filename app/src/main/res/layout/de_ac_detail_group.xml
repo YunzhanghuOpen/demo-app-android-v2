@@ -109,7 +109,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:text="开起群组会话"
+                    android:text="开启群组会话"
                     android:textSize="16dp" />
 
                 <ImageView

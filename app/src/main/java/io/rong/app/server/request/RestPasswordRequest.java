@@ -7,28 +7,32 @@ package io.rong.app.server.request;
  */
 public class RestPasswordRequest{
 
+    /**
+     * password : asdfas
+     * verification_token : 548646a0-b5f1-11e5-b5ab-433619959d67
+     */
+
     private String password;
+    private String verification_token;
 
-    private String activation_token;
-
-    public RestPasswordRequest(String password, String activation_token) {
+    public void setPassword(String password) {
         this.password = password;
-        this.activation_token = activation_token;
+    }
+
+    public RestPasswordRequest(String password, String verification_token) {
+        this.password = password;
+        this.verification_token = verification_token;
+    }
+
+    public void setVerification_token(String verification_token) {
+        this.verification_token = verification_token;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getActivation_token() {
-        return activation_token;
-    }
-
-    public void setActivation_token(String activation_token) {
-        this.activation_token = activation_token;
+    public String getVerification_token() {
+        return verification_token;
     }
 }

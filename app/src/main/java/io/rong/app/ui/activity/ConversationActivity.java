@@ -31,7 +31,6 @@ import io.rong.app.DemoApi;
 import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.app.RongCloudEvent;
-import io.rong.app.database.UserInfos;
 import io.rong.app.model.Groups;
 import io.rong.app.model.RongEvent;
 import io.rong.app.ui.widget.LoadingDialog;

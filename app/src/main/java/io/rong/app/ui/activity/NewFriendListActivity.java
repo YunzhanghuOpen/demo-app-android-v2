@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+
 import io.rong.app.R;
 import io.rong.app.RongCloudEvent;
 import io.rong.app.db.DBManager;
@@ -48,6 +49,7 @@ public class NewFriendListActivity extends BaseActivity implements NewFriendList
     private SharedPreferences sp;
 
     private SharedPreferences.Editor editor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,9 +101,7 @@ public class NewFriendListActivity extends BaseActivity implements NewFriendList
                     urres = (UserRelationshipResponse) result;
 
                     if (urres.getResult().size() == 0) {
-                        //TODO 展示无数据
                         isData.setVisibility(View.VISIBLE);
-                        NToast.shortToast(mContext, "暂无数据");
                         LoadDialog.dismiss(mContext);
                         return;
                     }

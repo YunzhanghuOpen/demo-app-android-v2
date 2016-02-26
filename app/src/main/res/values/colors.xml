@@ -17,7 +17,6 @@
     <!--actionbar-->
     <color name="de_actionbar_bg">#0195ff</color>
     <!---->
-    <color name="de_item_select">#f3f3f3</color>
     <color name="de_action_color">#3498DB</color>
     <color name="de_action_white">@android:color/white</color>
     <color name="de_transparent">#00000000</color>

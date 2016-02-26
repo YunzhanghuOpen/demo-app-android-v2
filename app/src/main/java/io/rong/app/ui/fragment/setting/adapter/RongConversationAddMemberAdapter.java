@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sea_monster.resource.Resource;
 
+import io.rong.app.App;
 import io.rong.app.R;
 import io.rong.app.ui.adapter.BaseAdapter;
 import io.rong.imkit.widget.AsyncImageView;
@@ -26,7 +28,7 @@ public class RongConversationAddMemberAdapter extends BaseAdapter<UserInfo> {
     private OnDeleteIconListener mDeleteIconListener;
 
     class ViewHolder {
-        AsyncImageView mMemberIcon;
+        ImageView mMemberIcon;
         TextView mMemberName;
         ImageView mDeleteIcon;
         ImageView mMemberDeIcon;
@@ -55,7 +57,7 @@ public class RongConversationAddMemberAdapter extends BaseAdapter<UserInfo> {
     }
 
     @Override
-    protected void bindView(View v, final int position, UserInfo data) {
+    protected void bindView(View v, final int position, final UserInfo data) {
         ViewHolder holder = (ViewHolder) v.getTag();
 
         if (data.getUserId().equals("RongAddBtn") || data.getUserId().equals("RongDelBtn")) {
@@ -71,9 +73,10 @@ public class RongConversationAddMemberAdapter extends BaseAdapter<UserInfo> {
         } else {
             holder.mMemberIcon.setVisibility(View.VISIBLE);
             holder.mMemberDeIcon.setVisibility(View.GONE);
-            holder.mMemberIcon.setDefaultDrawable(v.getContext().getResources().getDrawable(R.drawable.de_default_portrait));
+//            holder.mMemberIcon.setDefaultDrawable(v.getContext().getResources().getDrawable(R.drawable.de_default_portrait));
             if (data.getPortraitUri() != null)
-                holder.mMemberIcon.setResource(new Resource(data.getPortraitUri()));
+//                holder.mMemberIcon.setResource(new Resource(data.getPortraitUri()));
+            ImageLoader.getInstance().displayImage(String.valueOf(data.getPortraitUri()), holder.mMemberIcon, App.getOptions());
 
             if (data.getName() != null)
                 holder.mMemberName.setText(data.getName());

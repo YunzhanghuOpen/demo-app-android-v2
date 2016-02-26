@@ -18,7 +18,6 @@ import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.model.ProviderTag;
 import io.rong.imkit.model.UIMessage;
-import io.rong.imkit.util.AndroidEmoji;
 import io.rong.imkit.widget.ArraysDialogFragment;
 import io.rong.imkit.widget.provider.IContainerItemProvider;
 import io.rong.imlib.location.message.RealTimeLocationStartMessage;

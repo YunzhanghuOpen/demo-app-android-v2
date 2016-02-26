@@ -23,22 +23,26 @@ import java.util.List;
 import io.rong.app.R;
 import io.rong.app.RongCloudEvent;
 import io.rong.app.db.DBManager;
-import io.rong.app.db.FriendDao;
 import io.rong.app.server.broadcast.BroadcastManager;
+import io.rong.app.server.network.http.HttpException;
 import io.rong.app.server.pinyin.CharacterParser;
 import io.rong.app.server.pinyin.Friend;
 import io.rong.app.server.pinyin.PinyinComparator;
 import io.rong.app.server.pinyin.SideBar;
+import io.rong.app.server.response.DeleteFriendResponse;
 import io.rong.app.server.utils.NToast;
+import io.rong.app.server.widget.DialogWithYesOrNoUtils;
+import io.rong.app.server.widget.LoadDialog;
 import io.rong.app.ui.adapter.FriendAdapter;
 import io.rong.imkit.RongIM;
+import io.rong.imlib.model.Conversation;
 
 /**
  * Created by Administrator on 2015/3/26.
  */
 public class ContactsActivity extends BaseActivity implements View.OnClickListener {
 
-    private String TAG = ContactsActivity.class.getSimpleName();
+    private static final int DELETEFRIEND = 40;
 
     private EditText mSearch;
 
@@ -47,7 +51,6 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     private List<Friend> dataLsit = new ArrayList<>();
 
     private List<Friend> sourceDataList = new ArrayList<>();
-
 
     /**
      * 好友列表的 adapter
@@ -75,6 +78,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
 
     private TextView mNoFriends;
     private TextView unread;
+    private String deleteId;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -90,7 +94,6 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
             sourceDataList = filledData(dataLsit); //过滤数据为有字母的字段  现在有字母 别的数据没有
         } else {
             mNoFriends.setVisibility(View.VISIBLE);
-            NToast.shortToast(mContext, "暂无好友数据");
         }
 
         //还原除了带字母字段的其他数据
@@ -107,7 +110,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         infalter = LayoutInflater.from(this);
         View headView = infalter.inflate(R.layout.item_contact_list_header,
                 null);
-        unread = (TextView)headView.findViewById(R.id.tv_unread);
+        unread = (TextView) headView.findViewById(R.id.tv_unread);
         RelativeLayout re_newfriends = (RelativeLayout) headView.findViewById(R.id.re_newfriends);
         re_newfriends.setOnClickListener(this);
         adapter = new FriendAdapter(this, sourceDataList);
@@ -122,6 +125,35 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                         RongIM.getInstance().startPrivateChat(mContext, bean.getUserId(), bean.getName());
                     }
                 }
+            }
+        });
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                DialogWithYesOrNoUtils.getInstance().showDialog(mContext, "确定删除该好友?", new DialogWithYesOrNoUtils.DialogCallBack() {
+                    @Override
+                    public void exectEvent() {
+                        if (position != 0) {
+                            Friend deleteBean = sourceDataList.get(position - 1);
+                            if (deleteBean != null) {
+                                deleteId = deleteBean.getUserId();
+                            }
+                            LoadDialog.show(mContext);
+                            request(DELETEFRIEND);
+                        }
+                    }
+
+                    @Override
+                    public void exectEditEvent(String editText) {
+
+                    }
+
+                    @Override
+                    public void updatePassword(String oldPassword, String newPassword) {
+
+                    }
+                });
+                return true;
             }
         });
         mSearch.addTextChangedListener(new TextWatcher() {
@@ -144,6 +176,47 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         refreshUIListener();
     }
 
+    @Override
+    public Object doInBackground(int requestCode) throws HttpException {
+        switch (requestCode) {
+            case DELETEFRIEND:
+                return action.deleteFriend(deleteId);
+        }
+        return super.doInBackground(requestCode);
+    }
+
+    @Override
+    public void onSuccess(int requestCode, Object result) {
+        if (result != null) {
+            switch (requestCode) {
+                case DELETEFRIEND:
+                    DeleteFriendResponse response = (DeleteFriendResponse) result;
+                    if (response.getCode() == 200) {
+                        //服务端已经删除 删本地数据 和 更新 UI
+                        DBManager.getInstance(mContext).getDaoSession().getFriendDao().delete(new io.rong.app.db.Friend(deleteId)); //此行数据有效 更新UI无效
+                        if (RongIM.getInstance() != null) {
+                            RongIM.getInstance().getRongIMClient().removeConversation(Conversation.ConversationType.PRIVATE, deleteId);
+                            RongIM.getInstance().getRongIMClient().clearMessages(Conversation.ConversationType.PRIVATE, deleteId);
+                        }
+                        //TODO UI 刷新不及时  服务端好友状态被删除后  对方没有更新 服务端接口目前有问题
+                                updateUI();
+                        LoadDialog.dismiss(mContext);
+                        NToast.shortToast(mContext, "删除成功");
+                    }
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void onFailure(int requestCode, int state, Object result) {
+        switch (requestCode) {
+            case DELETEFRIEND:
+                NToast.shortToast(mContext, "删除好友请求失败");
+                break;
+        }
+    }
+
     private void initData() {
         List<io.rong.app.db.Friend> list = DBManager.getInstance(mContext).getDaoSession().getFriendDao().loadAll();
         if (list != null && list.size() > 0) {
@@ -162,7 +235,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         mListView = (ListView) findViewById(R.id.listview);
         mNoFriends = (TextView) findViewById(R.id.show_no_friend);
         mSidBar = (SideBar) findViewById(R.id.sidrbar);
-        dialog = (TextView) findViewById(R.id.dialog);
+        dialog = (TextView) findViewById(R.id.group_dialog);
         mSidBar.setTextView(dialog);
         //设置右侧触摸监听
         mSidBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
@@ -267,39 +340,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
             public void onReceive(Context context, Intent intent) {
                 String command = intent.getAction();
                 if (!TextUtils.isEmpty(command)) {
-                    List<io.rong.app.db.Friend> list = DBManager.getInstance(mContext).getDaoSession().getFriendDao().loadAll();
-                    if (list != null && list.size() > 0) {
-                        if (dataLsit!= null ) {
-                            dataLsit.clear();
-                        }
-                        if (sourceDataList != null) {
-                            sourceDataList.clear();
-                        }
-                        for (io.rong.app.db.Friend friend : list) {
-                            dataLsit.add(new Friend(friend.getUserId(), friend.getName(), friend.getPortraitUri()));
-                        }
-
-                    }
-                    if (dataLsit != null && dataLsit.size() > 0) {
-                        sourceDataList = filledData(dataLsit); //过滤数据为有字母的字段  现在有字母 别的数据没有
-                    } else {
-                        mNoFriends.setVisibility(View.VISIBLE);
-                        NToast.shortToast(mContext, "暂无好友数据");
-                    }
-
-                    //还原除了带字母字段的其他数据
-                    for (int i = 0; i < dataLsit.size(); i++) {
-                        sourceDataList.get(i).setName(dataLsit.get(i).getName());
-                        sourceDataList.get(i).setUserId(dataLsit.get(i).getUserId());
-                        sourceDataList.get(i).setPortraitUri(dataLsit.get(i).getPortraitUri());
-                        sourceDataList.get(i).setDisplayName(dataLsit.get(i).getDisplayName());
-                    }
-
-                    // 根据a-z进行排序源数据
-                    Collections.sort(sourceDataList, pinyinComparator);
-                    adapter.updateListView(sourceDataList);
-
-
+                    updateUI();
                 }
             }
         });
@@ -321,5 +362,39 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         super.onDestroy();
         BroadcastManager.getInstance(mContext).destroy(RongCloudEvent.UPDATEFRIEND);
         BroadcastManager.getInstance(mContext).destroy(RongCloudEvent.UPDATEREDDOT);
+    }
+
+
+    private void updateUI() {
+        List<io.rong.app.db.Friend> list = DBManager.getInstance(mContext).getDaoSession().getFriendDao().loadAll();
+        if (list != null) {
+            if (dataLsit != null) {
+                dataLsit.clear();
+            }
+            if (sourceDataList != null) {
+                sourceDataList.clear();
+            }
+            for (io.rong.app.db.Friend friend : list) {
+                dataLsit.add(new Friend(friend.getUserId(), friend.getName(), friend.getPortraitUri()));
+            }
+
+        }
+        if (dataLsit != null) {
+            sourceDataList = filledData(dataLsit); //过滤数据为有字母的字段  现在有字母 别的数据没有
+        } else {
+            mNoFriends.setVisibility(View.VISIBLE);
+        }
+
+        //还原除了带字母字段的其他数据
+        for (int i = 0; i < dataLsit.size(); i++) {
+            sourceDataList.get(i).setName(dataLsit.get(i).getName());
+            sourceDataList.get(i).setUserId(dataLsit.get(i).getUserId());
+            sourceDataList.get(i).setPortraitUri(dataLsit.get(i).getPortraitUri());
+            sourceDataList.get(i).setDisplayName(dataLsit.get(i).getDisplayName());
+        }
+
+        // 根据a-z进行排序源数据
+        Collections.sort(sourceDataList, pinyinComparator);
+        adapter.updateListView(sourceDataList);
     }
 }

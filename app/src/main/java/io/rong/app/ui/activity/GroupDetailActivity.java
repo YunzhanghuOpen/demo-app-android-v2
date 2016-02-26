@@ -20,7 +20,6 @@ import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.app.model.ApiResult;
 import io.rong.app.model.Status;
-import io.rong.app.ui.fragment.GroupListFragment;
 import io.rong.app.ui.widget.LoadingDialog;
 import io.rong.app.ui.widget.WinToast;
 import io.rong.app.utils.Constants;

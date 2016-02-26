@@ -42,10 +42,6 @@ import io.rong.app.ui.activity.NewGroupDetailActivity;
 public class GroupListFragment extends Fragment {
     private static final int REFRESHGROUPUI = 22;
 
-//    private List<io.rong.app.server.pinyin.Group> dataLsit = new ArrayList<>();
-//
-//    private List<io.rong.app.server.pinyin.Group> sourceDataList = new ArrayList<>();
-
     private ListView mGroupListView;
 
 //    private GroupListAdapter mGroupListAdapter;
@@ -60,6 +56,7 @@ public class GroupListFragment extends Fragment {
         mGroupListView = (ListView) view.findViewById(R.id.group_listview);
         mNoGroups = (TextView) view.findViewById(R.id.show_no_group);
         initData();
+        refreshUIListener();
         initNetUpdateUI();
         return view;
     }
@@ -95,10 +92,8 @@ public class GroupListFragment extends Fragment {
                                         public void run() {
                                             List<Qun> list = DBManager.getInstance(getActivity()).getDaoSession().getQunDao().loadAll();
                                                 if (adapter != null) {
-                                                    NLog.e("----","----1解散群");
                                                     adapter.updateListView(list);
                                                 }else {
-                                                    NLog.e("----","----2解散群");
                                                     GroupAdapter gAdapter = new GroupAdapter(getActivity(),list);
                                                     mGroupListView.setAdapter(gAdapter);
                                                 }
@@ -125,6 +120,7 @@ public class GroupListFragment extends Fragment {
         if (list != null && list.size() > 0) {
             adapter = new GroupAdapter(getActivity(), list);
             mGroupListView.setAdapter(adapter);
+            mNoGroups.setVisibility(View.GONE);
             mGroupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -136,7 +132,7 @@ public class GroupListFragment extends Fragment {
         } else {
             mNoGroups.setVisibility(View.VISIBLE);
         }
-        refreshUIListener();
+
     }
 
     private void refreshUIListener() {
@@ -145,19 +141,7 @@ public class GroupListFragment extends Fragment {
             public void onReceive(Context context, Intent intent) {
                 String command = intent.getAction();
                 if (!TextUtils.isEmpty(command)) {
-                    List<Qun> list = DBManager.getInstance(getActivity()).getDaoSession().getQunDao().loadAll();
-                    if (list != null && list.size() > 0) {
-                        if (adapter != null) {
-                            NLog.e("----","----1增加群");
-                            adapter.updateListView(list);
-                        }else {
-                            GroupAdapter gAdapter = new GroupAdapter(getActivity(),list);
-                            mGroupListView.setAdapter(gAdapter);
-                            NLog.e("----", "----2增加群");
-                        }
-                    } else {
-                        mNoGroups.setVisibility(View.VISIBLE);
-                    }
+                    initData();
                 }
             }
         });

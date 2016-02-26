@@ -22,6 +22,7 @@ import io.rong.app.R;
 import io.rong.app.RongCloudEvent;
 import io.rong.app.db.DBManager;
 import io.rong.app.db.Qun;
+import io.rong.app.server.network.async.AsyncTaskManager;
 import io.rong.app.server.network.http.HttpException;
 import io.rong.app.server.response.GetGroupResponse;
 import io.rong.app.server.response.GetTokenResponse;
@@ -52,7 +53,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private Button mConfirm;
 
-    private TextView mRegist ,forgetPassword;
+    private TextView mRegist, forgetPassword;
 
     private String phoneString, passwordString, loginToken, connectResultId;
 
@@ -163,7 +164,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 startActivityForResult(new Intent(this, RegisterActivity.class), 1);
                 break;
             case R.id.de_login_forgot:
-                startActivityForResult(new Intent(this,ForgetPasswordActivity.class),2);
+                startActivityForResult(new Intent(this, ForgetPasswordActivity.class), 2);
                 break;
         }
     }
@@ -171,7 +172,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data != null) {
+        if (requestCode == 2 && data != null) { //TODO 服务端不在 目前还未测试通过
+            String phone = data.getStringExtra("phone");
+            String password = data.getStringExtra("password");
+            mPhoneEdit.setText(phone);
+            mPasswordEdit.setText(password);
+        } else if (data != null && requestCode == 1) {
             String phone = data.getStringExtra("phone");
             String password = data.getStringExtra("password");
             String id = data.getStringExtra("id");
@@ -290,7 +296,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         if (list.size() > 0 && list != null) { //服务端上也没有群组数据
                             for (GetGroupResponse.ResultEntity g : list) {
                                 DBManager.getInstance(mContext).getDaoSession().getQunDao().insertOrReplace(
-                                        new Qun(g.getGroup().getId(), g.getGroup().getName(), g.getGroup().getPortraitUri(),String.valueOf(g.getRole()))
+                                        new Qun(g.getGroup().getId(), g.getGroup().getName(), g.getGroup().getPortraitUri(), String.valueOf(g.getRole()))
                                 );
                             }
                         }
@@ -306,6 +312,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void onFailure(int requestCode, int state, Object result) {
+        if (state == AsyncTaskManager.HTTP_NULL_CODE || state == AsyncTaskManager.HTTP_ERROR_CODE) {
+            LoadDialog.dismiss(mContext);
+            NToast.shortToast(mContext,"当前网络不可用");
+            return;
+        }
         switch (requestCode) {
             case LOGIN:
                 LoadDialog.dismiss(mContext);
