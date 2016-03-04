@@ -29,7 +29,7 @@ import io.rong.message.GroupNotificationMessage;
  * Created by AMing on 16/2/18.
  * Company RongCloud
  */
-@ProviderTag(messageContent = GroupNotificationMessage.class, showPortrait = false, centerInHorizontal = true, showProgress = false)
+@ProviderTag(messageContent = GroupNotificationMessage.class, showPortrait = false, centerInHorizontal = true, showProgress = false, showSummaryWithName = false)
 public class GroupNotificationMessageProvider extends IContainerItemProvider.MessageProvider<GroupNotificationMessage> implements OnDataListener {
 
     @Override

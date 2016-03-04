@@ -35,7 +35,9 @@ import io.rong.app.server.widget.ClearWriteEditText;
 import io.rong.app.server.widget.LoadDialog;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
+import io.rong.message.RichContentMessage;
 
 /**
  * Created by AMing on 16/1/15.

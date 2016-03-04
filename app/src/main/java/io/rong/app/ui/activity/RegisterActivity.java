@@ -2,13 +2,18 @@ package io.rong.app.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import io.rong.app.R;
@@ -30,12 +35,14 @@ import io.rong.app.server.widget.LoadDialog;
  */
 public class RegisterActivity extends BaseActivity implements View.OnClickListener, DownTimerListener {
 
-    private static final String TAG = RegisterActivity.class.getSimpleName();
     private static final int CHECKPHONE = 1;
     private static final int SENDCODE = 2;
     private static final int VERIFYCODE = 3;
     private static final int REGISTER = 4;
     private static final int REGIST_BACK = 1001;
+    private ImageView mImgBackgroud;
+
+    private TextView goLogin , goForget;
 
     private ClearWriteEditText mPhoneEdit, mCodeEdit, mNickEdit, mPasswordEdit;
 
@@ -50,9 +57,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_register);
         ActionBar actionBar = getSupportActionBar();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);
-        actionBar.setTitle("注册");
+        actionBar.hide();
         initView();
     }
 
@@ -67,6 +72,20 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         mGetCode.setOnClickListener(this);
         mGetCode.setClickable(false);
         mConfirm.setOnClickListener(this);
+
+        goLogin = (TextView) findViewById(R.id.reg_login);
+        goForget = (TextView) findViewById(R.id.reg_forget);
+        goLogin.setOnClickListener(this);
+        goForget.setOnClickListener(this);
+
+        mImgBackgroud = (ImageView) findViewById(R.id.rg_img_backgroud);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Animation animation = AnimationUtils.loadAnimation(RegisterActivity.this, R.anim.translate_anim);
+                mImgBackgroud.startAnimation(animation);
+            }
+        }, 200);
 
         addEditTextListener();
 
@@ -270,6 +289,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.reg_login:
+                startActivity(new Intent(this,LoginActivity.class));
+                break;
+            case R.id.reg_forget:
+                startActivity(new Intent(this,ForgetPasswordActivity.class));
+                break;
             case R.id.reg_getcode:
                 if (TextUtils.isEmpty(mPhoneEdit.getText().toString().trim())) {
                     NToast.longToast(mContext,"手机号不能为空");
@@ -286,6 +311,18 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 mCode = mCodeEdit.getText().toString().trim();
                 mNickName = mNickEdit.getText().toString().trim();
                 mPassword = mPasswordEdit.getText().toString().trim();
+
+
+                if (TextUtils.isEmpty(mNickName)) {
+                    NToast.shortToast(mContext, "昵称不能为空");
+                    mNickEdit.setShakeAnimation();
+                    return;
+                }
+                if (mNickName.contains(" ")) {
+                    NToast.shortToast(mContext, "昵称不包含空格");
+                    mNickEdit.setShakeAnimation();
+                    return;
+                }
 
                 if (TextUtils.isEmpty(mPhone)) {
                     NToast.shortToast(mContext, "手机号不能为空");
@@ -305,18 +342,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 if (mPassword.contains(" ")) {
                     NToast.shortToast(mContext, "密码不能包含空格");
                     mPasswordEdit.setShakeAnimation();
-                    return;
-                }
-
-
-                if (TextUtils.isEmpty(mNickName)) {
-                    NToast.shortToast(mContext, "昵称不能为空");
-                    mNickEdit.setShakeAnimation();
-                    return;
-                }
-                if (mNickName.contains(" ")) {
-                    NToast.shortToast(mContext, "昵称不包含空格");
-                    mNickEdit.setShakeAnimation();
                     return;
                 }
 

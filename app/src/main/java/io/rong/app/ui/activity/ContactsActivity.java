@@ -30,6 +30,7 @@ import io.rong.app.server.pinyin.Friend;
 import io.rong.app.server.pinyin.PinyinComparator;
 import io.rong.app.server.pinyin.SideBar;
 import io.rong.app.server.response.DeleteFriendResponse;
+import io.rong.app.server.utils.NLog;
 import io.rong.app.server.utils.NToast;
 import io.rong.app.server.widget.DialogWithYesOrNoUtils;
 import io.rong.app.server.widget.LoadDialog;

@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -59,7 +60,7 @@ import io.rong.message.InformationNotificationMessage;
  * 2，加载会话页面
  * 3，push 和 通知 判断
  */
-public class ConversationActivity extends BaseApiActivity implements RongIMClient.RealTimeLocationListener {
+public class ConversationActivity extends BaseApiActivity implements RongIMClient.RealTimeLocationListener{
 
     private String TAG = ConversationActivity.class.getSimpleName();
     /**
@@ -911,6 +912,5 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
         }
         return false;
     }
-
 
 }

@@ -10,7 +10,6 @@ import io.rong.app.message.AgreedFriendRequestMessage;
 import io.rong.app.server.broadcast.BroadcastManager;
 import io.rong.app.server.network.http.HttpException;
 import io.rong.app.server.response.ContactNotificationMessageData;
-import io.rong.app.server.response.GroupNotificationMessageData;
 import io.rong.app.server.utils.NLog;
 import io.rong.app.server.utils.json.JsonMananger;
 import io.rong.app.ui.activity.NewFriendListActivity;
@@ -104,7 +103,7 @@ public class RongCloudEvent implements RongIM.ConversationListBehaviorListener, 
         RongIM.setConversationListBehaviorListener(this);
         RongIM.setUserInfoProvider(this, true);
         RongIM.setGroupInfoProvider(this, true);
-        RongIM.setGroupUserInfoProvider(this, true);
+//        RongIM.setGroupUserInfoProvider(this, true);
     }
 
     /**
@@ -185,6 +184,16 @@ public class RongCloudEvent implements RongIM.ConversationListBehaviorListener, 
                 BroadcastManager.getInstance(mContext).sendBroadcast(RongCloudEvent.UPDATEREDDOT);
             }else if (contactNotificationMessage.getOperation().equals("AcceptResponse")) {
                 //对方同意我的好友请求
+                ContactNotificationMessageData c = null;
+                try {
+                     c = JsonMananger.jsonToBean(contactNotificationMessage.getExtra(),ContactNotificationMessageData.class);
+                } catch (HttpException e) {
+                    e.printStackTrace();
+                }
+                if (c != null) {
+                    //TODO web 端返回数据没有头像
+                    DBManager.getInstance(mContext).getDaoSession().getFriendDao().insertOrReplace(new Friend(contactNotificationMessage.getSourceUserId(),c.getSourceUserNickname(),null,null,null,null));
+                }
                 BroadcastManager.getInstance(mContext).sendBroadcast(UPDATEFRIEND);
                 BroadcastManager.getInstance(mContext).sendBroadcast(RongCloudEvent.UPDATEREDDOT);
             }
@@ -215,9 +224,9 @@ public class RongCloudEvent implements RongIM.ConversationListBehaviorListener, 
             } else if (groupNotificationMessage.getOperation().equals("Add")) {
                 //TODO 被添加到群组
             } else if (groupNotificationMessage.getOperation().equals("Quit")) {
-                //TODO 群中有用户退出群组 或者 当前用户自行退出群组？
+                //TODO 群中有用户退出群组
             } else if (groupNotificationMessage.getOperation().equals("Rename")) {
-                //TODO 群组中有用户改名 或者 当前用户自己改名 还是群主更改群昵称？
+                //TODO 群组中有用户改名 或者 当前用户自己改名
             }
 
             BroadcastManager.getInstance(mContext).sendBroadcast(RongCloudEvent.NETUPDATEGROUP);
@@ -238,7 +247,7 @@ public class RongCloudEvent implements RongIM.ConversationListBehaviorListener, 
 
     @Override
     public GroupUserInfo getGroupUserInfo(String groupId, String userId) {
-        //TODO 服务端查询
-        return null;
+        //TODO 服务端查询 , 有 bug 暂时注释此提供者
+        return GroupUserInfoEngine.getInstance(mContext).startEngine(groupId,userId);
     }
 }

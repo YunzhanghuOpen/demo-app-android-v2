@@ -11,6 +11,7 @@ import java.util.List;
 
 import io.rong.app.server.network.http.HttpException;
 import io.rong.app.server.request.AddGroupMemberRequest;
+import io.rong.app.server.request.AddToBlackListRequest;
 import io.rong.app.server.request.AgreeFriendsRequest;
 import io.rong.app.server.request.ChangePasswordRequest;
 import io.rong.app.server.request.CheckPhoneRequest;
@@ -22,6 +23,7 @@ import io.rong.app.server.request.FriendInvitationRequest;
 import io.rong.app.server.request.LoginRequest;
 import io.rong.app.server.request.QuitGroupRequest;
 import io.rong.app.server.request.RegisterRequest;
+import io.rong.app.server.request.RemoveFromBlacklistRequest;
 import io.rong.app.server.request.RestPasswordRequest;
 import io.rong.app.server.request.SendCodeRequest;
 import io.rong.app.server.request.SetFriendDisplayNameRequest;
@@ -32,6 +34,7 @@ import io.rong.app.server.request.SetNameRequest;
 import io.rong.app.server.request.SetPortraitRequest;
 import io.rong.app.server.request.VerifyCodeRequest;
 import io.rong.app.server.response.AddGroupMemberResponse;
+import io.rong.app.server.response.AddToBlackListResponse;
 import io.rong.app.server.response.AgreeFriendsResponse;
 import io.rong.app.server.response.ChangePasswordResponse;
 import io.rong.app.server.response.CheckPhoneResponse;
@@ -40,6 +43,7 @@ import io.rong.app.server.response.DeleteFriendResponse;
 import io.rong.app.server.response.DeleteGroupMemberResponse;
 import io.rong.app.server.response.DismissGroupResponse;
 import io.rong.app.server.response.FriendInvitationResponse;
+import io.rong.app.server.response.GetBlackListResponse;
 import io.rong.app.server.response.GetGroupInfoResponse;
 import io.rong.app.server.response.GetGroupMemberResponse;
 import io.rong.app.server.response.GetGroupResponse;
@@ -49,6 +53,7 @@ import io.rong.app.server.response.GetUserInfoByPhoneResponse;
 import io.rong.app.server.response.LoginResponse;
 import io.rong.app.server.response.QuitGroupResponse;
 import io.rong.app.server.response.RegisterResponse;
+import io.rong.app.server.response.RemoveFromBlackListResponse;
 import io.rong.app.server.response.RestPasswordResponse;
 import io.rong.app.server.response.SendCodeResponse;
 import io.rong.app.server.response.SetFriendDisplayNameResponse;
@@ -61,6 +66,7 @@ import io.rong.app.server.response.VerifyCodeResponse;
 import io.rong.app.server.response.SetGroupNameResponse;
 import io.rong.app.server.utils.NLog;
 import io.rong.app.server.utils.json.JsonMananger;
+import io.rong.imkit.model.Event;
 
 /**
  * Created by AMing on 16/1/14.
@@ -324,7 +330,7 @@ public class SealAction extends BaseAction {
     /**
      * 通过手机验证码重置密码
      *
-     * @param password         密码，6 到 20 个字节，不能包含空格
+     * @param password           密码，6 到 20 个字节，不能包含空格
      * @param verification_token 调用 /user/verify_code 成功后返回的 activation_token
      * @return
      * @throws HttpException
@@ -713,6 +719,7 @@ public class SealAction extends BaseAction {
 
     /**
      * 删除好友  未测试
+     *
      * @param friendId
      * @return
      * @throws HttpException
@@ -737,14 +744,15 @@ public class SealAction extends BaseAction {
 
     /**
      * 设置好友的备注名称 未测试
+     *
      * @param friendId
      * @param displayName
      * @return
      * @throws HttpException
      */
-    public SetFriendDisplayNameResponse setFriendDisplayName(String friendId, String displayName)throws HttpException{
+    public SetFriendDisplayNameResponse setFriendDisplayName(String friendId, String displayName) throws HttpException {
         String url = getURL("friendship/set_display_name");
-        String json = JsonMananger.beanToJson(new SetFriendDisplayNameRequest(friendId,displayName));
+        String json = JsonMananger.beanToJson(new SetFriendDisplayNameRequest(friendId, displayName));
         StringEntity entity = null;
         try {
             entity = new StringEntity(json, ENCODING);
@@ -756,6 +764,72 @@ public class SealAction extends BaseAction {
         SetFriendDisplayNameResponse response = null;
         if (!TextUtils.isEmpty(result)) {
             response = jsonToBean(result, SetFriendDisplayNameResponse.class);
+        }
+        return response;
+    }
+
+    /**
+     * 获取黑名单
+     *
+     * @return
+     * @throws HttpException
+     */
+    public GetBlackListResponse getBlackList() throws HttpException {
+        String url = getURL("user/blacklist");
+        String result = httpManager.get(mContext, url);
+        GetBlackListResponse response = null;
+        if (!TextUtils.isEmpty(result)) {
+            response = jsonToBean(result, GetBlackListResponse.class);
+        }
+        return response;
+    }
+
+    /**
+     * 加入黑名单
+     *
+     * @param friendId
+     * @return
+     * @throws HttpException
+     */
+    public AddToBlackListResponse addToBlackList(String friendId) throws HttpException {
+        String url = getURL("user/add_to_blacklist");
+        String json = JsonMananger.beanToJson(new AddToBlackListRequest(friendId));
+        StringEntity entity = null;
+        try {
+            entity = new StringEntity(json, ENCODING);
+            entity.setContentType(CONTENTTYPE);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String result = httpManager.post(mContext, url, entity, CONTENTTYPE);
+        AddToBlackListResponse response = null;
+        if (!TextUtils.isEmpty(result)) {
+            response = jsonToBean(result, AddToBlackListResponse.class);
+        }
+        return response;
+    }
+
+    /**
+     * 移除黑名单
+     *
+     * @param friendId
+     * @return
+     * @throws HttpException
+     */
+    public RemoveFromBlackListResponse removeFromBlackList(String friendId) throws HttpException {
+        String url = getURL("user/remove_from_blacklist");
+        String json = JsonMananger.beanToJson(new RemoveFromBlacklistRequest(friendId));
+        StringEntity entity = null;
+        try {
+            entity = new StringEntity(json, ENCODING);
+            entity.setContentType(CONTENTTYPE);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String result = httpManager.post(mContext, url, entity, CONTENTTYPE);
+        RemoveFromBlackListResponse response = null;
+        if (!TextUtils.isEmpty(result)) {
+            response = jsonToBean(result, RemoveFromBlackListResponse.class);
         }
         return response;
     }

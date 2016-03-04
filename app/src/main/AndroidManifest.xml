@@ -48,6 +48,7 @@
         <activity
             android:name=".ui.activity.LoginActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -72,6 +73,7 @@
         </activity>
         <!--注册页面-->
         <activity
+            android:launchMode="singleTask"
             android:name=".ui.activity.RegisterActivity"
             android:screenOrientation="portrait"></activity>
         <!--发起聊天页面-->
@@ -374,6 +376,8 @@
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
             android:value="p5tvi9dst25b4" />
+
+        <!-- 正式 n19jmcy59f1q9  测试 p5tvi9dst25b4 -->
 
         <!--end rongcloud-->
 
