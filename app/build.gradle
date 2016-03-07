@@ -8,8 +8,8 @@ android {
         applicationId "io.rong.app"
         minSdkVersion 9
         targetSdkVersion 19
-        versionCode 2016012522
-        versionName "2.4.6 Dev"
+        versionCode 2016030722
+        versionName "2.4.9 Dev"
     }
 
     signingConfigs {
