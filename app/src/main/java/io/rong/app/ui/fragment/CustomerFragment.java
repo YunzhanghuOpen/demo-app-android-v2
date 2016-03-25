@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import io.rong.app.R;
 import io.rong.imkit.RongIM;
-import io.rong.imlib.model.Conversation;
 
 /**
  * Created by Administrator on 2015/3/6.
@@ -37,7 +36,7 @@ public class CustomerFragment extends Fragment implements View.OnClickListener {
                 if (RongIM.getInstance() != null) {
 
 //                    RongIM.getInstance().startCustomerServiceChat(getActivity(), "rongcloud.net.kefu.service112", "在线客服");
-                    RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.APP_PUBLIC_SERVICE, "KEFU144542424649464", "在线客服");
+                    RongIM.getInstance().startCustomerServiceChat(getActivity(), "KEFU145801184889727", "在线客服");
                 }
                 break;
         }
