@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,7 +51,6 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
     private Handler mHandler;
     private LoadingDialog mDialog;
     public static final String GroupListData = "GroupListData";
-    public static String maxGroupList = "1000";
 
     Bundle mBundle;
 
@@ -72,7 +70,7 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         savedInstanceState = mBundle;
         if (savedInstanceState != null) {
@@ -119,7 +117,6 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
                 final Groups groups = (Groups) obj;
                 if (groups.getCode() == 200) {
                     for (int i = 0; i < groups.getResult().size(); i++) {
-                        maxGroupList = groups.getResult().get(0).getMax_number();
                         mResultList.add(groups.getResult().get(i));
                     }
 
@@ -187,7 +184,7 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
 
                 if (DemoContext.getInstance() != null) {
 
-                    if (result.getNumber().equals(maxGroupList)) {
+                    if (result.getNumber().equals("500")) {
                         WinToast.toast(getActivity(), "群组人数已满");
                         return false;
                     }
@@ -253,7 +250,7 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
     }
 
     @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+    public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
     }
 

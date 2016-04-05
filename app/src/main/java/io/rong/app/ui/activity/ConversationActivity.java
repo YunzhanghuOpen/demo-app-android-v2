@@ -440,8 +440,10 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                     , targetId, new RongIMClient.ResultCallback<PublicServiceProfile>() {
                 @Override
                 public void onSuccess(PublicServiceProfile publicServiceProfile) {
-                    if (publicServiceProfile != null && publicServiceProfile.getName() != null)
-                        getSupportActionBar().setTitle(publicServiceProfile.getName().toString());
+
+                    if(publicServiceProfile != null && publicServiceProfile.getName() != null)
+
+                        getSupportActionBar().setTitle(publicServiceProfile.getName());
                 }
 
                 @Override
@@ -752,8 +754,6 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                 }
             }
         }
-
-
     }
 
     //real-time location method beign
@@ -778,13 +778,12 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
     public void onBackPressed() {
 
         if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            closeRealTimeLocation();
+        }
 
-            if (!closeRealTimeLocation()) {
-                super.onBackPressed();
-                this.finish();
-            }
-        } else {
-            super.onBackPressed();
+        ConversationFragment fragment = (ConversationFragment) getSupportFragmentManager().findFragmentById(R.id.conversation);
+        if(!fragment.onBackPressed()) {
+            finish();
         }
     }
 
@@ -967,7 +966,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                 this.finish();
             }
         }
-        return false;
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

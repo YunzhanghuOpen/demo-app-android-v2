@@ -54,11 +54,13 @@ public class App extends Application {
                     RongIM.registerMessageTemplate(new RealTimeLocationMessageProvider());
                     //@ 消息模板展示
                     RongContext.getInstance().registerConversationTemplate(new NewDiscussionConversationProvider());
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
+
     }
 
     public static String getCurProcessName(Context context) {

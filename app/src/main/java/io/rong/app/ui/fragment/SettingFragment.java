@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +13,15 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.net.URI;
 import java.util.Locale;
 
+import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.app.ui.activity.FriendListActivity;
 import io.rong.app.ui.activity.MainActivity;
 import io.rong.app.ui.activity.UpdateDiscussionActivity;
+import io.rong.app.ui.activity.UpdateGroupUserInfoActivity;
 import io.rong.app.utils.Constants;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
@@ -37,7 +39,9 @@ public class SettingFragment extends DispatchResultFragment implements View.OnCl
     private Conversation.ConversationType mConversationType;
     private Button mDeleteBtn;
     private RelativeLayout mChatRoomRel;
+    private RelativeLayout mGroupUserInfoRel;
     private TextView mChatRoomName;
+    private TextView mGroupUserInfo;
 
     private android.support.v4.app.Fragment mAddNumberFragment;
     private android.support.v4.app.Fragment mToTopFragment;
@@ -45,12 +49,14 @@ public class SettingFragment extends DispatchResultFragment implements View.OnCl
     private FragmentTransaction fragmentTransaction;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.de_ac_friend_setting, container, false);
 
         mDeleteBtn = (Button) view.findViewById(R.id.de_fr_delete);
         mChatRoomRel = (RelativeLayout) view.findViewById(R.id.de_set_chatroom_name);
+        mGroupUserInfoRel = (RelativeLayout) view.findViewById(R.id.set_group_user_info);
         mChatRoomName = (TextView) view.findViewById(R.id.de_chatroom_name);
+        mGroupUserInfo = (TextView) view.findViewById(R.id.de_group_user_info);
 
         mAddNumberFragment = getChildFragmentManager().findFragmentById(R.id.de_fr_add_friend);
         mToTopFragment = getChildFragmentManager().findFragmentById(R.id.de_fr_to_top);
@@ -59,6 +65,7 @@ public class SettingFragment extends DispatchResultFragment implements View.OnCl
 
         mDeleteBtn.setOnClickListener(this);
         mChatRoomRel.setOnClickListener(this);
+        mGroupUserInfoRel.setOnClickListener(this);
 
         Intent intent = getActivity().getIntent();
 
@@ -115,6 +122,12 @@ public class SettingFragment extends DispatchResultFragment implements View.OnCl
             fragmentTransaction.commit();
         } else if (mConversationType.equals(Conversation.ConversationType.GROUP)) {
 
+            if (DemoContext.getInstance() == null)
+                return;
+
+            String username = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_NAME, Constants.DEFAULT);
+            mGroupUserInfo.setText(username);
+            mGroupUserInfoRel.setVisibility(View.VISIBLE);
             fragmentTransaction.hide(mAddNumberFragment);
             fragmentTransaction.commit();
         } else if (mConversationType.equals(Conversation.ConversationType.CUSTOMER_SERVICE)) {
@@ -173,6 +186,12 @@ public class SettingFragment extends DispatchResultFragment implements View.OnCl
                 startActivityForResult(intent, 21);
                 break;
 
+            case R.id.set_group_user_info:
+
+                Intent groupIntent = new Intent(getActivity(), UpdateGroupUserInfoActivity.class);
+                groupIntent.putExtra("DEMO_GROUP_ID", targetId);
+                startActivityForResult(groupIntent, 22);
+                break;
         }
     }
 
@@ -184,7 +203,11 @@ public class SettingFragment extends DispatchResultFragment implements View.OnCl
                     mChatRoomName.setText(data.getStringExtra("UPDATA_DISCUSSION_RESULT"));
 
                 break;
-
+            case Constants.FIX_GROUP_INFO:
+                if (data != null) {
+                    mGroupUserInfo.setText(data.getStringExtra("UPDATA_GROPU_INFO"));
+                }
+                break;
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

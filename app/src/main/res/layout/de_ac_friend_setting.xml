@@ -56,6 +56,47 @@
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/set_group_user_info"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginLeft="17dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="15dp"
+            android:background="@android:color/white"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:text="@string/group_user_info"
+                android:textColor="#252525"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/de_group_user_info"
+                style="@style/DemoTextStyleMiddle"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="8dp"
+                android:gravity="center_vertical|end"
+                android:singleLine="true" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#e4e4e4" />
+
+        </RelativeLayout>
+
+
         <fragment
             android:id="@+id/de_fr_to_top"
             android:name="io.rong.app.ui.fragment.setting.RongSetConversationToTopFragment"

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -144,7 +145,7 @@ public class GroupDetailActivity extends BaseApiActivity implements View.OnClick
             case R.id.join_group:
                 if (DemoContext.getInstance() != null) {
 
-                    if (mApiResult.getNumber().equals(GroupListFragment.maxGroupList)) {
+                    if (mApiResult.getNumber().equals("500")) {
                         WinToast.toast(GroupDetailActivity.this, R.string.group_is_full);
                         return;
                     }
@@ -187,11 +188,12 @@ public class GroupDetailActivity extends BaseApiActivity implements View.OnClick
     @Override
     public void onCallApiSuccess(AbstractHttpRequest request, Object obj) {
 
-        if (mJoinRequest == request) {
+        if (mJoinRequest!=null && mJoinRequest.equals(request)) {
             if (obj instanceof Status) {
                 final Status status = (Status) obj;
                 if (status.getCode() == 200 && mApiResult != null) {
                     WinToast.toast(this, R.string.group_join_success);
+                    Log.e(TAG, "-----------join success ----");
                     GroupListFragment.setGroupMap(mApiResult, 1);
 
                     if (RongIM.getInstance() != null)
@@ -202,11 +204,9 @@ public class GroupDetailActivity extends BaseApiActivity implements View.OnClick
                                 Message mess = Message.obtain();
                                 mess.what = HAS_JOIN;
                                 mHandler.sendMessage(mess);
-
                                 RongIM.getInstance().startGroupChat(GroupDetailActivity.this, mApiResult.getId(), mApiResult.getName());
 
                             }
-
                             @Override
                             public void onError(RongIMClient.ErrorCode errorCode) {
                             }
@@ -217,8 +217,7 @@ public class GroupDetailActivity extends BaseApiActivity implements View.OnClick
                     this.setResult(Constants.GROUP_JOIN_REQUESTCODE, intent);
                 }
             }
-
-        } else if (mQuitRequest == request) {
+        } else if (mQuitRequest!=null &&mQuitRequest.equals(request)) {
             if (obj instanceof Status) {
                 final Status status = (Status) obj;
                 if (status.getCode() == 200) {
@@ -229,11 +228,15 @@ public class GroupDetailActivity extends BaseApiActivity implements View.OnClick
                     mess.what = NO_JOIN;
                     mHandler.sendMessage(mess);
 
-                    if (RongIM.getInstance() != null) {
+                    if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient()!=null) {
                         RongIM.getInstance().getRongIMClient().quitGroup(mApiResult.getId(), new RongIMClient.OperationCallback() {
                             @Override
                             public void onSuccess() {
                                 WinToast.toast(GroupDetailActivity.this, R.string.group_quit_success);
+                                Intent intent = new Intent();
+                                intent.putExtra("result", DemoContext.getInstance().getGroupMap());
+                                GroupDetailActivity.this.setResult(Constants.GROUP_QUIT_REQUESTCODE, intent);
+                                Log.e(TAG, "-----------quit success ----");
                             }
 
                             @Override
@@ -242,19 +245,24 @@ public class GroupDetailActivity extends BaseApiActivity implements View.OnClick
                             }
                         });
                     }
-
-                    Intent intent = new Intent();
-                    intent.putExtra("result", DemoContext.getInstance().getGroupMap());
-                    this.setResult(Constants.GROUP_QUIT_REQUESTCODE, intent);
                 }
             }
         }
-
     }
 
     @Override
     public void onCallApiFailure(AbstractHttpRequest request, BaseException e) {
 
+        if(mQuitRequest!=null && mQuitRequest.equals(request)){
+
+            if (mDialog != null)
+                mDialog.dismiss();
+
+        }else if(mJoinRequest!=null && mJoinRequest.equals(request)){
+
+            if (mDialog != null)
+                mDialog.dismiss();
+        }
     }
 
     @Override

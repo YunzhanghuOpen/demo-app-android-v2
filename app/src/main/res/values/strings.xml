@@ -28,6 +28,7 @@
     <string name="add_select_group">选择群组</string>
     <string name="add_voip">网络电话</string>
     <string name="add_contacts">通讯录</string>
+    <string name="red_packet">红包</string>
     <string name="set_personal_information">我的账号</string>
     <string name="set_news_reminded">新消息提醒</string>
     <string name="set_privacy">隐私</string>
@@ -140,17 +141,18 @@
     <string name="de_actionbar_set_conversation">"聊天设置"</string>
     <string name="de_actionbar_set_public">"公众号"</string>
     <string name="de_actionbar_update_discussion">"修改讨论组昵称"</string>
+    <string name="de_actionbar_update_group">"修改群组昵称"</string>
     <string name="de_actionbar_discussion">"聊天室"</string>
     <string name="de_actionbar_system">"系统消息"</string>
     <string name="phone_camera">Camera</string>
+    <string name="de_actionbar_file">"文件预览"</string>
 
     <string name="de_dialog_item_message_delete">删除消息</string>
     <string name="de_notification_information">开启后，在设定时间段内收到新消息时不会响铃或振动。</string>
 
     <string name="de_plugins_image">图片</string>
+    <string name="de_plugins_file">文件</string>
     <string name="de_plugins_camera">相机</string>
-
-
     <string name="de_group_list_default_discussion_name">讨论组</string>
     <string name="de_message_content_draft">[草稿]</string>
     <string name="de_message_at_me">[有人@我]</string>

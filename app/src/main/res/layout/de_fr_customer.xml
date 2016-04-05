@@ -4,6 +4,14 @@
     android:layout_height="match_parent"
     android:background="@drawable/de_customer">
 
+    <EditText
+        android:id="@+id/kefu_id"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="#999999"
+        android:text="KEFU145801184889727"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/customer_chat"
         android:layout_width="wrap_content"

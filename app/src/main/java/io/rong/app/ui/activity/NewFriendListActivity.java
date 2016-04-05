@@ -219,6 +219,9 @@ public class NewFriendListActivity extends BaseApiActivity implements Handler.Ca
                 });
             }
         }
+
+
+
     }
 
     private void updateAdapter(List<ApiResult> mResultList) {

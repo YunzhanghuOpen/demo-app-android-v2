@@ -58,6 +58,8 @@ public class NewTextMessageActivity extends BaseApiActivity implements AdapterVi
 
             String conversationType = intent.getStringExtra("DEMO_REPLY_CONVERSATIONTYPE");
             mTargetId = intent.getStringExtra("DEMO_REPLY_TARGETID");
+            if(mTargetId == null)
+                return;
 
             mConversationType = Conversation.ConversationType.valueOf(conversationType);
 
@@ -78,6 +80,7 @@ public class NewTextMessageActivity extends BaseApiActivity implements AdapterVi
 
                         mNewTextReplyAdapter = new NewTextReplyAdapter(NewTextMessageActivity.this, mUserInfoList);
                         mReplyListView.setAdapter(mNewTextReplyAdapter);
+                        mNewTextReplyAdapter.notifyDataSetChanged();
                     }
 
                     @Override

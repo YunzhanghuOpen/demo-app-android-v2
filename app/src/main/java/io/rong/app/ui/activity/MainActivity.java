@@ -506,13 +506,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         return super.onOptionsItemSelected(item);
     }
 
-
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (KeyEvent.KEYCODE_BACK == event.getKeyCode()) {
-
 
             final AlertDialog.Builder alterDialog = new AlertDialog.Builder(this);
             alterDialog.setMessage("确定退出应用？");

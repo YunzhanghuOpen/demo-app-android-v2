@@ -13,7 +13,9 @@ import com.sea_monster.resource.Resource;
 import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.app.utils.Constants;
+import io.rong.imkit.RongIM;
 import io.rong.imkit.widget.AsyncImageView;
+import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by Administrator on 2015/3/2.
@@ -59,6 +61,19 @@ public class MyAccountActivity extends BaseActionBarActivity  {
                 Intent intent = new Intent(MyAccountActivity.this, UpdateNameActivity.class);
                 intent.putExtra("USERNAME", mUserName);
                 startActivityForResult(intent, RESULTCODE);
+            }
+        });
+
+        mMyPortrait.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String  id = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_ID,Constants.DEFAULT);
+                String  name = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_NAME,Constants.DEFAULT);
+                String uri = "http://jdd.kefu.rongcloud.cn/image/service_80x80.png";
+                String uritest = "https://nzuwbqs5e.qnssl.com/user_avatar822.jpg";
+                UserInfo userInfo = new UserInfo(id,name,Uri.parse(uritest));
+                RongIM.getInstance().refreshUserInfoCache(userInfo);
             }
         });
     }
