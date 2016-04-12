@@ -3,6 +3,7 @@ package io.rong.app.ui.activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,24 +35,30 @@ import io.rong.app.server.response.GetGroupInfoResponse;
 import io.rong.app.server.response.GetGroupMemberResponse;
 import io.rong.app.server.response.QuitGroupResponse;
 import io.rong.app.server.response.SetGroupDisplayNameResponse;
+import io.rong.app.server.utils.AMGenerate;
 import io.rong.app.server.utils.NToast;
+import io.rong.app.server.utils.OperationRong;
 import io.rong.app.server.widget.DialogWithYesOrNoUtils;
 import io.rong.app.server.widget.LoadDialog;
 import io.rong.app.ui.widget.DemoGridView;
+import io.rong.app.ui.widget.switchbutton.SwitchButton;
 import io.rong.imkit.RongIM;
+import io.rong.imkit.widget.AsyncImageView;
+import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 
 /**
  * Created by AMing on 16/1/27.
  * Company RongCloud
  */
-public class NewGroupDetailActivity extends BaseActivity implements View.OnClickListener {
+public class NewGroupDetailActivity extends BaseActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private static final int GETGROUPMEMBER = 20;
     private static final int DISMISSGROUP = 26;
     private static final int QUITGROUP = 27;
     private static final int SETGROUPNAME = 29;
     private static final int GETGROUPINFO = 30;
+    private static final int GETGROUPINFO2 = 31;
 
     private Qun mGroup;
 
@@ -64,67 +72,124 @@ public class NewGroupDetailActivity extends BaseActivity implements View.OnClick
 
     private TextView mTextViewMemberSize, mGroupName, mGroupDisplayNameText;
 
-    private ImageView mGroupHeader, showIcon;
+    private ImageView showIcon;
 
-    private LinearLayout mGroupInfo, mGroupDisplayName, mStartGroupChat;
+    private AsyncImageView mGroupHeader;
 
-    private Button mQuitBtn, mDismissBtn;
+    private LinearLayout mGroupInfo, mGroupDisplayName ,groupClean;
+
+    private Button mQuitBtn, mDismissBtn, mStartGroupChat;
     private String groupDisplayNmae;
+
+    private SwitchButton messageTop, messageNotif;
+    private String fromConversationId;
+    private boolean isFromConversation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_detail_group);
+
+        messageTop = (SwitchButton) findViewById(R.id.sw_group_top);
+        messageNotif = (SwitchButton) findViewById(R.id.sw_group_notfaction);
+        messageTop.setOnCheckedChangeListener(this);
+        messageNotif.setOnCheckedChangeListener(this);
+        groupClean = (LinearLayout) findViewById(R.id.group_clean);
         gridview = (DemoGridView) findViewById(R.id.gridview);
         mTextViewMemberSize = (TextView) findViewById(R.id.group_member_size);
         mGroupName = (TextView) findViewById(R.id.group_name);
         mGroupInfo = (LinearLayout) findViewById(R.id.group_info);
-        mGroupHeader = (ImageView) findViewById(R.id.group_header);
+        mGroupHeader = (AsyncImageView) findViewById(R.id.group_header);
         showIcon = (ImageView) findViewById(R.id.show_icon);
         mGroupDisplayName = (LinearLayout) findViewById(R.id.group_displayname);
         mGroupDisplayNameText = (TextView) findViewById(R.id.group_displayname_text);
-        mStartGroupChat = (LinearLayout) findViewById(R.id.start_group_chat);
+        mStartGroupChat = (Button) findViewById(R.id.start_group_chat);
         mQuitBtn = (Button) findViewById(R.id.group_quit);
         mDismissBtn = (Button) findViewById(R.id.group_dismiss);
         mGroupDisplayName.setOnClickListener(this);
         mStartGroupChat.setOnClickListener(this);
         mQuitBtn.setOnClickListener(this);
         mDismissBtn.setOnClickListener(this);
+        groupClean.setOnClickListener(this);
         getSupportActionBar().setTitle("群组信息");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.de_actionbar_back);
+
+
+        //群组会话界面点进群组详情
+        fromConversationId = getIntent().getStringExtra("TargetId");
+        if (!TextUtils.isEmpty(fromConversationId)) {
+            isFromConversation = true;
+        }
+
         mGroup = (Qun) getIntent().getSerializableExtra("QunBean");
         if (mGroup == null) {
-            NToast.shortToast(mContext, "GroupBean 数据为 null");
-            return;
-        }
-        if (mGroup.getRole().equals("0")) {
-            isCreated = true;
-        } else {
-            isCreated = false;
-        }
-
-        if (mGroup != null) {
-            mGroupName.setText(mGroup.getName());
-            ImageLoader.getInstance().displayImage(mGroup.getPortraitUri(), mGroupHeader, App.getOptions());
+//            NToast.shortToast(mContext, "GroupBean 数据为 null");
+//            return;
         }
 
 
-        initData();
-        BroadcastManager.getInstance(mContext).addAction(ChangeGroupInfoActivity.UPDATEGROUPINFOIMG, new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                String command = intent.getAction();
-                if (!TextUtils.isEmpty(command)) {
-                    String img = intent.getStringExtra("String");
-                    ImageLoader.getInstance().displayImage(img, mGroupHeader, App.getOptions());
-                    if (RongIM.getInstance() != null) {
-                        RongIM.getInstance().getRongIMClient().removeConversation(Conversation.ConversationType.PRIVATE, "uuuuuuuTest");
-                        RongIM.getInstance().getRongIMClient().clearMessages(Conversation.ConversationType.PRIVATE, "uuuuuuuTest");
+        if (mGroup != null) {//群组列表 page 进入
+
+            if (RongIM.getInstance() != null) {
+                RongIM.getInstance().getRongIMClient().getConversation(Conversation.ConversationType.GROUP, mGroup.getQunId(), new RongIMClient.ResultCallback<Conversation>() {
+                    @Override
+                    public void onSuccess(Conversation conversation) {
+                        if (conversation == null) {
+                            return;
+                        }
+                        if (conversation.isTop()) {
+                            messageTop.setChecked(true);
+                        } else {
+                            messageTop.setChecked(false);
+                        }
+
                     }
-                }
+
+                    @Override
+                    public void onError(RongIMClient.ErrorCode errorCode) {
+
+                    }
+                });
+
+                RongIM.getInstance().getRongIMClient().getConversationNotificationStatus(Conversation.ConversationType.GROUP, mGroup.getQunId(), new RongIMClient.ResultCallback<Conversation.ConversationNotificationStatus>() {
+                    @Override
+                    public void onSuccess(Conversation.ConversationNotificationStatus conversationNotificationStatus) {
+
+                        if (conversationNotificationStatus == Conversation.ConversationNotificationStatus.DO_NOT_DISTURB ? true : false) {
+                            messageNotif.setChecked(true);
+                        } else {
+                            messageNotif.setChecked(false);
+                        }
+                    }
+
+                    @Override
+                    public void onError(RongIMClient.ErrorCode errorCode) {
+
+                    }
+                });
             }
-        });
+
+
+            if (mGroup.getRole().equals("0")) {
+                isCreated = true;
+            } else {
+                isCreated = false;
+            }
+
+            mGroupName.setText(mGroup.getName());
+            if (TextUtils.isEmpty(mGroup.getPortraitUri())) {
+                ImageLoader.getInstance().displayImage(AMGenerate.generateDefaultAvatar(mGroup.getName(), mGroup.getQunId()), mGroupHeader, App.getOptions());
+            } else {
+                ImageLoader.getInstance().displayImage(mGroup.getPortraitUri(), mGroupHeader, App.getOptions());
+            }
+
+            initData();
+        } else if (isFromConversation) {//群组会话页进入
+            LoadDialog.show(mContext);
+            request(GETGROUPINFO2);
+        }
+
 
         BroadcastManager.getInstance(mContext).addAction(ChangeGroupInfoActivity.UPDATEGROUPINFONAME, new BroadcastReceiver() {
             @Override
@@ -145,20 +210,30 @@ public class NewGroupDetailActivity extends BaseActivity implements View.OnClick
     }
 
     @Override
-    public Object doInBackground(int requestCode) throws HttpException {
+    public Object doInBackground(int requestCode, String id) throws HttpException {
         switch (requestCode) {
             case GETGROUPMEMBER:
-                return action.getGroupMember(mGroup.getQunId());
+                if (mGroup == null && isFromConversation) {
+                    return action.getGroupMember(fromConversationId);
+                } else if (mGroup != null) {
+                    return action.getGroupMember(mGroup.getQunId());
+                }
             case QUITGROUP:
-                return action.quitGroup(mGroup.getQunId());
+                if (mGroup == null && isFromConversation) {
+                    return action.quitGroup(fromConversationId);
+                } else if (mGroup != null) {
+                    return action.quitGroup(mGroup.getQunId());
+                }
             case DISMISSGROUP:
                 return action.dissmissGroup(mGroup.getQunId());
             case SETGROUPNAME:
                 return action.setGroupDisplayName(mGroup.getQunId(), groupDisplayNmae);
             case GETGROUPINFO:
                 return action.getGroupInfo(mGroup.getQunId());
+            case GETGROUPINFO2:
+                return action.getGroupInfo(fromConversationId);
         }
-        return super.doInBackground(requestCode);
+        return super.doInBackground(requestCode, id);
     }
 
     @Override
@@ -192,7 +267,11 @@ public class NewGroupDetailActivity extends BaseActivity implements View.OnClick
                                 @Override
                                 public void onClick(View v) {
                                     Intent intent = new Intent(NewGroupDetailActivity.this, ChangeGroupInfoActivity.class);
-                                    intent.putExtra("GroupInfo", (Serializable) mGroup);
+                                    if (isFromConversation) {
+                                        intent.putExtra("GroupInfo", (Serializable) new Qun(mGroup2.getId(), mGroup2.getName(), mGroup2.getPortraitUri()));
+                                    } else {
+                                        intent.putExtra("GroupInfo", (Serializable) mGroup);
+                                    }
                                     startActivityForResult(intent, 102);
                                 }
                             });
@@ -204,9 +283,17 @@ public class NewGroupDetailActivity extends BaseActivity implements View.OnClick
                     QuitGroupResponse response = (QuitGroupResponse) result;
                     if (response.getCode() == 200) {
                         BroadcastManager.getInstance(mContext).sendBroadcast(RongCloudEvent.NETUPDATEGROUP);
-                        if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient().getConversation(Conversation.ConversationType.GROUP, mGroup.getQunId()) != null) {
-                            RongIM.getInstance().getRongIMClient().removeConversation(Conversation.ConversationType.GROUP, mGroup.getQunId());
-                            RongIM.getInstance().getRongIMClient().clearMessages(Conversation.ConversationType.GROUP, mGroup.getQunId());
+
+                        if (mGroup != null) {
+                            if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient().getConversation(Conversation.ConversationType.GROUP, mGroup.getQunId()) != null) {
+                                RongIM.getInstance().getRongIMClient().removeConversation(Conversation.ConversationType.GROUP, mGroup.getQunId());
+                                RongIM.getInstance().getRongIMClient().clearMessages(Conversation.ConversationType.GROUP, mGroup.getQunId());
+                            }
+                        } else if (mGroup2 != null) {
+                            if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient().getConversation(Conversation.ConversationType.GROUP, mGroup2.getId()) != null) {
+                                RongIM.getInstance().getRongIMClient().removeConversation(Conversation.ConversationType.GROUP, mGroup2.getId());
+                                RongIM.getInstance().getRongIMClient().clearMessages(Conversation.ConversationType.GROUP, mGroup2.getId());
+                            }
                         }
                         NToast.shortToast(mContext, "退出成功");
                         LoadDialog.dismiss(mContext);
@@ -218,9 +305,16 @@ public class NewGroupDetailActivity extends BaseActivity implements View.OnClick
                     DismissGroupResponse response1 = (DismissGroupResponse) result;
                     if (response1.getCode() == 200) {
                         BroadcastManager.getInstance(mContext).sendBroadcast(RongCloudEvent.NETUPDATEGROUP);
-                        if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient().getConversation(Conversation.ConversationType.GROUP, mGroup.getQunId()) != null) {
-                            RongIM.getInstance().getRongIMClient().removeConversation(Conversation.ConversationType.GROUP, mGroup.getQunId());
-                            RongIM.getInstance().getRongIMClient().clearMessages(Conversation.ConversationType.GROUP, mGroup.getQunId());
+                        if (mGroup != null) {
+                            if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient().getConversation(Conversation.ConversationType.GROUP, mGroup.getQunId()) != null) {
+                                RongIM.getInstance().getRongIMClient().removeConversation(Conversation.ConversationType.GROUP, mGroup.getQunId());
+                                RongIM.getInstance().getRongIMClient().clearMessages(Conversation.ConversationType.GROUP, mGroup.getQunId());
+                            }
+                        } else if (mGroup2 != null) {
+                            if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient().getConversation(Conversation.ConversationType.GROUP, mGroup2.getId()) != null) {
+                                RongIM.getInstance().getRongIMClient().removeConversation(Conversation.ConversationType.GROUP, mGroup2.getId());
+                                RongIM.getInstance().getRongIMClient().clearMessages(Conversation.ConversationType.GROUP, mGroup2.getId());
+                            }
                         }
                         NToast.shortToast(mContext, "解散成功");
                         LoadDialog.dismiss(mContext);
@@ -252,9 +346,73 @@ public class NewGroupDetailActivity extends BaseActivity implements View.OnClick
                         NToast.shortToast(mContext, "修改成功");
                     }
                     break;
+                case GETGROUPINFO2:
+                    GetGroupInfoResponse response4 = (GetGroupInfoResponse) result;
+                    if (response4.getCode() == 200) {
+                        if (response4.getResult() != null) {
+                            mGroup2 = response4.getResult();
+                            mGroupName.setText(response4.getResult().getName());
+                            if (TextUtils.isEmpty(response4.getResult().getPortraitUri())) {
+                                ImageLoader.getInstance().displayImage(AMGenerate.generateDefaultAvatar(response4.getResult().getName(), response4.getResult().getId()), mGroupHeader, App.getOptions());
+                            } else {
+                                ImageLoader.getInstance().displayImage(response4.getResult().getPortraitUri(), mGroupHeader, App.getOptions());
+                            }
+
+
+                            if (RongIM.getInstance() != null) {
+                                RongIM.getInstance().getRongIMClient().getConversation(Conversation.ConversationType.GROUP, mGroup2.getId(), new RongIMClient.ResultCallback<Conversation>() {
+                                    @Override
+                                    public void onSuccess(Conversation conversation) {
+                                        if (conversation == null) {
+                                            return;
+                                        }
+                                        if (conversation.isTop()) {
+                                            messageTop.setChecked(true);
+                                        } else {
+                                            messageTop.setChecked(false);
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onError(RongIMClient.ErrorCode errorCode) {
+
+                                    }
+                                });
+
+                                RongIM.getInstance().getRongIMClient().getConversationNotificationStatus(Conversation.ConversationType.GROUP, mGroup2.getId(), new RongIMClient.ResultCallback<Conversation.ConversationNotificationStatus>() {
+                                    @Override
+                                    public void onSuccess(Conversation.ConversationNotificationStatus conversationNotificationStatus) {
+
+                                        if (conversationNotificationStatus == Conversation.ConversationNotificationStatus.DO_NOT_DISTURB ? true : false) {
+                                            messageNotif.setChecked(true);
+                                        } else {
+                                            messageNotif.setChecked(false);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(RongIMClient.ErrorCode errorCode) {
+
+                                    }
+                                });
+                            }
+
+
+                            SharedPreferences sp = getSharedPreferences("config", MODE_PRIVATE);
+                            if (sp.getString("loginid", "").equals(response4.getResult().getCreatorId())) {
+                                isCreated = true;
+                            }
+
+                            request(GETGROUPMEMBER);
+                        }
+                    }
+                    break;
             }
         }
     }
+
+    private GetGroupInfoResponse.ResultEntity mGroup2;
 
     @Override
     public void onFailure(int requestCode, int state, Object result) {
@@ -279,7 +437,12 @@ public class NewGroupDetailActivity extends BaseActivity implements View.OnClick
         switch (v.getId()) {
             case R.id.start_group_chat:
                 if (RongIM.getInstance() != null) {
-                    RongIM.getInstance().startGroupChat(mContext, mGroup.getQunId(), mGroup.getName());
+                    if (mGroup != null) {
+                        RongIM.getInstance().startGroupChat(mContext, mGroup.getQunId(), mGroup.getName());
+                    }else if (mGroup2 != null) {
+                        RongIM.getInstance().startGroupChat(mContext, mGroup2.getId(), mGroup2.getName());
+                    }
+
                     finish();
                 }
                 break;
@@ -345,6 +508,87 @@ public class NewGroupDetailActivity extends BaseActivity implements View.OnClick
                     }
                 });
                 break;
+            case R.id.group_clean:
+                DialogWithYesOrNoUtils.getInstance().showDialog(mContext, "是否清除会话聊天记录？", new DialogWithYesOrNoUtils.DialogCallBack() {
+                    @Override
+                    public void exectEvent() {
+                        if (RongIM.getInstance()!=null) {
+                            if (mGroup != null) {
+                                RongIM.getInstance().getRongIMClient().clearMessages(Conversation.ConversationType.GROUP, mGroup.getQunId(), new RongIMClient.ResultCallback<Boolean>() {
+                                    @Override
+                                    public void onSuccess(Boolean aBoolean) {
+                                        NToast.shortToast(mContext,"清除成功");
+                                    }
+
+                                    @Override
+                                    public void onError(RongIMClient.ErrorCode errorCode) {
+                                        NToast.shortToast(mContext,"清除失败");
+                                    }
+                                });
+                            }else if (mGroup2 !=null) {
+                                RongIM.getInstance().getRongIMClient().clearMessages(Conversation.ConversationType.GROUP, mGroup2.getId(), new RongIMClient.ResultCallback<Boolean>() {
+                                    @Override
+                                    public void onSuccess(Boolean aBoolean) {
+                                        NToast.shortToast(mContext,"清除成功");
+                                    }
+
+                                    @Override
+                                    public void onError(RongIMClient.ErrorCode errorCode) {
+                                        NToast.shortToast(mContext,"清除失败");
+                                    }
+                                });
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void exectEditEvent(String editText) {
+
+                    }
+
+                    @Override
+                    public void updatePassword(String oldPassword, String newPassword) {
+
+                    }
+                });
+                break;
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()) {
+            case R.id.sw_group_top:
+                if (isChecked) {
+                    if (mGroup != null) {
+                        OperationRong.setConversationTop(mContext, Conversation.ConversationType.GROUP, mGroup.getQunId(), true);
+                    } else if (mGroup2 != null) {
+                        OperationRong.setConversationTop(mContext, Conversation.ConversationType.GROUP, mGroup2.getId(), true);
+                    }
+                } else {
+                    if (mGroup != null) {
+                        OperationRong.setConversationTop(mContext, Conversation.ConversationType.GROUP, mGroup.getQunId(), false);
+                    } else if (mGroup2 != null) {
+                        OperationRong.setConversationTop(mContext, Conversation.ConversationType.GROUP, mGroup2.getId(), false);
+                    }
+                }
+                break;
+            case R.id.sw_group_notfaction:
+                if (isChecked) {
+                    if (mGroup != null) {
+                        OperationRong.setConverstionNotif(mContext, Conversation.ConversationType.GROUP, mGroup.getQunId(), true);
+                    } else if (mGroup2 != null) {
+                        OperationRong.setConverstionNotif(mContext, Conversation.ConversationType.GROUP, mGroup2.getId(), true);
+                    }
+                }else {
+                    if (mGroup != null) {
+                        OperationRong.setConverstionNotif(mContext, Conversation.ConversationType.GROUP, mGroup.getQunId(), false);
+                    } else if (mGroup2 != null) {
+                        OperationRong.setConverstionNotif(mContext, Conversation.ConversationType.GROUP, mGroup2.getId(), false);
+                    }
+                }
+
+                break;
         }
     }
 
@@ -366,7 +610,7 @@ public class NewGroupDetailActivity extends BaseActivity implements View.OnClick
             if (convertView == null) {
                 convertView = LayoutInflater.from(context).inflate(R.layout.social_chatsetting_gridview_item, null);
             }
-            ImageView iv_avatar = (ImageView) convertView.findViewById(R.id.iv_avatar);
+            AsyncImageView iv_avatar = (AsyncImageView) convertView.findViewById(R.id.iv_avatar);
             TextView tv_username = (TextView) convertView.findViewById(R.id.tv_username);
             ImageView badge_delete = (ImageView) convertView.findViewById(R.id.badge_delete);
 
@@ -382,7 +626,11 @@ public class NewGroupDetailActivity extends BaseActivity implements View.OnClick
                     public void onClick(View v) {
                         Intent intent = new Intent(NewGroupDetailActivity.this, SelectFriendsActivity.class);
                         intent.putExtra("DeleteGroupMember", (Serializable) mGroupMember);
-                        intent.putExtra("DeleteGroupId", mGroup.getQunId());
+                        if (isFromConversation) {
+                            intent.putExtra("DeleteGroupId", mGroup2.getId());
+                        } else {
+                            intent.putExtra("DeleteGroupId", mGroup.getQunId());
+                        }
                         startActivityForResult(intent, 101);
                     }
 
@@ -397,7 +645,11 @@ public class NewGroupDetailActivity extends BaseActivity implements View.OnClick
                     public void onClick(View v) {
                         Intent intent = new Intent(NewGroupDetailActivity.this, SelectFriendsActivity.class);
                         intent.putExtra("AddGroupMember", (Serializable) mGroupMember);
-                        intent.putExtra("GroupId", mGroup.getQunId());
+                        if (isFromConversation) {
+                            intent.putExtra("GroupId", mGroup2.getId());
+                        } else {
+                            intent.putExtra("GroupId", mGroup.getQunId());
+                        }
                         startActivityForResult(intent, 100);
 
                     }
@@ -409,7 +661,11 @@ public class NewGroupDetailActivity extends BaseActivity implements View.OnClick
                 } else {
                     tv_username.setText(bean.getUser().getNickname());
                 }
-                ImageLoader.getInstance().displayImage(bean.getUser().getPortraitUri(), iv_avatar, App.getOptions());
+                if (TextUtils.isEmpty(bean.getUser().getPortraitUri())) {
+                    ImageLoader.getInstance().displayImage(AMGenerate.generateDefaultAvatar(bean.getUser().getNickname(), bean.getUser().getId()), iv_avatar, App.getOptions());
+                } else {
+                    ImageLoader.getInstance().displayImage(bean.getUser().getPortraitUri(), iv_avatar, App.getOptions());
+                }
                 iv_avatar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

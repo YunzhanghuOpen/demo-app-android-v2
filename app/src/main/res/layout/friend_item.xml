@@ -26,9 +26,10 @@
         android:layout_height="52dp"
         android:orientation="horizontal">
 
-        <ImageView
+        <io.rong.imkit.widget.AsyncImageView
             android:layout_gravity="center_vertical"
             android:id="@+id/frienduri"
+            app:RCCornerRadius="3dp"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginLeft="12dp"

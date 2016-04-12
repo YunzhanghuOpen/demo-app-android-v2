@@ -16,7 +16,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -33,21 +32,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.List;
-
 import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.app.RongCloudEvent;
-import io.rong.app.db.DBManager;
-import io.rong.app.db.Friend;
 import io.rong.app.server.broadcast.BroadcastManager;
-import io.rong.app.server.network.http.HttpException;
-import io.rong.app.server.response.UserRelationshipResponse;
-import io.rong.app.server.utils.NToast;
 import io.rong.app.ui.adapter.ConversationListAdapterEx;
 import io.rong.app.ui.fragment.ChatRoomListFragment;
+import io.rong.app.ui.fragment.ContactsFragment;
 import io.rong.app.ui.fragment.CustomerFragment;
-import io.rong.app.ui.fragment.GroupListFragment;
 import io.rong.app.utils.Constants;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
@@ -57,14 +49,11 @@ import io.rong.imlib.model.Conversation;
 import io.rong.message.ContactNotificationMessage;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, ViewPager.OnPageChangeListener, ActionBar.OnMenuVisibilityListener {
-    private static final int SYNCFRIEND = 14;
 
     private String TAG = MainActivity.class.getSimpleName();
 
     public static final String ACTION_DMEO_RECEIVE_MESSAGE = "action_demo_receive_message";
-    public static final String ACTION_DMEO_AGREE_REQUEST = "action_demo_agree_request";
 
-    private boolean hasNewFriends = false;
     private Menu mMenu;
     private ReceiveMessageBroadcastReciver mBroadcastReciver;
 
@@ -77,7 +66,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         RongIM.getInstance().enableNewComingMessageIcon(true);
         RongIM.getInstance().enableUnreadMessageIcon(true);
 
-        mFragmentManager = getSupportFragmentManager();
+//        mFragmentManager = getSupportFragmentManager();
         getSupportActionBar().setTitle(R.string.main_name);
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm); // 获取屏幕信息
@@ -113,86 +102,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mViewPager.setAdapter(mDemoFragmentPagerAdapter);
         mViewPager.setOffscreenPageLimit(4);
         mViewPager.setOnPageChangeListener(this);
-        initAMData();
         initData();
-        initRedDotListener();
-    }
-
-    private void initRedDotListener() {
-        BroadcastManager.getInstance(mContext).addAction(RongCloudEvent.UPDATEREDDOT, new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                String command = intent.getAction();
-                if (!TextUtils.isEmpty(command)) {
-                    if (mMenu != null) {
-                        mMenu.getItem(0).setIcon(getResources().getDrawable(R.drawable.de_ic_add_hasmessage));
-                        mMenu.getItem(0).getSubMenu().getItem(2).setIcon(getResources().getDrawable(R.drawable.de_btn_main_contacts_select));
-                    }
-                }
-            }
-        });
-    }
-
-    private void initAMData() {
-
-        List<Friend> dbList = DBManager.getInstance(mContext).getDaoSession().getFriendDao().loadAll();
-        if (dbList.size() == 0 || dbList == null) {
-            //检查本地数据库有无好友数据 如果无数据去服务端查询是否有好友数据 并且同步到本地数据  防止更换设备登录账户
-//            NToast.shortToast(mContext, "同步好友数据");
-            request(SYNCFRIEND);
-        }
-
-    }
-
-
-    @Override
-    public Object doInBackground(int requestCode) throws HttpException {
-        switch (requestCode) {
-            case SYNCFRIEND:
-                return action.getAllUserRelationship();
-        }
-        return super.doInBackground(requestCode);
-    }
-
-    @Override
-    public void onSuccess(int requestCode, Object result) {
-        if (result != null) {
-            switch (requestCode) {
-                case SYNCFRIEND:
-                    UserRelationshipResponse urRes = (UserRelationshipResponse) result;
-                    if (urRes.getCode() == 200) {
-                        List<UserRelationshipResponse.ResultEntity> list = urRes.getResult();
-                        if (list != null && list.size() > 0) {  //服务端也没有好友数据
-                            for (UserRelationshipResponse.ResultEntity friend : list) {
-                                if (friend.getStatus() == 20) {
-                                    DBManager.getInstance(mContext).getDaoSession().getFriendDao().insertOrReplace(new Friend(
-                                            friend.getUser().getId(),
-                                            friend.getUser().getNickname(),
-                                            friend.getUser().getPortraitUri(),
-                                            friend.getDisplayName(),
-                                            null,
-                                            null
-                                    ));
-                                }
-                            }
-
-                        }
-                    }
-
-                    break;
-
-            }
-        }
-    }
-
-    @Override
-    public void onFailure(int requestCode, int state, Object result) {
-        switch (requestCode) {
-            case SYNCFRIEND:
-                NToast.shortToast(mContext, "同步好友数据请求失败");
-                break;
-
-        }
     }
 
     protected void initData() {
@@ -217,7 +127,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         this.registerReceiver(mBroadcastReciver, intentFilter);
 
-        getConversationPush();
+        getConversationPush();// 获取 push 的 id 和 target
 
         getPushMessage();
     }
@@ -239,7 +149,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
                         if (conversation != null) {
 
-                            if (conversation.getLatestMessage() instanceof ContactNotificationMessage) {
+                            if (conversation.getLatestMessage() instanceof ContactNotificationMessage) { //好友消息的push
                                 startActivity(new Intent(MainActivity.this, NewFriendListActivity.class));
                             } else {
                                 Uri uri = Uri.parse("rong://" + getApplicationInfo().packageName).buildUpon().appendPath("conversation")
@@ -385,7 +295,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                                 .appendPath("conversationlist")
                                 .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话是否聚合显示
                                 .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "false")//群组
-                                .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//讨论组
                                 .appendQueryParameter(Conversation.ConversationType.PUBLIC_SERVICE.getName(), "false")//公共服务号
                                 .appendQueryParameter(Conversation.ConversationType.APP_PUBLIC_SERVICE.getName(), "false")//订阅号
                                 .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//系统
@@ -396,16 +305,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         fragment = mConversationFragment;
                     }
                     break;
-                case 1:
+                case 2:
                     if (mGroupListFragment == null) {
-                        mGroupListFragment = new GroupListFragment();
+                        mGroupListFragment = new ContactsFragment();
                     }
 
                     fragment = mGroupListFragment;
-
                     break;
 
-                case 2:
+                case 1:
                     if (mChatroomFragment == null) {
                         fragment = new ChatRoomListFragment();
                     } else {
@@ -490,7 +398,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             String action = intent.getAction();
             //收到好友添加的邀请，需要更新 Actionbar
             if (action.equals(ACTION_DMEO_RECEIVE_MESSAGE)) {
-                hasNewFriends = intent.getBooleanExtra("has_message", false);
                 supportInvalidateOptionsMenu();
             }
         }
@@ -520,14 +427,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         MenuInflater inflater = getMenuInflater();
         this.mMenu = menu;
         inflater.inflate(R.menu.de_main_menu, menu);
-        if (hasNewFriends) {
-            mMenu.getItem(0).setIcon(getResources().getDrawable(R.drawable.de_ic_add_hasmessage));
-            mMenu.getItem(0).getSubMenu().getItem(2).setIcon(getResources().getDrawable(R.drawable.de_btn_main_contacts_select));
-        } else {
-            mMenu.getItem(0).setIcon(getResources().getDrawable(R.drawable.de_ic_add));
-            mMenu.getItem(0).getSubMenu().getItem(2).setIcon(getResources().getDrawable(R.drawable.de_btn_main_contacts));
-        }
-
         return true;
     }
 
@@ -537,19 +436,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.action_add_conversation:
                 mMenu.getItem(0).setIcon(getResources().getDrawable(R.drawable.de_ic_add));
                 break;
-            case R.id.add_item1://发起聊天
-//                startActivity(new Intent(this, FriendListActivity.class));
-                startActivity(new Intent(this, SelectFriendsActivity.class));
-                break;
+//            case R.id.add_item1://发起聊天
+////                startActivity(new Intent(this, FriendListActivity.class));
+//                startActivity(new Intent(this, SelectFriendsActivity.class));
+//                break;
             case R.id.add_item2://选择群组
                 Intent intent = new Intent(new Intent(this, SelectFriendsActivity.class));
                 intent.putExtra("createGroup", true);
                 startActivity(intent);
                 break;
-            case R.id.add_item3://通讯录
-                startActivity(new Intent(MainActivity.this, ContactsActivity.class));
-                mMenu.getItem(0).getSubMenu().getItem(2).setIcon(getResources().getDrawable(R.drawable.de_btn_main_contacts));
-                break;
+//            case R.id.add_item3://通讯录
+//                startActivity(new Intent(MainActivity.this, ContactsActivity.class));
+//                mMenu.getItem(0).getSubMenu().getItem(2).setIcon(getResources().getDrawable(R.drawable.de_btn_main_contacts));
+//                break;
             case R.id.set_item1://我的账号
                 startActivity(new Intent(MainActivity.this, MyAccountActivity.class));
                 break;
@@ -689,7 +588,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
      */
     private TextView mMainCustomerTv;
 
-    private FragmentManager mFragmentManager;
+//    private FragmentManager mFragmentManager;
 
     private ViewPager mViewPager;
     /**
@@ -706,4 +605,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     int indicatorWidth;
     private LinearLayout mMainShow;
     private TextView mCustomerNoRead;
+
+    public String getStringUrl(){
+        return "哈哈";
+    }
 }

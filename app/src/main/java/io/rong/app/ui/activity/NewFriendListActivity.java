@@ -81,14 +81,14 @@ public class NewFriendListActivity extends BaseActivity implements NewFriendList
 
 
     @Override
-    public Object doInBackground(int requestCode) throws HttpException {
+    public Object doInBackground(int requestCode, String id) throws HttpException {
         switch (requestCode) {
             case GETALL:
                 return action.getAllUserRelationship();
             case AGREEFRIENDS:
                 return action.agreeFriends(friendId);
         }
-        return super.doInBackground(requestCode);
+        return super.doInBackground(requestCode, id);
     }
 
     UserRelationshipResponse urres;

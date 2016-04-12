@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,6 +12,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
 
 import io.rong.app.App;
 import io.rong.app.R;
@@ -18,19 +27,14 @@ import io.rong.app.RongCloudEvent;
 import io.rong.app.db.Qun;
 import io.rong.app.server.broadcast.BroadcastManager;
 import io.rong.app.server.network.http.HttpException;
+import io.rong.app.server.response.QiNiuTokenResponse;
 import io.rong.app.server.response.SetGroupNameResponse;
 import io.rong.app.server.response.SetGroupPortraitResponse;
-import io.rong.app.server.utils.NLog;
 import io.rong.app.server.utils.NToast;
 import io.rong.app.server.utils.photo.PhotoUtils;
 import io.rong.app.server.widget.BottomMenuDialog;
 import io.rong.app.server.widget.DialogWithYesOrNoUtils;
 import io.rong.app.server.widget.LoadDialog;
-import io.rong.imkit.RongIM;
-import io.rong.imlib.RongIMClient;
-import io.rong.imlib.model.Conversation;
-import io.rong.imlib.model.Message;
-import io.rong.message.ImageMessage;
 
 /**
  * Created by AMing on 16/1/28.
@@ -56,7 +60,11 @@ public class ChangeGroupInfoActivity extends BaseActivity implements View.OnClic
 
     private BottomMenuDialog dialog;
 
-    private String portraitUrl;
+    private UploadManager uploadManager;
+
+    private String imageUrl;
+
+    private Uri selectUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,41 +97,9 @@ public class ChangeGroupInfoActivity extends BaseActivity implements View.OnClic
             @Override
             public void onPhotoResult(Uri uri) {
                 if (uri != null && !TextUtils.isEmpty(uri.getPath())) {
-                    final ImageMessage imageMessage = ImageMessage.obtain();
-                    imageMessage.setLocalUri(uri);
-                    Message message = Message.obtain("uuuuuuuTest", Conversation.ConversationType.PRIVATE, imageMessage);
-                    if (RongIM.getInstance().getRongIMClient() != null) {
-                        RongIMClient.getInstance().sendImageMessage(message, null, null, new RongIMClient.SendImageMessageCallback() {
-                            @Override
-                            public void onAttached(Message message) {
-
-                            }
-
-                            @Override
-                            public void onError(Message message, RongIMClient.ErrorCode errorCode) {
-                                NLog.e("imageMessage", errorCode.getMessage() + errorCode.getValue());
-                            }
-
-                            @Override
-                            public void onSuccess(Message message) {
-                                if (message.getContent() instanceof ImageMessage) {
-                                    ImageMessage imsg = (ImageMessage) message.getContent();
-                                    NLog.e("imageMessage", "imsg.getRemoteUri()" + imsg.getRemoteUri());
-                                    portraitUrl = imsg.getRemoteUri().toString();
-                                    LoadDialog.show(mContext);
-                                    request(UPDATEGROUPHEADER);
-
-                                }
-                            }
-
-                            @Override
-                            public void onProgress(Message message, int i) {
-
-                            }
-                        });
-                    }
-
-
+                    selectUri = uri;
+                    LoadDialog.show(mContext);
+                    request(133);
                 }
             }
 
@@ -174,14 +150,16 @@ public class ChangeGroupInfoActivity extends BaseActivity implements View.OnClic
     }
 
     @Override
-    public Object doInBackground(int requestCode) throws HttpException {
+    public Object doInBackground(int requestCode, String id) throws HttpException {
         switch (requestCode) {
             case UPDATEGROUPNAME:
                 return action.setGroupName(mGroup.getQunId(), newGroupName);
             case UPDATEGROUPHEADER:
-                return action.setGroupPortrait(mGroup.getQunId(), portraitUrl);
+                return action.setGroupPortrait(mGroup.getQunId(), imageUrl);
+            case 133:
+                return action.getQiNiuToken();
         }
-        return super.doInBackground(requestCode);
+        return null;
     }
 
     @Override
@@ -201,11 +179,18 @@ public class ChangeGroupInfoActivity extends BaseActivity implements View.OnClic
                 case UPDATEGROUPHEADER:
                     SetGroupPortraitResponse res = (SetGroupPortraitResponse) result;
                     if (res.getCode() == 200) {
-                        ImageLoader.getInstance().displayImage(portraitUrl, imageView, App.getOptions());
-                        BroadcastManager.getInstance(mContext).sendBroadcast(UPDATEGROUPINFOIMG, portraitUrl);
+                        ImageLoader.getInstance().displayImage(imageUrl, imageView, App.getOptions());
+                        BroadcastManager.getInstance(mContext).sendBroadcast(UPDATEGROUPINFOIMG, imageUrl);
                         BroadcastManager.getInstance(mContext).sendBroadcast(RongCloudEvent.NETUPDATEGROUP);
                         LoadDialog.dismiss(mContext);
                         NToast.shortToast(mContext, "修改成功");
+                    }
+
+                    break;
+                case 133:
+                    QiNiuTokenResponse response1 = (QiNiuTokenResponse) result;
+                    if (response1.getCode() == 200) {
+                        uploadImage(response1.getResult().getDomain(), response1.getResult().getToken(), selectUri);
                     }
                     break;
             }
@@ -266,5 +251,34 @@ public class ChangeGroupInfoActivity extends BaseActivity implements View.OnClic
                 photoUtils.onActivityResult(ChangeGroupInfoActivity.this, requestCode, resultCode, data);
                 break;
         }
+    }
+
+    public void uploadImage(final String domain, String imageToken, Uri imagePath) {
+        if (TextUtils.isEmpty(domain) && TextUtils.isEmpty(imageToken) && TextUtils.isEmpty(imagePath.toString())) {
+            throw new RuntimeException("upload parameter is null!");
+        }
+        File imageFile = new File(imagePath.getPath());
+
+        if (this.uploadManager == null) {
+            this.uploadManager = new UploadManager();
+        }
+        this.uploadManager.put(imageFile, null, imageToken, new UpCompletionHandler() {
+
+            @Override
+            public void complete(String s, ResponseInfo responseInfo, JSONObject jsonObject) {
+                if (responseInfo.isOK()) {
+                    try {
+                        String key = (String) jsonObject.get("key");
+                        imageUrl = "http://" + domain + "/" + key;
+                        Log.e("uploadImage", imageUrl);
+                        if (!TextUtils.isEmpty(imageUrl)) {
+                            request(UPDATEGROUPHEADER);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, null);
     }
 }

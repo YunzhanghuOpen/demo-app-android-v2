@@ -39,12 +39,13 @@ import io.rong.app.server.pinyin.SideBar;
 import io.rong.app.server.response.AddGroupMemberResponse;
 import io.rong.app.server.response.DeleteGroupMemberResponse;
 import io.rong.app.server.response.GetGroupMemberResponse;
+import io.rong.app.server.utils.AMGenerate;
 import io.rong.app.server.utils.NLog;
 import io.rong.app.server.utils.NToast;
-import io.rong.app.server.widget.CircleImageView;
 import io.rong.app.server.widget.DialogWithYesOrNoUtils;
 import io.rong.app.server.widget.LoadDialog;
 import io.rong.imkit.RongIM;
+import io.rong.imkit.widget.AsyncImageView;
 import io.rong.imlib.RongIMClient;
 
 /**
@@ -288,7 +289,7 @@ public class SelectFriendsActivity extends BaseActivity {
                 convertView = LayoutInflater.from(context).inflate(R.layout.start_discussion_item, null);
                 viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.dis_friendname);
                 viewHolder.tvLetter = (TextView) convertView.findViewById(R.id.dis_catalog);
-                viewHolder.mImageView = (CircleImageView) convertView.findViewById(R.id.dis_frienduri);
+                viewHolder.mImageView = (AsyncImageView) convertView.findViewById(R.id.dis_frienduri);
                 viewHolder.isSelect = (CheckBox) convertView.findViewById(R.id.dis_select);
 
                 convertView.setTag(viewHolder);
@@ -321,6 +322,8 @@ public class SelectFriendsActivity extends BaseActivity {
             String url = adapterList.get(position).getPortraitUri();
             if (!TextUtils.isEmpty(url)) {
                 ImageLoader.getInstance().displayImage(url, viewHolder.mImageView, App.getOptions());
+            }else {
+                ImageLoader.getInstance().displayImage(AMGenerate.generateDefaultAvatar(adapterList.get(position).getName(),adapterList.get(position).getUserId()),viewHolder.mImageView, App.getOptions());
             }
 
             return convertView;
@@ -369,7 +372,7 @@ public class SelectFriendsActivity extends BaseActivity {
             /**
              * 头像
              */
-            CircleImageView mImageView;
+            AsyncImageView mImageView;
             /**
              * userid
              */
@@ -392,14 +395,14 @@ public class SelectFriendsActivity extends BaseActivity {
 
 
     @Override
-    public Object doInBackground(int requestCode) throws HttpException {
+    public Object doInBackground(int requestCode, String id) throws HttpException {
         switch (requestCode) {
             case ADDGROUPMEMBER:
                 return action.addGroupMember(groupId, startDisList);
             case DELEGROUPMEMBER:
                 return action.deleGroupMember(deleGroupId, startDisList);
         }
-        return super.doInBackground(requestCode);
+        return super.doInBackground(requestCode, id);
     }
 
     @Override

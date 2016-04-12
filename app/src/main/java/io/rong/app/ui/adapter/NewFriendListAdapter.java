@@ -1,6 +1,7 @@
 package io.rong.app.ui.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -10,7 +11,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import io.rong.app.App;
 import io.rong.app.R;
 import io.rong.app.server.response.UserRelationshipResponse;
-import io.rong.app.server.widget.CircleImageView;
+import io.rong.app.server.utils.AMGenerate;
+import io.rong.imkit.widget.AsyncImageView;
 
 /**
  * Created by Bob on 2015/3/26.
@@ -30,7 +32,7 @@ public class NewFriendListAdapter extends BaseAdapters {
             convertView = mInflater.inflate(R.layout.rs_ada_user_ship, null);
             holer.mName = (TextView) convertView.findViewById(R.id.ship_name);
             holer.mMessage = (TextView) convertView.findViewById(R.id.ship_message);
-            holer.mHead = (CircleImageView) convertView.findViewById(R.id.new_header);
+            holer.mHead = (AsyncImageView) convertView.findViewById(R.id.new_header);
             holer.mState = (TextView) convertView.findViewById(R.id.ship_state);
             convertView.setTag(holer);
         } else {
@@ -38,7 +40,11 @@ public class NewFriendListAdapter extends BaseAdapters {
         }
         final UserRelationshipResponse.ResultEntity bean = (UserRelationshipResponse.ResultEntity) dataSet.get(position);
         holer.mName.setText(bean.getUser().getNickname());
-        ImageLoader.getInstance().displayImage(bean.getUser().getPortraitUri(),holer.mHead, App.getOptions());
+        if (TextUtils.isEmpty(bean.getUser().getPortraitUri())) {
+            ImageLoader.getInstance().displayImage(AMGenerate.generateDefaultAvatar(bean.getUser().getNickname(),bean.getUser().getId()), holer.mHead, App.getOptions());
+        }else {
+            ImageLoader.getInstance().displayImage(bean.getUser().getPortraitUri(), holer.mHead, App.getOptions());
+        }
         holer.mMessage.setText(bean.getMessage());
         holer.mState.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +89,7 @@ public class NewFriendListAdapter extends BaseAdapters {
      */
 
     class ViewHoler {
-        CircleImageView mHead;
+        AsyncImageView mHead;
         TextView mName;
         TextView mState;
         TextView mtime;

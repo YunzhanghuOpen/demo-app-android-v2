@@ -40,13 +40,13 @@ public class GroupInfoEngine implements OnDataListener {
 
     public Group startEngine(String groupId) {
         setGroupId(groupId);
-        AsyncTaskManager.getInstance(context).request(REQUESTGROUPINFO, this);
+        AsyncTaskManager.getInstance(context).request(groupId, REQUESTGROUPINFO, this);
         return getGroup();
     }
 
     @Override
-    public Object doInBackground(int requestCode) throws HttpException {
-        return new SealAction(context).getGroupInfo(getGroupId());
+    public Object doInBackground(int requsetCode, String id) throws HttpException {
+        return new SealAction(context).getGroupInfo(id);
     }
 
     @Override

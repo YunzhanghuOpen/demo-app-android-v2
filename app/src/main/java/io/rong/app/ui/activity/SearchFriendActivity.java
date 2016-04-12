@@ -79,14 +79,14 @@ public class SearchFriendActivity extends BaseActivity {
     }
 
     @Override
-    public Object doInBackground(int requestCode) throws HttpException {
+    public Object doInBackground(int requestCode, String id) throws HttpException {
         switch (requestCode) {
             case SEARCHPHONE:
                 return action.getUserInfoFromPhone("86", mPhone);
             case ADDFRIEND:
                 return action.sendFriendInvitation(mFriendId, addFriendMessage);
         }
-        return super.doInBackground(requestCode);
+        return super.doInBackground(requestCode, id);
     }
 
     @Override

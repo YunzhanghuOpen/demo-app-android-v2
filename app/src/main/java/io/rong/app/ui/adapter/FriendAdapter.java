@@ -1,6 +1,7 @@
 package io.rong.app.ui.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import java.util.List;
 import io.rong.app.App;
 import io.rong.app.R;
 import io.rong.app.server.pinyin.Friend;
+import io.rong.app.server.utils.AMGenerate;
+import io.rong.imkit.widget.AsyncImageView;
 
 /**
  * Created by AMing on 16/1/14.
@@ -65,7 +68,7 @@ public class FriendAdapter extends BaseAdapter implements SectionIndexer {
             convertView = LayoutInflater.from(context).inflate(R.layout.friend_item, null);
             viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.friendname);
             viewHolder.tvLetter = (TextView) convertView.findViewById(R.id.catalog);
-            viewHolder.mImageView = (ImageView) convertView.findViewById(R.id.frienduri);
+            viewHolder.mImageView = (AsyncImageView) convertView.findViewById(R.id.frienduri);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -81,7 +84,12 @@ public class FriendAdapter extends BaseAdapter implements SectionIndexer {
             viewHolder.tvLetter.setVisibility(View.GONE);
         }
         viewHolder.tvTitle.setText(this.list.get(position).getName());
-        ImageLoader.getInstance().displayImage(list.get(position).getPortraitUri(),viewHolder.mImageView, App.getOptions());
+        if (TextUtils.isEmpty(list.get(position).getPortraitUri())) {
+            String s = AMGenerate.generateDefaultAvatar(list.get(position).getName(), list.get(position).getUserId());
+            ImageLoader.getInstance().displayImage(s, viewHolder.mImageView, App.getOptions());
+        } else {
+            ImageLoader.getInstance().displayImage(list.get(position).getPortraitUri(), viewHolder.mImageView, App.getOptions());
+        }
         return convertView;
     }
 
@@ -121,7 +129,7 @@ public class FriendAdapter extends BaseAdapter implements SectionIndexer {
         /**
          * 头像
          */
-        ImageView mImageView;
+        AsyncImageView mImageView;
         /**
          * userid
          */

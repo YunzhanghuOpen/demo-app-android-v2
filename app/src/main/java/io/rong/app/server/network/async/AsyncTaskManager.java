@@ -69,7 +69,23 @@ public class AsyncTaskManager {
 	public void request(int requestCode, OnDataListener listener){
 		request(requestCode, true, listener);
 	}
-	
+
+	/**
+	 * 发送请求（默认检查网络）
+	 *
+	 * @param requestCode 请求码
+	 * @param listener 回调监听
+	 */
+	public void request(String id, int requestCode, OnDataListener listener){
+		if(requestCode > 0){
+			EventBus.getDefault().post(new AsyncRequest(id, requestCode, false, listener));
+		}else{
+
+		}
+	}
+
+
+
 	/**
 	 * 发送请求
 	 * 
@@ -95,7 +111,7 @@ public class AsyncTaskManager {
 			if(!isNetworkConnected(mContext, bean.isCheckNetwork())){
 				result.setState(HTTP_NULL_CODE);
 			}else{
-				Object object = bean.getListener().doInBackground(bean.getRequestCode());
+				Object object = bean.getListener().doInBackground(bean.getRequestCode(), bean.getId());
 				result.setResult(object);
 				result.setState(REQUEST_SUCCESS_CODE);
 			}

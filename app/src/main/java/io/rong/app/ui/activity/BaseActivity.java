@@ -77,7 +77,7 @@ public abstract class BaseActivity extends ActionBarActivity implements OnDataLi
     }
 
     @Override
-    public Object doInBackground(int requestCode) throws HttpException {
+    public Object doInBackground(int requsetCode, String id) throws HttpException {
         return null;
     }
 

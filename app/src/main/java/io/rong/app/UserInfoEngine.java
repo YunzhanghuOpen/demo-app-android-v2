@@ -60,14 +60,13 @@ public class UserInfoEngine implements OnDataListener {
 
     public UserInfo startEngine(String userid) {
         setUserid(userid);
-        AsyncTaskManager.getInstance(context).request(REQUSERINFO, this);
+        AsyncTaskManager.getInstance(context).request(userid, REQUSERINFO, this);
         return getUserInfo();
     }
 
-
     @Override
-    public Object doInBackground(int requsetCode) throws HttpException {
-        return new SealAction(context).getUserInfoById(getUserid());
+    public Object doInBackground(int requsetCode, String id) throws HttpException {
+        return new SealAction(context).getUserInfoById(id);
     }
 
     @Override

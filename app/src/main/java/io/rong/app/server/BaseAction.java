@@ -15,8 +15,8 @@ import io.rong.app.server.utils.json.JsonMananger;
 public class BaseAction {
     //正式环境  api.sealtalk.im
     //测试 http://api.hitalk.im/
-//    private static final String DOMAIN = "http://api.sealtalk.im/";
-    private static final String DOMAIN = "http://api.hitalk.im/";
+        private static final String DOMAIN = "http://api.sealtalk.im/";
+//        private static final String DOMAIN = "http://api.hitalk.im/";
     protected Context mContext;
     protected SyncHttpClient httpManager;
 

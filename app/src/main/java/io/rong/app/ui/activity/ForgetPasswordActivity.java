@@ -121,7 +121,7 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
     }
 
     @Override
-    public Object doInBackground(int requestCode) throws HttpException {
+    public Object doInBackground(int requestCode, String id) throws HttpException {
         switch (requestCode) {
             case CHECKPHONE:
                 return action.checkPhoneAvailable("86", phone);
@@ -132,7 +132,7 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
             case VERIFYCODE:
                 return action.verifyCode("86", phone, mCode.getText().toString());
         }
-        return super.doInBackground(requestCode);
+        return super.doInBackground(requestCode, id);
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,7 +15,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +34,9 @@ import io.rong.app.server.broadcast.BroadcastManager;
 import io.rong.app.server.network.http.HttpException;
 import io.rong.app.server.pinyin.Friend;
 import io.rong.app.server.response.CreateGroupResponse;
+import io.rong.app.server.response.QiNiuTokenResponse;
 import io.rong.app.server.response.SetGroupPortraitResponse;
-import io.rong.app.server.utils.NLog;
+import io.rong.app.server.utils.AMGenerate;
 import io.rong.app.server.utils.NToast;
 import io.rong.app.server.utils.photo.PhotoUtils;
 import io.rong.app.server.widget.BottomMenuDialog;
@@ -37,10 +46,7 @@ import io.rong.app.server.widget.HorizontalListView;
 import io.rong.app.server.widget.LoadDialog;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.widget.AsyncImageView;
-import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
-import io.rong.imlib.model.Message;
-import io.rong.message.ImageMessage;
 
 /**
  * Created by AMing on 16/1/25.
@@ -68,13 +74,15 @@ public class CreateGroupActivity extends BaseActivity implements View.OnClickLis
 
     private BottomMenuDialog dialog;
 
-    private String portraitUrl, mGroupName, mGroupId;
+    private String mGroupName, mGroupId;
 
     private Button mButton;
 
     private ClearWriteEditText mGroupNameEdit;
 
     private List<String> groupIds = new ArrayList<>();
+
+    private Uri selectUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,45 +109,9 @@ public class CreateGroupActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onPhotoResult(Uri uri) {
                 if (uri != null && !TextUtils.isEmpty(uri.getPath())) {
-                    final ImageMessage imageMessage = ImageMessage.obtain();
-                    imageMessage.setLocalUri(uri);
-                    Message message = Message.obtain("uuuuuuuTest", Conversation.ConversationType.PRIVATE, imageMessage);
-                    if (RongIM.getInstance().getRongIMClient() != null) {
-                        RongIMClient.getInstance().sendImageMessage(message, null, null, new RongIMClient.SendImageMessageCallback() {
-                            @Override
-                            public void onAttached(Message message) {
-
-                            }
-
-                            @Override
-                            public void onError(Message message, RongIMClient.ErrorCode errorCode) {
-                                NLog.e("imageMessage", errorCode.getMessage() + errorCode.getValue());
-                            }
-
-                            @Override
-                            public void onSuccess(Message message) {
-                                if (message.getContent() instanceof ImageMessage) {
-                                    ImageMessage imsg = (ImageMessage) message.getContent();
-                                    NLog.e("imageMessage", "imsg.getRemoteUri()" + imsg.getRemoteUri());
-                                    portraitUrl = imsg.getRemoteUri().toString();
-                                    if (!TextUtils.isEmpty(portraitUrl)) {
-                                        ImageLoader.getInstance().displayImage(portraitUrl, asyncImageView);
-                                    } else {
-                                        NLog.e("imageMessage", "返回远程头像路径为空");
-                                    }
-
-
-                                }
-                            }
-
-                            @Override
-                            public void onProgress(Message message, int i) {
-
-                            }
-                        });
-                    }
-
-
+                    selectUri = uri;
+                    LoadDialog.show(mContext);
+                    request(131);
                 }
             }
 
@@ -169,7 +141,7 @@ public class CreateGroupActivity extends BaseActivity implements View.OnClickLis
                 showPhotoDialog();
                 break;
             case R.id.create_ok:
-                if (TextUtils.isEmpty(portraitUrl)) {
+                if (TextUtils.isEmpty(imageUrl)) {
                     NToast.shortToast(mContext, "群组头像未设置");
                     break;
                 }
@@ -189,14 +161,16 @@ public class CreateGroupActivity extends BaseActivity implements View.OnClickLis
 
 
     @Override
-    public Object doInBackground(int requestCode) throws HttpException {
+    public Object doInBackground(int requestCode, String id) throws HttpException {
         switch (requestCode) {
             case CREATEGROUP:
                 return action.createGroup(mGroupName, groupIds);
             case SETGROUPPORTRAITURI:
-                return action.setGroupPortrait(mGroupId, portraitUrl);
+                return action.setGroupPortrait(mGroupId, imageUrl);
+            case 131:
+                return action.getQiNiuToken();
         }
-        return super.doInBackground(requestCode);
+        return null;
     }
 
     @Override
@@ -215,18 +189,23 @@ public class CreateGroupActivity extends BaseActivity implements View.OnClickLis
                 case SETGROUPPORTRAITURI:
                     SetGroupPortraitResponse spRes = (SetGroupPortraitResponse) result;
                     if (spRes.getCode() == 200) {
-                        //TODO 插入群组数据库 更新 群组列表 UI
-                        DBManager.getInstance(mContext).getDaoSession().getQunDao().insertOrReplace(new Qun(mGroupId, mGroupName, portraitUrl, String.valueOf(0)));
+                        DBManager.getInstance(mContext).getDaoSession().getQunDao().insertOrReplace(new Qun(mGroupId, mGroupName, imageUrl, String.valueOf(0)));
                         BroadcastManager.getInstance(mContext).sendBroadcast(REFRESHGROUPUI);
                         if (RongIM.getInstance() != null) {
-                            RongIM.getInstance().getRongIMClient().removeConversation(Conversation.ConversationType.PRIVATE,"uuuuuuuTest");
-                            RongIM.getInstance().getRongIMClient().clearMessages(Conversation.ConversationType.PRIVATE,"uuuuuuuTest");
+                            RongIM.getInstance().getRongIMClient().removeConversation(Conversation.ConversationType.PRIVATE, "uuuuuuuTest");
+                            RongIM.getInstance().getRongIMClient().clearMessages(Conversation.ConversationType.PRIVATE, "uuuuuuuTest");
                         }
 
                         LoadDialog.dismiss(mContext);
                         NToast.shortToast(mContext, "群组创建成功");
                         finish();
                     }
+                case 131:
+                    QiNiuTokenResponse response = (QiNiuTokenResponse) result;
+                    if (response.getCode() == 200) {
+                        uploadImage(response.getResult().getDomain(), response.getResult().getToken(), selectUri);
+                    }
+                    break;
             }
         }
     }
@@ -282,7 +261,11 @@ public class CreateGroupActivity extends BaseActivity implements View.OnClickLis
                 holder = (Holder) convertView.getTag();
             }
             holder.memberName.setText(data.getName());
-            ImageLoader.getInstance().displayImage(data.getPortraitUri(), holder.memberHeader, App.getOptions());
+            if (TextUtils.isEmpty(data.getPortraitUri())) {
+                ImageLoader.getInstance().displayImage(AMGenerate.generateDefaultAvatar(data.getName(),data.getUserId()), holder.memberHeader, App.getOptions());
+            }else {
+                ImageLoader.getInstance().displayImage(data.getPortraitUri(), holder.memberHeader, App.getOptions());
+            }
             return convertView;
         }
     }
@@ -338,5 +321,39 @@ public class CreateGroupActivity extends BaseActivity implements View.OnClickLis
                 photoUtils.onActivityResult(CreateGroupActivity.this, requestCode, resultCode, data);
                 break;
         }
+    }
+
+    private UploadManager uploadManager;
+
+    private String imageUrl;
+
+    public void uploadImage(final String domain, String imageToken, Uri imagePath) {
+        if (TextUtils.isEmpty(domain) && TextUtils.isEmpty(imageToken) && TextUtils.isEmpty(imagePath.toString())) {
+            throw new RuntimeException("upload parameter is null!");
+        }
+        File imageFile = new File(imagePath.getPath());
+
+        if (this.uploadManager == null) {
+            this.uploadManager = new UploadManager();
+        }
+        this.uploadManager.put(imageFile, null, imageToken, new UpCompletionHandler() {
+
+            @Override
+            public void complete(String s, ResponseInfo responseInfo, JSONObject jsonObject) {
+                if (responseInfo.isOK()) {
+                    try {
+                        String key = (String) jsonObject.get("key");
+                        imageUrl = "http://" + domain + "/" + key;
+                        Log.e("uploadImage", imageUrl);
+                        if (!TextUtils.isEmpty(imageUrl)) {
+                            ImageLoader.getInstance().displayImage(imageUrl, asyncImageView);
+                            LoadDialog.dismiss(mContext);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, null);
     }
 }

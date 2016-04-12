@@ -21,6 +21,7 @@ import java.util.List;
 import io.rong.app.R;
 import io.rong.app.RongCloudEvent;
 import io.rong.app.db.DBManager;
+import io.rong.app.db.Friend;
 import io.rong.app.db.Qun;
 import io.rong.app.server.network.async.AsyncTaskManager;
 import io.rong.app.server.network.http.HttpException;
@@ -28,6 +29,8 @@ import io.rong.app.server.response.GetGroupResponse;
 import io.rong.app.server.response.GetTokenResponse;
 import io.rong.app.server.response.GetUserInfoByIdResponse;
 import io.rong.app.server.response.LoginResponse;
+import io.rong.app.server.response.UserRelationshipResponse;
+import io.rong.app.server.utils.AMGenerate;
 import io.rong.app.server.utils.AMUtils;
 import io.rong.app.server.utils.NLog;
 import io.rong.app.server.utils.NToast;
@@ -200,7 +203,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
 
     @Override
-    public Object doInBackground(int requestCode) throws HttpException {
+    public Object doInBackground(int requestCode, String id) throws HttpException {
         switch (requestCode) {
             case LOGIN:
                 return action.login("86", phoneString, passwordString);
@@ -210,8 +213,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 return action.getUserInfoById(connectResultId);
             case SYNCGROUP:
                 return action.getGroups();
+            case SYNCFRIEND:
+                return action.getAllUserRelationship();
         }
-        return super.doInBackground(requestCode);
+        return null;
     }
 
     @Override
@@ -273,6 +278,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                         if (RongIM.getInstance() != null) {
                             RongCloudEvent.getInstance().setConnectedListener();
+                            if (TextUtils.isEmpty(guRes.getResult().getPortraitUri())) {
+                                guRes.getResult().setPortraitUri(AMGenerate.generateDefaultAvatar(guRes.getResult().getNickname(), guRes.getResult().getId()));
+                            }
                             RongIM.getInstance().setCurrentUserInfo(new UserInfo(guRes.getResult().getId(), guRes.getResult().getNickname(), Uri.parse(guRes.getResult().getPortraitUri())));
                             RongIM.getInstance().setMessageAttachedUserInfo(true);
 
@@ -302,6 +310,29 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 );
                             }
                         }
+                        //群组同步完成后同步好友数据
+                        initAMData();
+                    }
+                    break;
+                case SYNCFRIEND:
+                    UserRelationshipResponse urRes = (UserRelationshipResponse) result;
+                    if (urRes.getCode() == 200) {
+                        List<UserRelationshipResponse.ResultEntity> list = urRes.getResult();
+                        if (list != null && list.size() > 0) {  //服务端也没有好友数据
+                            for (UserRelationshipResponse.ResultEntity friend : list) {
+                                if (friend.getStatus() == 20) {
+                                    DBManager.getInstance(mContext).getDaoSession().getFriendDao().insertOrReplace(new Friend(
+                                            friend.getUser().getId(),
+                                            friend.getUser().getNickname(),
+                                            friend.getUser().getPortraitUri(),
+                                            friend.getDisplayName(),
+                                            null,
+                                            null
+                                    ));
+                                }
+                            }
+
+                        }
                         LoadDialog.dismiss(mContext);
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         NToast.shortToast(mContext, "login success!");
@@ -314,11 +345,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void onFailure(int requestCode, int state, Object result) {
-        if (state == AsyncTaskManager.HTTP_NULL_CODE || state == AsyncTaskManager.HTTP_ERROR_CODE) {
-            LoadDialog.dismiss(mContext);
-            NToast.shortToast(mContext,"当前网络不可用");
-            return;
-        }
+//        if (state == AsyncTaskManager.HTTP_NULL_CODE || state == AsyncTaskManager.HTTP_ERROR_CODE) {
+//            LoadDialog.dismiss(mContext);
+//            NToast.shortToast(mContext, "当前网络不可用");
+//            return;
+//        }
         switch (requestCode) {
             case LOGIN:
                 LoadDialog.dismiss(mContext);
@@ -336,5 +367,26 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 NToast.shortToast(mContext, "同步群组数据请求失败");
                 break;
         }
+    }
+
+    private static final int SYNCFRIEND = 14;
+
+    private void initAMData() {
+
+        List<Friend> dbList = DBManager.getInstance(mContext).getDaoSession().getFriendDao().loadAll();
+        if (dbList.size() == 0 || dbList == null) {
+            //检查本地数据库有无好友数据 如果无数据去服务端查询是否有好友数据 并且同步到本地数据  防止更换设备登录账户
+//            NToast.shortToast(mContext, "同步好友数据");
+            //TODO 测试每次都是走 网络请求 check 是否之前清除了 数据库缓存列表
+            NLog.e("go to net");
+            request(SYNCFRIEND);
+        } else {
+            NLog.e("go to cache");
+            LoadDialog.dismiss(mContext);
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            NToast.shortToast(mContext, "login success!");
+            finish();
+        }
+
     }
 }

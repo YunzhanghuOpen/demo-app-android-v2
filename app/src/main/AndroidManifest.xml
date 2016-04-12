@@ -3,7 +3,7 @@
     package="io.rong.app">
 
     <uses-sdk
-        android:minSdkVersion="9"
+        android:minSdkVersion="14"
         android:targetSdkVersion="21" />
 
 
@@ -59,7 +59,9 @@
         <activity
             android:name=".ui.activity.MainActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            >
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -71,6 +73,8 @@
                     android:scheme="rong" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.activity.GroupListActivity"></activity>
+        <activity android:name=".ui.activity.FriendDetailActivity"></activity>
         <!--注册页面-->
         <activity
             android:launchMode="singleTask"
@@ -81,10 +85,6 @@
             android:name=".ui.activity.FriendListActivity"
             android:screenOrientation="portrait"></activity>
         <!--通讯录-->
-        <activity
-            android:name=".ui.activity.ContactsActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            android:screenOrientation="portrait"></activity>
 
         <!--我的账号-->
         <activity
@@ -375,9 +375,9 @@
 
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
-            android:value="p5tvi9dst25b4" />
+            android:value="n19jmcy59f1q9" />
 
-        <!-- 正式 n19jmcy59f1q9  测试 p5tvi9dst25b4 -->
+        <!-- 正式 n19jmcy59f1q9  测试 p5tvi9dst25b4  -->
 
         <!--end rongcloud-->
 

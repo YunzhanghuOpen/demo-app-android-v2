@@ -6,20 +6,30 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
 
 import io.rong.app.App;
 import io.rong.app.R;
 import io.rong.app.server.network.http.HttpException;
 import io.rong.app.server.response.ChangePasswordResponse;
+import io.rong.app.server.response.QiNiuTokenResponse;
 import io.rong.app.server.response.SetNameResponse;
 import io.rong.app.server.response.SetPortraitResponse;
-import io.rong.app.server.utils.NLog;
+import io.rong.app.server.utils.AMGenerate;
 import io.rong.app.server.utils.NToast;
 import io.rong.app.server.utils.photo.PhotoUtils;
 import io.rong.app.server.widget.BottomMenuDialog;
@@ -27,18 +37,14 @@ import io.rong.app.server.widget.DialogWithYesOrNoUtils;
 import io.rong.app.server.widget.LoadDialog;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.widget.AsyncImageView;
-import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
-import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
-import io.rong.message.ImageMessage;
 
 /**
  * Created by Administrator on 2015/3/2.
  */
 public class MyAccountActivity extends BaseActionBarActivity implements View.OnClickListener {
 
-    private static final int RESULTCODE = 10;
     private static final int UPDATENAME = 7;
     private static final int UPLOADPORTRAIT = 8;
     private static final int UPDATEPASSWORD = 15;
@@ -51,13 +57,20 @@ public class MyAccountActivity extends BaseActionBarActivity implements View.OnC
 
     private AsyncImageView mImageView;
 
-    private TextView mName;
+    private TextView mName ,mPhone;
     private String newName;
 
-    private String portraitUrl;
     private PhotoUtils photoUtils;
     private BottomMenuDialog dialog;
     private String mOldPassword, mNewPassword;
+
+    private UploadManager uploadManager;
+
+    private String imageUrl;
+
+    private Uri selectUri;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +88,7 @@ public class MyAccountActivity extends BaseActionBarActivity implements View.OnC
     }
 
     private void initView() {
+        mPhone = (TextView) findViewById(R.id.tv_my_phone);
         portraitItem = (RelativeLayout) findViewById(R.id.rl_my_portrait);
         nameItem = (RelativeLayout) findViewById(R.id.rl_my_username);
         passwordItem = (RelativeLayout) findViewById(R.id.rl_my_password);
@@ -85,9 +99,17 @@ public class MyAccountActivity extends BaseActionBarActivity implements View.OnC
         passwordItem.setOnClickListener(this);
         String cacheName = sp.getString("loginnickname", "");
         String cachePortrait = sp.getString("loginPortrait", "");
+        String cachePhone = sp.getString("loginphone","");
+        if (!TextUtils.isEmpty(cachePhone)) {
+            mPhone.setText("+86 "+cachePhone);
+        }
         if (!TextUtils.isEmpty(cacheName)) {
             mName.setText(cacheName);
-            ImageLoader.getInstance().displayImage(cachePortrait, mImageView, App.getOptions());
+            if (TextUtils.isEmpty(cachePortrait)) {
+                ImageLoader.getInstance().displayImage(AMGenerate.generateDefaultAvatar(cacheName,sp.getString("loginid","a")), mImageView, App.getOptions());
+            }else {
+                ImageLoader.getInstance().displayImage(cachePortrait, mImageView, App.getOptions());
+            }
         }
         setPortraitChangeListener();
     }
@@ -97,46 +119,9 @@ public class MyAccountActivity extends BaseActionBarActivity implements View.OnC
             @Override
             public void onPhotoResult(Uri uri) {
                 if (uri != null && !TextUtils.isEmpty(uri.getPath())) {
+                    selectUri = uri;
                     LoadDialog.show(mContext);
-                    final ImageMessage imageMessage = ImageMessage.obtain();
-                    imageMessage.setLocalUri(uri);
-                    Message message = Message.obtain("uuuuuuuTest", Conversation.ConversationType.PRIVATE, imageMessage);
-                    if (RongIM.getInstance().getRongIMClient() != null) {
-                        RongIMClient.getInstance().sendImageMessage(message, null, null, new RongIMClient.SendImageMessageCallback() {
-                            @Override
-                            public void onAttached(Message message) {
-
-                            }
-
-                            @Override
-                            public void onError(Message message, RongIMClient.ErrorCode errorCode) {
-                                NLog.e("imageMessage", errorCode.getMessage() + errorCode.getValue());
-                            }
-
-                            @Override
-                            public void onSuccess(Message message) {
-                                if (message.getContent() instanceof ImageMessage) {
-                                    ImageMessage imsg = (ImageMessage) message.getContent();
-                                    NLog.e("imageMessage", "imsg.getRemoteUri()" + imsg.getRemoteUri());
-                                    portraitUrl = imsg.getRemoteUri().toString();
-                                    if (!TextUtils.isEmpty(portraitUrl)) {
-                                        request(UPLOADPORTRAIT);
-                                    } else {
-                                        NLog.e("imageMessage", "返回远程头像路径为空");
-                                    }
-
-
-                                }
-                            }
-
-                            @Override
-                            public void onProgress(Message message, int i) {
-
-                            }
-                        });
-                    }
-
-
+                    request(128);
                 }
             }
 
@@ -210,16 +195,18 @@ public class MyAccountActivity extends BaseActionBarActivity implements View.OnC
 
 
     @Override
-    public Object doInBackground(int requestCode) throws HttpException {
+    public Object doInBackground(int requestCode, String id) throws HttpException {
         switch (requestCode) {
             case UPDATENAME:
                 return action.setName(newName);
             case UPLOADPORTRAIT:
-                return action.setPortrait(portraitUrl);
+                return action.setPortrait(imageUrl);
             case UPDATEPASSWORD:
                 return action.changePassword(mOldPassword, mNewPassword);
+            case 128:
+                return action.getQiNiuToken();
         }
-        return super.doInBackground(requestCode);
+        return super.doInBackground(requestCode, id);
     }
 
     @Override
@@ -245,16 +232,16 @@ public class MyAccountActivity extends BaseActionBarActivity implements View.OnC
                 case UPLOADPORTRAIT:
                     SetPortraitResponse spRes = (SetPortraitResponse) result;
                     if (spRes.getCode() == 200) {
-                        editor.putString("loginPortrait", portraitUrl);
+                        editor.putString("loginPortrait", imageUrl);
                         editor.commit();
-                        ImageLoader.getInstance().displayImage(portraitUrl, mImageView, App.getOptions());
+                        ImageLoader.getInstance().displayImage(imageUrl, mImageView, App.getOptions());
 
                         RongIM.getInstance().getRongIMClient().removeConversation(Conversation.ConversationType.PRIVATE, "uuuuuuuTest");
                         RongIM.getInstance().getRongIMClient().clearMessages(Conversation.ConversationType.PRIVATE, "uuuuuuuTest");
 
                         if (RongIM.getInstance() != null) {
-                            RongIM.getInstance().refreshUserInfoCache(new UserInfo(sp.getString("loginid", ""), sp.getString("loginnickname", ""), Uri.parse(portraitUrl)));
-                            RongIM.getInstance().setCurrentUserInfo(new UserInfo(sp.getString("loginid", ""), sp.getString("loginnickname", ""), Uri.parse(portraitUrl)));
+                            RongIM.getInstance().refreshUserInfoCache(new UserInfo(sp.getString("loginid", ""), sp.getString("loginnickname", ""), Uri.parse(imageUrl)));
+                            RongIM.getInstance().setCurrentUserInfo(new UserInfo(sp.getString("loginid", ""), sp.getString("loginnickname", ""), Uri.parse(imageUrl)));
                         }
 
                         NToast.shortToast(mContext, "头像更新成功");
@@ -276,9 +263,16 @@ public class MyAccountActivity extends BaseActionBarActivity implements View.OnC
                         LoadDialog.dismiss(mContext);
                     }
                     break;
+                case 128:
+                    QiNiuTokenResponse response = (QiNiuTokenResponse) result;
+                    if (response.getCode() == 200) {
+                        uploadImage(response.getResult().getDomain(), response.getResult().getToken(), selectUri);
+                    }
+                    break;
             }
         }
     }
+
 
     @Override
     public void onFailure(int requestCode, int state, Object result) {
@@ -339,5 +333,41 @@ public class MyAccountActivity extends BaseActionBarActivity implements View.OnC
                 photoUtils.onActivityResult(MyAccountActivity.this, requestCode, resultCode, data);
                 break;
         }
+    }
+
+    public void onTestClick(View v) {
+        //TODO test use
+    }
+
+
+
+
+    public void uploadImage(final String domain, String imageToken, Uri imagePath) {
+        if (TextUtils.isEmpty(domain) && TextUtils.isEmpty(imageToken) && TextUtils.isEmpty(imagePath.toString())) {
+            throw new RuntimeException("upload parameter is null!");
+        }
+        File imageFile = new File(imagePath.getPath());
+
+        if (this.uploadManager == null) {
+            this.uploadManager = new UploadManager();
+        }
+        this.uploadManager.put(imageFile, null, imageToken, new UpCompletionHandler() {
+
+            @Override
+            public void complete(String s, ResponseInfo responseInfo, JSONObject jsonObject) {
+                if (responseInfo.isOK()) {
+                    try {
+                        String key = (String) jsonObject.get("key");
+                        imageUrl = "http://" + domain + "/" + key;
+                        Log.e("uploadImage", imageUrl);
+                        if (!TextUtils.isEmpty(imageUrl)) {
+                            request(UPLOADPORTRAIT);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, null);
     }
 }

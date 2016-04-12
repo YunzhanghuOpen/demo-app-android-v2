@@ -34,6 +34,7 @@ import io.rong.app.R;
 import io.rong.app.RongCloudEvent;
 import io.rong.app.model.Groups;
 import io.rong.app.model.RongEvent;
+import io.rong.app.server.utils.NLog;
 import io.rong.app.ui.widget.LoadingDialog;
 import io.rong.app.ui.widget.WinToast;
 import io.rong.app.utils.Constants;
@@ -224,15 +225,14 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
             return;
 
         //push
-        if (intent.getData().getScheme().equals("rong")
-                && intent.getData().getQueryParameter("push") != null) {
+        if (intent.getData().getScheme().equals("rong") && intent.getData().getQueryParameter("push") != null) {
 
             //通过intent.getData().getQueryParameter("push") 为true，判断是否是push消息
             if (intent.getData().getQueryParameter("push").equals("true")) {
                 //只有收到系统消息和不落地 push 消息的时候，pushId 不为 null。而且这两种消息只能通过 server 来发送，客户端发送不了。
                 String id = intent.getData().getQueryParameter("pushId");
                 RongIM.getInstance().getRongIMClient().recordNotificationEvent(id);
-
+                NLog.e("ConversationActivity push","push1");
                 if (mDialog != null && !mDialog.isShowing()) {
                     mDialog.show();
                 }
@@ -265,13 +265,14 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
      */
     private void enterActivity() {
 
-        String token = sp.getString("loginToken","");
+        String token = sp.getString("loginToken", "");//loginToken
 
         if (token.equals(Constants.DEFAULT)) {
-
+            NLog.e("ConversationActivity push","push2");
             startActivity(new Intent(ConversationActivity.this, LoginActivity.class));
             finish();
         } else {
+            NLog.e("ConversationActivity push","push3");
             reconnect(token);
         }
     }
@@ -290,9 +291,14 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                 Log.i(TAG, "---onSuccess--" + s);
                 if (RongCloudEvent.getInstance() != null)
                     RongCloudEvent.getInstance().setConnectedListener();
+                NLog.e("ConversationActivity push","push4");
+//                if (DemoContext.getInstance() != null)
+//                    mGetMyGroupsRequest = DemoContext.getInstance().getDemoApi().getMyGroups(ConversationActivity.this);
 
-                if (DemoContext.getInstance() != null)
-                    mGetMyGroupsRequest = DemoContext.getInstance().getDemoApi().getMyGroups(ConversationActivity.this);
+                if (mDialog != null)
+                    mDialog.dismiss();
+                startActivity(new Intent(ConversationActivity.this,MainActivity.class));
+                finish();
             }
 
             @Override
@@ -529,14 +535,27 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                 }
             }
 
-            Uri uri = Uri.parse("demo://" + getApplicationInfo().packageName).buildUpon()
-                    .appendPath("conversationSetting")
-                    .appendPath(mConversationType.getName())
-                    .appendQueryParameter("targetId", mTargetId).build();
+//            Uri uri = Uri.parse("demo://" + getApplicationInfo().packageName).buildUpon()
+//                    .appendPath("conversationSetting")
+//                    .appendPath(mConversationType.getName())
+//                    .appendQueryParameter("targetId", mTargetId).build();
+//
+//            Intent intent = new Intent(Intent.ACTION_VIEW);
+//            intent.setData(uri);
+//            startActivity(intent);
+            Intent intent = null;
+            if (mConversationType == Conversation.ConversationType.GROUP) {
+                intent= new Intent(this,NewGroupDetailActivity.class);
+            }else if (mConversationType == Conversation.ConversationType.PRIVATE) {
+                intent = new Intent(this,FriendDetailActivity.class);
+            }else if (mConversationType == Conversation.ConversationType.CHATROOM) {
+                intent = null;
+            }
+            intent.putExtra("TargetId", mTargetId);
+            if (intent != null) {
+                startActivity(intent);
+            }
 
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(uri);
-            startActivity(intent);
         }
     }
 
@@ -561,10 +580,10 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
 
     @Override
     public void onCallApiSuccess(AbstractHttpRequest request, Object obj) {
-        if (mGetMyGroupsRequest != null && mGetMyGroupsRequest.equals(request)) {
-            Log.e(TAG, "---push--onCallApiSuccess-");
-            getMyGroupApiSuccess(obj);
-        }
+//        if (mGetMyGroupsRequest != null && mGetMyGroupsRequest.equals(request)) {
+//            Log.e(TAG, "---push--onCallApiSuccess-");
+//            getMyGroupApiSuccess(obj);
+//        }
     }
 
     /**

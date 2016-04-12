@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,11 +73,11 @@ public class NewDiscussionConversationProvider implements IContainerItemProvider
             String time = RongDateUtils.getConversationListFormatDate(new Date(data.getUIConversationTime()));
             holder.time.setText(time);
             //设置内容
-            if (data.getShowDraftFlag()) {
+            if (!TextUtils.isEmpty(data.getDraft())) {
                 SpannableStringBuilder builder = new SpannableStringBuilder();
                 SpannableString string = new SpannableString(view.getContext().getString(R.string.de_message_content_draft));
                 string.setSpan(new ForegroundColorSpan(view.getContext().getResources().getColor(R.color.de_draft_color)), 0, string.length(), 33);
-                builder.append(string).append(" : ").append(data.getDraft());
+                builder.append(string).append(data.getDraft());
                 AndroidEmoji.ensure(builder);
                 holder.content.setText(builder);
             } else {

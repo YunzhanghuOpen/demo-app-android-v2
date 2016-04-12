@@ -60,6 +60,8 @@ import java.util.WeakHashMap;
 import java.util.concurrent.Future;
 import java.util.zip.GZIPInputStream;
 
+import io.rong.app.server.utils.NLog;
+
 public class SyncHttpClient {
 
 	private final String tag = SyncHttpClient.class.getSimpleName();
@@ -794,14 +796,14 @@ public class SyncHttpClient {
     	try {
     		//get the response from assets
 			URI uri = uriRequest.getURI();
-			Log.e(tag, "url : " + uri.toString());
+			NLog.e(tag, "url : " + uri.toString());
 			
 			String scheme = uri.getScheme();
 			if(!TextUtils.isEmpty(scheme) && ASSETS_PATH.equals(scheme)){
 				String fileName = uri.getAuthority();
 				InputStream intput = context.getAssets().open(fileName);
 				responseBody = inputSteamToString(intput);
-				Log.e(tag, "responseBody : " + responseBody);
+				NLog.e(tag, "responseBody : " + responseBody);
 				return responseBody;
 			}
     	
@@ -816,7 +818,7 @@ public class SyncHttpClient {
 //			        String key = uriRequest.getURI().toString().replace("/", "");
 //			        CacheManager.saveTestData(responseBody, key);
 //			    }
-			    Log.e(tag, "responseBody : " + responseBody);
+				NLog.e(tag, "responseBody : " + responseBody);
 			}
 			
 			// get cookie to save local  获取 cookie 存入本地

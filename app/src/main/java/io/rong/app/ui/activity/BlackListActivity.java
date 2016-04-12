@@ -1,12 +1,25 @@
 package io.rong.app.ui.activity;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+import java.util.List;
+
+import io.rong.app.App;
 import io.rong.app.R;
 import io.rong.app.server.network.http.HttpException;
+import io.rong.app.server.response.GetBlackListResponse;
+import io.rong.app.server.widget.CircleImageView;
 import io.rong.app.server.widget.LoadDialog;
+import io.rong.app.ui.adapter.BlackListAdapter;
 
 /**
  * Created by Bob on 2015/4/9.
@@ -19,6 +32,10 @@ public class BlackListActivity extends BaseActionBarActivity {
     private TextView isShowData;
 
     private ListView blackList;
+
+    private List<GetBlackListResponse.ResultEntity> dataList;
+
+    private MyBlackListAdapter adapter;
 
 
 
@@ -42,12 +59,75 @@ public class BlackListActivity extends BaseActionBarActivity {
     }
 
     @Override
-    public Object doInBackground(int requestCode) throws HttpException {
+    public Object doInBackground(int requestCode, String id) throws HttpException {
         return action.getBlackList();
     }
 
     @Override
     public void onSuccess(int requestCode, Object result) {
-        super.onSuccess(requestCode, result);
+        if (result != null) {
+            GetBlackListResponse response = (GetBlackListResponse) result;
+            if (response.getCode() == 200) {
+                LoadDialog.dismiss(mContext);
+                dataList =  response.getResult();
+                if (dataList != null) {
+                    if (dataList.size() > 0) {
+                        adapter = new MyBlackListAdapter(dataList);
+                        blackList.setAdapter(adapter);
+                    }else {
+                        isShowData.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+
+        }
+    }
+
+    class MyBlackListAdapter extends BaseAdapter{
+
+        private List<GetBlackListResponse.ResultEntity> dataList;
+
+        public MyBlackListAdapter(List<GetBlackListResponse.ResultEntity> dataList){
+            this.dataList = dataList;
+        }
+
+        @Override
+        public int getCount() {
+            return dataList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return dataList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHoler viewHolder = null;
+            GetBlackListResponse.ResultEntity bean = dataList.get(position);
+            if (convertView == null) {
+                viewHolder = new ViewHoler();
+                convertView = LayoutInflater.from(mContext).inflate(R.layout.black_item_new, null);
+                viewHolder.mName = (TextView) convertView.findViewById(R.id.blackname);
+                viewHolder.mHead = (ImageView) convertView.findViewById(R.id.blackuri);
+                convertView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHoler) convertView.getTag();
+            }
+            viewHolder.mName.setText(bean.getUser().getNickname());
+            ImageLoader.getInstance().displayImage(bean.getUser().getPortraitUri(), viewHolder.mHead, App.getOptions());
+            return convertView;
+        }
+
+
+        class ViewHoler {
+            ImageView mHead;
+            TextView mName;
+        }
     }
 }

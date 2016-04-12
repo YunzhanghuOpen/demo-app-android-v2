@@ -9,18 +9,18 @@
         android:title="@string/action_settings"
         app:showAsAction="ifRoom|withText">
         <menu>
-            <item
+            <!--<item
                 android:id="@+id/add_item1"
                 android:icon="@drawable/de_btn_main_chat"
-                android:title="@string/add_chat" />
+                android:title="@string/add_chat" />-->
             <item
                 android:id="@+id/add_item2"
                 android:icon="@drawable/de_btn_main_groups"
                 android:title="@string/add_select_group" />
-            <item
+            <!--<item
                 android:id="@+id/add_item3"
                 android:icon="@drawable/de_btn_main_contacts"
-                android:title="@string/add_contacts" />
+                android:title="扫一扫" />-->
         </menu>
     </item>
 

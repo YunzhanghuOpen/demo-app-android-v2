@@ -128,7 +128,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() == 4) {
+                if (s.length() == 6) {
                     AMUtils.onInactive(mContext, mCodeEdit);
                 }
             }
@@ -164,7 +164,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
 
     @Override
-    public Object doInBackground(int requestCode) throws HttpException {
+    public Object doInBackground(int requestCode, String id) throws HttpException {
         switch (requestCode) {
             case CHECKPHONE:
                 return action.checkPhoneAvailable("86", mPhone);
@@ -175,7 +175,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             case REGISTER:
                 return action.register(mNickName, mPassword, mCodeToken);
         }
-        return super.doInBackground(requestCode);
+        return super.doInBackground(requestCode, id);
     }
 
     @Override

@@ -20,6 +20,8 @@ public class AsyncRequest {
 	 */
 	private OnDataListener listener;
 
+	private String id;
+
 	public AsyncRequest() {
 		super();
 	}
@@ -28,6 +30,17 @@ public class AsyncRequest {
 		this.requestCode = requestCode;
 		this.isCheckNetwork = isCheckNetwork;
 		this.listener = listener;
+	}
+
+	public AsyncRequest(String id, int requestCode, boolean isCheckNetwork, OnDataListener listener) {
+		this.requestCode = requestCode;
+		this.isCheckNetwork = isCheckNetwork;
+		this.listener = listener;
+		this.id = id;
+	}
+
+	public String getId() {
+		return id;
 	}
 
 	public int getRequestCode() {

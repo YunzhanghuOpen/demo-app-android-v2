@@ -25,14 +25,14 @@
         android:layout_height="fill_parent"
         android:orientation="horizontal">
 
-        <io.rong.app.server.widget.CircleImageView
+        <io.rong.imkit.widget.AsyncImageView
             android:id="@+id/dis_frienduri"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_margin="10dp"
             android:src="@drawable/rc_default_portrait"
-            app:civ_border_color="@color/mine_head_color"
-            app:civ_border_width="2dp" />
+            app:RCCornerRadius="3dp"
+            />
 
         <TextView
             android:id="@+id/dis_friendname"

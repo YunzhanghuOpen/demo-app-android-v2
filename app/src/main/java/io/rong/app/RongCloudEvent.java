@@ -2,7 +2,10 @@ package io.rong.app;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.text.TextUtils;
 import android.view.View;
+
 
 import io.rong.app.db.DBManager;
 import io.rong.app.db.Friend;
@@ -10,6 +13,7 @@ import io.rong.app.message.AgreedFriendRequestMessage;
 import io.rong.app.server.broadcast.BroadcastManager;
 import io.rong.app.server.network.http.HttpException;
 import io.rong.app.server.response.ContactNotificationMessageData;
+import io.rong.app.server.utils.AMGenerate;
 import io.rong.app.server.utils.NLog;
 import io.rong.app.server.utils.json.JsonMananger;
 import io.rong.app.ui.activity.NewFriendListActivity;
@@ -34,7 +38,7 @@ import io.rong.message.GroupNotificationMessage;
  * Created by AMing on 16/1/7.
  * Company RongCloud
  */
-public class RongCloudEvent implements RongIM.ConversationListBehaviorListener, RongIMClient.OnReceiveMessageListener, RongIM.UserInfoProvider, RongIM.GroupInfoProvider, RongIM.GroupUserInfoProvider {
+public class RongCloudEvent implements RongIM.ConversationListBehaviorListener, RongIMClient.OnReceiveMessageListener, RongIM.UserInfoProvider, RongIM.GroupInfoProvider, RongIM.GroupUserInfoProvider, RongIMClient.ConnectionStatusListener {
 
 
     public static final String UPDATEFRIEND = "updatefriend";
@@ -48,23 +52,7 @@ public class RongCloudEvent implements RongIM.ConversationListBehaviorListener, 
         this.mContext = mContext;
         //初始化不需要 connect 就能 监听的 Listener
         initListener();
-        UserInfoEngine.getInstance(mContext).setListener(new UserInfoEngine.UserInfoListener() {
-            @Override
-            public void onResult(UserInfo info) {
-                if (info != null && RongIM.getInstance() != null) {
-                    RongIM.getInstance().refreshUserInfoCache(info);
-                }
-            }
-        });
-        GroupInfoEngine.getInstance(mContext).setmListener(new GroupInfoEngine.GroupInfoListeners() {
-            @Override
-            public void onResult(Group info) {
-                if (info != null && RongIM.getInstance() != null) {
-                    NLog.e("GroupInfoEngine:"+info.getId()+"----"+info.getName()+"----"+info.getPortraitUri());
-                    RongIM.getInstance().refreshGroupInfoCache(info);
-                }
-            }
-        });
+
     }
 
     /**
@@ -110,7 +98,32 @@ public class RongCloudEvent implements RongIM.ConversationListBehaviorListener, 
      * 需要 rongcloud connect 成功后设置的 listener
      */
     public void setConnectedListener() {
+        UserInfoEngine.getInstance(mContext).setListener(new UserInfoEngine.UserInfoListener() {
+            @Override
+            public void onResult(UserInfo info) {
+                if (info != null && RongIM.getInstance() != null) {
+                    if (TextUtils.isEmpty(String.valueOf(info.getPortraitUri()))) {
+                        info.setPortraitUri(Uri.parse(AMGenerate.generateDefaultAvatar(info.getName(), info.getUserId())));
+                    }
+                    RongIM.getInstance().refreshUserInfoCache(info);
+                }
+            }
+        });
+        GroupInfoEngine.getInstance(mContext).setmListener(new GroupInfoEngine.GroupInfoListeners() {
+            @Override
+            public void onResult(Group info) {
+                if (info != null && RongIM.getInstance() != null) {
+                    NLog.e("GroupInfoEngine:" + info.getId() + "----" + info.getName() + "----" + info.getPortraitUri());
+                    if (TextUtils.isEmpty(String.valueOf(info.getPortraitUri()))) {
+                        info.setPortraitUri(Uri.parse(AMGenerate.generateDefaultAvatar(info.getName(), info.getId())));
+                    }
+                    RongIM.getInstance().refreshGroupInfoCache(info);
+                }
+            }
+        });
+
         RongIM.getInstance().getRongIMClient().setOnReceiveMessageListener(this);
+        RongIM.getInstance().getRongIMClient().setConnectionStatusListener(this);
 
         //        扩展功能自定义  singleProvider 语音 voip 只支持单对单
         InputProvider.ExtendProvider[] singleProvider = {
@@ -182,23 +195,23 @@ public class RongCloudEvent implements RongIM.ConversationListBehaviorListener, 
             if (contactNotificationMessage.getOperation().equals("Request")) {
                 //对方发来好友邀请
                 BroadcastManager.getInstance(mContext).sendBroadcast(RongCloudEvent.UPDATEREDDOT);
-            }else if (contactNotificationMessage.getOperation().equals("AcceptResponse")) {
+            } else if (contactNotificationMessage.getOperation().equals("AcceptResponse")) {
                 //对方同意我的好友请求
                 ContactNotificationMessageData c = null;
                 try {
-                     c = JsonMananger.jsonToBean(contactNotificationMessage.getExtra(),ContactNotificationMessageData.class);
+                    c = JsonMananger.jsonToBean(contactNotificationMessage.getExtra(), ContactNotificationMessageData.class);
                 } catch (HttpException e) {
                     e.printStackTrace();
                 }
                 if (c != null) {
                     //TODO web 端返回数据没有头像
-                    DBManager.getInstance(mContext).getDaoSession().getFriendDao().insertOrReplace(new Friend(contactNotificationMessage.getSourceUserId(),c.getSourceUserNickname(),null,null,null,null));
+                    DBManager.getInstance(mContext).getDaoSession().getFriendDao().insertOrReplace(new Friend(contactNotificationMessage.getSourceUserId(), c.getSourceUserNickname(), null, null, null, null));
                 }
                 BroadcastManager.getInstance(mContext).sendBroadcast(UPDATEFRIEND);
                 BroadcastManager.getInstance(mContext).sendBroadcast(RongCloudEvent.UPDATEREDDOT);
             }
 //                // 发广播通知更新好友列表
-            BroadcastManager.getInstance(mContext).sendBroadcast(UPDATEREDDOT);
+//            BroadcastManager.getInstance(mContext).sendBroadcast(UPDATEREDDOT);
 //            }
         } else if (messageContent instanceof AgreedFriendRequestMessage) {//好友添加成功消息
             AgreedFriendRequestMessage agreedFriendRequestMessage = (AgreedFriendRequestMessage) messageContent;
@@ -236,18 +249,26 @@ public class RongCloudEvent implements RongIM.ConversationListBehaviorListener, 
 
     @Override
     public UserInfo getUserInfo(String s) {
+        NLog.e("Rongcloudevent : getUserInfo:" + s);
         return UserInfoEngine.getInstance(mContext).startEngine(s);
     }
 
     @Override
     public Group getGroupInfo(String s) {
-        NLog.e("getGroupInfo:"+s);
+        NLog.e("Rongcloudevent : getGroupInfo:" + s);
         return GroupInfoEngine.getInstance(mContext).startEngine(s);
     }
 
     @Override
     public GroupUserInfo getGroupUserInfo(String groupId, String userId) {
         //TODO 服务端查询 , 有 bug 暂时注释此提供者
-        return GroupUserInfoEngine.getInstance(mContext).startEngine(groupId,userId);
+        return GroupUserInfoEngine.getInstance(mContext).startEngine(groupId, userId);
+    }
+
+    @Override
+    public void onChanged(ConnectionStatus connectionStatus) {
+        if (connectionStatus.getMessage().equals(ConnectionStatus.KICKED_OFFLINE_BY_OTHER_CLIENT)) {
+
+        }
     }
 }

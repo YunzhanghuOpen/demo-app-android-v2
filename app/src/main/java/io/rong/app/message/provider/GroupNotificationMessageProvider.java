@@ -10,11 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import io.rong.app.R;
 import io.rong.app.server.network.async.OnDataListener;
 import io.rong.app.server.network.http.HttpException;
+import io.rong.app.server.response.CreateGroupData;
 import io.rong.app.server.response.GroupNotificationMessageData;
 import io.rong.app.server.utils.json.JsonMananger;
 import io.rong.imkit.RongContext;
@@ -61,11 +64,21 @@ public class GroupNotificationMessageProvider extends IContainerItemProvider.Mes
             }
             if (!TextUtils.isEmpty(groupNotificationMessage.getOperation()))
                 if (groupNotificationMessage.getOperation().equals("Add")) {
-                    viewHolder.contentTextView.setText(operatorNickname + " 邀请 " + memberName + " 加入本群");
+                    if (uiMessage.getTargetId().equals("E1IoyL5Pj") || uiMessage.getTargetId().equals("qGEj03bpP") || uiMessage.getTargetId().equals("iNj2YO4ib")) {
+                        viewHolder.contentTextView.setText(operatorNickname + " 申请加入本群");
+                    }else {
+                        viewHolder.contentTextView.setText(operatorNickname + " 邀请 " + memberName + " 加入本群");
+                    }
                 } else if (groupNotificationMessage.getOperation().equals("Kicked")) {
                     viewHolder.contentTextView.setText(operatorNickname + " 将 " + memberName + " 移出本群");
                 } else if (groupNotificationMessage.getOperation().equals("Create")) {
-                    viewHolder.contentTextView.setText(operatorNickname + " 创建本群");
+                    CreateGroupData createGroupData = null;
+                    try {
+                        createGroupData = JsonMananger.jsonToBean(groupNotificationMessage.getData(),CreateGroupData.class);
+                    } catch (HttpException e) {
+                        e.printStackTrace();
+                    }
+                    viewHolder.contentTextView.setText(createGroupData.getData().getOperatorNickname() + " 创建本群");
                 } else if (groupNotificationMessage.getOperation().equals("Dismiss")) {
                     viewHolder.contentTextView.setText(operatorNickname + " 解散本群");
                 } else if (groupNotificationMessage.getOperation().equals("Quit")) {
@@ -82,12 +95,12 @@ public class GroupNotificationMessageProvider extends IContainerItemProvider.Mes
         } catch (HttpException e) {
             e.printStackTrace();
         }
-//        String operatorNickname = data.getData().getOperatorNickname();
+        String operatorNickname = data.getData().getOperatorNickname();
         List<String> memberList = data.getData().getTargetUserDisplayNames();
-        String memberName;
+        String memberName = "";
         if (memberList != null && memberList.size() == 1) {
             memberName = memberList.get(0);
-        } else {
+        } else if (memberList != null) {
             StringBuilder sb = new StringBuilder();
             for (String s : memberList) {
                 sb.append(s);
@@ -96,16 +109,24 @@ public class GroupNotificationMessageProvider extends IContainerItemProvider.Mes
             String str = sb.toString();
             memberName = str.substring(0, str.length() - 1);
         }
+
+        if (TextUtils.isEmpty(memberName)) {
+            memberName = operatorNickname;
+        }
         if (groupNotificationMessage.getOperation().equals("Add")) {
-            return new SpannableString("邀请 " + memberName + " 加入该群");
+            if (groupNotificationMessage.getOperatorUserId().toString().trim().equals(data.getData().getTargetUserIds().get(0).toString().trim())) {
+                return new SpannableString(operatorNickname + " 申请加入该群");
+            }else {
+                return new SpannableString(operatorNickname + " 邀请 " + memberName + " 加入该群");
+            }
         } else if (groupNotificationMessage.getOperation().equals("Kicked")) {
-            return new SpannableString("将 " + memberName + " 移除该群");
+            return new SpannableString(operatorNickname+ " 将 " + memberName + " 移除该群");
         } else if (groupNotificationMessage.getOperation().equals("Create")) {
-            return new SpannableString("创建该群");
+            return new SpannableString(operatorNickname+" 创建该群");
         } else if (groupNotificationMessage.getOperation().equals("Dismiss")) {
-            return new SpannableString("解散该群");
+            return new SpannableString(operatorNickname+" 解散该群");
         } else if (groupNotificationMessage.getOperation().equals("Quit")) {
-            return new SpannableString("退出本群");
+            return new SpannableString(operatorNickname+" 退出本群");
         }
         return new SpannableString("[群组通知]");
     }
@@ -131,7 +152,7 @@ public class GroupNotificationMessageProvider extends IContainerItemProvider.Mes
     }
 
     @Override
-    public Object doInBackground(int requsetCode) throws HttpException {
+    public Object doInBackground(int requsetCode, String id) throws HttpException {
         return null;
     }
 

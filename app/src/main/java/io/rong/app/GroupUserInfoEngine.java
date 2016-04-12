@@ -58,9 +58,10 @@ public class GroupUserInfoEngine implements OnDataListener {
         return getGroupUserInfo();
     }
 
+
     @Override
-    public Object doInBackground(int requsetCode) throws HttpException {
-        return new SealAction(context).getGroupMember(groupId);
+    public Object doInBackground(int requsetCode, String id) throws HttpException {
+        return new SealAction(context).getGroupMember(id);
     }
 
     private List<GetGroupMemberResponse.ResultEntity> mGroupMember;

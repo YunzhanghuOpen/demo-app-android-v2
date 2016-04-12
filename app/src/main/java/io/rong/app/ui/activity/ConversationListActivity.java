@@ -1,6 +1,7 @@
 package io.rong.app.ui.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,17 +33,17 @@ public class ConversationListActivity extends BaseApiActivity {
     private static final String TAG = ConversationListActivity.class.getSimpleName();
     private AbstractHttpRequest<Groups> mGetMyGroupsRequest;
     private LoadingDialog mDialog;
+    private SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        sp = getSharedPreferences("config",MODE_PRIVATE);
         mDialog = new LoadingDialog(this);
         Intent intent = getIntent();
 
         //push
-        if (intent.getData().getScheme().equals("rong")
-                && intent.getData().getQueryParameter("push") != null) {
+        if (intent.getData().getScheme().equals("rong") && intent.getData().getQueryParameter("push") != null) {
 
             //通过intent.getData().getQueryParameter("push") 为true，判断是否是push消息
             if (intent.getData().getQueryParameter("push").equals("true")) {
@@ -76,11 +77,7 @@ public class ConversationListActivity extends BaseApiActivity {
      */
     private void enterActivity() {
 
-        if (DemoContext.getInstance() == null)
-            return;
-
-        String token = DemoContext.getInstance().getSharedPreferences()
-                .getString(Constants.APP_TOKEN, Constants.DEFAULT);
+        String token = sp.getString("loginToken", "");
 
         if (token.equals(Constants.DEFAULT)) {
 
@@ -116,8 +113,13 @@ public class ConversationListActivity extends BaseApiActivity {
                 if (RongCloudEvent.getInstance() != null)
                     RongCloudEvent.getInstance().setConnectedListener();
 
-                if (DemoContext.getInstance() != null)
-                    mGetMyGroupsRequest = DemoContext.getInstance().getDemoApi().getMyGroups(ConversationListActivity.this);
+
+                if (mDialog != null)
+                    mDialog.dismiss();
+
+
+                startActivity(new Intent(ConversationListActivity.this,MainActivity.class));
+                finish();
             }
 
             @Override
@@ -184,10 +186,10 @@ public class ConversationListActivity extends BaseApiActivity {
 
     @Override
     public void onCallApiSuccess(AbstractHttpRequest request, Object obj) {
-        if (mGetMyGroupsRequest != null && mGetMyGroupsRequest.equals(request)) {
-            Log.e(TAG, "---push--onCallApiSuccess-");
-            getMyGroupApiSuccess(obj);
-        }
+//        if (mGetMyGroupsRequest != null && mGetMyGroupsRequest.equals(request)) {
+//            Log.e(TAG, "---push--onCallApiSuccess-");
+//            getMyGroupApiSuccess(obj);
+//        }
     }
 
     @Override

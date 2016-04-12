@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/de_action_white"
     android:layout_height="match_parent"
+    android:background="@color/de_action_white"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -22,15 +22,15 @@
 
         <io.rong.imkit.widget.AsyncImageView
             android:id="@+id/img_my_portrait"
-            app:RCDefDrawable="@drawable/rc_default_portrait"
-            app:RCShape="square"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="16dp"
             android:padding="5dp"
-            android:src="@drawable/de_ic_my_portrait" />
+            android:src="@drawable/de_ic_my_portrait"
+            app:RCDefDrawable="@drawable/rc_default_portrait"
+            app:RCCornerRadius="3dp" />
 
     </RelativeLayout>
 
@@ -40,7 +40,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@color/group_list_liner"  />
+        android:background="@color/group_list_liner" />
 
     <RelativeLayout
         android:id="@+id/rl_my_username"
@@ -66,6 +66,39 @@
             android:text="一鹿" />
 
     </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/group_list_liner" />
+
+    <RelativeLayout
+        android:id="@+id/rl_my_telephone"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp">
+
+        <TextView
+            style="@style/DemoTextStyleBigBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:text="手机号" />
+
+        <TextView
+            android:id="@+id/tv_my_phone"
+            style="@style/DemoTextStyleMiddle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="25dp"
+            android:text="+86 18618268584" />
+
+
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
@@ -73,7 +106,9 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@color/group_list_liner"  />
+        android:background="@color/group_list_liner" />
+
+
 
     <RelativeLayout
         android:id="@+id/rl_my_password"
@@ -89,7 +124,6 @@
             android:text="密码更改" />
 
 
-
     </RelativeLayout>
 
     <View
@@ -98,7 +132,35 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@color/group_list_liner"  />
+        android:background="@color/group_list_liner" />
+
+
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:onClick="onTestClick">
+
+        <TextView
+            style="@style/DemoTextStyleBigBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:text="测试" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/group_list_liner" />
 
 
 </LinearLayout>

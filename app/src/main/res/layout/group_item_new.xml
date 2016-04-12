@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
     android:gravity="center_vertical"
     android:orientation="vertical">
 
@@ -10,16 +11,17 @@
     <LinearLayout
         android:id="@+id/groupitem"
         android:layout_width="fill_parent"
-        android:layout_height="52dp"
+        android:layout_height="72dp"
         android:background="@drawable/btn_list_item_bg"
         android:orientation="horizontal">
 
-        <ImageView
+        <io.rong.imkit.widget.AsyncImageView
             android:id="@+id/groupuri"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="12dp"
+            app:RCCornerRadius="3dp"
             android:src="@drawable/rc_default_portrait" />
 
         <TextView
@@ -33,12 +35,17 @@
             android:textColor="#353535"
             android:textSize="16sp" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <Button
+            android:id="@+id/group_chat"
+            android:background="@drawable/rs_select_btn_green"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:text="聊天"
+            android:textSize="12sp"
+            android:textColor="@color/white"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="10dp"
-            android:background="@drawable/rp_arrow" />
+             />
 
 
     </LinearLayout>

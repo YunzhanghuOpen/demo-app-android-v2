@@ -4,6 +4,8 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+
+
 import org.apache.http.entity.StringEntity;
 
 import java.io.UnsupportedEncodingException;
@@ -20,6 +22,7 @@ import io.rong.app.server.request.DeleteFriendRequest;
 import io.rong.app.server.request.DeleteGroupMemberRequest;
 import io.rong.app.server.request.DismissGroupRequest;
 import io.rong.app.server.request.FriendInvitationRequest;
+import io.rong.app.server.request.JoinGroupRequest;
 import io.rong.app.server.request.LoginRequest;
 import io.rong.app.server.request.QuitGroupRequest;
 import io.rong.app.server.request.RegisterRequest;
@@ -39,6 +42,7 @@ import io.rong.app.server.response.AgreeFriendsResponse;
 import io.rong.app.server.response.ChangePasswordResponse;
 import io.rong.app.server.response.CheckPhoneResponse;
 import io.rong.app.server.response.CreateGroupResponse;
+import io.rong.app.server.response.DefaultConversationResponse;
 import io.rong.app.server.response.DeleteFriendResponse;
 import io.rong.app.server.response.DeleteGroupMemberResponse;
 import io.rong.app.server.response.DismissGroupResponse;
@@ -50,7 +54,9 @@ import io.rong.app.server.response.GetGroupResponse;
 import io.rong.app.server.response.GetTokenResponse;
 import io.rong.app.server.response.GetUserInfoByIdResponse;
 import io.rong.app.server.response.GetUserInfoByPhoneResponse;
+import io.rong.app.server.response.JoinGroupResponse;
 import io.rong.app.server.response.LoginResponse;
+import io.rong.app.server.response.QiNiuTokenResponse;
 import io.rong.app.server.response.QuitGroupResponse;
 import io.rong.app.server.response.RegisterResponse;
 import io.rong.app.server.response.RemoveFromBlackListResponse;
@@ -66,7 +72,6 @@ import io.rong.app.server.response.VerifyCodeResponse;
 import io.rong.app.server.response.SetGroupNameResponse;
 import io.rong.app.server.utils.NLog;
 import io.rong.app.server.utils.json.JsonMananger;
-import io.rong.imkit.model.Event;
 
 /**
  * Created by AMing on 16/1/14.
@@ -833,4 +838,99 @@ public class SealAction extends BaseAction {
         }
         return response;
     }
+
+    public QiNiuTokenResponse getQiNiuToken() throws HttpException {
+        String url = getURL("user/get_image_token");
+        String result = httpManager.get(mContext, url);
+        QiNiuTokenResponse q = null;
+        if (!TextUtils.isEmpty(result)) {
+            q = jsonToBean(result, QiNiuTokenResponse.class);
+        }
+        return q;
+    }
+
+
+    /**
+     * 当前用户加入某群组
+     *
+     * @param groupId
+     * @return
+     * @throws HttpException
+     */
+    public JoinGroupResponse JoinGroup(String groupId) throws HttpException {
+        String url = getURL("group/join");
+        String json = JsonMananger.beanToJson(new JoinGroupRequest(groupId));
+        StringEntity entity = null;
+        try {
+            entity = new StringEntity(json, ENCODING);
+            entity.setContentType(CONTENTTYPE);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String result = httpManager.post(mContext, url, entity, CONTENTTYPE);
+        JoinGroupResponse response = null;
+        if (!TextUtils.isEmpty(result)) {
+            response = jsonToBean(result, JoinGroupResponse.class);
+        }
+        return response;
+    }
+
+
+    /**
+     * 获取默认群组 和 聊天室
+     *
+     * @return
+     * @throws HttpException
+     */
+    public DefaultConversationResponse getDefaultConversation() throws HttpException {
+        String url = getURL("demo_square");
+        String result = httpManager.get(mContext, url);
+        DefaultConversationResponse response = null;
+        if (!TextUtils.isEmpty(result)) {
+            response = jsonToBean(result, DefaultConversationResponse.class);
+        }
+        return response;
+    }
+//TODO qiniu 弃用文档上方式发(文档依赖第三方较多) post 请求未调试成功
+//    public String uploadImageByQiniu(String file, final String key, final String token) throws HttpException {
+//        Bitmap bitmap = BitmapFactory.decodeFile(file);
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//        byte[] byteArray = baos.toByteArray();
+//        String url = "http://upload.qiniu.com";
+//        String json = JsonMananger.beanToJson(new UpLoadImageRequest(byteArray, key, token));
+//        StringEntity entity = null;
+//        try {
+//            entity = new StringEntity(json, ENCODING);
+//            entity.setContentType("multipart/form-data; boundary=Boundary+00A142488B70D1C0");
+////            entity.setContentType("application/octet-stream");
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+//        String result = httpManager.post(mContext, url, entity, "multipart/form-data; boundary=Boundary+00A142488B70D1C0");
+//        return null;
+//    }
+
+//    public String uploadImageByQiniu2(String file, final String key, final String token) throws HttpException {
+//        Bitmap bitmap = BitmapFactory.decodeFile(file);
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//        byte[] byteArray = baos.toByteArray();
+//        String url = "http://upload.qiniu.com";
+//        RequestParams params = getRequestParams();
+//        params.put("data",byteArray);
+//        params.put("key",key);
+//        params.put("token",token);
+//        String result = httpManager.post(mContext,url,params,"multipart/form-data");
+//        return "";
+//    }
+
+//    public RequestParams getRequestParams(){
+//        RequestParams params = new RequestParams();
+//        //1web端,2Ios手机,3安卓手机,4ios平板,5安卓平板,6微信
+//        params.put("channelType", "5");
+//        return params;
+//    }
+
+
 }
