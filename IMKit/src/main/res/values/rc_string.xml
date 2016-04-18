@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="rc_name">融云</string>
+	<string name="rc_name">融云</string>
 
     <string name="rc_voice_dialog_swipe">手指上滑，取消发送</string>
     <string name="rc_voice_dialog_cancel_send">松开手指，取消发送</string>
@@ -108,7 +108,7 @@
     <string name="rc_network_is_busy">网络繁忙</string>
     <string name="rc_network_error">网络连接错误</string>
     <string name="rc_network_exception">网络异常请稍后再试</string>
-    <string name="rc_called_on_grhook">对方已挂机</string>
+    <string name="rc_called_on_hook">对方已挂机</string>
     <string name="rc_called_is_calling">对方正在通话中</string>
     <string name="rc_exit_calling">是否退出通话界面？</string>
     <string name="rc_yes">是</string>
@@ -123,11 +123,9 @@
     <string name="rc_cs_evaluate_robot">机器人是否解决了您的问题</string>
     <string name="rc_cs_submit">提交</string>
     <string name="rc_cs_cancel">取消</string>
-    
+    <string name="rc_quit_custom_service">客服已结束</string>
+    <string name="rc_init_failed">连接客服失败</string>
     <string name="rc_notification_ticker_text">您有了一条新消息</string>
     <string name="rc_notification_new_msg">%1$s发来了%2$d条消息</string>
     <string name="rc_notification_new_plural_msg">%1$d个联系人发来了%2$d条消息</string>
-
-    <string name="rc_quit_custom_service">客服已结束</string>
-    <string name="rc_init_failed">连接客服失败</string>
 </resources>

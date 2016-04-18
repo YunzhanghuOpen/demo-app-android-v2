@@ -8,8 +8,8 @@ android {
         applicationId "io.rong.app"
         minSdkVersion 9
         targetSdkVersion 19
-        versionCode 2016040522
-        versionName "2.4.11 Stable"
+        versionCode 2016041822
+        versionName "2.5.0 Stable"
 
     }
 
