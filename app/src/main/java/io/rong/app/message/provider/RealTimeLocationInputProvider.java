@@ -30,7 +30,7 @@ public class RealTimeLocationInputProvider extends LocationInputProvider {
 
         RealTimeLocationConstant.RealTimeLocationErrorCode errorCode = RongIMClient.getInstance().getRealTimeLocation(getCurrentConversation().getConversationType(), getCurrentConversation().getTargetId());
 
-        if (errorCode != null && errorCode != RealTimeLocationConstant.RealTimeLocationErrorCode.RC_REAL_TIME_LOCATION_CONVERSATION_NOT_SUPPORT) {
+        if (errorCode != null && errorCode != RealTimeLocationConstant.RealTimeLocationErrorCode.RC_REAL_TIME_LOCATION_CONVERSATION_NOT_SUPPORT) {//服务端未开通
 
             ArraysDialogFragment arraysDialogFragment = ArraysDialogFragment.newInstance("位置", new String[]{"发送位置", "实时位置共享"});
             arraysDialogFragment.setArraysDialogItemListener(new ArraysDialogFragment.OnArraysDialogItemListener() {

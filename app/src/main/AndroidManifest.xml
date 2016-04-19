@@ -48,7 +48,6 @@
         <activity
             android:name=".ui.activity.LoginActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -60,8 +59,7 @@
             android:name=".ui.activity.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            >
+            android:windowSoftInputMode="stateHidden|adjustPan">
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -73,12 +71,16 @@
                     android:scheme="rong" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.GroupListActivity"></activity>
-        <activity android:name=".ui.activity.FriendDetailActivity"></activity>
+        <activity android:name=".ui.activity.GroupListActivity"
+            android:screenOrientation="portrait"
+            ></activity>
+        <activity android:name=".ui.activity.FriendDetailActivity"
+            android:screenOrientation="portrait"
+            ></activity>
         <!--注册页面-->
         <activity
-            android:launchMode="singleTask"
             android:name=".ui.activity.RegisterActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
         <!--发起聊天页面-->
         <activity
@@ -111,13 +113,21 @@
             android:name=".ui.activity.AboutRongCloudActivity"
             android:screenOrientation="portrait"></activity>
         <!--关于融云－更新日志-->
-        <activity android:name=".ui.activity.UpdateLogActivity"></activity>
+        <activity android:name=".ui.activity.UpdateLogActivity"
+            android:screenOrientation="portrait"
+            ></activity>
         <!--关于融云－功能介绍-->
-        <activity android:name=".ui.activity.FunctionIntroducedActivity"></activity>
+        <activity android:name=".ui.activity.FunctionIntroducedActivity"
+            android:screenOrientation="portrait"
+            ></activity>
         <!--关于融云－开发者文档-->
-        <activity android:name=".ui.activity.DocumentActivity"></activity>
+        <activity android:name=".ui.activity.DocumentActivity"
+            android:screenOrientation="portrait"
+            ></activity>
         <!--关于融云－官方网站-->
-        <activity android:name=".ui.activity.RongWebActivity"></activity>
+        <activity android:name=".ui.activity.RongWebActivity"
+            android:screenOrientation="portrait"
+            ></activity>
         <!--黑名单列表-->
         <activity
             android:name=".ui.activity.BlackListActivity"
@@ -167,15 +177,29 @@
             android:name=".ui.activity.PublicServiceSearchActivity"
             android:screenOrientation="portrait"></activity>
 
-        <activity android:name=".ui.activity.RealTimeLocationActivity"></activity>
+        <activity android:name=".ui.activity.RealTimeLocationActivity"
+            android:screenOrientation="portrait"
+            ></activity>
 
-        <activity android:name=".ui.activity.NewTextMessageActivity"></activity>
+        <activity android:name=".ui.activity.NewTextMessageActivity"
+            android:screenOrientation="portrait"
+            ></activity>
         <!--选择联系人 多人聊天-->
-        <activity android:name=".ui.activity.SelectFriendsActivity"></activity>
-        <activity android:name=".ui.activity.CreateGroupActivity"></activity>
-        <activity android:name=".ui.activity.NewGroupDetailActivity"></activity>
-        <activity android:name=".ui.activity.ChangeGroupInfoActivity"></activity>
-        <activity android:name=".ui.activity.ForgetPasswordActivity"></activity>
+        <activity android:name=".ui.activity.SelectFriendsActivity"
+            android:screenOrientation="portrait"
+            ></activity>
+        <activity android:name=".ui.activity.CreateGroupActivity"
+            android:screenOrientation="portrait"
+            ></activity>
+        <activity android:name=".ui.activity.NewGroupDetailActivity"
+            android:screenOrientation="portrait"
+            ></activity>
+        <activity android:name=".ui.activity.ChangeGroupInfoActivity"
+            android:screenOrientation="portrait"
+            ></activity>
+        <activity android:name=".ui.activity.ForgetPasswordActivity"
+            android:screenOrientation="portrait"
+            ></activity>
         <!--公众-->
         <activity
             android:name=".ui.activity.PublicServiceInfoActivity"

@@ -3,13 +3,17 @@ package io.rong.app;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 
 import io.rong.app.db.DBManager;
 import io.rong.app.db.Friend;
 import io.rong.app.message.AgreedFriendRequestMessage;
+import io.rong.app.message.provider.NewCameraInputProvider;
+import io.rong.app.message.provider.RealTimeLocationInputProvider;
 import io.rong.app.server.broadcast.BroadcastManager;
 import io.rong.app.server.network.http.HttpException;
 import io.rong.app.server.response.ContactNotificationMessageData;
@@ -17,15 +21,22 @@ import io.rong.app.server.utils.AMGenerate;
 import io.rong.app.server.utils.NLog;
 import io.rong.app.server.utils.json.JsonMananger;
 import io.rong.app.ui.activity.NewFriendListActivity;
+import io.rong.app.ui.activity.PhotoActivity;
+import io.rong.app.ui.activity.RealTimeLocationActivity;
+import io.rong.app.ui.activity.SOSOLocationActivity;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.model.GroupUserInfo;
 import io.rong.imkit.model.UIConversation;
+import io.rong.imkit.widget.AlterDialogFragment;
 import io.rong.imkit.widget.provider.CameraInputProvider;
+import io.rong.imkit.widget.provider.ImageInputProvider;
 import io.rong.imkit.widget.provider.InputProvider;
 import io.rong.imkit.widget.provider.LocationInputProvider;
 import io.rong.imkit.widget.provider.VoIPInputProvider;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.location.RealTimeLocationConstant;
+import io.rong.imlib.location.message.RealTimeLocationStartMessage;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Group;
 import io.rong.imlib.model.Message;
@@ -33,12 +44,17 @@ import io.rong.imlib.model.MessageContent;
 import io.rong.imlib.model.UserInfo;
 import io.rong.message.ContactNotificationMessage;
 import io.rong.message.GroupNotificationMessage;
+import io.rong.message.ImageMessage;
+import io.rong.message.LocationMessage;
+import io.rong.message.PublicServiceMultiRichContentMessage;
+import io.rong.message.PublicServiceRichContentMessage;
+import io.rong.message.RichContentMessage;
 
 /**
  * Created by AMing on 16/1/7.
  * Company RongCloud
  */
-public class RongCloudEvent implements RongIM.ConversationListBehaviorListener, RongIMClient.OnReceiveMessageListener, RongIM.UserInfoProvider, RongIM.GroupInfoProvider, RongIM.GroupUserInfoProvider, RongIMClient.ConnectionStatusListener {
+public class RongCloudEvent implements RongIM.ConversationListBehaviorListener, RongIMClient.OnReceiveMessageListener, RongIM.UserInfoProvider, RongIM.GroupInfoProvider, RongIM.GroupUserInfoProvider, RongIMClient.ConnectionStatusListener, RongIM.LocationProvider, RongIM.ConversationBehaviorListener {
 
 
     public static final String UPDATEFRIEND = "updatefriend";
@@ -87,10 +103,11 @@ public class RongCloudEvent implements RongIM.ConversationListBehaviorListener, 
      * init 后就能设置的监听
      */
     private void initListener() {
-//        RongIM.setConversationBehaviorListener(this);//设置会话界面操作的监听器。
+        RongIM.setConversationBehaviorListener(this);//设置会话界面操作的监听器。
         RongIM.setConversationListBehaviorListener(this);
         RongIM.setUserInfoProvider(this, true);
         RongIM.setGroupInfoProvider(this, true);
+        RongIM.setLocationProvider(this);//设置地理位置提供者,不用位置的同学可以注掉此行代码
 //        RongIM.setGroupUserInfoProvider(this, true);
     }
 
@@ -127,14 +144,14 @@ public class RongCloudEvent implements RongIM.ConversationListBehaviorListener, 
 
         //        扩展功能自定义  singleProvider 语音 voip 只支持单对单
         InputProvider.ExtendProvider[] singleProvider = {
-//                new PhotoInputProvider(RongContext.getInstance()),//图片
+                new ImageInputProvider(RongContext.getInstance()),
                 new CameraInputProvider(RongContext.getInstance()),//相机
-                new LocationInputProvider(RongContext.getInstance()),//地理位置
-                new VoIPInputProvider(RongContext.getInstance()),// 语音通话
+                new RealTimeLocationInputProvider(RongContext.getInstance()),//带位置共享的地理位置
+//                new VoIPInputProvider(RongContext.getInstance()),// 语音通话
         };
 
         InputProvider.ExtendProvider[] muiltiProvider = {
-//                new PhotoInputProvider(RongContext.getInstance()),//图片
+                new ImageInputProvider(RongContext.getInstance()),
                 new CameraInputProvider(RongContext.getInstance()),//相机
                 new LocationInputProvider(RongContext.getInstance()),//地理位置
         };
@@ -270,5 +287,127 @@ public class RongCloudEvent implements RongIM.ConversationListBehaviorListener, 
         if (connectionStatus.getMessage().equals(ConnectionStatus.KICKED_OFFLINE_BY_OTHER_CLIENT)) {
 
         }
+    }
+
+    @Override
+    public void onStartLocation(Context context, LocationCallback locationCallback) {
+        /**
+         * demo 代码  开发者需替换成自己的代码。
+         */
+        DemoContext.getInstance().setLastLocationCallback(locationCallback);
+
+        Intent intent = new Intent(context, SOSOLocationActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+    @Override
+    public boolean onUserPortraitClick(Context context, Conversation.ConversationType conversationType, UserInfo userInfo) {
+        return false;
+    }
+
+    @Override
+    public boolean onUserPortraitLongClick(Context context, Conversation.ConversationType conversationType, UserInfo userInfo) {
+        return false;
+    }
+
+    @Override
+    public boolean onMessageClick(final Context context, final View view, final Message message) {
+
+        //real-time location message begin
+        if (message.getContent() instanceof RealTimeLocationStartMessage) {
+            RealTimeLocationConstant.RealTimeLocationStatus status = RongIMClient.getInstance().getRealTimeLocationCurrentState(message.getConversationType(), message.getTargetId());
+
+//            if (status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_IDLE) {
+//                startRealTimeLocation(context, message.getConversationType(), message.getTargetId());
+//            } else
+            if (status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_INCOMING) {
+
+
+                final AlterDialogFragment alterDialogFragment = AlterDialogFragment.newInstance("", "加入位置共享", "取消", "加入");
+                alterDialogFragment.setOnAlterDialogBtnListener(new AlterDialogFragment.AlterDialogBtnListener() {
+
+                    @Override
+                    public void onDialogPositiveClick(AlterDialogFragment dialog) {
+                        RealTimeLocationConstant.RealTimeLocationStatus status = RongIMClient.getInstance().getRealTimeLocationCurrentState(message.getConversationType(), message.getTargetId());
+
+                        if (status == null || status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_IDLE) {
+                            startRealTimeLocation(context, message.getConversationType(), message.getTargetId());
+                        } else {
+                            joinRealTimeLocation(context, message.getConversationType(), message.getTargetId());
+                        }
+
+                    }
+
+                    @Override
+                    public void onDialogNegativeClick(AlterDialogFragment dialog) {
+                        alterDialogFragment.dismiss();
+                    }
+                });
+
+                alterDialogFragment.show(((FragmentActivity) context).getSupportFragmentManager());
+            } else {
+
+                if (status != null && (status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_OUTGOING || status == RealTimeLocationConstant.RealTimeLocationStatus.RC_REAL_TIME_LOCATION_STATUS_CONNECTED)) {
+
+                    Intent intent = new Intent(((FragmentActivity) context), RealTimeLocationActivity.class);
+                    intent.putExtra("conversationType", message.getConversationType().getValue());
+                    intent.putExtra("targetId", message.getTargetId());
+                    context.startActivity(intent);
+                }
+            }
+            return true;
+        }
+
+        //real-time location message end
+        /**
+         * demo 代码  开发者需替换成自己的代码。
+         */
+        if (message.getContent() instanceof LocationMessage) {
+            Intent intent = new Intent(context, SOSOLocationActivity.class);
+            intent.putExtra("location", message.getContent());
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }  else if (message.getContent() instanceof ImageMessage) {
+            ImageMessage imageMessage = (ImageMessage) message.getContent();
+            Intent intent = new Intent(context, PhotoActivity.class);
+
+            intent.putExtra("photo", imageMessage.getLocalUri() == null ? imageMessage.getRemoteUri() : imageMessage.getLocalUri());
+            if (imageMessage.getThumUri() != null)
+                intent.putExtra("thumbnail", imageMessage.getThumUri());
+
+            context.startActivity(intent);
+        }
+
+        return false;
+    }
+
+
+    private void startRealTimeLocation(Context context, Conversation.ConversationType conversationType, String targetId) {
+        RongIMClient.getInstance().startRealTimeLocation(conversationType, targetId);
+
+        Intent intent = new Intent(((FragmentActivity) context), RealTimeLocationActivity.class);
+        intent.putExtra("conversationType", conversationType.getValue());
+        intent.putExtra("targetId", targetId);
+        context.startActivity(intent);
+    }
+
+    private void joinRealTimeLocation(Context context, Conversation.ConversationType conversationType, String targetId) {
+        RongIMClient.getInstance().joinRealTimeLocation(conversationType, targetId);
+
+        Intent intent = new Intent(((FragmentActivity) context), RealTimeLocationActivity.class);
+        intent.putExtra("conversationType", conversationType.getValue());
+        intent.putExtra("targetId", targetId);
+        context.startActivity(intent);
+    }
+
+    @Override
+    public boolean onMessageLinkClick(Context context, String s) {
+        return false;
+    }
+
+    @Override
+    public boolean onMessageLongClick(Context context, View view, Message message) {
+        return false;
     }
 }

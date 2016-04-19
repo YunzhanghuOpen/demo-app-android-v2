@@ -30,8 +30,10 @@ import io.rong.app.server.pinyin.CharacterParser;
 import io.rong.app.server.pinyin.Friend;
 import io.rong.app.server.pinyin.PinyinComparator;
 import io.rong.app.server.pinyin.SideBar;
+import io.rong.app.server.utils.NLog;
 import io.rong.app.ui.activity.FriendDetailActivity;
 import io.rong.app.ui.activity.GroupListActivity;
+import io.rong.app.ui.activity.MainActivity;
 import io.rong.app.ui.activity.NewFriendListActivity;
 import io.rong.app.ui.activity.PublicServiceActivity;
 import io.rong.app.ui.adapter.FriendAdapter;
@@ -211,7 +213,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
 
     private void startFriendDetailsPage(Friend friend) {
         Intent intent = new Intent(getActivity(),FriendDetailActivity.class);
-        intent.putExtra("FriendDetails",friend);
+        intent.putExtra("FriendDetails", friend);
         startActivity(intent);
     }
 
@@ -225,6 +227,8 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
 
         }
     }
+
+
 
     private void initView(View view) {
         //实例化汉字转拼音类
@@ -251,6 +255,14 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
         });
     }
 
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (dialog != null) {
+            dialog.setVisibility(View.INVISIBLE);
+        }
+    }
 
     public TextView getDialog() {
         return dialog;
@@ -398,4 +410,5 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
         Collections.sort(sourceDataList, pinyinComparator);
         adapter.updateListView(sourceDataList);
     }
+
 }

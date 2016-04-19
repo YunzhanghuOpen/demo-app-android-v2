@@ -36,6 +36,7 @@ import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.app.RongCloudEvent;
 import io.rong.app.server.broadcast.BroadcastManager;
+import io.rong.app.server.utils.NLog;
 import io.rong.app.ui.adapter.ConversationListAdapterEx;
 import io.rong.app.ui.fragment.ChatRoomListFragment;
 import io.rong.app.ui.fragment.ContactsFragment;
@@ -63,8 +64,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.de_ac_main);
-        RongIM.getInstance().enableNewComingMessageIcon(true);
-        RongIM.getInstance().enableUnreadMessageIcon(true);
 
 //        mFragmentManager = getSupportFragmentManager();
         getSupportActionBar().setTitle(R.string.main_name);
@@ -251,9 +250,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     }
 
+
+
     @Override
     public void onPageSelected(int i) {
-
         switch (i) {
             case 0:
                 selectNavSelection(0);
@@ -297,7 +297,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                                 .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "false")//群组
                                 .appendQueryParameter(Conversation.ConversationType.PUBLIC_SERVICE.getName(), "false")//公共服务号
                                 .appendQueryParameter(Conversation.ConversationType.APP_PUBLIC_SERVICE.getName(), "false")//订阅号
-                                .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//系统
+                                .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "true")//系统
                                 .build();
                         listFragment.setUri(uri);
                         fragment = listFragment;
@@ -549,6 +549,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
 
+
+
     private RelativeLayout mMainConversationLiner;
     private RelativeLayout mMainGroupLiner;
     private RelativeLayout mMainChatroomLiner;
@@ -568,7 +570,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     /**
      * 群组的fragment
      */
-    private Fragment mGroupListFragment = null;
+    private ContactsFragment mGroupListFragment = null;
     /**
      * 会话TextView
      */
@@ -606,7 +608,4 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private LinearLayout mMainShow;
     private TextView mCustomerNoRead;
 
-    public String getStringUrl(){
-        return "哈哈";
-    }
 }

@@ -12,11 +12,14 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import org.w3c.dom.Text;
+
 import io.rong.app.App;
 import io.rong.app.R;
 import io.rong.app.server.network.http.HttpException;
 import io.rong.app.server.response.FriendInvitationResponse;
 import io.rong.app.server.response.GetUserInfoByPhoneResponse;
+import io.rong.app.server.utils.AMGenerate;
 import io.rong.app.server.utils.AMUtils;
 import io.rong.app.server.utils.NToast;
 import io.rong.app.server.widget.DialogWithYesOrNoUtils;
@@ -100,7 +103,11 @@ public class SearchFriendActivity extends BaseActivity {
                         NToast.shortToast(mContext, "success");
                         mFriendId = guifres.getResult().getId();
                         searchItem.setVisibility(View.VISIBLE);
-                        ImageLoader.getInstance().displayImage(guifres.getResult().getPortraitUri(), searchImage, App.getOptions());
+                        if (TextUtils.isEmpty(guifres.getResult().getPortraitUri())) {
+                            ImageLoader.getInstance().displayImage(AMGenerate.generateDefaultAvatar(guifres.getResult().getNickname(),guifres.getResult().getId()) ,searchImage, App.getOptions());
+                        }else {
+                            ImageLoader.getInstance().displayImage(guifres.getResult().getPortraitUri(), searchImage, App.getOptions());
+                        }
                         searchName.setText(guifres.getResult().getNickname());
                         searchItem.setOnClickListener(new View.OnClickListener() {
                             @Override

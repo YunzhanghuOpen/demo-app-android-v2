@@ -46,6 +46,7 @@ public class App extends Application {
                 "io.rong.push".equals(getCurProcessName(getApplicationContext()))) {
 
             RongIM.init(this);
+            NLog.setDebug(true);
             /**
              * 融云SDK事件监听处理
              *

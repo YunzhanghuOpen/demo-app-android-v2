@@ -12,14 +12,14 @@ android {
         versionName "2.4.4 Stable"
     }
 
-//    signingConfigs {
-//        config {
-//            storeFile file("rong.key")
-//            storePassword "Amigo123"
-//            keyAlias "RongCloud"
-//            keyPassword "Amigo123"
-//        }
-//    }
+    signingConfigs {
+        config {
+            storeFile file("rong.key")
+            storePassword "Amigo123"
+            keyAlias "RongCloud"
+            keyPassword "Amigo123"
+        }
+    }
     sourceSets {
         main {
             jni.srcDirs = []
@@ -33,11 +33,12 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-//            signingConfig signingConfigs.config //for release
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config //for release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             minifyEnabled false
+            signingConfig signingConfigs.config //for release
         }
     }
 
@@ -55,4 +56,6 @@ dependencies {
     compile project(':IMKitWithVoIP')
     // libs 中 happy dns.jar - okhttp.jar - okio.jar 为 qiniu存储所需依赖jar 融云 sdk 和你的 app 中都无需依赖
     compile files('libs/generate.jar')
+    compile files('libs/TencentSearch1.1.2.16095.jar')
+    compile files('libs/TencentMapSDK_Raster_v1.1.2.16281.jar')
 }

@@ -101,7 +101,7 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() == 4) {
+                if (s.length() == 6) {
                     AMUtils.onInactive(mContext, mCode);
                     if (available) {
                         mOK.setClickable(true);

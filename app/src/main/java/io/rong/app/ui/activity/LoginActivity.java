@@ -284,7 +284,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             RongIM.getInstance().setCurrentUserInfo(new UserInfo(guRes.getResult().getId(), guRes.getResult().getNickname(), Uri.parse(guRes.getResult().getPortraitUri())));
                             RongIM.getInstance().setMessageAttachedUserInfo(true);
 
-
                             List<Qun> groupList = DBManager.getInstance(mContext).getDaoSession().getQunDao().loadAll();
                             if (groupList.size() == 0 || groupList == null) {
                                 //检查本地是否有群组数据  如果没有 可能是换设备登录 从服务端再次去查询 有无群组数据

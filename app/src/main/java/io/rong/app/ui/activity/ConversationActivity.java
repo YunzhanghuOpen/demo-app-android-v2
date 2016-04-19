@@ -297,6 +297,14 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
 
                 if (mDialog != null)
                     mDialog.dismiss();
+
+//                Intent intent = new Intent();
+//                intent.setClass(ConversationActivity.this, MainActivity.class);
+//                intent.putExtra("PUSH_CONVERSATIONTYPE", mConversationType.toString());
+//                intent.putExtra("PUSH_TARGETID", mTargetId);
+//                startActivity(intent);
+//                finish();
+
                 startActivity(new Intent(ConversationActivity.this,MainActivity.class));
                 finish();
             }
@@ -898,6 +906,7 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
 
     @Override
     public void onReceiveLocation(double latitude, double longitude, String userId) {
+        Log.e(TAG, "userid = " + userId + ", lat: " + latitude +" long :"+ longitude);
         EventBus.getDefault().post(RongEvent.RealTimeLocationReceiveEvent.obtain(userId, latitude, longitude));
     }
 
