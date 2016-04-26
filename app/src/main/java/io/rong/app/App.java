@@ -4,6 +4,8 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 
+import com.easemob.luckymoneylibrary.controller.AppController;
+
 import io.rong.app.message.AgreedFriendRequestMessage;
 import io.rong.app.message.RongRedPacketMessage;
 import io.rong.app.message.RongRedPacketMessageProvider;
@@ -65,6 +67,9 @@ public class App extends Application {
                 }
             }
         }
+        //初始化红包上下文
+        AppController.getInstance().initContext(this);
+        AppController.getInstance().setDebugMode(true);
 
     }
 

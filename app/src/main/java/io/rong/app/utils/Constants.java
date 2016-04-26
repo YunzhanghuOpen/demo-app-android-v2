@@ -32,5 +32,18 @@ public class Constants {
     public static final String APP_USER_ID = "DEMO_USERID";
     public static final String APP_USER_NAME = "DEMO_USER_NAME";
     public static final String APP_USER_PORTRAIT = "DEMO_USER_PORTRAIT";
-
+    //红包所需要的常量可以自己定义
+    public static final int ITEM_SEND_MONEY = 15;
+    public static final int MESSAGE_TYPE_RECV_MONEY = 5;
+    public static final int MESSAGE_TYPE_SEND_MONEY = 6;
+    public static final int MESSAGE_TYPE_SEND_LUCKY = 7;
+    public static final int MESSAGE_TYPE_RECV_LUCKY = 8;
+    public static final int REQUEST_CODE_SEND_MONEY = 15;
+    //红包相关常量值
+    public static final String REFRESH_GROUP_MONEY_ACTION = "refresh_group_money_action";
+    public static final String EXTRA_LUCKY_MONEY_SENDER_ID = "money_sender_id";
+    public static final String EXTRA_LUCKY_MONEY_RECEIVER_ID = "money_receiver_id";
+    public static final String MESSAGE_ATTR_IS_OPEN_MONEY_MESSAGE = "is_open_money_msg";
+    public static final String EXTRA_LUCKY_MONEY_SENDER = "money_sender";
+    public static final String EXTRA_LUCKY_MONEY_RECEIVER = "money_receiver";
 }

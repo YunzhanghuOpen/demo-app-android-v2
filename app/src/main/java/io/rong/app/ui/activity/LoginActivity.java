@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -25,8 +26,17 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.easemob.luckymoneylibrary.controller.AppController;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -405,8 +415,10 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
 
                     if (DemoContext.getInstance() != null)
                         DemoContext.getInstance().setGroupMap(groupM);
-
-                    mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
+                    //初始化红包Token
+                    RequestTask requestTask=new RequestTask();
+                    requestTask.execute();
+                  //  mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
 
                     if ( RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
 //                    if (grouplist.size() > 0 && RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
@@ -595,6 +607,75 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
             mGetMyGroupsRequest = null;
             Log.e(TAG, "------OnDestory--loginHttpRequest-");
         }
+    }
+    public class RequestTask extends AsyncTask<String, String, HttpResponse> {
+
+        @Override
+        protected HttpResponse doInBackground(String... uri) {
+          String userID =DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_ID,Constants.DEFAULT);
+            Log.e(TAG,"--UserId--"+userID);
+            String mockUrl = "http://121.42.52.69:3001/api/sign?duid=" + userID;
+            HttpClient client = new DefaultHttpClient();
+            HttpGet request = new HttpGet(mockUrl);
+            // replace with your url
+
+            HttpResponse response;
+            try {
+                response = client.execute(request);
+                Log.d("Response of GET request", response.toString());
+                return response;
+            } catch (ClientProtocolException e) {
+                // TODO Auto-generated catch block
+                Log.e(TAG, e.getMessage());
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                Log.e(TAG, e.getMessage());
+            }
+            return null;
+
+        }
+
+        @Override
+        protected void onPostExecute(HttpResponse result) {
+
+            try {
+                String responseBody = EntityUtils.toString(result.getEntity());
+                JSONObject jsonObj = new JSONObject(responseBody);
+                String partner = jsonObj.getString("partner");
+                String userId = jsonObj.getString("user_id");
+                String timestamp = jsonObj.getString("timestamp");
+                String sign = jsonObj.getString("sign");
+                String regHongbaoUser = jsonObj.getString("reg_hongbao_user");
+
+                //			final String a = resbb;
+                //			final String partner = "123456";
+                //			final String userId = "123";
+                //			final int timestamp = 1459494756;
+                //			final String sign = "88de57113ef1a0c34c183a9cb2d48a38892daf453e2dea5b49b28bf280f003e9";
+
+                AppController.getInstance().initLmToken(partner, userId, regHongbaoUser, timestamp, sign,
+                        new AppController.LMCallback() {
+                            @Override
+                            public void onSuccess() {
+                                // 进入主页面
+                                mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
+                                Log.d(TAG, "init luck money success token: " + AppController.getInstance().sToken);
+                            }
+
+                            @Override
+                            public void onError(String code, String message) {
+                                //错误处理
+                                mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
+                                Log.e(TAG, "init luck money fail token:"+message);
+
+                            }
+                        });
+
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage());
+            }
+        }
+
     }
 
     /**

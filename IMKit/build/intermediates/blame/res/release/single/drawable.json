@@ -20,12 +20,12 @@
         "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable/rc_item_top_list_selector.xml"
     },
     {
-        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/release/drawable/rc_ic_keyboard.xml",
-        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable/rc_ic_keyboard.xml"
-    },
-    {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/release/drawable/rc_preview_checkbox.xml",
         "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable/rc_preview_checkbox.xml"
+    },
+    {
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/release/drawable/rc_ic_keyboard.xml",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable/rc_ic_keyboard.xml"
     },
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/release/drawable/rc_btn_public_service_enter_selector.xml",
