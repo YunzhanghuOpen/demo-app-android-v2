@@ -22,6 +22,7 @@ import com.sea_monster.network.ApiCallback;
 import io.rong.app.database.UserInfos;
 import io.rong.app.message.AgreedFriendRequestMessage;
 import io.rong.app.message.ContactsProvider;
+import io.rong.app.message.RongRedPacketProvider;
 import io.rong.app.message.provider.RealTimeLocationInputProvider;
 import io.rong.app.model.User;
 import io.rong.app.ui.activity.MainActivity;
@@ -184,6 +185,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 new CameraInputProvider(RongContext.getInstance()),//相机
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
                 new VoIPInputProvider(RongContext.getInstance()),// 语音通话
+                new RongRedPacketProvider(RongContext.getInstance()),//红包
         };
 
         InputProvider.ExtendProvider[] provider1 = {
@@ -191,6 +193,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 new CameraInputProvider(RongContext.getInstance()),//相机
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
                 new ContactsProvider(RongContext.getInstance()),//通讯录
+                new RongRedPacketProvider(RongContext.getInstance()),//红包
         };
 
         RongIM.resetInputExtensionProvider(Conversation.ConversationType.PRIVATE, provider);

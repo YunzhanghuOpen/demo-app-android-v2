@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@id/rc_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="120dp"
+    android:layout_gravity="center"
+    >
+
+    <!--<RelativeLayout-->
+        <!--android:id="@id/rc_img"-->
+        <!--android:layout_width="206dp"-->
+        <!--android:layout_height="120dp"-->
+        <!--android:background="#fa9d3b">-->
+
+        <!--<RelativeLayout-->
+            <!--android:layout_width="170dp"-->
+            <!--android:layout_height="70dp"-->
+            <!--android:layout_above="@id/rc_content"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_alignParentTop="true" >-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/imageView1"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_margin="5dp"-->
+                <!--android:src="@drawable/ic_rongcloud" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/textView1"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignTop="@+id/imageView1"-->
+                <!--android:layout_toRightOf="@+id/imageView1"-->
+                <!--android:text="恭喜发财，大吉大利！"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textStyle="bold" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/textView2"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignBottom="@+id/imageView1"-->
+                <!--android:layout_toRightOf="@+id/imageView1"-->
+                <!--android:text="领取云账户红包"-->
+                <!--android:textColor="@android:color/white" />-->
+        <!--</RelativeLayout>-->
+    <!--android:layout_below="@+id/tv_userid"-->
+    <RelativeLayout
+        android:id="@+id/bubble"
+        android:layout_width="190dp"
+        android:layout_height="90dp"
+        android:background="@drawable/ease_money_chatto_bg"
+        >
+
+        <ImageView
+            android:id="@+id/iv_money_icon"
+            android:src="@drawable/ease_money_icon"
+            style="@style/MoneyIconStyle"
+            />
+
+        <TextView
+            android:id="@+id/tv_money_greeting"
+            style="@style/MoneyGreetingStyle"
+            android:text="恭喜发财 大吉大利!"
+            />
+
+        <TextView
+            android:text="查看红包"
+            style="@style/MoneyCheckStyle"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_alignParentBottom="true"
+            >
+
+            <TextView
+                android:id="@+id/tv_sponsor_name"
+                style="@style/MoneySponsorStyle"
+                android:text="云账户红包"
+                />
+        </RelativeLayout>
+    </RelativeLayout>
+
+        <!--<TextView-->
+            <!--android:id="@+id/rc_content"-->
+            <!--android:layout_width="206dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:background="#FFFFFF"-->
+            <!--android:gravity="left|center"-->
+            <!--android:paddingBottom="5dp"-->
+            <!--android:paddingLeft="5dp"-->
+            <!--android:paddingRight="5dp"-->
+            <!--android:paddingTop="5dp"-->
+            <!--android:text="运气红包"-->
+            <!--android:textColor="#999999"-->
+            <!--android:textSize="14sp" />-->
+    <!--</RelativeLayout>-->
+
+</RelativeLayout>
