@@ -5,10 +5,8 @@
     android:background="@color/rc_normal_bg"
     android:orientation="vertical">
 
-
-    <fragment
-        android:id="@+id/conversation"
-        android:name="io.rong.imkit.fragment.ConversationFragment"
+    <FrameLayout
+        android:id="@+id/rong_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

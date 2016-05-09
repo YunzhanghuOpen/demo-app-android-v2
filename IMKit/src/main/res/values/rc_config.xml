@@ -15,7 +15,7 @@
     <!-- 进入客服会话，机器人模式下，弹出评价菜单超时时间(单位：秒)-->
     <!-- 设置为 0 时，任何时候离开客服会话时，都会弹出评价菜单-->
     <integer name="rc_custom_service_evaluation_interval">60</integer>
-    <!--设置语音消息的码率 (单位 bps)-->
+     <!--设置语音消息的码率 (单位 bps)-->
     <integer name="rc_audio_encoding_bit_rate">7950</integer>
 
     <!--原图压缩比例-->
