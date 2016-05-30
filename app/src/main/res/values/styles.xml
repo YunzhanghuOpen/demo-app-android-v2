@@ -121,48 +121,5 @@
         <item name="android:maxHeight">10.0dip</item>
 
     </style>
-    <!--红包Style-->
-
-
-    <style name="MoneyIconStyle">
-        <item name="android:layout_width">25dp</item>
-        <item name="android:layout_height">36dp</item>
-        <item name="android:layout_marginLeft">10dp</item>
-        <item name="android:layout_marginTop">15dp</item>
-    </style>
-    <style name="MoneyGreetingStyle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">10dp</item>
-        <item name="android:layout_toRightOf">@id/iv_money_icon</item>
-        <item name="android:layout_marginTop">14dp</item>
-        <item name="android:textColor">@color/money_white</item>
-        <item name="android:textSize">15sp</item>
-        <item name="android:maxLength">10</item>
-        <item name="android:singleLine">true</item>
-    </style>
-
-    <style name="MoneyCheckStyle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_alignBaseline">@id/iv_money_icon</item>
-        <item name="android:layout_below">@id/tv_money_greeting</item>
-        <item name="android:layout_marginLeft">10dp</item>
-        <item name="android:layout_toRightOf">@id/iv_money_icon</item>
-        <item name="android:textColor">@color/money_white</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-
-    <style name="MoneySponsorStyle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">10dp</item>
-        <item name="android:textColor">@color/text_light_grey</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:layout_alignParentLeft">true</item>
-        <item name="android:layout_marginTop">3dp</item>
-    </style>
-
-
 
 </resources>

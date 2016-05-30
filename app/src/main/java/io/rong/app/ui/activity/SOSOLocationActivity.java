@@ -167,6 +167,9 @@ public class SOSOLocationActivity extends MapActivity implements
                     sosoPoiItem.setName(tencentLocation.getAddress());
                     sosoPoiItem.setLat((int) (tencentLocation.getLatitude() * 1E6));
                     sosoPoiItem.setLng((int) (tencentLocation.getLongitude() * 1E6));
+                    android.util.Log.e("tag", "-----onLocationChanged-----(tencentLocation.getLatitude() * 1E6)---4.sdf------" + (tencentLocation.getLatitude()));
+                    android.util.Log.e("tag", "-----onLocationChanged-----(tencentLocation.getLatitude() * 1E6)---4.0032057E7------" + (int) (tencentLocation.getLatitude() * 1E6));
+
 
                     if (getIntent().hasExtra("location"))
                         mHandler.obtainMessage(RENDER_POI, sosoPoiItem).sendToTarget();

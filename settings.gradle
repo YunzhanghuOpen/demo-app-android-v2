@@ -1,1 +1,1 @@
-include ':IMKit', ':app', ':luckymoneylibrary-aar'
+include ':app',':IMKit',':redpacketlibrary'

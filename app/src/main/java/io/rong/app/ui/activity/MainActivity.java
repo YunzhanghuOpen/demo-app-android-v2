@@ -32,6 +32,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.easemob.redpacketui.RPContext;
+
 import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.app.ui.adapter.ConversationListAdapterEx;
@@ -448,9 +450,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
 
             case R.id.add_item2://选择群组
+
                 if (RongIM.getInstance() != null)
                     RongIM.getInstance().startSubConversationList(this, Conversation.ConversationType.GROUP);
-
                 break;
             case R.id.add_item3://通讯录
                 startActivity(new Intent(MainActivity.this, ContactsActivity.class));
@@ -466,6 +468,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case R.id.set_item4://关于融云
                 startActivity(new Intent(MainActivity.this, AboutRongCloudActivity.class));
+                break;
+            case R.id.set_item_change://零钱
+                RPContext.getInstance().toChangeActivity(this);
+//                Intent intent = new Intent(this, RPChangeActivity.class);
+//                String fromNickname = "";
+//                String fromAvatarUrl = "";
+//                fromAvatarUrl = PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.APP_USER_PORTRAIT,"none");
+//                fromNickname =PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.APP_USER_NAME,"default");
+//                intent.putExtra(RPConstant.EXTRA_USER_NAME, fromNickname);
+//                intent.putExtra(RPConstant.EXTRA_TO_USER_AVATAR, fromAvatarUrl);
+//                startActivity(intent);
                 break;
             case R.id.set_item5://退出
 
@@ -510,7 +523,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (KeyEvent.KEYCODE_BACK == event.getKeyCode()) {
-
 
             final AlertDialog.Builder alterDialog = new AlertDialog.Builder(this);
             alterDialog.setMessage("确定退出应用？");

@@ -28,7 +28,7 @@
     <string name="add_select_group">选择群组</string>
     <string name="add_voip">网络电话</string>
     <string name="add_contacts">通讯录</string>
-    <string name="red_packet">红包</string>
+
     <string name="set_personal_information">我的账号</string>
     <string name="set_news_reminded">新消息提醒</string>
     <string name="set_privacy">隐私</string>
@@ -36,8 +36,8 @@
     <string name="set_rongcloud">关于融云</string>
     <string name="set_sign_out">退出</string>
     <string name="set_logout">注销</string>
+    <string name="set_change">零钱</string>
     <string name="de_save">"保存"</string>
-
     <string name="register_user_exits">"该邮箱已注册"</string>
     <string name="no_read_message">"···"</string>
 
@@ -162,5 +162,6 @@
     <string name="preview">预览</string>
     <string name="msg_no_camera">没有系统相机</string>
     <string name="msg_amount_limit">已经达到最高选择数量</string>
+
 
 </resources>

@@ -110,7 +110,6 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e(TAG, "---------onCreate------");
         setContentView(R.layout.conversation);
 
         mDialog = new LoadingDialog(this);
@@ -441,8 +440,10 @@ public class ConversationActivity extends BaseApiActivity implements RongIMClien
                     , targetId, new RongIMClient.ResultCallback<PublicServiceProfile>() {
                 @Override
                 public void onSuccess(PublicServiceProfile publicServiceProfile) {
+
                     if(publicServiceProfile != null && publicServiceProfile.getName() != null)
-                        getSupportActionBar().setTitle(publicServiceProfile.getName().toString());
+
+                        getSupportActionBar().setTitle(publicServiceProfile.getName());
                 }
 
                 @Override

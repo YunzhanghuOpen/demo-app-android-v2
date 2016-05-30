@@ -28,6 +28,7 @@ import java.util.List;
 
 import io.rong.app.database.UserInfos;
 import io.rong.app.model.Friends;
+import io.rong.app.model.GroupInfo;
 import io.rong.app.model.Groups;
 import io.rong.app.model.Status;
 import io.rong.app.model.User;
@@ -280,13 +281,13 @@ public class DemoApi extends BaseApi {
      * @return
      */
 
-    public AbstractHttpRequest<Groups> getGroupByGroupId(String groupid, ApiCallback<Groups> callback) {
+    public AbstractHttpRequest<GroupInfo> getGroupByGroupId(String groupid, ApiCallback<GroupInfo> callback) {
 
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
         nameValuePairs.add(new BasicNameValuePair("id", groupid));
 
-        ApiReqeust<Groups> apiReqeust = new DefaultApiReqeust<Groups>(ApiReqeust.GET_METHOD, URI.create(HOST + DEMO_GET_GROUP), nameValuePairs, callback);
-        AbstractHttpRequest<Groups> httpRequest = apiReqeust.obtainRequest(new GsonParser<Groups>(Groups.class), mAuthType);
+        ApiReqeust<GroupInfo> apiReqeust = new DefaultApiReqeust<GroupInfo>(ApiReqeust.GET_METHOD, URI.create(HOST + DEMO_GET_GROUP), nameValuePairs, callback);
+        AbstractHttpRequest<GroupInfo> httpRequest = apiReqeust.obtainRequest(new GsonParser<GroupInfo>(GroupInfo.class), mAuthType);
         NetworkManager.getInstance().requestAsync(httpRequest);
 
         return httpRequest;

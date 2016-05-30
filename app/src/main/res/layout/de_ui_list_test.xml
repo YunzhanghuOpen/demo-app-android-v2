@@ -4,6 +4,8 @@
     android:layout_height="match_parent">
 
     <fragment
+        android:tag="friend_list"
+        android:id="@+id/friend_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:name="io.rong.app.ui.fragment.FriendMultiChoiceFragment"/>

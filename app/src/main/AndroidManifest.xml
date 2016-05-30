@@ -5,7 +5,8 @@
 
     <uses-sdk
         android:minSdkVersion="11"
-        android:targetSdkVersion="21" />
+        tools:overrideLibrary="com.easemob.redpacketui"
+         />
 
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -45,29 +46,43 @@ ea
         android:icon="@drawable/ic_rongcloud"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <!--发红包界面-->
         <activity
-            android:name="com.easemob.luckymoneylibrary.ui.activity.LuckyMoneyActivity"
+            android:name="com.easemob.redpacketui.ui.activity.RPRedPacketActivity"
             android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="adjustPan|stateVisible"
             />
-        <!--红包详情界面-->
         <activity
-            android:name="com.easemob.luckymoneylibrary.ui.activity.LuckyMoneyDetailActivity"
+            android:name="com.easemob.redpacketui.ui.activity.RPDetailActivity"
             android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="adjustPan"
             />
-        <!--红包记录界面-->
+
         <activity
-            android:name="com.easemob.luckymoneylibrary.ui.activity.LuckyMoneyRecordActivity"
+            android:name="com.easemob.redpacketui.ui.activity.RPRecordActivity"
             android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="adjustPan"
             />
-        <!--使用到WebView界面-->
+
         <activity
-            android:name="com.easemob.luckymoneylibrary.ui.activity.LuckyMoneyWebViewActivity"
+            android:name="com.easemob.redpacketui.ui.activity.RPWebViewActivity"
             android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="adjustResize|stateHidden"
+            />
+        <activity
+            android:name="com.easemob.redpacketui.ui.activity.RPChangeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            />
+        <activity
+            android:name="com.easemob.redpacketui.ui.activity.RPBankCardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             />
         <!--登录页面-->
         <activity
@@ -336,7 +351,8 @@ ea
 
         <activity
             android:name="io.rong.imkit.tools.SelectPictureActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name="io.rong.imkit.tools.PreviewPictureActivity"
             android:screenOrientation="portrait" />

@@ -27,13 +27,6 @@
     <color name="text_light_grey">#9e9e9e</color>
     <color name="money_white">#ffffff</color>
     <!--无用的资源颜色-->
-    <color name="money_red_light">#ffff4444</color>
-    <color name="money_bg_color">#efefef</color>
-    <color name="divider_color">#c7c7c7</color>
-    <color name="text_light_black">#666666</color>
-    <color name="text_grey">#6e6e6e</color>
-    <color name="text_black">#3e3e3e</color>
-    <color name="background_white">@color/money_white</color>
-    <color name="text_yellow">#FEE94E</color>
-    <color name="btn_gray_normal">#c0c0c0</color>
+
+
 </resources>

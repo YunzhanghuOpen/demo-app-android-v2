@@ -46,6 +46,7 @@ public class NewDiscussionConversationProvider implements IContainerItemProvider
         ImageView notificationBlockImage;
         TextView atMe;
         final NewDiscussionConversationProvider provider;
+
         ViewHolder() {
             provider = NewDiscussionConversationProvider.this;
         }
@@ -110,9 +111,9 @@ public class NewDiscussionConversationProvider implements IContainerItemProvider
     }
 
     /**
-     *  @ 消息提示
      * @param holder
      * @param data
+     * @ 消息提示
      */
     private void setDateView(ViewHolder holder, UIConversation data) {
 

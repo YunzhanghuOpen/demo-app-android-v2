@@ -1,7 +1,9 @@
+/redpacketibrary/build
 kit/build/intermediates/res/release/drawable-xhdpi-v4/rc_ic_volume_8.png
 kit/build/
 .idea
 .gradle/
 gen/
 build/
+/.gradle
 *.iml
