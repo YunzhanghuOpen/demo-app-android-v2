@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/assets"/><source path="/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/generated/assets/shaders/debug"/></dataSet><dataSet config="debug"><source path="/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/debug/assets"/></dataSet></merger>

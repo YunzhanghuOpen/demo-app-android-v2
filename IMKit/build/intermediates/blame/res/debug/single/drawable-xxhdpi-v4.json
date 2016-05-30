@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/rc_default_portrait.png",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xxhdpi/rc_default_portrait.png"
+    },
+    {
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/rc_ic_warning.png",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xxhdpi/rc_ic_warning.png"
+    },
+    {
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/rc_group_default_portrait.png",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xxhdpi/rc_group_default_portrait.png"
+    },
+    {
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/rc_ic_bubble_white.9.png",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xxhdpi/rc_ic_bubble_white.9.png"
+    }
+]
