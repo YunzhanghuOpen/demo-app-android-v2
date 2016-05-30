@@ -92,6 +92,7 @@ public class RongRedPacketProvider extends InputProvider.ExtendProvider {
         if (resultCode==Activity.RESULT_OK&&data != null && requestCode == RPContext.REQUEST_CODE_SEND_MONEY) {
             String greeting = data.getStringExtra(RPConstant.EXTRA_MONEY_GREETING);
             String moneyID = data.getStringExtra(RPConstant.EXTRA_CHECK_MONEY_ID);
+
             RongRedPacketMessage message = RongRedPacketMessage.obtain(RPContext.getInstance().getUserID(), RPContext.getInstance().getUserName(), greeting, moneyID);
             Log.e(TAG, "--红包界面返回--" + "-moneyID-" + moneyID + "-greeting-" + greeting);
             mUploadHandler.post(new MyRunnable(message));

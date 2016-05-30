@@ -7,3 +7,4 @@ gen/
 build/
 /.gradle
 *.iml
+.DS_Store
