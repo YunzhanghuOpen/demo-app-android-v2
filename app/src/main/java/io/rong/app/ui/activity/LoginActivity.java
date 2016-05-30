@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -25,8 +27,19 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.easemob.redpacketsdk.RPCallback;
+import com.easemob.redpacketsdk.RedPacket;
+import com.easemob.redpacketui.RPContext;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -142,6 +155,12 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                 if (mDialog != null && !mDialog.isShowing()) {
                     mDialog.show();
                 }
+
+                //初始化用户信息
+                String userID= PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.APP_USER_ID,"default");
+                String userName= PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.APP_USER_NAME,"default");
+                String userAvatar= PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.APP_USER_PORTRAIT,"default");
+                RPContext.getInstance().initUserInfo(userID,userName,userAvatar);
 
                 httpGetTokenSuccess(token);
             }
@@ -298,7 +317,8 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                     edit.putString(INTENT_IMAIL, mUserNameEt.getText().toString());
                     edit.putBoolean("DEMO_ISFIRST", false);
                     edit.apply();
-
+                    //初始化红包用户信息
+                    RPContext.getInstance().initUserInfo(user.getResult().getId(),user.getResult().getUsername(),user.getResult().getPortrait());
                     Log.i(TAG, "----login success---");
                 }
             } else if (user.getCode() == 103) {
@@ -499,6 +519,79 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
             }
         }
     }
+
+    public class RequestTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... uri) {
+            String userID = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_ID, Constants.DEFAULT);
+            Log.e(TAG, "--UserId--" + userID);
+            //String mockUrl = "http://121.42.52.69:3001/api/sign?duid=" + userID;
+            String mockUrl = "http://rpv2.easemob.com/api/sign?duid=" + userID;
+            HttpClient client = new DefaultHttpClient();
+            HttpGet request = new HttpGet(mockUrl);
+            // replace with your url
+            HttpResponse response;
+            try {
+                response = client.execute(request);
+                if (response.getStatusLine().getStatusCode() == 200) {
+                    Log.d("Response of GET request", response.toString());
+                    String responseBody = EntityUtils.toString(response.getEntity());
+                    return responseBody;
+                }
+
+                return null;
+            } catch (ClientProtocolException e) {
+                // TODO Auto-generated catch block
+                Log.e(TAG, e.getMessage());
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                Log.e(TAG, e.getMessage());
+            }
+            return null;
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            try {
+                if (result != null) {
+                    Log.e("zyh", "-res-" + result);
+                    JSONObject jsonObj = new JSONObject(result);
+                    String partner = jsonObj.getString("partner");
+                    String userId = jsonObj.getString("user_id");
+                    String timestamp = jsonObj.getString("timestamp");
+                    String sign = jsonObj.getString("sign");
+                    //  String regHongbaoUser = jsonObj.getString("reg_hongbao_user");
+                    // {"partner":"246606","user_id":"130374","timestamp":1464087428,"reg_hongbao_user":1,"sign":"3ba823465be1552ff7c4723a6d88fe26cfe3ed87a6949076e34f7ddb3dd9d5a3"}
+                    RedPacket.getInstance().initRPAuthToken(partner, userId, timestamp, sign,
+                            new RPCallback() {
+                                @Override
+                                public void onSuccess() {
+                                    // 进入主页面
+                                    mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
+                                    Log.e(TAG, "init luck money success token: " + RedPacket.getInstance().sToken);
+                                }
+
+                                @Override
+                                public void onError(String code, String message) {
+                                    //错误处理
+                                    mHandler.obtainMessage(HANDLER_LOGIN_FAILURE).sendToTarget();
+                                    Log.e(TAG, "init luck money fail token:" + message);
+
+                                }
+                            });
+                } else {
+                    mHandler.obtainMessage(HANDLER_LOGIN_FAILURE).sendToTarget();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
