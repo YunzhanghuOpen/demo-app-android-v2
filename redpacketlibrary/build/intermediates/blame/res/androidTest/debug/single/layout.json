@@ -24,12 +24,12 @@
         "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/layout/rc_fr_photo2.xml"
     },
     {
-        "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/androidTest/debug/layout/rc_item_albums.xml",
-        "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/layout/rc_item_albums.xml"
-    },
-    {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/androidTest/debug/layout/rp_pay_has_pwd_dialog.xml",
         "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/bundles/debug/res/layout/rp_pay_has_pwd_dialog.xml"
+    },
+    {
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/androidTest/debug/layout/rc_item_albums.xml",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/layout/rc_item_albums.xml"
     },
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/androidTest/debug/layout/rp_activity_record.xml",
@@ -84,12 +84,12 @@
         "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/layout/rc_fr_dialog_alter.xml"
     },
     {
-        "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/androidTest/debug/layout/rc_wi_emoji_grid.xml",
-        "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/layout/rc_wi_emoji_grid.xml"
-    },
-    {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/androidTest/debug/layout/rp_fragment_change.xml",
         "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/bundles/debug/res/layout/rp_fragment_change.xml"
+    },
+    {
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/androidTest/debug/layout/rc_wi_emoji_grid.xml",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/layout/rc_wi_emoji_grid.xml"
     },
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/androidTest/debug/layout/rp_fragment_group_chat_packet.xml",

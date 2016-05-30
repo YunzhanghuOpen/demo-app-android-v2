@@ -12,12 +12,12 @@
         "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/drawable-xxhdpi/rp_open_packet_bg.png"
     },
     {
-        "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/yzh_money_chatfrom_bg_focused.9.png",
-        "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/drawable-xxhdpi/yzh_money_chatfrom_bg_focused.9.png"
-    },
-    {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/rc_group_default_portrait.png",
         "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/drawable-xxhdpi-v4/rc_group_default_portrait.png"
+    },
+    {
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/yzh_money_chatfrom_bg_focused.9.png",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/drawable-xxhdpi/yzh_money_chatfrom_bg_focused.9.png"
     },
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/rc_default_portrait.png",

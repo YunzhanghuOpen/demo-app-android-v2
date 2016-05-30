@@ -114,9 +114,9 @@
                     "position": {
                         "startLine": 25,
                         "startColumn": 4,
-                        "startOffset": 810,
+                        "startOffset": 811,
                         "endColumn": 45,
-                        "endOffset": 851
+                        "endOffset": 852
                     }
                 }
             },
@@ -1463,9 +1463,9 @@
                     "position": {
                         "startLine": 18,
                         "startColumn": 4,
-                        "startOffset": 590,
+                        "startOffset": 591,
                         "endColumn": 61,
-                        "endOffset": 647
+                        "endOffset": 648
                     }
                 }
             },
@@ -1520,9 +1520,9 @@
                     "position": {
                         "startLine": 21,
                         "startColumn": 4,
-                        "startOffset": 671,
+                        "startOffset": 672,
                         "endColumn": 49,
-                        "endOffset": 716
+                        "endOffset": 717
                     }
                 }
             },
@@ -1539,9 +1539,9 @@
                     "position": {
                         "startLine": 23,
                         "startColumn": 4,
-                        "startOffset": 740,
+                        "startOffset": 741,
                         "endColumn": 47,
-                        "endOffset": 783
+                        "endOffset": 784
                     }
                 }
             },
@@ -2926,9 +2926,9 @@
                     "position": {
                         "startLine": 128,
                         "startColumn": 4,
-                        "startOffset": 6701,
+                        "startOffset": 6703,
                         "endColumn": 66,
-                        "endOffset": 6763
+                        "endOffset": 6765
                     }
                 }
             },
@@ -2945,9 +2945,9 @@
                     "position": {
                         "startLine": 129,
                         "startColumn": 4,
-                        "startOffset": 6768,
+                        "startOffset": 6770,
                         "endColumn": 77,
-                        "endOffset": 6841
+                        "endOffset": 6843
                     }
                 }
             },
@@ -2963,10 +2963,10 @@
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/values/rc_string.xml",
                     "position": {
                         "startLine": 127,
-                        "startColumn": 4,
-                        "startOffset": 6636,
-                        "endColumn": 64,
-                        "endOffset": 6696
+                        "startColumn": 6,
+                        "startOffset": 6638,
+                        "endColumn": 66,
+                        "endOffset": 6698
                     }
                 }
             },

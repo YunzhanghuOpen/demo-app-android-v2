@@ -24,12 +24,12 @@
         "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/drawable/rc_preview_checkbox.xml"
     },
     {
-        "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/debug/drawable/rp_shape_white_conner.xml",
-        "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/drawable/rp_shape_white_conner.xml"
-    },
-    {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/debug/drawable/rp_btn_blue_pressed_shape.xml",
         "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/drawable/rp_btn_blue_pressed_shape.xml"
+    },
+    {
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/debug/drawable/rp_shape_white_conner.xml",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/drawable/rp_shape_white_conner.xml"
     },
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/debug/drawable/rc_ic_no_selector.xml",
@@ -60,16 +60,20 @@
         "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/drawable/yzh_money_chatfrom_bg.xml"
     },
     {
-        "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/debug/drawable/rp_btn_blue_cancel_shape.xml",
-        "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/drawable/rp_btn_blue_cancel_shape.xml"
-    },
-    {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/debug/drawable/rc_ic_smiley.xml",
         "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/drawable/rc_ic_smiley.xml"
     },
     {
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/debug/drawable/rp_btn_blue_cancel_shape.xml",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/drawable/rp_btn_blue_cancel_shape.xml"
+    },
+    {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/debug/drawable/rc_btn_voice.xml",
         "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/drawable/rc_btn_voice.xml"
+    },
+    {
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/debug/drawable/rc_ic_picture.xml",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/drawable/rc_ic_picture.xml"
     },
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/debug/drawable/rc_btn_answer_selector.xml",
@@ -92,8 +96,16 @@
         "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/drawable/rp_btn_pressed_shape.xml"
     },
     {
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/debug/drawable/rc_ic_location.xml",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/drawable/rc_ic_location.xml"
+    },
+    {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/debug/drawable/rp_btn_open_pressed_shape.xml",
         "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/drawable/rp_btn_open_pressed_shape.xml"
+    },
+    {
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/debug/drawable/rc_ic_camera.xml",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/drawable/rc_ic_camera.xml"
     },
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/debug/drawable/rc_switch_btn.xml",
@@ -130,6 +142,14 @@
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/debug/drawable/rp_btn_default_shape.xml",
         "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/drawable/rp_btn_default_shape.xml"
+    },
+    {
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/debug/drawable/rc_ic_text.xml",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/drawable/rc_ic_text.xml"
+    },
+    {
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/debug/drawable/rc_ic_phone.xml",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/drawable/rc_ic_phone.xml"
     },
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/debug/drawable/rc_btn_refuse_selector.xml",

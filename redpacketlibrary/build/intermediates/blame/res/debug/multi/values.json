@@ -5713,8 +5713,8 @@
                     "startLine": 573,
                     "startColumn": 4,
                     "startOffset": 27235,
-                    "endColumn": 53,
-                    "endOffset": 27284
+                    "endColumn": 51,
+                    "endOffset": 27282
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
@@ -5722,8 +5722,8 @@
                         "startLine": 348,
                         "startColumn": 4,
                         "startOffset": 14401,
-                        "endColumn": 53,
-                        "endOffset": 14450
+                        "endColumn": 51,
+                        "endOffset": 14448
                     }
                 }
             },
@@ -5731,18 +5731,18 @@
                 "to": {
                     "startLine": 574,
                     "startColumn": 4,
-                    "startOffset": 27289,
+                    "startOffset": 27287,
                     "endColumn": 71,
-                    "endOffset": 27356
+                    "endOffset": 27354
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 349,
                         "startColumn": 4,
-                        "startOffset": 14455,
+                        "startOffset": 14453,
                         "endColumn": 71,
-                        "endOffset": 14522
+                        "endOffset": 14520
                     }
                 }
             },
@@ -5750,18 +5750,18 @@
                 "to": {
                     "startLine": 575,
                     "startColumn": 4,
-                    "startOffset": 27361,
+                    "startOffset": 27359,
                     "endColumn": 74,
-                    "endOffset": 27431
+                    "endOffset": 27429
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 350,
                         "startColumn": 4,
-                        "startOffset": 14527,
+                        "startOffset": 14525,
                         "endColumn": 74,
-                        "endOffset": 14597
+                        "endOffset": 14595
                     }
                 }
             },
@@ -5769,18 +5769,18 @@
                 "to": {
                     "startLine": 576,
                     "startColumn": 4,
-                    "startOffset": 27436,
+                    "startOffset": 27434,
                     "endColumn": 78,
-                    "endOffset": 27510
+                    "endOffset": 27508
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 351,
                         "startColumn": 4,
-                        "startOffset": 14602,
+                        "startOffset": 14600,
                         "endColumn": 78,
-                        "endOffset": 14676
+                        "endOffset": 14674
                     }
                 }
             },
@@ -5788,18 +5788,18 @@
                 "to": {
                     "startLine": 577,
                     "startColumn": 4,
-                    "startOffset": 27515,
+                    "startOffset": 27513,
                     "endColumn": 71,
-                    "endOffset": 27582
+                    "endOffset": 27580
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 352,
                         "startColumn": 4,
-                        "startOffset": 14681,
+                        "startOffset": 14679,
                         "endColumn": 71,
-                        "endOffset": 14748
+                        "endOffset": 14746
                     }
                 }
             },
@@ -5807,18 +5807,18 @@
                 "to": {
                     "startLine": 578,
                     "startColumn": 4,
-                    "startOffset": 27587,
+                    "startOffset": 27585,
                     "endColumn": 71,
-                    "endOffset": 27654
+                    "endOffset": 27652
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 353,
                         "startColumn": 4,
-                        "startOffset": 14753,
+                        "startOffset": 14751,
                         "endColumn": 71,
-                        "endOffset": 14820
+                        "endOffset": 14818
                     }
                 }
             },
@@ -5826,18 +5826,18 @@
                 "to": {
                     "startLine": 579,
                     "startColumn": 4,
-                    "startOffset": 27659,
+                    "startOffset": 27657,
                     "endColumn": 69,
-                    "endOffset": 27724
+                    "endOffset": 27722
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 354,
                         "startColumn": 4,
-                        "startOffset": 14825,
+                        "startOffset": 14823,
                         "endColumn": 69,
-                        "endOffset": 14890
+                        "endOffset": 14888
                     }
                 }
             },
@@ -5845,18 +5845,18 @@
                 "to": {
                     "startLine": 580,
                     "startColumn": 4,
-                    "startOffset": 27729,
+                    "startOffset": 27727,
                     "endColumn": 70,
-                    "endOffset": 27795
+                    "endOffset": 27793
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 355,
                         "startColumn": 4,
-                        "startOffset": 14895,
+                        "startOffset": 14893,
                         "endColumn": 70,
-                        "endOffset": 14961
+                        "endOffset": 14959
                     }
                 }
             },
@@ -5864,18 +5864,18 @@
                 "to": {
                     "startLine": 581,
                     "startColumn": 4,
-                    "startOffset": 27800,
+                    "startOffset": 27798,
                     "endColumn": 66,
-                    "endOffset": 27862
+                    "endOffset": 27860
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 356,
                         "startColumn": 4,
-                        "startOffset": 14966,
+                        "startOffset": 14964,
                         "endColumn": 66,
-                        "endOffset": 15028
+                        "endOffset": 15026
                     }
                 }
             },
@@ -5883,18 +5883,18 @@
                 "to": {
                     "startLine": 582,
                     "startColumn": 4,
-                    "startOffset": 27867,
+                    "startOffset": 27865,
                     "endColumn": 73,
-                    "endOffset": 27936
+                    "endOffset": 27934
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 357,
                         "startColumn": 4,
-                        "startOffset": 15033,
+                        "startOffset": 15031,
                         "endColumn": 73,
-                        "endOffset": 15102
+                        "endOffset": 15100
                     }
                 }
             },
@@ -5902,18 +5902,18 @@
                 "to": {
                     "startLine": 583,
                     "startColumn": 4,
-                    "startOffset": 27941,
+                    "startOffset": 27939,
                     "endColumn": 68,
-                    "endOffset": 28005
+                    "endOffset": 28003
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 358,
                         "startColumn": 4,
-                        "startOffset": 15107,
+                        "startOffset": 15105,
                         "endColumn": 68,
-                        "endOffset": 15171
+                        "endOffset": 15169
                     }
                 }
             },
@@ -5921,18 +5921,18 @@
                 "to": {
                     "startLine": 584,
                     "startColumn": 4,
-                    "startOffset": 28010,
+                    "startOffset": 28008,
                     "endColumn": 62,
-                    "endOffset": 28068
+                    "endOffset": 28066
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 359,
                         "startColumn": 4,
-                        "startOffset": 15176,
+                        "startOffset": 15174,
                         "endColumn": 62,
-                        "endOffset": 15234
+                        "endOffset": 15232
                     }
                 }
             },
@@ -5940,18 +5940,18 @@
                 "to": {
                     "startLine": 585,
                     "startColumn": 4,
-                    "startOffset": 28073,
+                    "startOffset": 28071,
                     "endColumn": 79,
-                    "endOffset": 28148
+                    "endOffset": 28146
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 360,
                         "startColumn": 4,
-                        "startOffset": 15239,
+                        "startOffset": 15237,
                         "endColumn": 79,
-                        "endOffset": 15314
+                        "endOffset": 15312
                     }
                 }
             },
@@ -5959,18 +5959,18 @@
                 "to": {
                     "startLine": 586,
                     "startColumn": 4,
-                    "startOffset": 28153,
+                    "startOffset": 28151,
                     "endColumn": 70,
-                    "endOffset": 28219
+                    "endOffset": 28217
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 361,
                         "startColumn": 4,
-                        "startOffset": 15319,
+                        "startOffset": 15317,
                         "endColumn": 70,
-                        "endOffset": 15385
+                        "endOffset": 15383
                     }
                 }
             },
@@ -5978,18 +5978,18 @@
                 "to": {
                     "startLine": 587,
                     "startColumn": 4,
-                    "startOffset": 28224,
+                    "startOffset": 28222,
                     "endColumn": 70,
-                    "endOffset": 28290
+                    "endOffset": 28288
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 362,
                         "startColumn": 4,
-                        "startOffset": 15390,
+                        "startOffset": 15388,
                         "endColumn": 70,
-                        "endOffset": 15456
+                        "endOffset": 15454
                     }
                 }
             },
@@ -5997,18 +5997,18 @@
                 "to": {
                     "startLine": 588,
                     "startColumn": 4,
-                    "startOffset": 28295,
+                    "startOffset": 28293,
                     "endColumn": 66,
-                    "endOffset": 28357
+                    "endOffset": 28355
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 363,
                         "startColumn": 4,
-                        "startOffset": 15461,
+                        "startOffset": 15459,
                         "endColumn": 66,
-                        "endOffset": 15523
+                        "endOffset": 15521
                     }
                 }
             },
@@ -6016,18 +6016,18 @@
                 "to": {
                     "startLine": 589,
                     "startColumn": 4,
-                    "startOffset": 28362,
+                    "startOffset": 28360,
                     "endColumn": 68,
-                    "endOffset": 28426
+                    "endOffset": 28424
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 364,
                         "startColumn": 4,
-                        "startOffset": 15528,
+                        "startOffset": 15526,
                         "endColumn": 68,
-                        "endOffset": 15592
+                        "endOffset": 15590
                     }
                 }
             },
@@ -6035,18 +6035,18 @@
                 "to": {
                     "startLine": 590,
                     "startColumn": 4,
-                    "startOffset": 28431,
+                    "startOffset": 28429,
                     "endColumn": 73,
-                    "endOffset": 28500
+                    "endOffset": 28498
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 365,
                         "startColumn": 4,
-                        "startOffset": 15597,
+                        "startOffset": 15595,
                         "endColumn": 73,
-                        "endOffset": 15666
+                        "endOffset": 15664
                     }
                 }
             },
@@ -6054,18 +6054,18 @@
                 "to": {
                     "startLine": 591,
                     "startColumn": 4,
-                    "startOffset": 28505,
+                    "startOffset": 28503,
                     "endColumn": 43,
-                    "endOffset": 28544
+                    "endOffset": 28542
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 366,
                         "startColumn": 4,
-                        "startOffset": 15671,
+                        "startOffset": 15669,
                         "endColumn": 43,
-                        "endOffset": 15710
+                        "endOffset": 15708
                     }
                 }
             },
@@ -6073,18 +6073,18 @@
                 "to": {
                     "startLine": 592,
                     "startColumn": 4,
-                    "startOffset": 28549,
+                    "startOffset": 28547,
                     "endColumn": 59,
-                    "endOffset": 28604
+                    "endOffset": 28602
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 367,
                         "startColumn": 4,
-                        "startOffset": 15715,
+                        "startOffset": 15713,
                         "endColumn": 59,
-                        "endOffset": 15770
+                        "endOffset": 15768
                     }
                 }
             },
@@ -6092,18 +6092,18 @@
                 "to": {
                     "startLine": 593,
                     "startColumn": 4,
-                    "startOffset": 28609,
+                    "startOffset": 28607,
                     "endColumn": 61,
-                    "endOffset": 28666
+                    "endOffset": 28664
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 368,
                         "startColumn": 4,
-                        "startOffset": 15775,
+                        "startOffset": 15773,
                         "endColumn": 61,
-                        "endOffset": 15832
+                        "endOffset": 15830
                     }
                 }
             },
@@ -6111,18 +6111,18 @@
                 "to": {
                     "startLine": 594,
                     "startColumn": 4,
-                    "startOffset": 28671,
+                    "startOffset": 28669,
                     "endColumn": 43,
-                    "endOffset": 28710
+                    "endOffset": 28708
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 369,
                         "startColumn": 4,
-                        "startOffset": 15837,
+                        "startOffset": 15835,
                         "endColumn": 43,
-                        "endOffset": 15876
+                        "endOffset": 15874
                     }
                 }
             },
@@ -6130,18 +6130,18 @@
                 "to": {
                     "startLine": 595,
                     "startColumn": 4,
-                    "startOffset": 28715,
+                    "startOffset": 28713,
                     "endColumn": 47,
-                    "endOffset": 28758
+                    "endOffset": 28756
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 370,
                         "startColumn": 4,
-                        "startOffset": 15881,
+                        "startOffset": 15879,
                         "endColumn": 47,
-                        "endOffset": 15924
+                        "endOffset": 15922
                     }
                 }
             },
@@ -6149,18 +6149,18 @@
                 "to": {
                     "startLine": 596,
                     "startColumn": 4,
-                    "startOffset": 28763,
+                    "startOffset": 28761,
                     "endColumn": 60,
-                    "endOffset": 28819
+                    "endOffset": 28817
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 371,
                         "startColumn": 4,
-                        "startOffset": 15929,
+                        "startOffset": 15927,
                         "endColumn": 60,
-                        "endOffset": 15985
+                        "endOffset": 15983
                     }
                 }
             },
@@ -6168,18 +6168,18 @@
                 "to": {
                     "startLine": 597,
                     "startColumn": 4,
-                    "startOffset": 28824,
+                    "startOffset": 28822,
                     "endColumn": 62,
-                    "endOffset": 28882
+                    "endOffset": 28880
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 372,
                         "startColumn": 4,
-                        "startOffset": 15990,
+                        "startOffset": 15988,
                         "endColumn": 62,
-                        "endOffset": 16048
+                        "endOffset": 16046
                     }
                 }
             },
@@ -6187,18 +6187,18 @@
                 "to": {
                     "startLine": 598,
                     "startColumn": 4,
-                    "startOffset": 28887,
+                    "startOffset": 28885,
                     "endColumn": 43,
-                    "endOffset": 28926
+                    "endOffset": 28924
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 373,
                         "startColumn": 4,
-                        "startOffset": 16053,
+                        "startOffset": 16051,
                         "endColumn": 43,
-                        "endOffset": 16092
+                        "endOffset": 16090
                     }
                 }
             },
@@ -6206,18 +6206,18 @@
                 "to": {
                     "startLine": 599,
                     "startColumn": 4,
-                    "startOffset": 28931,
+                    "startOffset": 28929,
                     "endColumn": 80,
-                    "endOffset": 29007
+                    "endOffset": 29005
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 374,
                         "startColumn": 4,
-                        "startOffset": 16097,
+                        "startOffset": 16095,
                         "endColumn": 80,
-                        "endOffset": 16173
+                        "endOffset": 16171
                     }
                 }
             },
@@ -6225,18 +6225,18 @@
                 "to": {
                     "startLine": 600,
                     "startColumn": 4,
-                    "startOffset": 29012,
+                    "startOffset": 29010,
                     "endColumn": 80,
-                    "endOffset": 29088
+                    "endOffset": 29086
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 375,
                         "startColumn": 4,
-                        "startOffset": 16178,
+                        "startOffset": 16176,
                         "endColumn": 80,
-                        "endOffset": 16254
+                        "endOffset": 16252
                     }
                 }
             },
@@ -6244,18 +6244,18 @@
                 "to": {
                     "startLine": 601,
                     "startColumn": 4,
-                    "startOffset": 29093,
+                    "startOffset": 29091,
                     "endColumn": 71,
-                    "endOffset": 29160
+                    "endOffset": 29158
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 376,
                         "startColumn": 4,
-                        "startOffset": 16259,
+                        "startOffset": 16257,
                         "endColumn": 71,
-                        "endOffset": 16326
+                        "endOffset": 16324
                     }
                 }
             },
@@ -6263,18 +6263,18 @@
                 "to": {
                     "startLine": 602,
                     "startColumn": 4,
-                    "startOffset": 29165,
+                    "startOffset": 29163,
                     "endColumn": 88,
-                    "endOffset": 29249
+                    "endOffset": 29247
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 377,
                         "startColumn": 4,
-                        "startOffset": 16331,
+                        "startOffset": 16329,
                         "endColumn": 88,
-                        "endOffset": 16415
+                        "endOffset": 16413
                     }
                 }
             },
@@ -6282,18 +6282,18 @@
                 "to": {
                     "startLine": 603,
                     "startColumn": 4,
-                    "startOffset": 29254,
+                    "startOffset": 29252,
                     "endColumn": 87,
-                    "endOffset": 29337
+                    "endOffset": 29335
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 378,
                         "startColumn": 4,
-                        "startOffset": 16420,
+                        "startOffset": 16418,
                         "endColumn": 87,
-                        "endOffset": 16503
+                        "endOffset": 16501
                     }
                 }
             },
@@ -6301,18 +6301,18 @@
                 "to": {
                     "startLine": 604,
                     "startColumn": 4,
-                    "startOffset": 29342,
+                    "startOffset": 29340,
                     "endColumn": 77,
-                    "endOffset": 29415
+                    "endOffset": 29413
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 379,
                         "startColumn": 4,
-                        "startOffset": 16508,
+                        "startOffset": 16506,
                         "endColumn": 77,
-                        "endOffset": 16581
+                        "endOffset": 16579
                     }
                 }
             },
@@ -6320,18 +6320,18 @@
                 "to": {
                     "startLine": 605,
                     "startColumn": 4,
-                    "startOffset": 29420,
+                    "startOffset": 29418,
                     "endColumn": 80,
-                    "endOffset": 29496
+                    "endOffset": 29494
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 380,
                         "startColumn": 4,
-                        "startOffset": 16586,
+                        "startOffset": 16584,
                         "endColumn": 80,
-                        "endOffset": 16662
+                        "endOffset": 16660
                     }
                 }
             },
@@ -6339,18 +6339,18 @@
                 "to": {
                     "startLine": 606,
                     "startColumn": 4,
-                    "startOffset": 29501,
+                    "startOffset": 29499,
                     "endColumn": 85,
-                    "endOffset": 29582
+                    "endOffset": 29580
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 381,
                         "startColumn": 4,
-                        "startOffset": 16667,
+                        "startOffset": 16665,
                         "endColumn": 85,
-                        "endOffset": 16748
+                        "endOffset": 16746
                     }
                 }
             },
@@ -6358,18 +6358,18 @@
                 "to": {
                     "startLine": 607,
                     "startColumn": 4,
-                    "startOffset": 29587,
+                    "startOffset": 29585,
                     "endColumn": 60,
-                    "endOffset": 29643
+                    "endOffset": 29641
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 382,
                         "startColumn": 4,
-                        "startOffset": 16753,
+                        "startOffset": 16751,
                         "endColumn": 60,
-                        "endOffset": 16809
+                        "endOffset": 16807
                     }
                 }
             },
@@ -6377,18 +6377,18 @@
                 "to": {
                     "startLine": 608,
                     "startColumn": 4,
-                    "startOffset": 29648,
+                    "startOffset": 29646,
                     "endColumn": 53,
-                    "endOffset": 29697
+                    "endOffset": 29695
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 383,
                         "startColumn": 4,
-                        "startOffset": 16814,
+                        "startOffset": 16812,
                         "endColumn": 53,
-                        "endOffset": 16863
+                        "endOffset": 16861
                     }
                 }
             },
@@ -6396,18 +6396,18 @@
                 "to": {
                     "startLine": 609,
                     "startColumn": 4,
-                    "startOffset": 29702,
+                    "startOffset": 29700,
                     "endColumn": 51,
-                    "endOffset": 29749
+                    "endOffset": 29747
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 384,
                         "startColumn": 4,
-                        "startOffset": 16868,
+                        "startOffset": 16866,
                         "endColumn": 51,
-                        "endOffset": 16915
+                        "endOffset": 16913
                     }
                 }
             },
@@ -6415,18 +6415,18 @@
                 "to": {
                     "startLine": 610,
                     "startColumn": 4,
-                    "startOffset": 29754,
+                    "startOffset": 29752,
                     "endColumn": 65,
-                    "endOffset": 29815
+                    "endOffset": 29813
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 385,
                         "startColumn": 4,
-                        "startOffset": 16920,
+                        "startOffset": 16918,
                         "endColumn": 65,
-                        "endOffset": 16981
+                        "endOffset": 16979
                     }
                 }
             },
@@ -6434,18 +6434,18 @@
                 "to": {
                     "startLine": 611,
                     "startColumn": 4,
-                    "startOffset": 29820,
+                    "startOffset": 29818,
                     "endColumn": 64,
-                    "endOffset": 29880
+                    "endOffset": 29878
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 386,
                         "startColumn": 4,
-                        "startOffset": 16986,
+                        "startOffset": 16984,
                         "endColumn": 64,
-                        "endOffset": 17046
+                        "endOffset": 17044
                     }
                 }
             },
@@ -6453,18 +6453,18 @@
                 "to": {
                     "startLine": 612,
                     "startColumn": 4,
-                    "startOffset": 29885,
+                    "startOffset": 29883,
                     "endColumn": 59,
-                    "endOffset": 29940
+                    "endOffset": 29938
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 387,
                         "startColumn": 4,
-                        "startOffset": 17051,
+                        "startOffset": 17049,
                         "endColumn": 59,
-                        "endOffset": 17106
+                        "endOffset": 17104
                     }
                 }
             },
@@ -6472,18 +6472,18 @@
                 "to": {
                     "startLine": 613,
                     "startColumn": 4,
-                    "startOffset": 29945,
+                    "startOffset": 29943,
                     "endColumn": 61,
-                    "endOffset": 30002
+                    "endOffset": 30000
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 388,
                         "startColumn": 4,
-                        "startOffset": 17111,
+                        "startOffset": 17109,
                         "endColumn": 61,
-                        "endOffset": 17168
+                        "endOffset": 17166
                     }
                 }
             },
@@ -6491,18 +6491,18 @@
                 "to": {
                     "startLine": 614,
                     "startColumn": 4,
-                    "startOffset": 30007,
+                    "startOffset": 30005,
                     "endColumn": 54,
-                    "endOffset": 30057
+                    "endOffset": 30055
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 389,
                         "startColumn": 4,
-                        "startOffset": 17173,
+                        "startOffset": 17171,
                         "endColumn": 54,
-                        "endOffset": 17223
+                        "endOffset": 17221
                     }
                 }
             },
@@ -6510,18 +6510,18 @@
                 "to": {
                     "startLine": 615,
                     "startColumn": 4,
-                    "startOffset": 30062,
+                    "startOffset": 30060,
                     "endColumn": 49,
-                    "endOffset": 30107
+                    "endOffset": 30105
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 390,
                         "startColumn": 4,
-                        "startOffset": 17228,
+                        "startOffset": 17226,
                         "endColumn": 49,
-                        "endOffset": 17273
+                        "endOffset": 17271
                     }
                 }
             },
@@ -6529,18 +6529,18 @@
                 "to": {
                     "startLine": 616,
                     "startColumn": 4,
-                    "startOffset": 30112,
+                    "startOffset": 30110,
                     "endColumn": 44,
-                    "endOffset": 30152
+                    "endOffset": 30150
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 391,
                         "startColumn": 4,
-                        "startOffset": 17278,
+                        "startOffset": 17276,
                         "endColumn": 44,
-                        "endOffset": 17318
+                        "endOffset": 17316
                     }
                 }
             },
@@ -6548,18 +6548,18 @@
                 "to": {
                     "startLine": 617,
                     "startColumn": 4,
-                    "startOffset": 30157,
+                    "startOffset": 30155,
                     "endColumn": 48,
-                    "endOffset": 30201
+                    "endOffset": 30199
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 392,
                         "startColumn": 4,
-                        "startOffset": 17323,
+                        "startOffset": 17321,
                         "endColumn": 48,
-                        "endOffset": 17367
+                        "endOffset": 17365
                     }
                 }
             },
@@ -6567,18 +6567,18 @@
                 "to": {
                     "startLine": 618,
                     "startColumn": 4,
-                    "startOffset": 30206,
+                    "startOffset": 30204,
                     "endColumn": 60,
-                    "endOffset": 30262
+                    "endOffset": 30260
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 393,
                         "startColumn": 4,
-                        "startOffset": 17372,
+                        "startOffset": 17370,
                         "endColumn": 60,
-                        "endOffset": 17428
+                        "endOffset": 17426
                     }
                 }
             },
@@ -6586,18 +6586,18 @@
                 "to": {
                     "startLine": 619,
                     "startColumn": 4,
-                    "startOffset": 30267,
+                    "startOffset": 30265,
                     "endColumn": 57,
-                    "endOffset": 30320
+                    "endOffset": 30318
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 394,
                         "startColumn": 4,
-                        "startOffset": 17433,
+                        "startOffset": 17431,
                         "endColumn": 57,
-                        "endOffset": 17486
+                        "endOffset": 17484
                     }
                 }
             },
@@ -6605,18 +6605,18 @@
                 "to": {
                     "startLine": 620,
                     "startColumn": 4,
-                    "startOffset": 30325,
+                    "startOffset": 30323,
                     "endColumn": 57,
-                    "endOffset": 30378
+                    "endOffset": 30376
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 395,
                         "startColumn": 4,
-                        "startOffset": 17491,
+                        "startOffset": 17489,
                         "endColumn": 57,
-                        "endOffset": 17544
+                        "endOffset": 17542
                     }
                 }
             },
@@ -6624,18 +6624,18 @@
                 "to": {
                     "startLine": 621,
                     "startColumn": 4,
-                    "startOffset": 30383,
+                    "startOffset": 30381,
                     "endColumn": 60,
-                    "endOffset": 30439
+                    "endOffset": 30437
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 396,
                         "startColumn": 4,
-                        "startOffset": 17549,
+                        "startOffset": 17547,
                         "endColumn": 60,
-                        "endOffset": 17605
+                        "endOffset": 17603
                     }
                 }
             },
@@ -6643,18 +6643,18 @@
                 "to": {
                     "startLine": 622,
                     "startColumn": 4,
-                    "startOffset": 30444,
+                    "startOffset": 30442,
                     "endColumn": 61,
-                    "endOffset": 30501
+                    "endOffset": 30499
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 397,
                         "startColumn": 4,
-                        "startOffset": 17610,
+                        "startOffset": 17608,
                         "endColumn": 61,
-                        "endOffset": 17667
+                        "endOffset": 17665
                     }
                 }
             },
@@ -6662,18 +6662,18 @@
                 "to": {
                     "startLine": 623,
                     "startColumn": 4,
-                    "startOffset": 30506,
+                    "startOffset": 30504,
                     "endColumn": 57,
-                    "endOffset": 30559
+                    "endOffset": 30557
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 398,
                         "startColumn": 4,
-                        "startOffset": 17672,
+                        "startOffset": 17670,
                         "endColumn": 57,
-                        "endOffset": 17725
+                        "endOffset": 17723
                     }
                 }
             },
@@ -6681,18 +6681,18 @@
                 "to": {
                     "startLine": 624,
                     "startColumn": 4,
-                    "startOffset": 30564,
+                    "startOffset": 30562,
                     "endColumn": 60,
-                    "endOffset": 30620
+                    "endOffset": 30618
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 399,
                         "startColumn": 4,
-                        "startOffset": 17730,
+                        "startOffset": 17728,
                         "endColumn": 60,
-                        "endOffset": 17786
+                        "endOffset": 17784
                     }
                 }
             },
@@ -6700,18 +6700,18 @@
                 "to": {
                     "startLine": 625,
                     "startColumn": 4,
-                    "startOffset": 30625,
+                    "startOffset": 30623,
                     "endColumn": 57,
-                    "endOffset": 30678
+                    "endOffset": 30676
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 400,
                         "startColumn": 4,
-                        "startOffset": 17791,
+                        "startOffset": 17789,
                         "endColumn": 57,
-                        "endOffset": 17844
+                        "endOffset": 17842
                     }
                 }
             },
@@ -6719,18 +6719,18 @@
                 "to": {
                     "startLine": 626,
                     "startColumn": 4,
-                    "startOffset": 30683,
+                    "startOffset": 30681,
                     "endColumn": 38,
-                    "endOffset": 30717
+                    "endOffset": 30715
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 401,
                         "startColumn": 4,
-                        "startOffset": 17849,
+                        "startOffset": 17847,
                         "endColumn": 38,
-                        "endOffset": 17883
+                        "endOffset": 17881
                     }
                 }
             },
@@ -6738,18 +6738,18 @@
                 "to": {
                     "startLine": 627,
                     "startColumn": 4,
-                    "startOffset": 30722,
+                    "startOffset": 30720,
                     "endColumn": 51,
-                    "endOffset": 30769
+                    "endOffset": 30767
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 402,
                         "startColumn": 4,
-                        "startOffset": 17888,
+                        "startOffset": 17886,
                         "endColumn": 51,
-                        "endOffset": 17935
+                        "endOffset": 17933
                     }
                 }
             },
@@ -6757,18 +6757,18 @@
                 "to": {
                     "startLine": 628,
                     "startColumn": 4,
-                    "startOffset": 30774,
+                    "startOffset": 30772,
                     "endColumn": 58,
-                    "endOffset": 30828
+                    "endOffset": 30826
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 403,
                         "startColumn": 4,
-                        "startOffset": 17940,
+                        "startOffset": 17938,
                         "endColumn": 58,
-                        "endOffset": 17994
+                        "endOffset": 17992
                     }
                 }
             },
@@ -6776,18 +6776,18 @@
                 "to": {
                     "startLine": 629,
                     "startColumn": 4,
-                    "startOffset": 30833,
+                    "startOffset": 30831,
                     "endColumn": 51,
-                    "endOffset": 30880
+                    "endOffset": 30878
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 404,
                         "startColumn": 4,
-                        "startOffset": 17999,
+                        "startOffset": 17997,
                         "endColumn": 51,
-                        "endOffset": 18046
+                        "endOffset": 18044
                     }
                 }
             },
@@ -6795,18 +6795,18 @@
                 "to": {
                     "startLine": 630,
                     "startColumn": 4,
-                    "startOffset": 30885,
+                    "startOffset": 30883,
                     "endColumn": 56,
-                    "endOffset": 30937
+                    "endOffset": 30935
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 405,
                         "startColumn": 4,
-                        "startOffset": 18051,
+                        "startOffset": 18049,
                         "endColumn": 56,
-                        "endOffset": 18103
+                        "endOffset": 18101
                     }
                 }
             },
@@ -6814,18 +6814,18 @@
                 "to": {
                     "startLine": 631,
                     "startColumn": 4,
-                    "startOffset": 30942,
+                    "startOffset": 30940,
                     "endColumn": 63,
-                    "endOffset": 31001
+                    "endOffset": 30999
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 406,
                         "startColumn": 4,
-                        "startOffset": 18108,
+                        "startOffset": 18106,
                         "endColumn": 63,
-                        "endOffset": 18167
+                        "endOffset": 18165
                     }
                 }
             },
@@ -6833,18 +6833,18 @@
                 "to": {
                     "startLine": 632,
                     "startColumn": 4,
-                    "startOffset": 31006,
+                    "startOffset": 31004,
                     "endColumn": 68,
-                    "endOffset": 31070
+                    "endOffset": 31068
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 407,
                         "startColumn": 4,
-                        "startOffset": 18172,
+                        "startOffset": 18170,
                         "endColumn": 68,
-                        "endOffset": 18236
+                        "endOffset": 18234
                     }
                 }
             },
@@ -6852,18 +6852,18 @@
                 "to": {
                     "startLine": 633,
                     "startColumn": 4,
-                    "startOffset": 31075,
+                    "startOffset": 31073,
                     "endColumn": 59,
-                    "endOffset": 31130
+                    "endOffset": 31128
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 408,
                         "startColumn": 4,
-                        "startOffset": 18241,
+                        "startOffset": 18239,
                         "endColumn": 59,
-                        "endOffset": 18296
+                        "endOffset": 18294
                     }
                 }
             },
@@ -6871,18 +6871,18 @@
                 "to": {
                     "startLine": 634,
                     "startColumn": 4,
-                    "startOffset": 31135,
+                    "startOffset": 31133,
                     "endColumn": 57,
-                    "endOffset": 31188
+                    "endOffset": 31186
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 409,
                         "startColumn": 4,
-                        "startOffset": 18301,
+                        "startOffset": 18299,
                         "endColumn": 57,
-                        "endOffset": 18354
+                        "endOffset": 18352
                     }
                 }
             },
@@ -6890,18 +6890,18 @@
                 "to": {
                     "startLine": 635,
                     "startColumn": 4,
-                    "startOffset": 31193,
+                    "startOffset": 31191,
                     "endColumn": 57,
-                    "endOffset": 31246
+                    "endOffset": 31244
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 410,
                         "startColumn": 4,
-                        "startOffset": 18359,
+                        "startOffset": 18357,
                         "endColumn": 57,
-                        "endOffset": 18412
+                        "endOffset": 18410
                     }
                 }
             },
@@ -6909,18 +6909,18 @@
                 "to": {
                     "startLine": 636,
                     "startColumn": 4,
-                    "startOffset": 31251,
+                    "startOffset": 31249,
                     "endColumn": 58,
-                    "endOffset": 31305
+                    "endOffset": 31303
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 411,
                         "startColumn": 4,
-                        "startOffset": 18417,
+                        "startOffset": 18415,
                         "endColumn": 58,
-                        "endOffset": 18471
+                        "endOffset": 18469
                     }
                 }
             },
@@ -6928,18 +6928,18 @@
                 "to": {
                     "startLine": 637,
                     "startColumn": 4,
-                    "startOffset": 31310,
+                    "startOffset": 31308,
                     "endColumn": 69,
-                    "endOffset": 31375
+                    "endOffset": 31373
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 412,
                         "startColumn": 4,
-                        "startOffset": 18476,
+                        "startOffset": 18474,
                         "endColumn": 69,
-                        "endOffset": 18541
+                        "endOffset": 18539
                     }
                 }
             },
@@ -6947,18 +6947,18 @@
                 "to": {
                     "startLine": 638,
                     "startColumn": 4,
-                    "startOffset": 31380,
+                    "startOffset": 31378,
                     "endColumn": 59,
-                    "endOffset": 31435
+                    "endOffset": 31433
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 413,
                         "startColumn": 4,
-                        "startOffset": 18546,
+                        "startOffset": 18544,
                         "endColumn": 59,
-                        "endOffset": 18601
+                        "endOffset": 18599
                     }
                 }
             },
@@ -6966,18 +6966,18 @@
                 "to": {
                     "startLine": 639,
                     "startColumn": 4,
-                    "startOffset": 31440,
+                    "startOffset": 31438,
                     "endColumn": 65,
-                    "endOffset": 31501
+                    "endOffset": 31499
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 414,
                         "startColumn": 4,
-                        "startOffset": 18606,
+                        "startOffset": 18604,
                         "endColumn": 65,
-                        "endOffset": 18667
+                        "endOffset": 18665
                     }
                 }
             },
@@ -6985,18 +6985,18 @@
                 "to": {
                     "startLine": 640,
                     "startColumn": 4,
-                    "startOffset": 31506,
+                    "startOffset": 31504,
                     "endColumn": 74,
-                    "endOffset": 31576
+                    "endOffset": 31574
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 415,
                         "startColumn": 4,
-                        "startOffset": 18672,
+                        "startOffset": 18670,
                         "endColumn": 74,
-                        "endOffset": 18742
+                        "endOffset": 18740
                     }
                 }
             },
@@ -7004,18 +7004,18 @@
                 "to": {
                     "startLine": 641,
                     "startColumn": 4,
-                    "startOffset": 31581,
+                    "startOffset": 31579,
                     "endColumn": 55,
-                    "endOffset": 31632
+                    "endOffset": 31630
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 416,
                         "startColumn": 4,
-                        "startOffset": 18747,
+                        "startOffset": 18745,
                         "endColumn": 55,
-                        "endOffset": 18798
+                        "endOffset": 18796
                     }
                 }
             },
@@ -7023,18 +7023,18 @@
                 "to": {
                     "startLine": 642,
                     "startColumn": 4,
-                    "startOffset": 31637,
+                    "startOffset": 31635,
                     "endColumn": 66,
-                    "endOffset": 31699
+                    "endOffset": 31697
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 417,
                         "startColumn": 4,
-                        "startOffset": 18803,
+                        "startOffset": 18801,
                         "endColumn": 66,
-                        "endOffset": 18865
+                        "endOffset": 18863
                     }
                 }
             },
@@ -7042,18 +7042,18 @@
                 "to": {
                     "startLine": 643,
                     "startColumn": 4,
-                    "startOffset": 31704,
+                    "startOffset": 31702,
                     "endColumn": 77,
-                    "endOffset": 31777
+                    "endOffset": 31775
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 418,
                         "startColumn": 4,
-                        "startOffset": 18870,
+                        "startOffset": 18868,
                         "endColumn": 77,
-                        "endOffset": 18943
+                        "endOffset": 18941
                     }
                 }
             },
@@ -7061,18 +7061,18 @@
                 "to": {
                     "startLine": 644,
                     "startColumn": 4,
-                    "startOffset": 31782,
+                    "startOffset": 31780,
                     "endColumn": 64,
-                    "endOffset": 31842
+                    "endOffset": 31840
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 419,
                         "startColumn": 4,
-                        "startOffset": 18948,
+                        "startOffset": 18946,
                         "endColumn": 64,
-                        "endOffset": 19008
+                        "endOffset": 19006
                     }
                 }
             },
@@ -7080,18 +7080,18 @@
                 "to": {
                     "startLine": 645,
                     "startColumn": 4,
-                    "startOffset": 31847,
+                    "startOffset": 31845,
                     "endColumn": 48,
-                    "endOffset": 31891
+                    "endOffset": 31889
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 420,
                         "startColumn": 4,
-                        "startOffset": 19013,
+                        "startOffset": 19011,
                         "endColumn": 48,
-                        "endOffset": 19057
+                        "endOffset": 19055
                     }
                 }
             },
@@ -7099,18 +7099,18 @@
                 "to": {
                     "startLine": 646,
                     "startColumn": 4,
-                    "startOffset": 31896,
+                    "startOffset": 31894,
                     "endColumn": 47,
-                    "endOffset": 31939
+                    "endOffset": 31937
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 421,
                         "startColumn": 4,
-                        "startOffset": 19062,
+                        "startOffset": 19060,
                         "endColumn": 47,
-                        "endOffset": 19105
+                        "endOffset": 19103
                     }
                 }
             },
@@ -7118,18 +7118,18 @@
                 "to": {
                     "startLine": 647,
                     "startColumn": 4,
-                    "startOffset": 31944,
+                    "startOffset": 31942,
                     "endColumn": 50,
-                    "endOffset": 31990
+                    "endOffset": 31988
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 422,
                         "startColumn": 4,
-                        "startOffset": 19110,
+                        "startOffset": 19108,
                         "endColumn": 50,
-                        "endOffset": 19156
+                        "endOffset": 19154
                     }
                 }
             },
@@ -7137,18 +7137,18 @@
                 "to": {
                     "startLine": 648,
                     "startColumn": 4,
-                    "startOffset": 31995,
+                    "startOffset": 31993,
                     "endColumn": 48,
-                    "endOffset": 32039
+                    "endOffset": 32037
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 423,
                         "startColumn": 4,
-                        "startOffset": 19161,
+                        "startOffset": 19159,
                         "endColumn": 48,
-                        "endOffset": 19205
+                        "endOffset": 19203
                     }
                 }
             },
@@ -7156,18 +7156,18 @@
                 "to": {
                     "startLine": 649,
                     "startColumn": 4,
-                    "startOffset": 32044,
+                    "startOffset": 32042,
                     "endColumn": 64,
-                    "endOffset": 32104
+                    "endOffset": 32102
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 424,
                         "startColumn": 4,
-                        "startOffset": 19210,
+                        "startOffset": 19208,
                         "endColumn": 64,
-                        "endOffset": 19270
+                        "endOffset": 19268
                     }
                 }
             },
@@ -7175,18 +7175,18 @@
                 "to": {
                     "startLine": 650,
                     "startColumn": 4,
-                    "startOffset": 32109,
+                    "startOffset": 32107,
                     "endColumn": 64,
-                    "endOffset": 32169
+                    "endOffset": 32167
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 425,
                         "startColumn": 4,
-                        "startOffset": 19275,
+                        "startOffset": 19273,
                         "endColumn": 64,
-                        "endOffset": 19335
+                        "endOffset": 19333
                     }
                 }
             },
@@ -7194,18 +7194,18 @@
                 "to": {
                     "startLine": 651,
                     "startColumn": 4,
-                    "startOffset": 32174,
+                    "startOffset": 32172,
                     "endColumn": 59,
-                    "endOffset": 32229
+                    "endOffset": 32227
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 426,
                         "startColumn": 4,
-                        "startOffset": 19340,
+                        "startOffset": 19338,
                         "endColumn": 59,
-                        "endOffset": 19395
+                        "endOffset": 19393
                     }
                 }
             },
@@ -7213,18 +7213,18 @@
                 "to": {
                     "startLine": 652,
                     "startColumn": 4,
-                    "startOffset": 32234,
+                    "startOffset": 32232,
                     "endColumn": 57,
-                    "endOffset": 32287
+                    "endOffset": 32285
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 427,
                         "startColumn": 4,
-                        "startOffset": 19400,
+                        "startOffset": 19398,
                         "endColumn": 57,
-                        "endOffset": 19453
+                        "endOffset": 19451
                     }
                 }
             },
@@ -7232,18 +7232,18 @@
                 "to": {
                     "startLine": 653,
                     "startColumn": 4,
-                    "startOffset": 32292,
+                    "startOffset": 32290,
                     "endColumn": 61,
-                    "endOffset": 32349
+                    "endOffset": 32347
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 428,
                         "startColumn": 4,
-                        "startOffset": 19458,
+                        "startOffset": 19456,
                         "endColumn": 61,
-                        "endOffset": 19515
+                        "endOffset": 19513
                     }
                 }
             },
@@ -7251,18 +7251,18 @@
                 "to": {
                     "startLine": 654,
                     "startColumn": 4,
-                    "startOffset": 32354,
+                    "startOffset": 32352,
                     "endColumn": 56,
-                    "endOffset": 32406
+                    "endOffset": 32404
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 429,
                         "startColumn": 4,
-                        "startOffset": 19520,
+                        "startOffset": 19518,
                         "endColumn": 56,
-                        "endOffset": 19572
+                        "endOffset": 19570
                     }
                 }
             },
@@ -7270,18 +7270,18 @@
                 "to": {
                     "startLine": 655,
                     "startColumn": 4,
-                    "startOffset": 32411,
+                    "startOffset": 32409,
                     "endColumn": 44,
-                    "endOffset": 32451
+                    "endOffset": 32449
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 430,
                         "startColumn": 4,
-                        "startOffset": 19577,
+                        "startOffset": 19575,
                         "endColumn": 44,
-                        "endOffset": 19617
+                        "endOffset": 19615
                     }
                 }
             },
@@ -7289,18 +7289,18 @@
                 "to": {
                     "startLine": 656,
                     "startColumn": 4,
-                    "startOffset": 32456,
+                    "startOffset": 32454,
                     "endColumn": 75,
-                    "endOffset": 32527
+                    "endOffset": 32525
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 431,
                         "startColumn": 4,
-                        "startOffset": 19622,
+                        "startOffset": 19620,
                         "endColumn": 75,
-                        "endOffset": 19693
+                        "endOffset": 19691
                     }
                 }
             },
@@ -7308,18 +7308,18 @@
                 "to": {
                     "startLine": 657,
                     "startColumn": 4,
-                    "startOffset": 32532,
+                    "startOffset": 32530,
                     "endColumn": 51,
-                    "endOffset": 32579
+                    "endOffset": 32577
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 432,
                         "startColumn": 4,
-                        "startOffset": 19698,
+                        "startOffset": 19696,
                         "endColumn": 51,
-                        "endOffset": 19745
+                        "endOffset": 19743
                     }
                 }
             },
@@ -7327,18 +7327,18 @@
                 "to": {
                     "startLine": 658,
                     "startColumn": 4,
-                    "startOffset": 32584,
+                    "startOffset": 32582,
                     "endColumn": 60,
-                    "endOffset": 32640
+                    "endOffset": 32638
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 433,
                         "startColumn": 4,
-                        "startOffset": 19750,
+                        "startOffset": 19748,
                         "endColumn": 60,
-                        "endOffset": 19806
+                        "endOffset": 19804
                     }
                 }
             },
@@ -7346,18 +7346,18 @@
                 "to": {
                     "startLine": 659,
                     "startColumn": 4,
-                    "startOffset": 32645,
+                    "startOffset": 32643,
                     "endColumn": 60,
-                    "endOffset": 32701
+                    "endOffset": 32699
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 434,
                         "startColumn": 4,
-                        "startOffset": 19811,
+                        "startOffset": 19809,
                         "endColumn": 60,
-                        "endOffset": 19867
+                        "endOffset": 19865
                     }
                 }
             },
@@ -7365,18 +7365,18 @@
                 "to": {
                     "startLine": 660,
                     "startColumn": 4,
-                    "startOffset": 32706,
+                    "startOffset": 32704,
                     "endColumn": 68,
-                    "endOffset": 32770
+                    "endOffset": 32768
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 435,
                         "startColumn": 4,
-                        "startOffset": 19872,
+                        "startOffset": 19870,
                         "endColumn": 68,
-                        "endOffset": 19936
+                        "endOffset": 19934
                     }
                 }
             },
@@ -7384,18 +7384,18 @@
                 "to": {
                     "startLine": 661,
                     "startColumn": 4,
-                    "startOffset": 32775,
+                    "startOffset": 32773,
                     "endColumn": 63,
-                    "endOffset": 32834
+                    "endOffset": 32832
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 436,
                         "startColumn": 4,
-                        "startOffset": 19941,
+                        "startOffset": 19939,
                         "endColumn": 63,
-                        "endOffset": 20000
+                        "endOffset": 19998
                     }
                 }
             },
@@ -7403,18 +7403,18 @@
                 "to": {
                     "startLine": 662,
                     "startColumn": 4,
-                    "startOffset": 32839,
+                    "startOffset": 32837,
                     "endColumn": 64,
-                    "endOffset": 32899
+                    "endOffset": 32897
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 437,
                         "startColumn": 4,
-                        "startOffset": 20005,
+                        "startOffset": 20003,
                         "endColumn": 64,
-                        "endOffset": 20065
+                        "endOffset": 20063
                     }
                 }
             },
@@ -7422,18 +7422,18 @@
                 "to": {
                     "startLine": 663,
                     "startColumn": 4,
-                    "startOffset": 32904,
+                    "startOffset": 32902,
                     "endColumn": 73,
-                    "endOffset": 32973
+                    "endOffset": 32971
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 438,
                         "startColumn": 4,
-                        "startOffset": 20070,
+                        "startOffset": 20068,
                         "endColumn": 73,
-                        "endOffset": 20139
+                        "endOffset": 20137
                     }
                 }
             },
@@ -7441,18 +7441,18 @@
                 "to": {
                     "startLine": 664,
                     "startColumn": 4,
-                    "startOffset": 32978,
+                    "startOffset": 32976,
                     "endColumn": 77,
-                    "endOffset": 33051
+                    "endOffset": 33049
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 439,
                         "startColumn": 4,
-                        "startOffset": 20144,
+                        "startOffset": 20142,
                         "endColumn": 77,
-                        "endOffset": 20217
+                        "endOffset": 20215
                     }
                 }
             },
@@ -7460,18 +7460,18 @@
                 "to": {
                     "startLine": 665,
                     "startColumn": 4,
-                    "startOffset": 33056,
+                    "startOffset": 33054,
                     "endColumn": 46,
-                    "endOffset": 33098
+                    "endOffset": 33096
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 440,
                         "startColumn": 4,
-                        "startOffset": 20222,
+                        "startOffset": 20220,
                         "endColumn": 46,
-                        "endOffset": 20264
+                        "endOffset": 20262
                     }
                 }
             },
@@ -7479,18 +7479,18 @@
                 "to": {
                     "startLine": 666,
                     "startColumn": 4,
-                    "startOffset": 33103,
+                    "startOffset": 33101,
                     "endColumn": 49,
-                    "endOffset": 33148
+                    "endOffset": 33146
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 441,
                         "startColumn": 4,
-                        "startOffset": 20269,
+                        "startOffset": 20267,
                         "endColumn": 49,
-                        "endOffset": 20314
+                        "endOffset": 20312
                     }
                 }
             },
@@ -7498,18 +7498,18 @@
                 "to": {
                     "startLine": 667,
                     "startColumn": 4,
-                    "startOffset": 33153,
+                    "startOffset": 33151,
                     "endColumn": 58,
-                    "endOffset": 33207
+                    "endOffset": 33205
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 442,
                         "startColumn": 4,
-                        "startOffset": 20319,
+                        "startOffset": 20317,
                         "endColumn": 58,
-                        "endOffset": 20373
+                        "endOffset": 20371
                     }
                 }
             },
@@ -7517,18 +7517,18 @@
                 "to": {
                     "startLine": 668,
                     "startColumn": 4,
-                    "startOffset": 33212,
+                    "startOffset": 33210,
                     "endColumn": 53,
-                    "endOffset": 33261
+                    "endOffset": 33259
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 443,
                         "startColumn": 4,
-                        "startOffset": 20378,
+                        "startOffset": 20376,
                         "endColumn": 53,
-                        "endOffset": 20427
+                        "endOffset": 20425
                     }
                 }
             },
@@ -7536,18 +7536,18 @@
                 "to": {
                     "startLine": 669,
                     "startColumn": 4,
-                    "startOffset": 33266,
+                    "startOffset": 33264,
                     "endColumn": 65,
-                    "endOffset": 33327
+                    "endOffset": 33325
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 444,
                         "startColumn": 4,
-                        "startOffset": 20432,
+                        "startOffset": 20430,
                         "endColumn": 65,
-                        "endOffset": 20493
+                        "endOffset": 20491
                     }
                 }
             },
@@ -7555,18 +7555,18 @@
                 "to": {
                     "startLine": 670,
                     "startColumn": 4,
-                    "startOffset": 33332,
+                    "startOffset": 33330,
                     "endColumn": 59,
-                    "endOffset": 33387
+                    "endOffset": 33385
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 445,
                         "startColumn": 4,
-                        "startOffset": 20498,
+                        "startOffset": 20496,
                         "endColumn": 59,
-                        "endOffset": 20553
+                        "endOffset": 20551
                     }
                 }
             },
@@ -7574,18 +7574,18 @@
                 "to": {
                     "startLine": 671,
                     "startColumn": 4,
-                    "startOffset": 33392,
+                    "startOffset": 33390,
                     "endColumn": 61,
-                    "endOffset": 33449
+                    "endOffset": 33447
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 446,
                         "startColumn": 4,
-                        "startOffset": 20558,
+                        "startOffset": 20556,
                         "endColumn": 61,
-                        "endOffset": 20615
+                        "endOffset": 20613
                     }
                 }
             },
@@ -7593,18 +7593,18 @@
                 "to": {
                     "startLine": 672,
                     "startColumn": 4,
-                    "startOffset": 33454,
+                    "startOffset": 33452,
                     "endColumn": 50,
-                    "endOffset": 33500
+                    "endOffset": 33498
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 447,
                         "startColumn": 4,
-                        "startOffset": 20620,
+                        "startOffset": 20618,
                         "endColumn": 50,
-                        "endOffset": 20666
+                        "endOffset": 20664
                     }
                 }
             },
@@ -7612,18 +7612,18 @@
                 "to": {
                     "startLine": 673,
                     "startColumn": 4,
-                    "startOffset": 33505,
+                    "startOffset": 33503,
                     "endColumn": 50,
-                    "endOffset": 33551
+                    "endOffset": 33549
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 448,
                         "startColumn": 4,
-                        "startOffset": 20671,
+                        "startOffset": 20669,
                         "endColumn": 50,
-                        "endOffset": 20717
+                        "endOffset": 20715
                     }
                 }
             },
@@ -7631,18 +7631,18 @@
                 "to": {
                     "startLine": 674,
                     "startColumn": 4,
-                    "startOffset": 33556,
+                    "startOffset": 33554,
                     "endColumn": 49,
-                    "endOffset": 33601
+                    "endOffset": 33599
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 449,
                         "startColumn": 4,
-                        "startOffset": 20722,
+                        "startOffset": 20720,
                         "endColumn": 49,
-                        "endOffset": 20767
+                        "endOffset": 20765
                     }
                 }
             },
@@ -7650,18 +7650,18 @@
                 "to": {
                     "startLine": 675,
                     "startColumn": 4,
-                    "startOffset": 33606,
+                    "startOffset": 33604,
                     "endColumn": 62,
-                    "endOffset": 33664
+                    "endOffset": 33662
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 450,
                         "startColumn": 4,
-                        "startOffset": 20772,
+                        "startOffset": 20770,
                         "endColumn": 62,
-                        "endOffset": 20830
+                        "endOffset": 20828
                     }
                 }
             },
@@ -7669,18 +7669,18 @@
                 "to": {
                     "startLine": 676,
                     "startColumn": 4,
-                    "startOffset": 33669,
+                    "startOffset": 33667,
                     "endColumn": 42,
-                    "endOffset": 33707
+                    "endOffset": 33705
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 451,
                         "startColumn": 4,
-                        "startOffset": 20835,
+                        "startOffset": 20833,
                         "endColumn": 42,
-                        "endOffset": 20873
+                        "endOffset": 20871
                     }
                 }
             },
@@ -7688,18 +7688,18 @@
                 "to": {
                     "startLine": 677,
                     "startColumn": 4,
-                    "startOffset": 33712,
+                    "startOffset": 33710,
                     "endColumn": 36,
-                    "endOffset": 33744
+                    "endOffset": 33742
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 452,
                         "startColumn": 4,
-                        "startOffset": 20878,
+                        "startOffset": 20876,
                         "endColumn": 36,
-                        "endOffset": 20910
+                        "endOffset": 20908
                     }
                 }
             },
@@ -7707,18 +7707,18 @@
                 "to": {
                     "startLine": 678,
                     "startColumn": 4,
-                    "startOffset": 33749,
+                    "startOffset": 33747,
                     "endColumn": 55,
-                    "endOffset": 33800
+                    "endOffset": 33798
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 453,
                         "startColumn": 4,
-                        "startOffset": 20915,
+                        "startOffset": 20913,
                         "endColumn": 55,
-                        "endOffset": 20966
+                        "endOffset": 20964
                     }
                 }
             },
@@ -7726,9 +7726,9 @@
                 "to": {
                     "startLine": 679,
                     "startColumn": 4,
-                    "startOffset": 33805,
+                    "startOffset": 33803,
                     "endColumn": 42,
-                    "endOffset": 33843
+                    "endOffset": 33841
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -7745,9 +7745,9 @@
                 "to": {
                     "startLine": 680,
                     "startColumn": 4,
-                    "startOffset": 33848,
+                    "startOffset": 33846,
                     "endColumn": 40,
-                    "endOffset": 33884
+                    "endOffset": 33882
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -7764,9 +7764,9 @@
                 "to": {
                     "startLine": 681,
                     "startColumn": 4,
-                    "startOffset": 33889,
+                    "startOffset": 33887,
                     "endColumn": 41,
-                    "endOffset": 33926
+                    "endOffset": 33924
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -7783,9 +7783,9 @@
                 "to": {
                     "startLine": 682,
                     "startColumn": 4,
-                    "startOffset": 33931,
+                    "startOffset": 33929,
                     "endColumn": 48,
-                    "endOffset": 33975
+                    "endOffset": 33973
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -7802,9 +7802,9 @@
                 "to": {
                     "startLine": 683,
                     "startColumn": 4,
-                    "startOffset": 33980,
+                    "startOffset": 33978,
                     "endColumn": 49,
-                    "endOffset": 34025
+                    "endOffset": 34023
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -7821,9 +7821,9 @@
                 "to": {
                     "startLine": 684,
                     "startColumn": 4,
-                    "startOffset": 34030,
+                    "startOffset": 34028,
                     "endColumn": 69,
-                    "endOffset": 34095
+                    "endOffset": 34093
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -7840,9 +7840,9 @@
                 "to": {
                     "startLine": 685,
                     "startColumn": 4,
-                    "startOffset": 34100,
+                    "startOffset": 34098,
                     "endColumn": 48,
-                    "endOffset": 34144
+                    "endOffset": 34142
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -7859,9 +7859,9 @@
                 "to": {
                     "startLine": 686,
                     "startColumn": 4,
-                    "startOffset": 34149,
+                    "startOffset": 34147,
                     "endColumn": 50,
-                    "endOffset": 34195
+                    "endOffset": 34193
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -7878,9 +7878,9 @@
                 "to": {
                     "startLine": 687,
                     "startColumn": 4,
-                    "startOffset": 34200,
+                    "startOffset": 34198,
                     "endColumn": 57,
-                    "endOffset": 34253
+                    "endOffset": 34251
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -7897,9 +7897,9 @@
                 "to": {
                     "startLine": 688,
                     "startColumn": 4,
-                    "startOffset": 34258,
+                    "startOffset": 34256,
                     "endColumn": 54,
-                    "endOffset": 34308
+                    "endOffset": 34306
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -7916,9 +7916,9 @@
                 "to": {
                     "startLine": 689,
                     "startColumn": 4,
-                    "startOffset": 34313,
+                    "startOffset": 34311,
                     "endColumn": 51,
-                    "endOffset": 34360
+                    "endOffset": 34358
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -7935,9 +7935,9 @@
                 "to": {
                     "startLine": 690,
                     "startColumn": 4,
-                    "startOffset": 34365,
+                    "startOffset": 34363,
                     "endColumn": 63,
-                    "endOffset": 34424
+                    "endOffset": 34422
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -7954,9 +7954,9 @@
                 "to": {
                     "startLine": 691,
                     "startColumn": 4,
-                    "startOffset": 34429,
+                    "startOffset": 34427,
                     "endColumn": 74,
-                    "endOffset": 34499
+                    "endOffset": 34497
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -7973,9 +7973,9 @@
                 "to": {
                     "startLine": 692,
                     "startColumn": 4,
-                    "startOffset": 34504,
+                    "startOffset": 34502,
                     "endColumn": 56,
-                    "endOffset": 34556
+                    "endOffset": 34554
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -7992,9 +7992,9 @@
                 "to": {
                     "startLine": 693,
                     "startColumn": 4,
-                    "startOffset": 34561,
+                    "startOffset": 34559,
                     "endColumn": 43,
-                    "endOffset": 34600
+                    "endOffset": 34598
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8011,9 +8011,9 @@
                 "to": {
                     "startLine": 694,
                     "startColumn": 4,
-                    "startOffset": 34605,
+                    "startOffset": 34603,
                     "endColumn": 56,
-                    "endOffset": 34657
+                    "endOffset": 34655
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8030,9 +8030,9 @@
                 "to": {
                     "startLine": 695,
                     "startColumn": 4,
-                    "startOffset": 34662,
+                    "startOffset": 34660,
                     "endColumn": 65,
-                    "endOffset": 34723
+                    "endOffset": 34721
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8049,9 +8049,9 @@
                 "to": {
                     "startLine": 696,
                     "startColumn": 4,
-                    "startOffset": 34728,
+                    "startOffset": 34726,
                     "endColumn": 51,
-                    "endOffset": 34775
+                    "endOffset": 34773
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8068,9 +8068,9 @@
                 "to": {
                     "startLine": 697,
                     "startColumn": 4,
-                    "startOffset": 34780,
+                    "startOffset": 34778,
                     "endColumn": 63,
-                    "endOffset": 34839
+                    "endOffset": 34837
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8087,9 +8087,9 @@
                 "to": {
                     "startLine": 698,
                     "startColumn": 4,
-                    "startOffset": 34844,
+                    "startOffset": 34842,
                     "endColumn": 54,
-                    "endOffset": 34894
+                    "endOffset": 34892
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8106,9 +8106,9 @@
                 "to": {
                     "startLine": 699,
                     "startColumn": 4,
-                    "startOffset": 34899,
+                    "startOffset": 34897,
                     "endColumn": 62,
-                    "endOffset": 34957
+                    "endOffset": 34955
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8125,9 +8125,9 @@
                 "to": {
                     "startLine": 700,
                     "startColumn": 4,
-                    "startOffset": 34962,
+                    "startOffset": 34960,
                     "endColumn": 55,
-                    "endOffset": 35013
+                    "endOffset": 35011
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8144,9 +8144,9 @@
                 "to": {
                     "startLine": 701,
                     "startColumn": 4,
-                    "startOffset": 35018,
+                    "startOffset": 35016,
                     "endColumn": 48,
-                    "endOffset": 35062
+                    "endOffset": 35060
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8163,9 +8163,9 @@
                 "to": {
                     "startLine": 702,
                     "startColumn": 4,
-                    "startOffset": 35067,
+                    "startOffset": 35065,
                     "endColumn": 46,
-                    "endOffset": 35109
+                    "endOffset": 35107
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8182,9 +8182,9 @@
                 "to": {
                     "startLine": 703,
                     "startColumn": 4,
-                    "startOffset": 35114,
+                    "startOffset": 35112,
                     "endColumn": 52,
-                    "endOffset": 35162
+                    "endOffset": 35160
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8201,9 +8201,9 @@
                 "to": {
                     "startLine": 704,
                     "startColumn": 4,
-                    "startOffset": 35167,
+                    "startOffset": 35165,
                     "endColumn": 47,
-                    "endOffset": 35210
+                    "endOffset": 35208
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8220,9 +8220,9 @@
                 "to": {
                     "startLine": 705,
                     "startColumn": 4,
-                    "startOffset": 35215,
+                    "startOffset": 35213,
                     "endColumn": 51,
-                    "endOffset": 35262
+                    "endOffset": 35260
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8239,9 +8239,9 @@
                 "to": {
                     "startLine": 706,
                     "startColumn": 4,
-                    "startOffset": 35267,
+                    "startOffset": 35265,
                     "endColumn": 52,
-                    "endOffset": 35315
+                    "endOffset": 35313
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8258,9 +8258,9 @@
                 "to": {
                     "startLine": 707,
                     "startColumn": 4,
-                    "startOffset": 35320,
+                    "startOffset": 35318,
                     "endColumn": 54,
-                    "endOffset": 35370
+                    "endOffset": 35368
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8277,9 +8277,9 @@
                 "to": {
                     "startLine": 708,
                     "startColumn": 4,
-                    "startOffset": 35375,
+                    "startOffset": 35373,
                     "endColumn": 43,
-                    "endOffset": 35414
+                    "endOffset": 35412
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8296,9 +8296,9 @@
                 "to": {
                     "startLine": 709,
                     "startColumn": 4,
-                    "startOffset": 35419,
+                    "startOffset": 35417,
                     "endColumn": 65,
-                    "endOffset": 35480
+                    "endOffset": 35478
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8315,9 +8315,9 @@
                 "to": {
                     "startLine": 710,
                     "startColumn": 4,
-                    "startOffset": 35485,
+                    "startOffset": 35483,
                     "endColumn": 61,
-                    "endOffset": 35542
+                    "endOffset": 35540
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8334,9 +8334,9 @@
                 "to": {
                     "startLine": 711,
                     "startColumn": 4,
-                    "startOffset": 35547,
+                    "startOffset": 35545,
                     "endColumn": 56,
-                    "endOffset": 35599
+                    "endOffset": 35597
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8353,9 +8353,9 @@
                 "to": {
                     "startLine": 712,
                     "startColumn": 4,
-                    "startOffset": 35604,
+                    "startOffset": 35602,
                     "endColumn": 52,
-                    "endOffset": 35652
+                    "endOffset": 35650
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8372,9 +8372,9 @@
                 "to": {
                     "startLine": 713,
                     "startColumn": 4,
-                    "startOffset": 35657,
+                    "startOffset": 35655,
                     "endColumn": 61,
-                    "endOffset": 35714
+                    "endOffset": 35712
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8391,9 +8391,9 @@
                 "to": {
                     "startLine": 714,
                     "startColumn": 4,
-                    "startOffset": 35719,
+                    "startOffset": 35717,
                     "endColumn": 54,
-                    "endOffset": 35769
+                    "endOffset": 35767
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8410,9 +8410,9 @@
                 "to": {
                     "startLine": 715,
                     "startColumn": 4,
-                    "startOffset": 35774,
+                    "startOffset": 35772,
                     "endColumn": 42,
-                    "endOffset": 35812
+                    "endOffset": 35810
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8429,9 +8429,9 @@
                 "to": {
                     "startLine": 716,
                     "startColumn": 4,
-                    "startOffset": 35817,
+                    "startOffset": 35815,
                     "endColumn": 53,
-                    "endOffset": 35866
+                    "endOffset": 35864
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8448,9 +8448,9 @@
                 "to": {
                     "startLine": 717,
                     "startColumn": 4,
-                    "startOffset": 35871,
+                    "startOffset": 35869,
                     "endColumn": 56,
-                    "endOffset": 35923
+                    "endOffset": 35921
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8467,9 +8467,9 @@
                 "to": {
                     "startLine": 718,
                     "startColumn": 4,
-                    "startOffset": 35928,
+                    "startOffset": 35926,
                     "endColumn": 55,
-                    "endOffset": 35979
+                    "endOffset": 35977
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8486,9 +8486,9 @@
                 "to": {
                     "startLine": 719,
                     "startColumn": 4,
-                    "startOffset": 35984,
+                    "startOffset": 35982,
                     "endColumn": 54,
-                    "endOffset": 36034
+                    "endOffset": 36032
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8505,9 +8505,9 @@
                 "to": {
                     "startLine": 720,
                     "startColumn": 4,
-                    "startOffset": 36039,
+                    "startOffset": 36037,
                     "endColumn": 58,
-                    "endOffset": 36093
+                    "endOffset": 36091
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8524,9 +8524,9 @@
                 "to": {
                     "startLine": 721,
                     "startColumn": 4,
-                    "startOffset": 36098,
+                    "startOffset": 36096,
                     "endColumn": 52,
-                    "endOffset": 36146
+                    "endOffset": 36144
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8543,9 +8543,9 @@
                 "to": {
                     "startLine": 722,
                     "startColumn": 4,
-                    "startOffset": 36151,
+                    "startOffset": 36149,
                     "endColumn": 49,
-                    "endOffset": 36196
+                    "endOffset": 36194
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8562,9 +8562,9 @@
                 "to": {
                     "startLine": 723,
                     "startColumn": 4,
-                    "startOffset": 36201,
+                    "startOffset": 36199,
                     "endColumn": 60,
-                    "endOffset": 36257
+                    "endOffset": 36255
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8581,9 +8581,9 @@
                 "to": {
                     "startLine": 724,
                     "startColumn": 4,
-                    "startOffset": 36262,
+                    "startOffset": 36260,
                     "endColumn": 65,
-                    "endOffset": 36323
+                    "endOffset": 36321
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8600,9 +8600,9 @@
                 "to": {
                     "startLine": 725,
                     "startColumn": 4,
-                    "startOffset": 36328,
+                    "startOffset": 36326,
                     "endColumn": 67,
-                    "endOffset": 36391
+                    "endOffset": 36389
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8619,9 +8619,9 @@
                 "to": {
                     "startLine": 726,
                     "startColumn": 4,
-                    "startOffset": 36396,
+                    "startOffset": 36394,
                     "endColumn": 60,
-                    "endOffset": 36452
+                    "endOffset": 36450
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8638,9 +8638,9 @@
                 "to": {
                     "startLine": 727,
                     "startColumn": 4,
-                    "startOffset": 36457,
+                    "startOffset": 36455,
                     "endColumn": 48,
-                    "endOffset": 36501
+                    "endOffset": 36499
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8657,9 +8657,9 @@
                 "to": {
                     "startLine": 728,
                     "startColumn": 4,
-                    "startOffset": 36506,
+                    "startOffset": 36504,
                     "endColumn": 51,
-                    "endOffset": 36553
+                    "endOffset": 36551
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8676,9 +8676,9 @@
                 "to": {
                     "startLine": 729,
                     "startColumn": 4,
-                    "startOffset": 36558,
+                    "startOffset": 36556,
                     "endColumn": 61,
-                    "endOffset": 36615
+                    "endOffset": 36613
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8695,9 +8695,9 @@
                 "to": {
                     "startLine": 730,
                     "startColumn": 4,
-                    "startOffset": 36620,
+                    "startOffset": 36618,
                     "endColumn": 62,
-                    "endOffset": 36678
+                    "endOffset": 36676
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8714,9 +8714,9 @@
                 "to": {
                     "startLine": 731,
                     "startColumn": 4,
-                    "startOffset": 36683,
+                    "startOffset": 36681,
                     "endColumn": 70,
-                    "endOffset": 36749
+                    "endOffset": 36747
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8733,9 +8733,9 @@
                 "to": {
                     "startLine": 732,
                     "startColumn": 4,
-                    "startOffset": 36754,
+                    "startOffset": 36752,
                     "endColumn": 79,
-                    "endOffset": 36829
+                    "endOffset": 36827
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8752,9 +8752,9 @@
                 "to": {
                     "startLine": 733,
                     "startColumn": 4,
-                    "startOffset": 36834,
+                    "startOffset": 36832,
                     "endColumn": 60,
-                    "endOffset": 36890
+                    "endOffset": 36888
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8771,9 +8771,9 @@
                 "to": {
                     "startLine": 734,
                     "startColumn": 4,
-                    "startOffset": 36895,
+                    "startOffset": 36893,
                     "endColumn": 60,
-                    "endOffset": 36951
+                    "endOffset": 36949
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8790,9 +8790,9 @@
                 "to": {
                     "startLine": 735,
                     "startColumn": 4,
-                    "startOffset": 36956,
+                    "startOffset": 36954,
                     "endColumn": 76,
-                    "endOffset": 37028
+                    "endOffset": 37026
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8809,9 +8809,9 @@
                 "to": {
                     "startLine": 736,
                     "startColumn": 4,
-                    "startOffset": 37033,
+                    "startOffset": 37031,
                     "endColumn": 55,
-                    "endOffset": 37084
+                    "endOffset": 37082
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8828,9 +8828,9 @@
                 "to": {
                     "startLine": 737,
                     "startColumn": 4,
-                    "startOffset": 37089,
+                    "startOffset": 37087,
                     "endColumn": 77,
-                    "endOffset": 37162
+                    "endOffset": 37160
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8847,9 +8847,9 @@
                 "to": {
                     "startLine": 738,
                     "startColumn": 4,
-                    "startOffset": 37167,
+                    "startOffset": 37165,
                     "endColumn": 81,
-                    "endOffset": 37244
+                    "endOffset": 37242
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8866,9 +8866,9 @@
                 "to": {
                     "startLine": 739,
                     "startColumn": 4,
-                    "startOffset": 37249,
+                    "startOffset": 37247,
                     "endColumn": 80,
-                    "endOffset": 37325
+                    "endOffset": 37323
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_strings.xml",
@@ -8885,10 +8885,10 @@
                 "to": {
                     "startLine": 740,
                     "startColumn": 4,
-                    "startOffset": 37330,
+                    "startOffset": 37328,
                     "endLine": 751,
                     "endColumn": 12,
-                    "endOffset": 37996
+                    "endOffset": 37994
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -8906,10 +8906,10 @@
                 "to": {
                     "startLine": 752,
                     "startColumn": 4,
-                    "startOffset": 38001,
+                    "startOffset": 37999,
                     "endLine": 757,
                     "endColumn": 12,
-                    "endOffset": 38305
+                    "endOffset": 38303
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -8927,10 +8927,10 @@
                 "to": {
                     "startLine": 758,
                     "startColumn": 4,
-                    "startOffset": 38310,
+                    "startOffset": 38308,
                     "endLine": 764,
                     "endColumn": 12,
-                    "endOffset": 38678
+                    "endOffset": 38676
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -8948,10 +8948,10 @@
                 "to": {
                     "startLine": 765,
                     "startColumn": 4,
-                    "startOffset": 38683,
+                    "startOffset": 38681,
                     "endLine": 776,
                     "endColumn": 12,
-                    "endOffset": 39348
+                    "endOffset": 39346
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -8969,10 +8969,10 @@
                 "to": {
                     "startLine": 777,
                     "startColumn": 4,
-                    "startOffset": 39353,
+                    "startOffset": 39351,
                     "endLine": 782,
                     "endColumn": 12,
-                    "endOffset": 39651
+                    "endOffset": 39649
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -8990,10 +8990,10 @@
                 "to": {
                     "startLine": 783,
                     "startColumn": 4,
-                    "startOffset": 39656,
+                    "startOffset": 39654,
                     "endLine": 787,
                     "endColumn": 12,
-                    "endOffset": 39891
+                    "endOffset": 39889
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9011,10 +9011,10 @@
                 "to": {
                     "startLine": 788,
                     "startColumn": 4,
-                    "startOffset": 39896,
+                    "startOffset": 39894,
                     "endLine": 795,
                     "endColumn": 12,
-                    "endOffset": 40309
+                    "endOffset": 40307
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9032,10 +9032,10 @@
                 "to": {
                     "startLine": 796,
                     "startColumn": 4,
-                    "startOffset": 40314,
+                    "startOffset": 40312,
                     "endLine": 802,
                     "endColumn": 12,
-                    "endOffset": 40663
+                    "endOffset": 40661
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9053,10 +9053,10 @@
                 "to": {
                     "startLine": 803,
                     "startColumn": 4,
-                    "startOffset": 40668,
+                    "startOffset": 40666,
                     "endLine": 806,
                     "endColumn": 12,
-                    "endOffset": 40886
+                    "endOffset": 40884
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9074,10 +9074,10 @@
                 "to": {
                     "startLine": 807,
                     "startColumn": 4,
-                    "startOffset": 40891,
+                    "startOffset": 40889,
                     "endLine": 814,
                     "endColumn": 12,
-                    "endOffset": 41281
+                    "endOffset": 41279
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9095,10 +9095,10 @@
                 "to": {
                     "startLine": 815,
                     "startColumn": 4,
-                    "startOffset": 41286,
+                    "startOffset": 41284,
                     "endLine": 823,
                     "endColumn": 12,
-                    "endOffset": 41792
+                    "endOffset": 41790
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9116,10 +9116,10 @@
                 "to": {
                     "startLine": 824,
                     "startColumn": 4,
-                    "startOffset": 41797,
+                    "startOffset": 41795,
                     "endLine": 831,
                     "endColumn": 12,
-                    "endOffset": 42239
+                    "endOffset": 42237
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9137,10 +9137,10 @@
                 "to": {
                     "startLine": 832,
                     "startColumn": 4,
-                    "startOffset": 42244,
+                    "startOffset": 42242,
                     "endLine": 839,
                     "endColumn": 12,
-                    "endOffset": 42673
+                    "endOffset": 42671
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9158,10 +9158,10 @@
                 "to": {
                     "startLine": 840,
                     "startColumn": 4,
-                    "startOffset": 42678,
+                    "startOffset": 42676,
                     "endLine": 846,
                     "endColumn": 12,
-                    "endOffset": 43035
+                    "endOffset": 43033
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9179,10 +9179,10 @@
                 "to": {
                     "startLine": 847,
                     "startColumn": 4,
-                    "startOffset": 43040,
+                    "startOffset": 43038,
                     "endLine": 851,
                     "endColumn": 12,
-                    "endOffset": 43264
+                    "endOffset": 43262
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9200,10 +9200,10 @@
                 "to": {
                     "startLine": 852,
                     "startColumn": 4,
-                    "startOffset": 43269,
+                    "startOffset": 43267,
                     "endLine": 854,
                     "endColumn": 12,
-                    "endOffset": 43407
+                    "endOffset": 43405
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9221,10 +9221,10 @@
                 "to": {
                     "startLine": 855,
                     "startColumn": 4,
-                    "startOffset": 43412,
+                    "startOffset": 43410,
                     "endLine": 864,
                     "endColumn": 12,
-                    "endOffset": 43967
+                    "endOffset": 43965
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9242,10 +9242,10 @@
                 "to": {
                     "startLine": 865,
                     "startColumn": 4,
-                    "startOffset": 43972,
+                    "startOffset": 43970,
                     "endLine": 879,
                     "endColumn": 12,
-                    "endOffset": 44817
+                    "endOffset": 44815
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9263,9 +9263,9 @@
                 "to": {
                     "startLine": 880,
                     "startColumn": 4,
-                    "startOffset": 44822,
+                    "startOffset": 44820,
                     "endColumn": 36,
-                    "endOffset": 44854
+                    "endOffset": 44852
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9282,10 +9282,10 @@
                 "to": {
                     "startLine": 881,
                     "startColumn": 4,
-                    "startOffset": 44859,
+                    "startOffset": 44857,
                     "endLine": 886,
                     "endColumn": 12,
-                    "endOffset": 45144
+                    "endOffset": 45142
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9303,10 +9303,10 @@
                 "to": {
                     "startLine": 887,
                     "startColumn": 4,
-                    "startOffset": 45149,
+                    "startOffset": 45147,
                     "endLine": 889,
                     "endColumn": 12,
-                    "endOffset": 45293
+                    "endOffset": 45291
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9324,10 +9324,10 @@
                 "to": {
                     "startLine": 890,
                     "startColumn": 4,
-                    "startOffset": 45298,
+                    "startOffset": 45296,
                     "endLine": 897,
                     "endColumn": 12,
-                    "endOffset": 45675
+                    "endOffset": 45673
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9345,10 +9345,10 @@
                 "to": {
                     "startLine": 898,
                     "startColumn": 4,
-                    "startOffset": 45680,
+                    "startOffset": 45678,
                     "endLine": 904,
                     "endColumn": 12,
-                    "endOffset": 46104
+                    "endOffset": 46102
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9366,10 +9366,10 @@
                 "to": {
                     "startLine": 905,
                     "startColumn": 4,
-                    "startOffset": 46109,
+                    "startOffset": 46107,
                     "endLine": 911,
                     "endColumn": 12,
-                    "endOffset": 46475
+                    "endOffset": 46473
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9387,20 +9387,20 @@
                 "to": {
                     "startLine": 912,
                     "startColumn": 4,
-                    "startOffset": 46480,
+                    "startOffset": 46478,
                     "endLine": 920,
                     "endColumn": 12,
-                    "endOffset": 47106
+                    "endOffset": 47104
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 454,
                         "startColumn": 4,
-                        "startOffset": 20971,
+                        "startOffset": 20969,
                         "endLine": 462,
                         "endColumn": 12,
-                        "endOffset": 21597
+                        "endOffset": 21595
                     }
                 }
             },
@@ -9408,20 +9408,20 @@
                 "to": {
                     "startLine": 921,
                     "startColumn": 4,
-                    "startOffset": 47111,
+                    "startOffset": 47109,
                     "endLine": 924,
                     "endColumn": 12,
-                    "endOffset": 47328
+                    "endOffset": 47326
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 463,
                         "startColumn": 4,
-                        "startOffset": 21602,
+                        "startOffset": 21600,
                         "endLine": 466,
                         "endColumn": 12,
-                        "endOffset": 21819
+                        "endOffset": 21817
                     }
                 }
             },
@@ -9429,20 +9429,20 @@
                 "to": {
                     "startLine": 925,
                     "startColumn": 4,
-                    "startOffset": 47333,
+                    "startOffset": 47331,
                     "endLine": 928,
                     "endColumn": 12,
-                    "endOffset": 47536
+                    "endOffset": 47534
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 467,
                         "startColumn": 4,
-                        "startOffset": 21824,
+                        "startOffset": 21822,
                         "endLine": 470,
                         "endColumn": 12,
-                        "endOffset": 22027
+                        "endOffset": 22025
                     }
                 }
             },
@@ -9450,20 +9450,20 @@
                 "to": {
                     "startLine": 929,
                     "startColumn": 4,
-                    "startOffset": 47541,
+                    "startOffset": 47539,
                     "endLine": 933,
                     "endColumn": 12,
-                    "endOffset": 47804
+                    "endOffset": 47802
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 471,
                         "startColumn": 4,
-                        "startOffset": 22032,
+                        "startOffset": 22030,
                         "endLine": 475,
                         "endColumn": 12,
-                        "endOffset": 22295
+                        "endOffset": 22293
                     }
                 }
             },
@@ -9471,20 +9471,20 @@
                 "to": {
                     "startLine": 934,
                     "startColumn": 4,
-                    "startOffset": 47809,
+                    "startOffset": 47807,
                     "endLine": 942,
                     "endColumn": 12,
-                    "endOffset": 48299
+                    "endOffset": 48297
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 476,
                         "startColumn": 4,
-                        "startOffset": 22300,
+                        "startOffset": 22298,
                         "endLine": 484,
                         "endColumn": 12,
-                        "endOffset": 22790
+                        "endOffset": 22788
                     }
                 }
             },
@@ -9492,20 +9492,20 @@
                 "to": {
                     "startLine": 943,
                     "startColumn": 4,
-                    "startOffset": 48304,
+                    "startOffset": 48302,
                     "endLine": 945,
                     "endColumn": 12,
-                    "endOffset": 48382
+                    "endOffset": 48380
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 485,
                         "startColumn": 4,
-                        "startOffset": 22795,
+                        "startOffset": 22793,
                         "endLine": 487,
                         "endColumn": 12,
-                        "endOffset": 22873
+                        "endOffset": 22871
                     }
                 }
             },
@@ -9513,20 +9513,20 @@
                 "to": {
                     "startLine": 946,
                     "startColumn": 4,
-                    "startOffset": 48387,
+                    "startOffset": 48385,
                     "endLine": 948,
                     "endColumn": 12,
-                    "endOffset": 48464
+                    "endOffset": 48462
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 488,
                         "startColumn": 4,
-                        "startOffset": 22878,
+                        "startOffset": 22876,
                         "endLine": 490,
                         "endColumn": 12,
-                        "endOffset": 22955
+                        "endOffset": 22953
                     }
                 }
             },
@@ -9534,20 +9534,20 @@
                 "to": {
                     "startLine": 949,
                     "startColumn": 4,
-                    "startOffset": 48469,
+                    "startOffset": 48467,
                     "endLine": 951,
                     "endColumn": 12,
-                    "endOffset": 48642
+                    "endOffset": 48640
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 491,
                         "startColumn": 4,
-                        "startOffset": 22960,
+                        "startOffset": 22958,
                         "endLine": 493,
                         "endColumn": 12,
-                        "endOffset": 23133
+                        "endOffset": 23131
                     }
                 }
             },
@@ -9555,20 +9555,20 @@
                 "to": {
                     "startLine": 952,
                     "startColumn": 4,
-                    "startOffset": 48647,
+                    "startOffset": 48645,
                     "endLine": 954,
                     "endColumn": 12,
-                    "endOffset": 48725
+                    "endOffset": 48723
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 494,
                         "startColumn": 4,
-                        "startOffset": 23138,
+                        "startOffset": 23136,
                         "endLine": 496,
                         "endColumn": 12,
-                        "endOffset": 23216
+                        "endOffset": 23214
                     }
                 }
             },
@@ -9576,20 +9576,20 @@
                 "to": {
                     "startLine": 955,
                     "startColumn": 4,
-                    "startOffset": 48730,
+                    "startOffset": 48728,
                     "endLine": 959,
                     "endColumn": 12,
-                    "endOffset": 49013
+                    "endOffset": 49011
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 497,
                         "startColumn": 4,
-                        "startOffset": 23221,
+                        "startOffset": 23219,
                         "endLine": 501,
                         "endColumn": 12,
-                        "endOffset": 23504
+                        "endOffset": 23502
                     }
                 }
             },
@@ -9597,20 +9597,20 @@
                 "to": {
                     "startLine": 960,
                     "startColumn": 4,
-                    "startOffset": 49018,
+                    "startOffset": 49016,
                     "endLine": 962,
                     "endColumn": 12,
-                    "endOffset": 49095
+                    "endOffset": 49093
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 502,
                         "startColumn": 4,
-                        "startOffset": 23509,
+                        "startOffset": 23507,
                         "endLine": 504,
                         "endColumn": 12,
-                        "endOffset": 23586
+                        "endOffset": 23584
                     }
                 }
             },
@@ -9618,20 +9618,20 @@
                 "to": {
                     "startLine": 963,
                     "startColumn": 4,
-                    "startOffset": 49100,
+                    "startOffset": 49098,
                     "endLine": 970,
                     "endColumn": 12,
-                    "endOffset": 49557
+                    "endOffset": 49555
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 505,
                         "startColumn": 4,
-                        "startOffset": 23591,
+                        "startOffset": 23589,
                         "endLine": 512,
                         "endColumn": 12,
-                        "endOffset": 24048
+                        "endOffset": 24046
                     }
                 }
             },
@@ -9639,10 +9639,10 @@
                 "to": {
                     "startLine": 971,
                     "startColumn": 4,
-                    "startOffset": 49562,
+                    "startOffset": 49560,
                     "endLine": 977,
                     "endColumn": 12,
-                    "endOffset": 49917
+                    "endOffset": 49915
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9660,10 +9660,10 @@
                 "to": {
                     "startLine": 978,
                     "startColumn": 4,
-                    "startOffset": 49922,
+                    "startOffset": 49920,
                     "endLine": 984,
                     "endColumn": 12,
-                    "endOffset": 50288
+                    "endOffset": 50286
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9681,10 +9681,10 @@
                 "to": {
                     "startLine": 985,
                     "startColumn": 4,
-                    "startOffset": 50293,
+                    "startOffset": 50291,
                     "endLine": 992,
                     "endColumn": 12,
-                    "endOffset": 50731
+                    "endOffset": 50729
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9702,10 +9702,10 @@
                 "to": {
                     "startLine": 993,
                     "startColumn": 4,
-                    "startOffset": 50736,
+                    "startOffset": 50734,
                     "endLine": 1001,
                     "endColumn": 12,
-                    "endOffset": 51244
+                    "endOffset": 51242
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9723,10 +9723,10 @@
                 "to": {
                     "startLine": 1002,
                     "startColumn": 4,
-                    "startOffset": 51249,
+                    "startOffset": 51247,
                     "endLine": 1011,
                     "endColumn": 12,
-                    "endOffset": 51790
+                    "endOffset": 51788
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9744,10 +9744,10 @@
                 "to": {
                     "startLine": 1012,
                     "startColumn": 4,
-                    "startOffset": 51795,
+                    "startOffset": 51793,
                     "endLine": 1022,
                     "endColumn": 12,
-                    "endOffset": 52369
+                    "endOffset": 52367
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9765,10 +9765,10 @@
                 "to": {
                     "startLine": 1023,
                     "startColumn": 4,
-                    "startOffset": 52374,
+                    "startOffset": 52372,
                     "endLine": 1030,
                     "endColumn": 12,
-                    "endOffset": 52755
+                    "endOffset": 52753
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9786,10 +9786,10 @@
                 "to": {
                     "startLine": 1031,
                     "startColumn": 4,
-                    "startOffset": 52760,
+                    "startOffset": 52758,
                     "endLine": 1038,
                     "endColumn": 12,
-                    "endOffset": 53176
+                    "endOffset": 53174
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9807,10 +9807,10 @@
                 "to": {
                     "startLine": 1039,
                     "startColumn": 4,
-                    "startOffset": 53181,
+                    "startOffset": 53179,
                     "endLine": 1047,
                     "endColumn": 12,
-                    "endOffset": 53660
+                    "endOffset": 53658
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9828,10 +9828,10 @@
                 "to": {
                     "startLine": 1048,
                     "startColumn": 4,
-                    "startOffset": 53665,
+                    "startOffset": 53663,
                     "endLine": 1053,
                     "endColumn": 12,
-                    "endOffset": 53955
+                    "endOffset": 53953
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9849,10 +9849,10 @@
                 "to": {
                     "startLine": 1054,
                     "startColumn": 4,
-                    "startOffset": 53960,
+                    "startOffset": 53958,
                     "endLine": 1062,
                     "endColumn": 12,
-                    "endOffset": 54442
+                    "endOffset": 54440
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9870,10 +9870,10 @@
                 "to": {
                     "startLine": 1063,
                     "startColumn": 4,
-                    "startOffset": 54447,
+                    "startOffset": 54445,
                     "endLine": 1070,
                     "endColumn": 12,
-                    "endOffset": 54865
+                    "endOffset": 54863
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9891,10 +9891,10 @@
                 "to": {
                     "startLine": 1071,
                     "startColumn": 4,
-                    "startOffset": 54870,
+                    "startOffset": 54868,
                     "endLine": 1076,
                     "endColumn": 12,
-                    "endOffset": 55185
+                    "endOffset": 55183
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9912,20 +9912,20 @@
                 "to": {
                     "startLine": 1077,
                     "startColumn": 4,
-                    "startOffset": 55190,
+                    "startOffset": 55188,
                     "endLine": 1079,
                     "endColumn": 12,
-                    "endOffset": 55363
+                    "endOffset": 55361
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 513,
                         "startColumn": 4,
-                        "startOffset": 24053,
+                        "startOffset": 24051,
                         "endLine": 515,
                         "endColumn": 12,
-                        "endOffset": 24226
+                        "endOffset": 24224
                     }
                 }
             },
@@ -9933,10 +9933,10 @@
                 "to": {
                     "startLine": 1080,
                     "startColumn": 4,
-                    "startOffset": 55368,
+                    "startOffset": 55366,
                     "endLine": 1083,
                     "endColumn": 12,
-                    "endOffset": 55601
+                    "endOffset": 55599
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/src/main/res/values/rp_styles.xml",
@@ -9954,20 +9954,20 @@
                 "to": {
                     "startLine": 1084,
                     "startColumn": 4,
-                    "startOffset": 55606,
+                    "startOffset": 55604,
                     "endLine": 1088,
                     "endColumn": 12,
-                    "endOffset": 55855
+                    "endOffset": 55853
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 516,
                         "startColumn": 4,
-                        "startOffset": 24231,
+                        "startOffset": 24229,
                         "endLine": 520,
                         "endColumn": 12,
-                        "endOffset": 24480
+                        "endOffset": 24478
                     }
                 }
             },
@@ -9975,20 +9975,20 @@
                 "to": {
                     "startLine": 1089,
                     "startColumn": 4,
-                    "startOffset": 55860,
+                    "startOffset": 55858,
                     "endLine": 1091,
                     "endColumn": 12,
-                    "endOffset": 56032
+                    "endOffset": 56030
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 521,
                         "startColumn": 4,
-                        "startOffset": 24485,
+                        "startOffset": 24483,
                         "endLine": 523,
                         "endColumn": 12,
-                        "endOffset": 24657
+                        "endOffset": 24655
                     }
                 }
             },
@@ -9996,20 +9996,20 @@
                 "to": {
                     "startLine": 1092,
                     "startColumn": 4,
-                    "startOffset": 56037,
+                    "startOffset": 56035,
                     "endLine": 1096,
                     "endColumn": 12,
-                    "endOffset": 56284
+                    "endOffset": 56282
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/exploded-aar/demo-app-android-v2/IMKit/unspecified/res/values/values.xml",
                     "position": {
                         "startLine": 524,
                         "startColumn": 4,
-                        "startOffset": 24662,
+                        "startOffset": 24660,
                         "endLine": 528,
                         "endColumn": 12,
-                        "endOffset": 24909
+                        "endOffset": 24907
                     }
                 }
             }

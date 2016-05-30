@@ -12,12 +12,12 @@
         "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/bundles/debug/res/drawable-xxhdpi-v4/rp_avatar.png"
     },
     {
-        "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4/rp_load_dark_10.png",
-        "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/bundles/debug/res/drawable-xxhdpi-v4/rp_load_dark_10.png"
-    },
-    {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4/rp_back_arrow_blue.png",
         "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/bundles/debug/res/drawable-xxhdpi-v4/rp_back_arrow_blue.png"
+    },
+    {
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4/rp_load_dark_10.png",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/bundles/debug/res/drawable-xxhdpi-v4/rp_load_dark_10.png"
     },
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/redpacketlibrary/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4/rc_group_default_portrait.png",

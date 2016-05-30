@@ -41,7 +41,6 @@
     <string name="rc_info_not_in_chatroom">You are not in current chat room</string>
     <string name="rc_info_not_in_discussion">You are not in current discussion</string>
     <string name="rc_info_not_in_group">You are not in current group</string>
-    <string name="rc_init_failed">Failed Connect Custom Service</string>
     <string name="rc_input_send">Send</string>
     <string name="rc_input_voice">Hold to Talk</string>
     <string name="rc_kicked_from_chatroom">You were kicked from current chatroom</string>
@@ -68,9 +67,6 @@
     <string name="rc_notice_network_unavailable">Network unavailable</string>
     <string name="rc_notice_select_one_picture_at_last">Please select at least a picture</string>
     <string name="rc_notice_tick">The account has been logged in to other devices</string>
-    <string name="rc_notification_new_msg">%1$s sent %2$d messages</string>
-    <string name="rc_notification_new_plural_msg">%1$d contacts sent %2$d messages</string>
-    <string name="rc_notification_ticker_text">You have a new message</string>
     <string name="rc_plugins_camera">Camera</string>
     <string name="rc_plugins_image">Image</string>
     <string name="rc_plugins_location">Location</string>
@@ -80,7 +76,6 @@
     <string name="rc_pub_service_info_enter">Enter Official Account</string>
     <string name="rc_pub_service_info_follow">Follow</string>
     <string name="rc_pub_service_info_unfollow">Unfollow</string>
-    <string name="rc_quit_custom_service">Custom Service Have Quit</string>
     <string name="rc_read_all">Read All</string>
     <string name="rc_rejected_by_blacklist_prompt">Your message have sent out, but rejected by the receiver</string>
     <string name="rc_send_format">Send(%1$s)</string>
