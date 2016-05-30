@@ -32,6 +32,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.easemob.redpacketui.RPContext;
+
 import io.rong.app.DemoContext;
 import io.rong.app.R;
 import io.rong.app.ui.adapter.ConversationListAdapterEx;
@@ -466,6 +468,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case R.id.set_item4://关于融云
                 startActivity(new Intent(MainActivity.this, AboutRongCloudActivity.class));
+                break;
+            case R.id.set_item_change://零钱
+                RPContext.getInstance().toChangeActivity(this);
                 break;
             case R.id.set_item5://退出
 

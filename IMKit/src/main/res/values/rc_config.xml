@@ -10,7 +10,7 @@
     <bool name="rc_play_audio_continuous">true</bool>
 
     <!-- 设置已读回执 -->
-    <bool name="rc_read_receipt">true</bool>
+    <bool name="rc_read_receipt">false</bool>
 
     <!-- 进入客服会话，机器人模式下，弹出评价菜单超时时间(单位：秒)-->
     <!-- 设置为 0 时，任何时候离开客服会话时，都会弹出评价菜单-->

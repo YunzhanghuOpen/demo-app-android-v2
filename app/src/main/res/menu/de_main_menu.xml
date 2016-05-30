@@ -49,6 +49,10 @@
                 android:icon="@drawable/de_btn_main_rongcloud"
                 android:title="@string/set_rongcloud" />
             <item
+                android:id="@+id/set_item_change"
+                android:icon="@drawable/de_btn_main_rongcloud"
+                android:title="我的零钱" />
+            <item
                 android:id="@+id/set_item5"
                 android:icon="@drawable/de_btn_main_sign_out"
                 android:title="@string/set_logout" />
