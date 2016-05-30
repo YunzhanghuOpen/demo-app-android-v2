@@ -4,6 +4,9 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 
+import com.easemob.redpacketsdk.RedPacket;
+import com.easemob.redpacketui.RPContext;
+
 import io.rong.app.message.AgreedFriendRequestMessage;
 import io.rong.app.message.provider.ContactNotificationMessageProvider;
 import io.rong.app.message.provider.NewDiscussionConversationProvider;
@@ -48,6 +51,9 @@ public class App extends Application {
                 Thread.setDefaultUncaughtExceptionHandler(new RongExceptionHandler(this));
 
                 try {
+                    //注册红包消息类以及消息展示模板
+                    RPContext.getInstance().registerMsgTypeAndTemplate(this);
+
                     RongIM.registerMessageType(AgreedFriendRequestMessage.class);
 
                     RongIM.registerMessageTemplate(new ContactNotificationMessageProvider());
@@ -60,6 +66,9 @@ public class App extends Application {
                 }
             }
         }
+        //初始化红包上下文
+        RedPacket.getInstance().initContext(this);
+        RedPacket.getInstance().setDebugMode(true);
 
     }
 
