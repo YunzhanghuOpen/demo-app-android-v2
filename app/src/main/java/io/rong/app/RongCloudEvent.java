@@ -15,6 +15,10 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 
+import com.easemob.redpacketui.callback.GetGroupInfoCallback;
+import com.easemob.redpacketui.callback.ToRedPacketActivity;
+import com.easemob.redpacketui.provider.RongGroupRedPacketProvider;
+import com.easemob.redpacketui.provider.RongRedPacketProvider;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 import com.sea_monster.network.ApiCallback;
@@ -23,6 +27,7 @@ import io.rong.app.database.UserInfos;
 import io.rong.app.message.AgreedFriendRequestMessage;
 import io.rong.app.message.ContactsProvider;
 import io.rong.app.message.provider.RealTimeLocationInputProvider;
+import io.rong.app.model.GroupInfo;
 import io.rong.app.model.User;
 import io.rong.app.ui.activity.MainActivity;
 import io.rong.app.ui.activity.NewFriendListActivity;
@@ -184,6 +189,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 new CameraInputProvider(RongContext.getInstance()),//相机
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
                 new VoIPInputProvider(RongContext.getInstance()),// 语音通话
+                new RongRedPacketProvider(RongContext.getInstance())//单聊红包
         };
 
         InputProvider.ExtendProvider[] provider1 = {
@@ -192,10 +198,42 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
                 new ContactsProvider(RongContext.getInstance()),//通讯录
         };
+        InputProvider.ExtendProvider[] provider2 = {
+                new ImageInputProvider(RongContext.getInstance()),//图片
+                new CameraInputProvider(RongContext.getInstance()),//相机
+                new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
+                new ContactsProvider(RongContext.getInstance()),//通讯录
+                new RongGroupRedPacketProvider(RongContext.getInstance(), new GetGroupInfoCallback() {
+
+                    @Override
+                    public int getGroupPersonNumber(String groupID, final ToRedPacketActivity mCallback) {
+                        DemoContext.getInstance().getDemoApi().getGroupByGroupId(groupID, new ApiCallback<GroupInfo>() {
+                            @Override
+                            public void onComplete(AbstractHttpRequest<GroupInfo> abstractHttpRequest, GroupInfo groupInfo) {
+                                if (groupInfo.getCode() == 200 && groupInfo.getResult() != null) {
+                                    Log.e(TAG, groupInfo.getResult().getNumber());
+                                    int number = Integer.parseInt(groupInfo.getResult().getNumber());
+                                    mCallback.toRedPacketActivity(number);
+                                } else {
+                                    WinToast.toast(mContext, String.valueOf(groupInfo.getCode()));
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(AbstractHttpRequest abstractHttpRequest, BaseException e) {
+                                Log.e(TAG, e.toString());
+                            }
+                        });
+                        return 0;
+                    }
+
+                })//群红包
+        };
+
 
         RongIM.resetInputExtensionProvider(Conversation.ConversationType.PRIVATE, provider);
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.DISCUSSION, provider1);
-        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.GROUP, provider1);
+        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.GROUP, provider2);
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.CUSTOMER_SERVICE, provider1);
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.CHATROOM, provider1);
     }
