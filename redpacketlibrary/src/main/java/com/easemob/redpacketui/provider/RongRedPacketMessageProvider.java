@@ -155,10 +155,10 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
 
     public void sendAckMsg(RongRedPacketMessage content, UIMessage message, String receiveName) {
         String receiveID = RPContext.getInstance().getUserID();
-        RongNotificationMessage rongNotificationMessage = RongNotificationMessage.obtain(content.getSendUserId(), content.getSendUserName(), receiveID, receiveName);
-        RongEmptyMessage rongEmptyMessage = RongEmptyMessage.obtain(content.getSendUserId(), content.getSendUserName(), receiveID, receiveName);
+        RongNotificationMessage rongNotificationMessage = RongNotificationMessage.obtain(content.getSendUserID(), content.getSendUserName(), receiveID, receiveName);
+        RongEmptyMessage rongEmptyMessage = RongEmptyMessage.obtain(content.getSendUserID(), content.getSendUserName(), receiveID, receiveName);
         if (message.getConversationType() == Conversation.ConversationType.PRIVATE) {
-            RongIM.getInstance().getRongIMClient().sendMessage(message.getConversationType(), content.getSendUserId(), rongNotificationMessage, null, null, new RongIMClient.SendMessageCallback() {
+            RongIM.getInstance().getRongIMClient().sendMessage(message.getConversationType(), content.getSendUserID(), rongNotificationMessage, null, null, new RongIMClient.SendMessageCallback() {
                 @Override
                 public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
                     Log.e("yzh", "-单聊发送回执消息失败-");
@@ -172,10 +172,10 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
                 }
             }, null);
         } else {//群聊
-            if (content.getSendUserId().equals(receiveID)) {//自己领取了自己的红包
+            if (content.getSendUserID().equals(receiveID)) {//自己领取了自己的红包
                 RongIM.getInstance().getRongIMClient().insertMessage(message.getConversationType(), message.getTargetId(), receiveID, rongNotificationMessage, null);
             } else {
-                String pushData = content.getSendUserId() + "," + content.getSendUserName() + "," + receiveID + "," + receiveName;
+                String pushData = content.getSendUserID() + "," + content.getSendUserName() + "," + receiveID + "," + receiveName;
                 RongIM.getInstance().getRongIMClient().sendMessage(message.getConversationType(), message.getTargetId(), rongEmptyMessage, null, null, new RongIMClient.SendMessageCallback() {
                     @Override
                     public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {

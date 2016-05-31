@@ -30,7 +30,7 @@ import io.rong.imlib.model.UserInfo;
 
 @MessageTag(value = "YZH:RedPacketMsg", flag = MessageTag.ISPERSISTED|MessageTag.ISCOUNTED)
 public class RongRedPacketMessage extends MessageContent {
-    private String sendUserId;//红包发送者ID
+    private String sendUserID;//红包发送者ID
     private String sendUserName;//红包发送者名字
     private String message;//红包祝福语
     private String moneyID;//红包ID
@@ -40,7 +40,7 @@ public class RongRedPacketMessage extends MessageContent {
 
     public static RongRedPacketMessage obtain(String sendUserId, String sendUserName,String message,String moneyID) {
         RongRedPacketMessage rongRedPacketMessage = new RongRedPacketMessage();
-        rongRedPacketMessage.sendUserId = sendUserId;
+        rongRedPacketMessage.sendUserID = sendUserId;
         rongRedPacketMessage.sendUserName = sendUserName;
         rongRedPacketMessage.message = message;
         rongRedPacketMessage.moneyID = moneyID;
@@ -53,7 +53,7 @@ public class RongRedPacketMessage extends MessageContent {
         try {
             String jsonStr = new String(data, "UTF-8");
             JSONObject jsonObj = new JSONObject(jsonStr);
-            setSendUserId(jsonObj.getString("sendUserId"));
+            setSendUserID(jsonObj.getString("sendUserID"));
             setSendUserName(jsonObj.getString("sendUserName"));
             setMessage(jsonObj.getString("message"));
             setMoneyID(jsonObj.getString("moneyID"));
@@ -73,7 +73,7 @@ public class RongRedPacketMessage extends MessageContent {
      * @param in 初始化传入的 Parcel。
      */
     public RongRedPacketMessage(Parcel in) {
-        setSendUserId(ParcelUtils.readFromParcel(in));
+        setSendUserID(ParcelUtils.readFromParcel(in));
         setSendUserName(ParcelUtils.readFromParcel(in));
         setMessage(ParcelUtils.readFromParcel(in));
         setMoneyID(ParcelUtils.readFromParcel(in));
@@ -116,7 +116,7 @@ public class RongRedPacketMessage extends MessageContent {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         // 这里可继续增加你消息的属性
-        ParcelUtils.writeToParcel(dest, sendUserId);
+        ParcelUtils.writeToParcel(dest, sendUserID);
         ParcelUtils.writeToParcel(dest, sendUserName);
         ParcelUtils.writeToParcel(dest, message);
         ParcelUtils.writeToParcel(dest, moneyID);
@@ -132,7 +132,7 @@ public class RongRedPacketMessage extends MessageContent {
         JSONObject jsonObj = new JSONObject();
         try {
 
-            jsonObj.put("sendUserId", sendUserId);
+            jsonObj.put("sendUserID", sendUserID);
             jsonObj.put("sendUserName", sendUserName);
             jsonObj.put("message", message);
             jsonObj.put("moneyID", moneyID);
@@ -153,12 +153,12 @@ public class RongRedPacketMessage extends MessageContent {
         return null;
     }
 
-    public String getSendUserId() {
-        return sendUserId;
+    public String getSendUserID() {
+        return sendUserID;
     }
 
-    public void setSendUserId(String sendUserId) {
-        this.sendUserId = sendUserId;
+    public void setSendUserID(String sendUserID) {
+        this.sendUserID = sendUserID;
     }
 
     public String getSendUserName() {
