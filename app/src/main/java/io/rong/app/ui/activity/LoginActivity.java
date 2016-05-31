@@ -425,8 +425,11 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
 
                     if (DemoContext.getInstance() != null)
                         DemoContext.getInstance().setGroupMap(groupM);
+                    //请求签名然后初始化红包Token
+                    RequestTask requestTask=new RequestTask();
+                    requestTask.execute();
 
-                    mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
+                   // mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
 
                     if ( RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
 //                    if (grouplist.size() > 0 && RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {

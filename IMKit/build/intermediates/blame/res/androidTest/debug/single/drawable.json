@@ -60,12 +60,12 @@
         "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/drawable/rc_ic_picture.xml"
     },
     {
-        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/androidTest/debug/drawable/rc_bg_editinput.xml",
-        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/drawable/rc_bg_editinput.xml"
-    },
-    {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/androidTest/debug/drawable/rc_ic_location.xml",
         "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/drawable/rc_ic_location.xml"
+    },
+    {
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/androidTest/debug/drawable/rc_bg_editinput.xml",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/drawable/rc_bg_editinput.xml"
     },
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/androidTest/debug/drawable/rc_item_top_list_selector.xml",

@@ -44,12 +44,12 @@
         "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable/rc_ic_picture.xml"
     },
     {
-        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/release/drawable/rc_btn_sound_off_selector.xml",
-        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable/rc_btn_sound_off_selector.xml"
-    },
-    {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/release/drawable/rc_ic_location.xml",
         "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable/rc_ic_location.xml"
+    },
+    {
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/release/drawable/rc_btn_sound_off_selector.xml",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable/rc_btn_sound_off_selector.xml"
     },
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/release/drawable/rc_btn_public_service_unfollow_selector.xml",
@@ -132,11 +132,11 @@
         "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable/rc_ic_extend.xml"
     },
     {
-        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/release/drawable/rc_bg_menu.xml",
-        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable/rc_bg_menu.xml"
-    },
-    {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/release/drawable/rc_btn_input.xml",
         "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable/rc_btn_input.xml"
+    },
+    {
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/release/drawable/rc_bg_menu.xml",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable/rc_bg_menu.xml"
     }
 ]

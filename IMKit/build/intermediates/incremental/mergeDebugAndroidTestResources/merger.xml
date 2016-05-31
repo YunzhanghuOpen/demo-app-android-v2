@@ -29,7 +29,7 @@
         <item name="android:textColorTertiary">@color/rc_text_color_tertiary</item>
         <item name="android:textColorPrimaryInverse">@color/rc_text_color_primary_inverse</item>
         <item name="android:windowNoTitle">true</item>
-    </style><string name="rc_exit_calling">是否退出通话界面？</string><item name="rc_checkbox" type="id"/><string name="rc_plugins_camera">相机</string><bool name="rc_read_receipt">true</bool><style name="RCTheme.TextView.Large" parent="RCTheme.TextView">
+    </style><string name="rc_exit_calling">是否退出通话界面？</string><item name="rc_checkbox" type="id"/><string name="rc_plugins_camera">相机</string><bool name="rc_read_receipt">false</bool><style name="RCTheme.TextView.Large" parent="RCTheme.TextView">
 
     </style><color name="rc_conversation_top_bg">#f2faff</color><color name="rc_message_user_name">#838383</color><integer name="rc_custom_service_evaluation_interval">60</integer><style name="RCTheme.Notification" parent="RCTheme.TextView">
         <item name="android:background">@color/rc_notification_bg</item>

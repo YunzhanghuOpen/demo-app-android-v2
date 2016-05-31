@@ -8,12 +8,12 @@
         "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/u1f494.png"
     },
     {
-        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/rc_btn_send_normal.9.png",
-        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/rc_btn_send_normal.9.png"
-    },
-    {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/rc_ic_location_normal.png",
         "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/rc_ic_location_normal.png"
+    },
+    {
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/rc_btn_send_normal.9.png",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/rc_btn_send_normal.9.png"
     },
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/u1f36b.png",
@@ -248,10 +248,6 @@
         "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/rc_volume_four.png"
     },
     {
-        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/rc_ic_location.png",
-        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/rc_ic_location.png"
-    },
-    {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/rc_receive_voice_two.png",
         "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/rc_receive_voice_two.png"
     },
@@ -272,16 +268,12 @@
         "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/u1f629.png"
     },
     {
-        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/rc_ic_picture.png",
-        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/rc_ic_picture.png"
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/u1f61a.png",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/u1f61a.png"
     },
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/rc_ic_voice_selected.png",
         "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/rc_ic_voice_selected.png"
-    },
-    {
-        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/u1f61a.png",
-        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/u1f61a.png"
     },
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/u26bd.png",
@@ -476,12 +468,12 @@
         "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/u1f634.png"
     },
     {
-        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/u1f382.png",
-        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/u1f382.png"
-    },
-    {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/rc_ic_picture_normal.png",
         "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/rc_ic_picture_normal.png"
+    },
+    {
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/u1f382.png",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/u1f382.png"
     },
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/rc_ic_yes_hover.png",
@@ -492,12 +484,12 @@
         "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/rc_ic_extend_selected.png"
     },
     {
-        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/rc_ic_volume_3.png",
-        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/rc_ic_volume_3.png"
-    },
-    {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/u1f62e.png",
         "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/u1f62e.png"
+    },
+    {
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/rc_ic_volume_3.png",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/rc_ic_volume_3.png"
     },
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/rc_ic_notice_wraning.png",
@@ -534,10 +526,6 @@
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/u1f46b.png",
         "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/u1f46b.png"
-    },
-    {
-        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/rc_ic_camera.png",
-        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/rc_ic_camera.png"
     },
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/u1f616.png",
@@ -588,12 +576,12 @@
         "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/rc_ic_notice_point.png"
     },
     {
-        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/rc_volume_zero.png",
-        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/rc_volume_zero.png"
-    },
-    {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/rc_hands_free.png",
         "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/rc_hands_free.png"
+    },
+    {
+        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/rc_volume_zero.png",
+        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/rc_volume_zero.png"
     },
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/rc_send_voice_two.png",
@@ -602,10 +590,6 @@
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/u1f61f.png",
         "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/u1f61f.png"
-    },
-    {
-        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/rc_ic_phone.png",
-        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/rc_ic_phone.png"
     },
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/u1f614.png",
@@ -966,10 +950,6 @@
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/u1f366.png",
         "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/u1f366.png"
-    },
-    {
-        "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/rc_ic_text.png",
-        "source": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/src/main/res/drawable-xhdpi/rc_ic_text.png"
     },
     {
         "merged": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/res/merged/debug/drawable-xhdpi-v4/u1f612.png",

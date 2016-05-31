@@ -87,8 +87,8 @@
                     "startLine": 264,
                     "startColumn": 4,
                     "startOffset": 9333,
-                    "endColumn": 44,
-                    "endOffset": 9373
+                    "endColumn": 45,
+                    "endOffset": 9374
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
@@ -96,8 +96,8 @@
                         "startLine": 264,
                         "startColumn": 4,
                         "startOffset": 9333,
-                        "endColumn": 44,
-                        "endOffset": 9373
+                        "endColumn": 45,
+                        "endOffset": 9374
                     }
                 }
             },
@@ -105,18 +105,18 @@
                 "to": {
                     "startLine": 265,
                     "startColumn": 4,
-                    "startOffset": 9378,
+                    "startOffset": 9379,
                     "endColumn": 45,
-                    "endOffset": 9419
+                    "endOffset": 9420
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 265,
                         "startColumn": 4,
-                        "startOffset": 9378,
+                        "startOffset": 9379,
                         "endColumn": 45,
-                        "endOffset": 9419
+                        "endOffset": 9420
                     }
                 }
             },
@@ -124,18 +124,18 @@
                 "to": {
                     "startLine": 266,
                     "startColumn": 4,
-                    "startOffset": 9424,
+                    "startOffset": 9425,
                     "endColumn": 56,
-                    "endOffset": 9476
+                    "endOffset": 9477
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 266,
                         "startColumn": 4,
-                        "startOffset": 9424,
+                        "startOffset": 9425,
                         "endColumn": 56,
-                        "endOffset": 9476
+                        "endOffset": 9477
                     }
                 }
             },
@@ -143,18 +143,18 @@
                 "to": {
                     "startLine": 267,
                     "startColumn": 4,
-                    "startOffset": 9481,
+                    "startOffset": 9482,
                     "endColumn": 48,
-                    "endOffset": 9525
+                    "endOffset": 9526
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 267,
                         "startColumn": 4,
-                        "startOffset": 9481,
+                        "startOffset": 9482,
                         "endColumn": 48,
-                        "endOffset": 9525
+                        "endOffset": 9526
                     }
                 }
             },
@@ -162,18 +162,18 @@
                 "to": {
                     "startLine": 268,
                     "startColumn": 4,
-                    "startOffset": 9530,
+                    "startOffset": 9531,
                     "endColumn": 45,
-                    "endOffset": 9571
+                    "endOffset": 9572
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 268,
                         "startColumn": 4,
-                        "startOffset": 9530,
+                        "startOffset": 9531,
                         "endColumn": 45,
-                        "endOffset": 9571
+                        "endOffset": 9572
                     }
                 }
             },
@@ -181,18 +181,18 @@
                 "to": {
                     "startLine": 269,
                     "startColumn": 4,
-                    "startOffset": 9576,
+                    "startOffset": 9577,
                     "endColumn": 54,
-                    "endOffset": 9626
+                    "endOffset": 9627
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 269,
                         "startColumn": 4,
-                        "startOffset": 9576,
+                        "startOffset": 9577,
                         "endColumn": 54,
-                        "endOffset": 9626
+                        "endOffset": 9627
                     }
                 }
             },
@@ -200,18 +200,18 @@
                 "to": {
                     "startLine": 270,
                     "startColumn": 4,
-                    "startOffset": 9631,
+                    "startOffset": 9632,
                     "endColumn": 46,
-                    "endOffset": 9673
+                    "endOffset": 9674
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 270,
                         "startColumn": 4,
-                        "startOffset": 9631,
+                        "startOffset": 9632,
                         "endColumn": 46,
-                        "endOffset": 9673
+                        "endOffset": 9674
                     }
                 }
             },
@@ -219,18 +219,18 @@
                 "to": {
                     "startLine": 271,
                     "startColumn": 4,
-                    "startOffset": 9678,
+                    "startOffset": 9679,
                     "endColumn": 52,
-                    "endOffset": 9726
+                    "endOffset": 9727
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 271,
                         "startColumn": 4,
-                        "startOffset": 9678,
+                        "startOffset": 9679,
                         "endColumn": 52,
-                        "endOffset": 9726
+                        "endOffset": 9727
                     }
                 }
             },
@@ -238,18 +238,18 @@
                 "to": {
                     "startLine": 272,
                     "startColumn": 4,
-                    "startOffset": 9731,
+                    "startOffset": 9732,
                     "endColumn": 48,
-                    "endOffset": 9775
+                    "endOffset": 9776
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 272,
                         "startColumn": 4,
-                        "startOffset": 9731,
+                        "startOffset": 9732,
                         "endColumn": 48,
-                        "endOffset": 9775
+                        "endOffset": 9776
                     }
                 }
             },
@@ -257,18 +257,18 @@
                 "to": {
                     "startLine": 273,
                     "startColumn": 4,
-                    "startOffset": 9780,
+                    "startOffset": 9781,
                     "endColumn": 53,
-                    "endOffset": 9829
+                    "endOffset": 9830
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 273,
                         "startColumn": 4,
-                        "startOffset": 9780,
+                        "startOffset": 9781,
                         "endColumn": 53,
-                        "endOffset": 9829
+                        "endOffset": 9830
                     }
                 }
             },
@@ -276,18 +276,18 @@
                 "to": {
                     "startLine": 274,
                     "startColumn": 4,
-                    "startOffset": 9834,
+                    "startOffset": 9835,
                     "endColumn": 52,
-                    "endOffset": 9882
+                    "endOffset": 9883
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 274,
                         "startColumn": 4,
-                        "startOffset": 9834,
+                        "startOffset": 9835,
                         "endColumn": 52,
-                        "endOffset": 9882
+                        "endOffset": 9883
                     }
                 }
             },
@@ -295,18 +295,18 @@
                 "to": {
                     "startLine": 275,
                     "startColumn": 4,
-                    "startOffset": 9887,
+                    "startOffset": 9888,
                     "endColumn": 47,
-                    "endOffset": 9930
+                    "endOffset": 9931
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 275,
                         "startColumn": 4,
-                        "startOffset": 9887,
+                        "startOffset": 9888,
                         "endColumn": 47,
-                        "endOffset": 9930
+                        "endOffset": 9931
                     }
                 }
             },
@@ -314,18 +314,18 @@
                 "to": {
                     "startLine": 276,
                     "startColumn": 4,
-                    "startOffset": 9935,
+                    "startOffset": 9936,
                     "endColumn": 55,
-                    "endOffset": 9986
+                    "endOffset": 9987
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 276,
                         "startColumn": 4,
-                        "startOffset": 9935,
+                        "startOffset": 9936,
                         "endColumn": 55,
-                        "endOffset": 9986
+                        "endOffset": 9987
                     }
                 }
             },
@@ -333,18 +333,18 @@
                 "to": {
                     "startLine": 277,
                     "startColumn": 4,
-                    "startOffset": 9991,
+                    "startOffset": 9992,
                     "endColumn": 76,
-                    "endOffset": 10063
+                    "endOffset": 10064
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 277,
                         "startColumn": 4,
-                        "startOffset": 9991,
+                        "startOffset": 9992,
                         "endColumn": 76,
-                        "endOffset": 10063
+                        "endOffset": 10064
                     }
                 }
             },
@@ -352,18 +352,18 @@
                 "to": {
                     "startLine": 278,
                     "startColumn": 4,
-                    "startOffset": 10068,
+                    "startOffset": 10069,
                     "endColumn": 57,
-                    "endOffset": 10121
+                    "endOffset": 10122
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 278,
                         "startColumn": 4,
-                        "startOffset": 10068,
+                        "startOffset": 10069,
                         "endColumn": 57,
-                        "endOffset": 10121
+                        "endOffset": 10122
                     }
                 }
             },
@@ -371,18 +371,18 @@
                 "to": {
                     "startLine": 279,
                     "startColumn": 4,
-                    "startOffset": 10126,
+                    "startOffset": 10127,
                     "endColumn": 56,
-                    "endOffset": 10178
+                    "endOffset": 10179
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 279,
                         "startColumn": 4,
-                        "startOffset": 10126,
+                        "startOffset": 10127,
                         "endColumn": 56,
-                        "endOffset": 10178
+                        "endOffset": 10179
                     }
                 }
             },
@@ -390,18 +390,18 @@
                 "to": {
                     "startLine": 280,
                     "startColumn": 4,
-                    "startOffset": 10183,
+                    "startOffset": 10184,
                     "endColumn": 47,
-                    "endOffset": 10226
+                    "endOffset": 10227
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 280,
                         "startColumn": 4,
-                        "startOffset": 10183,
+                        "startOffset": 10184,
                         "endColumn": 47,
-                        "endOffset": 10226
+                        "endOffset": 10227
                     }
                 }
             },
@@ -409,18 +409,18 @@
                 "to": {
                     "startLine": 281,
                     "startColumn": 4,
-                    "startOffset": 10231,
+                    "startOffset": 10232,
                     "endColumn": 48,
-                    "endOffset": 10275
+                    "endOffset": 10276
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 281,
                         "startColumn": 4,
-                        "startOffset": 10231,
+                        "startOffset": 10232,
                         "endColumn": 48,
-                        "endOffset": 10275
+                        "endOffset": 10276
                     }
                 }
             },
@@ -428,18 +428,18 @@
                 "to": {
                     "startLine": 286,
                     "startColumn": 4,
-                    "startOffset": 11622,
+                    "startOffset": 11623,
                     "endColumn": 61,
-                    "endOffset": 11679
+                    "endOffset": 11680
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 286,
                         "startColumn": 4,
-                        "startOffset": 11622,
+                        "startOffset": 11623,
                         "endColumn": 61,
-                        "endOffset": 11679
+                        "endOffset": 11680
                     }
                 }
             },
@@ -447,18 +447,18 @@
                 "to": {
                     "startLine": 287,
                     "startColumn": 4,
-                    "startOffset": 11684,
+                    "startOffset": 11685,
                     "endColumn": 61,
-                    "endOffset": 11741
+                    "endOffset": 11742
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 287,
                         "startColumn": 4,
-                        "startOffset": 11684,
+                        "startOffset": 11685,
                         "endColumn": 61,
-                        "endOffset": 11741
+                        "endOffset": 11742
                     }
                 }
             },
@@ -466,18 +466,18 @@
                 "to": {
                     "startLine": 288,
                     "startColumn": 4,
-                    "startOffset": 11746,
+                    "startOffset": 11747,
                     "endColumn": 64,
-                    "endOffset": 11806
+                    "endOffset": 11807
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 288,
                         "startColumn": 4,
-                        "startOffset": 11746,
+                        "startOffset": 11747,
                         "endColumn": 64,
-                        "endOffset": 11806
+                        "endOffset": 11807
                     }
                 }
             },
@@ -485,18 +485,18 @@
                 "to": {
                     "startLine": 289,
                     "startColumn": 4,
-                    "startOffset": 11811,
+                    "startOffset": 11812,
                     "endColumn": 41,
-                    "endOffset": 11848
+                    "endOffset": 11849
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 289,
                         "startColumn": 4,
-                        "startOffset": 11811,
+                        "startOffset": 11812,
                         "endColumn": 41,
-                        "endOffset": 11848
+                        "endOffset": 11849
                     }
                 }
             },
@@ -504,18 +504,18 @@
                 "to": {
                     "startLine": 290,
                     "startColumn": 4,
-                    "startOffset": 11853,
+                    "startOffset": 11854,
                     "endColumn": 36,
-                    "endOffset": 11885
+                    "endOffset": 11886
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 290,
                         "startColumn": 4,
-                        "startOffset": 11853,
+                        "startOffset": 11854,
                         "endColumn": 36,
-                        "endOffset": 11885
+                        "endOffset": 11886
                     }
                 }
             },
@@ -523,18 +523,18 @@
                 "to": {
                     "startLine": 291,
                     "startColumn": 4,
-                    "startOffset": 11890,
+                    "startOffset": 11891,
                     "endColumn": 42,
-                    "endOffset": 11928
+                    "endOffset": 11929
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 291,
                         "startColumn": 4,
-                        "startOffset": 11890,
+                        "startOffset": 11891,
                         "endColumn": 42,
-                        "endOffset": 11928
+                        "endOffset": 11929
                     }
                 }
             },
@@ -542,18 +542,18 @@
                 "to": {
                     "startLine": 292,
                     "startColumn": 4,
-                    "startOffset": 11933,
+                    "startOffset": 11934,
                     "endColumn": 38,
-                    "endOffset": 11967
+                    "endOffset": 11968
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 292,
                         "startColumn": 4,
-                        "startOffset": 11933,
+                        "startOffset": 11934,
                         "endColumn": 38,
-                        "endOffset": 11967
+                        "endOffset": 11968
                     }
                 }
             },
@@ -561,18 +561,18 @@
                 "to": {
                     "startLine": 293,
                     "startColumn": 4,
-                    "startOffset": 11972,
+                    "startOffset": 11973,
                     "endColumn": 40,
-                    "endOffset": 12008
+                    "endOffset": 12009
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 293,
                         "startColumn": 4,
-                        "startOffset": 11972,
+                        "startOffset": 11973,
                         "endColumn": 40,
-                        "endOffset": 12008
+                        "endOffset": 12009
                     }
                 }
             },
@@ -580,18 +580,18 @@
                 "to": {
                     "startLine": 294,
                     "startColumn": 4,
-                    "startOffset": 12013,
+                    "startOffset": 12014,
                     "endColumn": 39,
-                    "endOffset": 12048
+                    "endOffset": 12049
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 294,
                         "startColumn": 4,
-                        "startOffset": 12013,
+                        "startOffset": 12014,
                         "endColumn": 39,
-                        "endOffset": 12048
+                        "endOffset": 12049
                     }
                 }
             },
@@ -599,18 +599,18 @@
                 "to": {
                     "startLine": 295,
                     "startColumn": 4,
-                    "startOffset": 12053,
+                    "startOffset": 12054,
                     "endColumn": 52,
-                    "endOffset": 12101
+                    "endOffset": 12102
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 295,
                         "startColumn": 4,
-                        "startOffset": 12053,
+                        "startOffset": 12054,
                         "endColumn": 52,
-                        "endOffset": 12101
+                        "endOffset": 12102
                     }
                 }
             },
@@ -618,18 +618,18 @@
                 "to": {
                     "startLine": 296,
                     "startColumn": 4,
-                    "startOffset": 12106,
+                    "startOffset": 12107,
                     "endColumn": 54,
-                    "endOffset": 12156
+                    "endOffset": 12157
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 296,
                         "startColumn": 4,
-                        "startOffset": 12106,
+                        "startOffset": 12107,
                         "endColumn": 54,
-                        "endOffset": 12156
+                        "endOffset": 12157
                     }
                 }
             },
@@ -637,18 +637,18 @@
                 "to": {
                     "startLine": 297,
                     "startColumn": 4,
-                    "startOffset": 12161,
+                    "startOffset": 12162,
                     "endColumn": 51,
-                    "endOffset": 12208
+                    "endOffset": 12209
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 297,
                         "startColumn": 4,
-                        "startOffset": 12161,
+                        "startOffset": 12162,
                         "endColumn": 51,
-                        "endOffset": 12208
+                        "endOffset": 12209
                     }
                 }
             },
@@ -656,18 +656,18 @@
                 "to": {
                     "startLine": 298,
                     "startColumn": 4,
-                    "startOffset": 12213,
+                    "startOffset": 12214,
                     "endColumn": 49,
-                    "endOffset": 12258
+                    "endOffset": 12259
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 298,
                         "startColumn": 4,
-                        "startOffset": 12213,
+                        "startOffset": 12214,
                         "endColumn": 49,
-                        "endOffset": 12258
+                        "endOffset": 12259
                     }
                 }
             },
@@ -675,18 +675,18 @@
                 "to": {
                     "startLine": 299,
                     "startColumn": 4,
-                    "startOffset": 12263,
+                    "startOffset": 12264,
                     "endColumn": 50,
-                    "endOffset": 12309
+                    "endOffset": 12310
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 299,
                         "startColumn": 4,
-                        "startOffset": 12263,
+                        "startOffset": 12264,
                         "endColumn": 50,
-                        "endOffset": 12309
+                        "endOffset": 12310
                     }
                 }
             },
@@ -694,18 +694,18 @@
                 "to": {
                     "startLine": 300,
                     "startColumn": 4,
-                    "startOffset": 12314,
+                    "startOffset": 12315,
                     "endColumn": 40,
-                    "endOffset": 12350
+                    "endOffset": 12351
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 300,
                         "startColumn": 4,
-                        "startOffset": 12314,
+                        "startOffset": 12315,
                         "endColumn": 40,
-                        "endOffset": 12350
+                        "endOffset": 12351
                     }
                 }
             },
@@ -713,18 +713,18 @@
                 "to": {
                     "startLine": 301,
                     "startColumn": 4,
-                    "startOffset": 12355,
+                    "startOffset": 12356,
                     "endColumn": 37,
-                    "endOffset": 12388
+                    "endOffset": 12389
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 301,
                         "startColumn": 4,
-                        "startOffset": 12355,
+                        "startOffset": 12356,
                         "endColumn": 37,
-                        "endOffset": 12388
+                        "endOffset": 12389
                     }
                 }
             },
@@ -732,18 +732,18 @@
                 "to": {
                     "startLine": 302,
                     "startColumn": 4,
-                    "startOffset": 12393,
+                    "startOffset": 12394,
                     "endColumn": 36,
-                    "endOffset": 12425
+                    "endOffset": 12426
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 302,
                         "startColumn": 4,
-                        "startOffset": 12393,
+                        "startOffset": 12394,
                         "endColumn": 36,
-                        "endOffset": 12425
+                        "endOffset": 12426
                     }
                 }
             },
@@ -751,18 +751,18 @@
                 "to": {
                     "startLine": 303,
                     "startColumn": 4,
-                    "startOffset": 12430,
+                    "startOffset": 12431,
                     "endColumn": 35,
-                    "endOffset": 12461
+                    "endOffset": 12462
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 303,
                         "startColumn": 4,
-                        "startOffset": 12430,
+                        "startOffset": 12431,
                         "endColumn": 35,
-                        "endOffset": 12461
+                        "endOffset": 12462
                     }
                 }
             },
@@ -770,18 +770,18 @@
                 "to": {
                     "startLine": 304,
                     "startColumn": 4,
-                    "startOffset": 12466,
+                    "startOffset": 12467,
                     "endColumn": 47,
-                    "endOffset": 12509
+                    "endOffset": 12510
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 304,
                         "startColumn": 4,
-                        "startOffset": 12466,
+                        "startOffset": 12467,
                         "endColumn": 47,
-                        "endOffset": 12509
+                        "endOffset": 12510
                     }
                 }
             },
@@ -789,18 +789,18 @@
                 "to": {
                     "startLine": 305,
                     "startColumn": 4,
-                    "startOffset": 12514,
+                    "startOffset": 12515,
                     "endColumn": 42,
-                    "endOffset": 12552
+                    "endOffset": 12553
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 305,
                         "startColumn": 4,
-                        "startOffset": 12514,
+                        "startOffset": 12515,
                         "endColumn": 42,
-                        "endOffset": 12552
+                        "endOffset": 12553
                     }
                 }
             },
@@ -808,18 +808,18 @@
                 "to": {
                     "startLine": 306,
                     "startColumn": 4,
-                    "startOffset": 12557,
+                    "startOffset": 12558,
                     "endColumn": 44,
-                    "endOffset": 12597
+                    "endOffset": 12598
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 306,
                         "startColumn": 4,
-                        "startOffset": 12557,
+                        "startOffset": 12558,
                         "endColumn": 44,
-                        "endOffset": 12597
+                        "endOffset": 12598
                     }
                 }
             },
@@ -827,18 +827,18 @@
                 "to": {
                     "startLine": 307,
                     "startColumn": 4,
-                    "startOffset": 12602,
+                    "startOffset": 12603,
                     "endColumn": 37,
-                    "endOffset": 12635
+                    "endOffset": 12636
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 307,
                         "startColumn": 4,
-                        "startOffset": 12602,
+                        "startOffset": 12603,
                         "endColumn": 37,
-                        "endOffset": 12635
+                        "endOffset": 12636
                     }
                 }
             },
@@ -846,18 +846,18 @@
                 "to": {
                     "startLine": 308,
                     "startColumn": 4,
-                    "startOffset": 12640,
+                    "startOffset": 12641,
                     "endColumn": 37,
-                    "endOffset": 12673
+                    "endOffset": 12674
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 308,
                         "startColumn": 4,
-                        "startOffset": 12640,
+                        "startOffset": 12641,
                         "endColumn": 37,
-                        "endOffset": 12673
+                        "endOffset": 12674
                     }
                 }
             },
@@ -865,18 +865,18 @@
                 "to": {
                     "startLine": 309,
                     "startColumn": 4,
-                    "startOffset": 12678,
+                    "startOffset": 12679,
                     "endColumn": 37,
-                    "endOffset": 12711
+                    "endOffset": 12712
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 309,
                         "startColumn": 4,
-                        "startOffset": 12678,
+                        "startOffset": 12679,
                         "endColumn": 37,
-                        "endOffset": 12711
+                        "endOffset": 12712
                     }
                 }
             },
@@ -884,18 +884,18 @@
                 "to": {
                     "startLine": 310,
                     "startColumn": 4,
-                    "startOffset": 12716,
+                    "startOffset": 12717,
                     "endColumn": 37,
-                    "endOffset": 12749
+                    "endOffset": 12750
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 310,
                         "startColumn": 4,
-                        "startOffset": 12716,
+                        "startOffset": 12717,
                         "endColumn": 37,
-                        "endOffset": 12749
+                        "endOffset": 12750
                     }
                 }
             },
@@ -903,18 +903,18 @@
                 "to": {
                     "startLine": 311,
                     "startColumn": 4,
-                    "startOffset": 12754,
+                    "startOffset": 12755,
                     "endColumn": 37,
-                    "endOffset": 12787
+                    "endOffset": 12788
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 311,
                         "startColumn": 4,
-                        "startOffset": 12754,
+                        "startOffset": 12755,
                         "endColumn": 37,
-                        "endOffset": 12787
+                        "endOffset": 12788
                     }
                 }
             },
@@ -922,18 +922,18 @@
                 "to": {
                     "startLine": 312,
                     "startColumn": 4,
-                    "startOffset": 12792,
+                    "startOffset": 12793,
                     "endColumn": 37,
-                    "endOffset": 12825
+                    "endOffset": 12826
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 312,
                         "startColumn": 4,
-                        "startOffset": 12792,
+                        "startOffset": 12793,
                         "endColumn": 37,
-                        "endOffset": 12825
+                        "endOffset": 12826
                     }
                 }
             },
@@ -941,18 +941,18 @@
                 "to": {
                     "startLine": 313,
                     "startColumn": 4,
-                    "startOffset": 12830,
+                    "startOffset": 12831,
                     "endColumn": 37,
-                    "endOffset": 12863
+                    "endOffset": 12864
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 313,
                         "startColumn": 4,
-                        "startOffset": 12830,
+                        "startOffset": 12831,
                         "endColumn": 37,
-                        "endOffset": 12863
+                        "endOffset": 12864
                     }
                 }
             },
@@ -960,18 +960,18 @@
                 "to": {
                     "startLine": 314,
                     "startColumn": 4,
-                    "startOffset": 12868,
+                    "startOffset": 12869,
                     "endColumn": 37,
-                    "endOffset": 12901
+                    "endOffset": 12902
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 314,
                         "startColumn": 4,
-                        "startOffset": 12868,
+                        "startOffset": 12869,
                         "endColumn": 37,
-                        "endOffset": 12901
+                        "endOffset": 12902
                     }
                 }
             },
@@ -979,18 +979,18 @@
                 "to": {
                     "startLine": 315,
                     "startColumn": 4,
-                    "startOffset": 12906,
+                    "startOffset": 12907,
                     "endColumn": 37,
-                    "endOffset": 12939
+                    "endOffset": 12940
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 315,
                         "startColumn": 4,
-                        "startOffset": 12906,
+                        "startOffset": 12907,
                         "endColumn": 37,
-                        "endOffset": 12939
+                        "endOffset": 12940
                     }
                 }
             },
@@ -998,18 +998,18 @@
                 "to": {
                     "startLine": 316,
                     "startColumn": 4,
-                    "startOffset": 12944,
+                    "startOffset": 12945,
                     "endColumn": 37,
-                    "endOffset": 12977
+                    "endOffset": 12978
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 316,
                         "startColumn": 4,
-                        "startOffset": 12944,
+                        "startOffset": 12945,
                         "endColumn": 37,
-                        "endOffset": 12977
+                        "endOffset": 12978
                     }
                 }
             },
@@ -1017,18 +1017,18 @@
                 "to": {
                     "startLine": 317,
                     "startColumn": 4,
-                    "startOffset": 12982,
+                    "startOffset": 12983,
                     "endColumn": 49,
-                    "endOffset": 13027
+                    "endOffset": 13028
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 317,
                         "startColumn": 4,
-                        "startOffset": 12982,
+                        "startOffset": 12983,
                         "endColumn": 49,
-                        "endOffset": 13027
+                        "endOffset": 13028
                     }
                 }
             },
@@ -1036,18 +1036,18 @@
                 "to": {
                     "startLine": 318,
                     "startColumn": 4,
-                    "startOffset": 13032,
+                    "startOffset": 13033,
                     "endColumn": 38,
-                    "endOffset": 13066
+                    "endOffset": 13067
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 318,
                         "startColumn": 4,
-                        "startOffset": 13032,
+                        "startOffset": 13033,
                         "endColumn": 38,
-                        "endOffset": 13066
+                        "endOffset": 13067
                     }
                 }
             },
@@ -1055,18 +1055,18 @@
                 "to": {
                     "startLine": 319,
                     "startColumn": 4,
-                    "startOffset": 13071,
+                    "startOffset": 13072,
                     "endColumn": 36,
-                    "endOffset": 13103
+                    "endOffset": 13104
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 319,
                         "startColumn": 4,
-                        "startOffset": 13071,
+                        "startOffset": 13072,
                         "endColumn": 36,
-                        "endOffset": 13103
+                        "endOffset": 13104
                     }
                 }
             },
@@ -1074,18 +1074,18 @@
                 "to": {
                     "startLine": 320,
                     "startColumn": 4,
-                    "startOffset": 13108,
+                    "startOffset": 13109,
                     "endColumn": 36,
-                    "endOffset": 13140
+                    "endOffset": 13141
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 320,
                         "startColumn": 4,
-                        "startOffset": 13108,
+                        "startOffset": 13109,
                         "endColumn": 36,
-                        "endOffset": 13140
+                        "endOffset": 13141
                     }
                 }
             },
@@ -1093,18 +1093,18 @@
                 "to": {
                     "startLine": 321,
                     "startColumn": 4,
-                    "startOffset": 13145,
+                    "startOffset": 13146,
                     "endColumn": 36,
-                    "endOffset": 13177
+                    "endOffset": 13178
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 321,
                         "startColumn": 4,
-                        "startOffset": 13145,
+                        "startOffset": 13146,
                         "endColumn": 36,
-                        "endOffset": 13177
+                        "endOffset": 13178
                     }
                 }
             },
@@ -1112,18 +1112,18 @@
                 "to": {
                     "startLine": 322,
                     "startColumn": 4,
-                    "startOffset": 13182,
+                    "startOffset": 13183,
                     "endColumn": 51,
-                    "endOffset": 13229
+                    "endOffset": 13230
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 322,
                         "startColumn": 4,
-                        "startOffset": 13182,
+                        "startOffset": 13183,
                         "endColumn": 51,
-                        "endOffset": 13229
+                        "endOffset": 13230
                     }
                 }
             },
@@ -1131,18 +1131,18 @@
                 "to": {
                     "startLine": 323,
                     "startColumn": 4,
-                    "startOffset": 13234,
+                    "startOffset": 13235,
                     "endColumn": 35,
-                    "endOffset": 13265
+                    "endOffset": 13266
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 323,
                         "startColumn": 4,
-                        "startOffset": 13234,
+                        "startOffset": 13235,
                         "endColumn": 35,
-                        "endOffset": 13265
+                        "endOffset": 13266
                     }
                 }
             },
@@ -1150,18 +1150,18 @@
                 "to": {
                     "startLine": 324,
                     "startColumn": 4,
-                    "startOffset": 13270,
+                    "startOffset": 13271,
                     "endColumn": 35,
-                    "endOffset": 13301
+                    "endOffset": 13302
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 324,
                         "startColumn": 4,
-                        "startOffset": 13270,
+                        "startOffset": 13271,
                         "endColumn": 35,
-                        "endOffset": 13301
+                        "endOffset": 13302
                     }
                 }
             },
@@ -1169,18 +1169,18 @@
                 "to": {
                     "startLine": 325,
                     "startColumn": 4,
-                    "startOffset": 13306,
+                    "startOffset": 13307,
                     "endColumn": 37,
-                    "endOffset": 13339
+                    "endOffset": 13340
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 325,
                         "startColumn": 4,
-                        "startOffset": 13306,
+                        "startOffset": 13307,
                         "endColumn": 37,
-                        "endOffset": 13339
+                        "endOffset": 13340
                     }
                 }
             },
@@ -1188,18 +1188,18 @@
                 "to": {
                     "startLine": 326,
                     "startColumn": 4,
-                    "startOffset": 13344,
+                    "startOffset": 13345,
                     "endColumn": 40,
-                    "endOffset": 13380
+                    "endOffset": 13381
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 326,
                         "startColumn": 4,
-                        "startOffset": 13344,
+                        "startOffset": 13345,
                         "endColumn": 40,
-                        "endOffset": 13380
+                        "endOffset": 13381
                     }
                 }
             },
@@ -1207,18 +1207,18 @@
                 "to": {
                     "startLine": 327,
                     "startColumn": 4,
-                    "startOffset": 13385,
+                    "startOffset": 13386,
                     "endColumn": 46,
-                    "endOffset": 13427
+                    "endOffset": 13428
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 327,
                         "startColumn": 4,
-                        "startOffset": 13385,
+                        "startOffset": 13386,
                         "endColumn": 46,
-                        "endOffset": 13427
+                        "endOffset": 13428
                     }
                 }
             },
@@ -1226,18 +1226,18 @@
                 "to": {
                     "startLine": 328,
                     "startColumn": 4,
-                    "startOffset": 13432,
+                    "startOffset": 13433,
                     "endColumn": 40,
-                    "endOffset": 13468
+                    "endOffset": 13469
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 328,
                         "startColumn": 4,
-                        "startOffset": 13432,
+                        "startOffset": 13433,
                         "endColumn": 40,
-                        "endOffset": 13468
+                        "endOffset": 13469
                     }
                 }
             },
@@ -1245,18 +1245,18 @@
                 "to": {
                     "startLine": 329,
                     "startColumn": 4,
-                    "startOffset": 13473,
+                    "startOffset": 13474,
                     "endColumn": 44,
-                    "endOffset": 13513
+                    "endOffset": 13514
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 329,
                         "startColumn": 4,
-                        "startOffset": 13473,
+                        "startOffset": 13474,
                         "endColumn": 44,
-                        "endOffset": 13513
+                        "endOffset": 13514
                     }
                 }
             },
@@ -1264,18 +1264,18 @@
                 "to": {
                     "startLine": 330,
                     "startColumn": 4,
-                    "startOffset": 13518,
+                    "startOffset": 13519,
                     "endColumn": 37,
-                    "endOffset": 13551
+                    "endOffset": 13552
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 330,
                         "startColumn": 4,
-                        "startOffset": 13518,
+                        "startOffset": 13519,
                         "endColumn": 37,
-                        "endOffset": 13551
+                        "endOffset": 13552
                     }
                 }
             },
@@ -1283,18 +1283,18 @@
                 "to": {
                     "startLine": 331,
                     "startColumn": 4,
-                    "startOffset": 13556,
+                    "startOffset": 13557,
                     "endColumn": 36,
-                    "endOffset": 13588
+                    "endOffset": 13589
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 331,
                         "startColumn": 4,
-                        "startOffset": 13556,
+                        "startOffset": 13557,
                         "endColumn": 36,
-                        "endOffset": 13588
+                        "endOffset": 13589
                     }
                 }
             },
@@ -1302,18 +1302,18 @@
                 "to": {
                     "startLine": 332,
                     "startColumn": 4,
-                    "startOffset": 13593,
+                    "startOffset": 13594,
                     "endColumn": 43,
-                    "endOffset": 13632
+                    "endOffset": 13633
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 332,
                         "startColumn": 4,
-                        "startOffset": 13593,
+                        "startOffset": 13594,
                         "endColumn": 43,
-                        "endOffset": 13632
+                        "endOffset": 13633
                     }
                 }
             },
@@ -1321,18 +1321,18 @@
                 "to": {
                     "startLine": 333,
                     "startColumn": 4,
-                    "startOffset": 13637,
+                    "startOffset": 13638,
                     "endColumn": 36,
-                    "endOffset": 13669
+                    "endOffset": 13670
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 333,
                         "startColumn": 4,
-                        "startOffset": 13637,
+                        "startOffset": 13638,
                         "endColumn": 36,
-                        "endOffset": 13669
+                        "endOffset": 13670
                     }
                 }
             },
@@ -1340,18 +1340,18 @@
                 "to": {
                     "startLine": 334,
                     "startColumn": 4,
-                    "startOffset": 13674,
+                    "startOffset": 13675,
                     "endColumn": 37,
-                    "endOffset": 13707
+                    "endOffset": 13708
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 334,
                         "startColumn": 4,
-                        "startOffset": 13674,
+                        "startOffset": 13675,
                         "endColumn": 37,
-                        "endOffset": 13707
+                        "endOffset": 13708
                     }
                 }
             },
@@ -1359,18 +1359,18 @@
                 "to": {
                     "startLine": 335,
                     "startColumn": 4,
-                    "startOffset": 13712,
+                    "startOffset": 13713,
                     "endColumn": 44,
-                    "endOffset": 13752
+                    "endOffset": 13753
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 335,
                         "startColumn": 4,
-                        "startOffset": 13712,
+                        "startOffset": 13713,
                         "endColumn": 44,
-                        "endOffset": 13752
+                        "endOffset": 13753
                     }
                 }
             },
@@ -1378,18 +1378,18 @@
                 "to": {
                     "startLine": 336,
                     "startColumn": 4,
-                    "startOffset": 13757,
+                    "startOffset": 13758,
                     "endColumn": 35,
-                    "endOffset": 13788
+                    "endOffset": 13789
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 336,
                         "startColumn": 4,
-                        "startOffset": 13757,
+                        "startOffset": 13758,
                         "endColumn": 35,
-                        "endOffset": 13788
+                        "endOffset": 13789
                     }
                 }
             },
@@ -1397,18 +1397,18 @@
                 "to": {
                     "startLine": 337,
                     "startColumn": 4,
-                    "startOffset": 13793,
+                    "startOffset": 13794,
                     "endColumn": 46,
-                    "endOffset": 13835
+                    "endOffset": 13836
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 337,
                         "startColumn": 4,
-                        "startOffset": 13793,
+                        "startOffset": 13794,
                         "endColumn": 46,
-                        "endOffset": 13835
+                        "endOffset": 13836
                     }
                 }
             },
@@ -1416,18 +1416,18 @@
                 "to": {
                     "startLine": 338,
                     "startColumn": 4,
-                    "startOffset": 13840,
+                    "startOffset": 13841,
                     "endColumn": 52,
-                    "endOffset": 13888
+                    "endOffset": 13889
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 338,
                         "startColumn": 4,
-                        "startOffset": 13840,
+                        "startOffset": 13841,
                         "endColumn": 52,
-                        "endOffset": 13888
+                        "endOffset": 13889
                     }
                 }
             },
@@ -1435,18 +1435,18 @@
                 "to": {
                     "startLine": 339,
                     "startColumn": 4,
-                    "startOffset": 13893,
+                    "startOffset": 13894,
                     "endColumn": 39,
-                    "endOffset": 13928
+                    "endOffset": 13929
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 339,
                         "startColumn": 4,
-                        "startOffset": 13893,
+                        "startOffset": 13894,
                         "endColumn": 39,
-                        "endOffset": 13928
+                        "endOffset": 13929
                     }
                 }
             },
@@ -1454,18 +1454,18 @@
                 "to": {
                     "startLine": 340,
                     "startColumn": 4,
-                    "startOffset": 13933,
+                    "startOffset": 13934,
                     "endColumn": 61,
-                    "endOffset": 13990
+                    "endOffset": 13991
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 340,
                         "startColumn": 4,
-                        "startOffset": 13933,
+                        "startOffset": 13934,
                         "endColumn": 61,
-                        "endOffset": 13990
+                        "endOffset": 13991
                     }
                 }
             },
@@ -1473,18 +1473,18 @@
                 "to": {
                     "startLine": 341,
                     "startColumn": 4,
-                    "startOffset": 13995,
+                    "startOffset": 13996,
                     "endColumn": 69,
-                    "endOffset": 14060
+                    "endOffset": 14061
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 341,
                         "startColumn": 4,
-                        "startOffset": 13995,
+                        "startOffset": 13996,
                         "endColumn": 69,
-                        "endOffset": 14060
+                        "endOffset": 14061
                     }
                 }
             },
@@ -1492,18 +1492,18 @@
                 "to": {
                     "startLine": 342,
                     "startColumn": 4,
-                    "startOffset": 14065,
+                    "startOffset": 14066,
                     "endColumn": 70,
-                    "endOffset": 14131
+                    "endOffset": 14132
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 342,
                         "startColumn": 4,
-                        "startOffset": 14065,
+                        "startOffset": 14066,
                         "endColumn": 70,
-                        "endOffset": 14131
+                        "endOffset": 14132
                     }
                 }
             },
@@ -1511,18 +1511,18 @@
                 "to": {
                     "startLine": 343,
                     "startColumn": 4,
-                    "startOffset": 14136,
+                    "startOffset": 14137,
                     "endColumn": 49,
-                    "endOffset": 14181
+                    "endOffset": 14182
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 343,
                         "startColumn": 4,
-                        "startOffset": 14136,
+                        "startOffset": 14137,
                         "endColumn": 49,
-                        "endOffset": 14181
+                        "endOffset": 14182
                     }
                 }
             },
@@ -1530,18 +1530,18 @@
                 "to": {
                     "startLine": 344,
                     "startColumn": 4,
-                    "startOffset": 14186,
+                    "startOffset": 14187,
                     "endColumn": 47,
-                    "endOffset": 14229
+                    "endOffset": 14230
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 344,
                         "startColumn": 4,
-                        "startOffset": 14186,
+                        "startOffset": 14187,
                         "endColumn": 47,
-                        "endOffset": 14229
+                        "endOffset": 14230
                     }
                 }
             },
@@ -1549,18 +1549,18 @@
                 "to": {
                     "startLine": 345,
                     "startColumn": 4,
-                    "startOffset": 14234,
+                    "startOffset": 14235,
                     "endColumn": 54,
-                    "endOffset": 14284
+                    "endOffset": 14285
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 345,
                         "startColumn": 4,
-                        "startOffset": 14234,
+                        "startOffset": 14235,
                         "endColumn": 54,
-                        "endOffset": 14284
+                        "endOffset": 14285
                     }
                 }
             },
@@ -1568,18 +1568,18 @@
                 "to": {
                     "startLine": 346,
                     "startColumn": 4,
-                    "startOffset": 14289,
+                    "startOffset": 14290,
                     "endColumn": 56,
-                    "endOffset": 14341
+                    "endOffset": 14342
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 346,
                         "startColumn": 4,
-                        "startOffset": 14289,
+                        "startOffset": 14290,
                         "endColumn": 56,
-                        "endOffset": 14341
+                        "endOffset": 14342
                     }
                 }
             },
@@ -1587,18 +1587,18 @@
                 "to": {
                     "startLine": 347,
                     "startColumn": 4,
-                    "startOffset": 14346,
+                    "startOffset": 14347,
                     "endColumn": 54,
-                    "endOffset": 14396
+                    "endOffset": 14397
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 347,
                         "startColumn": 4,
-                        "startOffset": 14346,
+                        "startOffset": 14347,
                         "endColumn": 54,
-                        "endOffset": 14396
+                        "endOffset": 14397
                     }
                 }
             },
@@ -1606,18 +1606,18 @@
                 "to": {
                     "startLine": 348,
                     "startColumn": 4,
-                    "startOffset": 14401,
+                    "startOffset": 14402,
                     "endColumn": 51,
-                    "endOffset": 14448
+                    "endOffset": 14449
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 348,
                         "startColumn": 4,
-                        "startOffset": 14401,
+                        "startOffset": 14402,
                         "endColumn": 51,
-                        "endOffset": 14448
+                        "endOffset": 14449
                     }
                 }
             },
@@ -1625,18 +1625,18 @@
                 "to": {
                     "startLine": 349,
                     "startColumn": 4,
-                    "startOffset": 14453,
+                    "startOffset": 14454,
                     "endColumn": 71,
-                    "endOffset": 14520
+                    "endOffset": 14521
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 349,
                         "startColumn": 4,
-                        "startOffset": 14453,
+                        "startOffset": 14454,
                         "endColumn": 71,
-                        "endOffset": 14520
+                        "endOffset": 14521
                     }
                 }
             },
@@ -1644,18 +1644,18 @@
                 "to": {
                     "startLine": 350,
                     "startColumn": 4,
-                    "startOffset": 14525,
+                    "startOffset": 14526,
                     "endColumn": 74,
-                    "endOffset": 14595
+                    "endOffset": 14596
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 350,
                         "startColumn": 4,
-                        "startOffset": 14525,
+                        "startOffset": 14526,
                         "endColumn": 74,
-                        "endOffset": 14595
+                        "endOffset": 14596
                     }
                 }
             },
@@ -1663,18 +1663,18 @@
                 "to": {
                     "startLine": 351,
                     "startColumn": 4,
-                    "startOffset": 14600,
+                    "startOffset": 14601,
                     "endColumn": 78,
-                    "endOffset": 14674
+                    "endOffset": 14675
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 351,
                         "startColumn": 4,
-                        "startOffset": 14600,
+                        "startOffset": 14601,
                         "endColumn": 78,
-                        "endOffset": 14674
+                        "endOffset": 14675
                     }
                 }
             },
@@ -1682,18 +1682,18 @@
                 "to": {
                     "startLine": 352,
                     "startColumn": 4,
-                    "startOffset": 14679,
+                    "startOffset": 14680,
                     "endColumn": 71,
-                    "endOffset": 14746
+                    "endOffset": 14747
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 352,
                         "startColumn": 4,
-                        "startOffset": 14679,
+                        "startOffset": 14680,
                         "endColumn": 71,
-                        "endOffset": 14746
+                        "endOffset": 14747
                     }
                 }
             },
@@ -1701,18 +1701,18 @@
                 "to": {
                     "startLine": 353,
                     "startColumn": 4,
-                    "startOffset": 14751,
+                    "startOffset": 14752,
                     "endColumn": 71,
-                    "endOffset": 14818
+                    "endOffset": 14819
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 353,
                         "startColumn": 4,
-                        "startOffset": 14751,
+                        "startOffset": 14752,
                         "endColumn": 71,
-                        "endOffset": 14818
+                        "endOffset": 14819
                     }
                 }
             },
@@ -1720,18 +1720,18 @@
                 "to": {
                     "startLine": 354,
                     "startColumn": 4,
-                    "startOffset": 14823,
+                    "startOffset": 14824,
                     "endColumn": 69,
-                    "endOffset": 14888
+                    "endOffset": 14889
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 354,
                         "startColumn": 4,
-                        "startOffset": 14823,
+                        "startOffset": 14824,
                         "endColumn": 69,
-                        "endOffset": 14888
+                        "endOffset": 14889
                     }
                 }
             },
@@ -1739,18 +1739,18 @@
                 "to": {
                     "startLine": 355,
                     "startColumn": 4,
-                    "startOffset": 14893,
+                    "startOffset": 14894,
                     "endColumn": 70,
-                    "endOffset": 14959
+                    "endOffset": 14960
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 355,
                         "startColumn": 4,
-                        "startOffset": 14893,
+                        "startOffset": 14894,
                         "endColumn": 70,
-                        "endOffset": 14959
+                        "endOffset": 14960
                     }
                 }
             },
@@ -1758,18 +1758,18 @@
                 "to": {
                     "startLine": 356,
                     "startColumn": 4,
-                    "startOffset": 14964,
+                    "startOffset": 14965,
                     "endColumn": 66,
-                    "endOffset": 15026
+                    "endOffset": 15027
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 356,
                         "startColumn": 4,
-                        "startOffset": 14964,
+                        "startOffset": 14965,
                         "endColumn": 66,
-                        "endOffset": 15026
+                        "endOffset": 15027
                     }
                 }
             },
@@ -1777,18 +1777,18 @@
                 "to": {
                     "startLine": 357,
                     "startColumn": 4,
-                    "startOffset": 15031,
+                    "startOffset": 15032,
                     "endColumn": 73,
-                    "endOffset": 15100
+                    "endOffset": 15101
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 357,
                         "startColumn": 4,
-                        "startOffset": 15031,
+                        "startOffset": 15032,
                         "endColumn": 73,
-                        "endOffset": 15100
+                        "endOffset": 15101
                     }
                 }
             },
@@ -1796,18 +1796,18 @@
                 "to": {
                     "startLine": 358,
                     "startColumn": 4,
-                    "startOffset": 15105,
+                    "startOffset": 15106,
                     "endColumn": 68,
-                    "endOffset": 15169
+                    "endOffset": 15170
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 358,
                         "startColumn": 4,
-                        "startOffset": 15105,
+                        "startOffset": 15106,
                         "endColumn": 68,
-                        "endOffset": 15169
+                        "endOffset": 15170
                     }
                 }
             },
@@ -1815,18 +1815,18 @@
                 "to": {
                     "startLine": 359,
                     "startColumn": 4,
-                    "startOffset": 15174,
+                    "startOffset": 15175,
                     "endColumn": 62,
-                    "endOffset": 15232
+                    "endOffset": 15233
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 359,
                         "startColumn": 4,
-                        "startOffset": 15174,
+                        "startOffset": 15175,
                         "endColumn": 62,
-                        "endOffset": 15232
+                        "endOffset": 15233
                     }
                 }
             },
@@ -1834,18 +1834,18 @@
                 "to": {
                     "startLine": 360,
                     "startColumn": 4,
-                    "startOffset": 15237,
+                    "startOffset": 15238,
                     "endColumn": 79,
-                    "endOffset": 15312
+                    "endOffset": 15313
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 360,
                         "startColumn": 4,
-                        "startOffset": 15237,
+                        "startOffset": 15238,
                         "endColumn": 79,
-                        "endOffset": 15312
+                        "endOffset": 15313
                     }
                 }
             },
@@ -1853,18 +1853,18 @@
                 "to": {
                     "startLine": 361,
                     "startColumn": 4,
-                    "startOffset": 15317,
+                    "startOffset": 15318,
                     "endColumn": 70,
-                    "endOffset": 15383
+                    "endOffset": 15384
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 361,
                         "startColumn": 4,
-                        "startOffset": 15317,
+                        "startOffset": 15318,
                         "endColumn": 70,
-                        "endOffset": 15383
+                        "endOffset": 15384
                     }
                 }
             },
@@ -1872,18 +1872,18 @@
                 "to": {
                     "startLine": 362,
                     "startColumn": 4,
-                    "startOffset": 15388,
+                    "startOffset": 15389,
                     "endColumn": 70,
-                    "endOffset": 15454
+                    "endOffset": 15455
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 362,
                         "startColumn": 4,
-                        "startOffset": 15388,
+                        "startOffset": 15389,
                         "endColumn": 70,
-                        "endOffset": 15454
+                        "endOffset": 15455
                     }
                 }
             },
@@ -1891,18 +1891,18 @@
                 "to": {
                     "startLine": 363,
                     "startColumn": 4,
-                    "startOffset": 15459,
+                    "startOffset": 15460,
                     "endColumn": 66,
-                    "endOffset": 15521
+                    "endOffset": 15522
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 363,
                         "startColumn": 4,
-                        "startOffset": 15459,
+                        "startOffset": 15460,
                         "endColumn": 66,
-                        "endOffset": 15521
+                        "endOffset": 15522
                     }
                 }
             },
@@ -1910,18 +1910,18 @@
                 "to": {
                     "startLine": 364,
                     "startColumn": 4,
-                    "startOffset": 15526,
+                    "startOffset": 15527,
                     "endColumn": 68,
-                    "endOffset": 15590
+                    "endOffset": 15591
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 364,
                         "startColumn": 4,
-                        "startOffset": 15526,
+                        "startOffset": 15527,
                         "endColumn": 68,
-                        "endOffset": 15590
+                        "endOffset": 15591
                     }
                 }
             },
@@ -1929,18 +1929,18 @@
                 "to": {
                     "startLine": 365,
                     "startColumn": 4,
-                    "startOffset": 15595,
+                    "startOffset": 15596,
                     "endColumn": 73,
-                    "endOffset": 15664
+                    "endOffset": 15665
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 365,
                         "startColumn": 4,
-                        "startOffset": 15595,
+                        "startOffset": 15596,
                         "endColumn": 73,
-                        "endOffset": 15664
+                        "endOffset": 15665
                     }
                 }
             },
@@ -1948,18 +1948,18 @@
                 "to": {
                     "startLine": 366,
                     "startColumn": 4,
-                    "startOffset": 15669,
+                    "startOffset": 15670,
                     "endColumn": 43,
-                    "endOffset": 15708
+                    "endOffset": 15709
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 366,
                         "startColumn": 4,
-                        "startOffset": 15669,
+                        "startOffset": 15670,
                         "endColumn": 43,
-                        "endOffset": 15708
+                        "endOffset": 15709
                     }
                 }
             },
@@ -1967,18 +1967,18 @@
                 "to": {
                     "startLine": 367,
                     "startColumn": 4,
-                    "startOffset": 15713,
+                    "startOffset": 15714,
                     "endColumn": 59,
-                    "endOffset": 15768
+                    "endOffset": 15769
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 367,
                         "startColumn": 4,
-                        "startOffset": 15713,
+                        "startOffset": 15714,
                         "endColumn": 59,
-                        "endOffset": 15768
+                        "endOffset": 15769
                     }
                 }
             },
@@ -1986,18 +1986,18 @@
                 "to": {
                     "startLine": 368,
                     "startColumn": 4,
-                    "startOffset": 15773,
+                    "startOffset": 15774,
                     "endColumn": 61,
-                    "endOffset": 15830
+                    "endOffset": 15831
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 368,
                         "startColumn": 4,
-                        "startOffset": 15773,
+                        "startOffset": 15774,
                         "endColumn": 61,
-                        "endOffset": 15830
+                        "endOffset": 15831
                     }
                 }
             },
@@ -2005,18 +2005,18 @@
                 "to": {
                     "startLine": 369,
                     "startColumn": 4,
-                    "startOffset": 15835,
+                    "startOffset": 15836,
                     "endColumn": 43,
-                    "endOffset": 15874
+                    "endOffset": 15875
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 369,
                         "startColumn": 4,
-                        "startOffset": 15835,
+                        "startOffset": 15836,
                         "endColumn": 43,
-                        "endOffset": 15874
+                        "endOffset": 15875
                     }
                 }
             },
@@ -2024,18 +2024,18 @@
                 "to": {
                     "startLine": 370,
                     "startColumn": 4,
-                    "startOffset": 15879,
+                    "startOffset": 15880,
                     "endColumn": 47,
-                    "endOffset": 15922
+                    "endOffset": 15923
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 370,
                         "startColumn": 4,
-                        "startOffset": 15879,
+                        "startOffset": 15880,
                         "endColumn": 47,
-                        "endOffset": 15922
+                        "endOffset": 15923
                     }
                 }
             },
@@ -2043,18 +2043,18 @@
                 "to": {
                     "startLine": 371,
                     "startColumn": 4,
-                    "startOffset": 15927,
+                    "startOffset": 15928,
                     "endColumn": 60,
-                    "endOffset": 15983
+                    "endOffset": 15984
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 371,
                         "startColumn": 4,
-                        "startOffset": 15927,
+                        "startOffset": 15928,
                         "endColumn": 60,
-                        "endOffset": 15983
+                        "endOffset": 15984
                     }
                 }
             },
@@ -2062,18 +2062,18 @@
                 "to": {
                     "startLine": 372,
                     "startColumn": 4,
-                    "startOffset": 15988,
+                    "startOffset": 15989,
                     "endColumn": 62,
-                    "endOffset": 16046
+                    "endOffset": 16047
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 372,
                         "startColumn": 4,
-                        "startOffset": 15988,
+                        "startOffset": 15989,
                         "endColumn": 62,
-                        "endOffset": 16046
+                        "endOffset": 16047
                     }
                 }
             },
@@ -2081,18 +2081,18 @@
                 "to": {
                     "startLine": 373,
                     "startColumn": 4,
-                    "startOffset": 16051,
+                    "startOffset": 16052,
                     "endColumn": 43,
-                    "endOffset": 16090
+                    "endOffset": 16091
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 373,
                         "startColumn": 4,
-                        "startOffset": 16051,
+                        "startOffset": 16052,
                         "endColumn": 43,
-                        "endOffset": 16090
+                        "endOffset": 16091
                     }
                 }
             },
@@ -2100,18 +2100,18 @@
                 "to": {
                     "startLine": 374,
                     "startColumn": 4,
-                    "startOffset": 16095,
+                    "startOffset": 16096,
                     "endColumn": 80,
-                    "endOffset": 16171
+                    "endOffset": 16172
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 374,
                         "startColumn": 4,
-                        "startOffset": 16095,
+                        "startOffset": 16096,
                         "endColumn": 80,
-                        "endOffset": 16171
+                        "endOffset": 16172
                     }
                 }
             },
@@ -2119,18 +2119,18 @@
                 "to": {
                     "startLine": 375,
                     "startColumn": 4,
-                    "startOffset": 16176,
+                    "startOffset": 16177,
                     "endColumn": 80,
-                    "endOffset": 16252
+                    "endOffset": 16253
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 375,
                         "startColumn": 4,
-                        "startOffset": 16176,
+                        "startOffset": 16177,
                         "endColumn": 80,
-                        "endOffset": 16252
+                        "endOffset": 16253
                     }
                 }
             },
@@ -2138,18 +2138,18 @@
                 "to": {
                     "startLine": 376,
                     "startColumn": 4,
-                    "startOffset": 16257,
+                    "startOffset": 16258,
                     "endColumn": 71,
-                    "endOffset": 16324
+                    "endOffset": 16325
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 376,
                         "startColumn": 4,
-                        "startOffset": 16257,
+                        "startOffset": 16258,
                         "endColumn": 71,
-                        "endOffset": 16324
+                        "endOffset": 16325
                     }
                 }
             },
@@ -2157,18 +2157,18 @@
                 "to": {
                     "startLine": 377,
                     "startColumn": 4,
-                    "startOffset": 16329,
+                    "startOffset": 16330,
                     "endColumn": 88,
-                    "endOffset": 16413
+                    "endOffset": 16414
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 377,
                         "startColumn": 4,
-                        "startOffset": 16329,
+                        "startOffset": 16330,
                         "endColumn": 88,
-                        "endOffset": 16413
+                        "endOffset": 16414
                     }
                 }
             },
@@ -2176,18 +2176,18 @@
                 "to": {
                     "startLine": 378,
                     "startColumn": 4,
-                    "startOffset": 16418,
+                    "startOffset": 16419,
                     "endColumn": 87,
-                    "endOffset": 16501
+                    "endOffset": 16502
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 378,
                         "startColumn": 4,
-                        "startOffset": 16418,
+                        "startOffset": 16419,
                         "endColumn": 87,
-                        "endOffset": 16501
+                        "endOffset": 16502
                     }
                 }
             },
@@ -2195,18 +2195,18 @@
                 "to": {
                     "startLine": 379,
                     "startColumn": 4,
-                    "startOffset": 16506,
+                    "startOffset": 16507,
                     "endColumn": 77,
-                    "endOffset": 16579
+                    "endOffset": 16580
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 379,
                         "startColumn": 4,
-                        "startOffset": 16506,
+                        "startOffset": 16507,
                         "endColumn": 77,
-                        "endOffset": 16579
+                        "endOffset": 16580
                     }
                 }
             },
@@ -2214,18 +2214,18 @@
                 "to": {
                     "startLine": 380,
                     "startColumn": 4,
-                    "startOffset": 16584,
+                    "startOffset": 16585,
                     "endColumn": 80,
-                    "endOffset": 16660
+                    "endOffset": 16661
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 380,
                         "startColumn": 4,
-                        "startOffset": 16584,
+                        "startOffset": 16585,
                         "endColumn": 80,
-                        "endOffset": 16660
+                        "endOffset": 16661
                     }
                 }
             },
@@ -2233,18 +2233,18 @@
                 "to": {
                     "startLine": 381,
                     "startColumn": 4,
-                    "startOffset": 16665,
+                    "startOffset": 16666,
                     "endColumn": 85,
-                    "endOffset": 16746
+                    "endOffset": 16747
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 381,
                         "startColumn": 4,
-                        "startOffset": 16665,
+                        "startOffset": 16666,
                         "endColumn": 85,
-                        "endOffset": 16746
+                        "endOffset": 16747
                     }
                 }
             },
@@ -2252,18 +2252,18 @@
                 "to": {
                     "startLine": 382,
                     "startColumn": 4,
-                    "startOffset": 16751,
+                    "startOffset": 16752,
                     "endColumn": 60,
-                    "endOffset": 16807
+                    "endOffset": 16808
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 382,
                         "startColumn": 4,
-                        "startOffset": 16751,
+                        "startOffset": 16752,
                         "endColumn": 60,
-                        "endOffset": 16807
+                        "endOffset": 16808
                     }
                 }
             },
@@ -2271,18 +2271,18 @@
                 "to": {
                     "startLine": 383,
                     "startColumn": 4,
-                    "startOffset": 16812,
+                    "startOffset": 16813,
                     "endColumn": 53,
-                    "endOffset": 16861
+                    "endOffset": 16862
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 383,
                         "startColumn": 4,
-                        "startOffset": 16812,
+                        "startOffset": 16813,
                         "endColumn": 53,
-                        "endOffset": 16861
+                        "endOffset": 16862
                     }
                 }
             },
@@ -2290,18 +2290,18 @@
                 "to": {
                     "startLine": 384,
                     "startColumn": 4,
-                    "startOffset": 16866,
+                    "startOffset": 16867,
                     "endColumn": 51,
-                    "endOffset": 16913
+                    "endOffset": 16914
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 384,
                         "startColumn": 4,
-                        "startOffset": 16866,
+                        "startOffset": 16867,
                         "endColumn": 51,
-                        "endOffset": 16913
+                        "endOffset": 16914
                     }
                 }
             },
@@ -2309,18 +2309,18 @@
                 "to": {
                     "startLine": 385,
                     "startColumn": 4,
-                    "startOffset": 16918,
+                    "startOffset": 16919,
                     "endColumn": 65,
-                    "endOffset": 16979
+                    "endOffset": 16980
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 385,
                         "startColumn": 4,
-                        "startOffset": 16918,
+                        "startOffset": 16919,
                         "endColumn": 65,
-                        "endOffset": 16979
+                        "endOffset": 16980
                     }
                 }
             },
@@ -2328,18 +2328,18 @@
                 "to": {
                     "startLine": 386,
                     "startColumn": 4,
-                    "startOffset": 16984,
+                    "startOffset": 16985,
                     "endColumn": 64,
-                    "endOffset": 17044
+                    "endOffset": 17045
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 386,
                         "startColumn": 4,
-                        "startOffset": 16984,
+                        "startOffset": 16985,
                         "endColumn": 64,
-                        "endOffset": 17044
+                        "endOffset": 17045
                     }
                 }
             },
@@ -2347,18 +2347,18 @@
                 "to": {
                     "startLine": 387,
                     "startColumn": 4,
-                    "startOffset": 17049,
+                    "startOffset": 17050,
                     "endColumn": 59,
-                    "endOffset": 17104
+                    "endOffset": 17105
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 387,
                         "startColumn": 4,
-                        "startOffset": 17049,
+                        "startOffset": 17050,
                         "endColumn": 59,
-                        "endOffset": 17104
+                        "endOffset": 17105
                     }
                 }
             },
@@ -2366,18 +2366,18 @@
                 "to": {
                     "startLine": 388,
                     "startColumn": 4,
-                    "startOffset": 17109,
+                    "startOffset": 17110,
                     "endColumn": 61,
-                    "endOffset": 17166
+                    "endOffset": 17167
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 388,
                         "startColumn": 4,
-                        "startOffset": 17109,
+                        "startOffset": 17110,
                         "endColumn": 61,
-                        "endOffset": 17166
+                        "endOffset": 17167
                     }
                 }
             },
@@ -2385,18 +2385,18 @@
                 "to": {
                     "startLine": 389,
                     "startColumn": 4,
-                    "startOffset": 17171,
+                    "startOffset": 17172,
                     "endColumn": 54,
-                    "endOffset": 17221
+                    "endOffset": 17222
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 389,
                         "startColumn": 4,
-                        "startOffset": 17171,
+                        "startOffset": 17172,
                         "endColumn": 54,
-                        "endOffset": 17221
+                        "endOffset": 17222
                     }
                 }
             },
@@ -2404,18 +2404,18 @@
                 "to": {
                     "startLine": 390,
                     "startColumn": 4,
-                    "startOffset": 17226,
+                    "startOffset": 17227,
                     "endColumn": 49,
-                    "endOffset": 17271
+                    "endOffset": 17272
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 390,
                         "startColumn": 4,
-                        "startOffset": 17226,
+                        "startOffset": 17227,
                         "endColumn": 49,
-                        "endOffset": 17271
+                        "endOffset": 17272
                     }
                 }
             },
@@ -2423,18 +2423,18 @@
                 "to": {
                     "startLine": 391,
                     "startColumn": 4,
-                    "startOffset": 17276,
+                    "startOffset": 17277,
                     "endColumn": 44,
-                    "endOffset": 17316
+                    "endOffset": 17317
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 391,
                         "startColumn": 4,
-                        "startOffset": 17276,
+                        "startOffset": 17277,
                         "endColumn": 44,
-                        "endOffset": 17316
+                        "endOffset": 17317
                     }
                 }
             },
@@ -2442,18 +2442,18 @@
                 "to": {
                     "startLine": 392,
                     "startColumn": 4,
-                    "startOffset": 17321,
+                    "startOffset": 17322,
                     "endColumn": 48,
-                    "endOffset": 17365
+                    "endOffset": 17366
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 392,
                         "startColumn": 4,
-                        "startOffset": 17321,
+                        "startOffset": 17322,
                         "endColumn": 48,
-                        "endOffset": 17365
+                        "endOffset": 17366
                     }
                 }
             },
@@ -2461,18 +2461,18 @@
                 "to": {
                     "startLine": 393,
                     "startColumn": 4,
-                    "startOffset": 17370,
+                    "startOffset": 17371,
                     "endColumn": 60,
-                    "endOffset": 17426
+                    "endOffset": 17427
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 393,
                         "startColumn": 4,
-                        "startOffset": 17370,
+                        "startOffset": 17371,
                         "endColumn": 60,
-                        "endOffset": 17426
+                        "endOffset": 17427
                     }
                 }
             },
@@ -2480,18 +2480,18 @@
                 "to": {
                     "startLine": 394,
                     "startColumn": 4,
-                    "startOffset": 17431,
+                    "startOffset": 17432,
                     "endColumn": 57,
-                    "endOffset": 17484
+                    "endOffset": 17485
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 394,
                         "startColumn": 4,
-                        "startOffset": 17431,
+                        "startOffset": 17432,
                         "endColumn": 57,
-                        "endOffset": 17484
+                        "endOffset": 17485
                     }
                 }
             },
@@ -2499,18 +2499,18 @@
                 "to": {
                     "startLine": 395,
                     "startColumn": 4,
-                    "startOffset": 17489,
+                    "startOffset": 17490,
                     "endColumn": 57,
-                    "endOffset": 17542
+                    "endOffset": 17543
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 395,
                         "startColumn": 4,
-                        "startOffset": 17489,
+                        "startOffset": 17490,
                         "endColumn": 57,
-                        "endOffset": 17542
+                        "endOffset": 17543
                     }
                 }
             },
@@ -2518,18 +2518,18 @@
                 "to": {
                     "startLine": 396,
                     "startColumn": 4,
-                    "startOffset": 17547,
+                    "startOffset": 17548,
                     "endColumn": 60,
-                    "endOffset": 17603
+                    "endOffset": 17604
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 396,
                         "startColumn": 4,
-                        "startOffset": 17547,
+                        "startOffset": 17548,
                         "endColumn": 60,
-                        "endOffset": 17603
+                        "endOffset": 17604
                     }
                 }
             },
@@ -2537,18 +2537,18 @@
                 "to": {
                     "startLine": 397,
                     "startColumn": 4,
-                    "startOffset": 17608,
+                    "startOffset": 17609,
                     "endColumn": 61,
-                    "endOffset": 17665
+                    "endOffset": 17666
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 397,
                         "startColumn": 4,
-                        "startOffset": 17608,
+                        "startOffset": 17609,
                         "endColumn": 61,
-                        "endOffset": 17665
+                        "endOffset": 17666
                     }
                 }
             },
@@ -2556,18 +2556,18 @@
                 "to": {
                     "startLine": 398,
                     "startColumn": 4,
-                    "startOffset": 17670,
+                    "startOffset": 17671,
                     "endColumn": 57,
-                    "endOffset": 17723
+                    "endOffset": 17724
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 398,
                         "startColumn": 4,
-                        "startOffset": 17670,
+                        "startOffset": 17671,
                         "endColumn": 57,
-                        "endOffset": 17723
+                        "endOffset": 17724
                     }
                 }
             },
@@ -2575,18 +2575,18 @@
                 "to": {
                     "startLine": 399,
                     "startColumn": 4,
-                    "startOffset": 17728,
+                    "startOffset": 17729,
                     "endColumn": 60,
-                    "endOffset": 17784
+                    "endOffset": 17785
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 399,
                         "startColumn": 4,
-                        "startOffset": 17728,
+                        "startOffset": 17729,
                         "endColumn": 60,
-                        "endOffset": 17784
+                        "endOffset": 17785
                     }
                 }
             },
@@ -2594,18 +2594,18 @@
                 "to": {
                     "startLine": 400,
                     "startColumn": 4,
-                    "startOffset": 17789,
+                    "startOffset": 17790,
                     "endColumn": 57,
-                    "endOffset": 17842
+                    "endOffset": 17843
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 400,
                         "startColumn": 4,
-                        "startOffset": 17789,
+                        "startOffset": 17790,
                         "endColumn": 57,
-                        "endOffset": 17842
+                        "endOffset": 17843
                     }
                 }
             },
@@ -2613,18 +2613,18 @@
                 "to": {
                     "startLine": 401,
                     "startColumn": 4,
-                    "startOffset": 17847,
+                    "startOffset": 17848,
                     "endColumn": 38,
-                    "endOffset": 17881
+                    "endOffset": 17882
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 401,
                         "startColumn": 4,
-                        "startOffset": 17847,
+                        "startOffset": 17848,
                         "endColumn": 38,
-                        "endOffset": 17881
+                        "endOffset": 17882
                     }
                 }
             },
@@ -2632,18 +2632,18 @@
                 "to": {
                     "startLine": 402,
                     "startColumn": 4,
-                    "startOffset": 17886,
+                    "startOffset": 17887,
                     "endColumn": 51,
-                    "endOffset": 17933
+                    "endOffset": 17934
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 402,
                         "startColumn": 4,
-                        "startOffset": 17886,
+                        "startOffset": 17887,
                         "endColumn": 51,
-                        "endOffset": 17933
+                        "endOffset": 17934
                     }
                 }
             },
@@ -2651,18 +2651,18 @@
                 "to": {
                     "startLine": 403,
                     "startColumn": 4,
-                    "startOffset": 17938,
+                    "startOffset": 17939,
                     "endColumn": 58,
-                    "endOffset": 17992
+                    "endOffset": 17993
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 403,
                         "startColumn": 4,
-                        "startOffset": 17938,
+                        "startOffset": 17939,
                         "endColumn": 58,
-                        "endOffset": 17992
+                        "endOffset": 17993
                     }
                 }
             },
@@ -2670,18 +2670,18 @@
                 "to": {
                     "startLine": 404,
                     "startColumn": 4,
-                    "startOffset": 17997,
+                    "startOffset": 17998,
                     "endColumn": 51,
-                    "endOffset": 18044
+                    "endOffset": 18045
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 404,
                         "startColumn": 4,
-                        "startOffset": 17997,
+                        "startOffset": 17998,
                         "endColumn": 51,
-                        "endOffset": 18044
+                        "endOffset": 18045
                     }
                 }
             },
@@ -2689,18 +2689,18 @@
                 "to": {
                     "startLine": 405,
                     "startColumn": 4,
-                    "startOffset": 18049,
+                    "startOffset": 18050,
                     "endColumn": 56,
-                    "endOffset": 18101
+                    "endOffset": 18102
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 405,
                         "startColumn": 4,
-                        "startOffset": 18049,
+                        "startOffset": 18050,
                         "endColumn": 56,
-                        "endOffset": 18101
+                        "endOffset": 18102
                     }
                 }
             },
@@ -2708,18 +2708,18 @@
                 "to": {
                     "startLine": 406,
                     "startColumn": 4,
-                    "startOffset": 18106,
+                    "startOffset": 18107,
                     "endColumn": 63,
-                    "endOffset": 18165
+                    "endOffset": 18166
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 406,
                         "startColumn": 4,
-                        "startOffset": 18106,
+                        "startOffset": 18107,
                         "endColumn": 63,
-                        "endOffset": 18165
+                        "endOffset": 18166
                     }
                 }
             },
@@ -2727,18 +2727,18 @@
                 "to": {
                     "startLine": 407,
                     "startColumn": 4,
-                    "startOffset": 18170,
+                    "startOffset": 18171,
                     "endColumn": 68,
-                    "endOffset": 18234
+                    "endOffset": 18235
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 407,
                         "startColumn": 4,
-                        "startOffset": 18170,
+                        "startOffset": 18171,
                         "endColumn": 68,
-                        "endOffset": 18234
+                        "endOffset": 18235
                     }
                 }
             },
@@ -2746,18 +2746,18 @@
                 "to": {
                     "startLine": 408,
                     "startColumn": 4,
-                    "startOffset": 18239,
+                    "startOffset": 18240,
                     "endColumn": 59,
-                    "endOffset": 18294
+                    "endOffset": 18295
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 408,
                         "startColumn": 4,
-                        "startOffset": 18239,
+                        "startOffset": 18240,
                         "endColumn": 59,
-                        "endOffset": 18294
+                        "endOffset": 18295
                     }
                 }
             },
@@ -2765,18 +2765,18 @@
                 "to": {
                     "startLine": 409,
                     "startColumn": 4,
-                    "startOffset": 18299,
+                    "startOffset": 18300,
                     "endColumn": 57,
-                    "endOffset": 18352
+                    "endOffset": 18353
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 409,
                         "startColumn": 4,
-                        "startOffset": 18299,
+                        "startOffset": 18300,
                         "endColumn": 57,
-                        "endOffset": 18352
+                        "endOffset": 18353
                     }
                 }
             },
@@ -2784,18 +2784,18 @@
                 "to": {
                     "startLine": 410,
                     "startColumn": 4,
-                    "startOffset": 18357,
+                    "startOffset": 18358,
                     "endColumn": 57,
-                    "endOffset": 18410
+                    "endOffset": 18411
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 410,
                         "startColumn": 4,
-                        "startOffset": 18357,
+                        "startOffset": 18358,
                         "endColumn": 57,
-                        "endOffset": 18410
+                        "endOffset": 18411
                     }
                 }
             },
@@ -2803,18 +2803,18 @@
                 "to": {
                     "startLine": 411,
                     "startColumn": 4,
-                    "startOffset": 18415,
+                    "startOffset": 18416,
                     "endColumn": 58,
-                    "endOffset": 18469
+                    "endOffset": 18470
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 411,
                         "startColumn": 4,
-                        "startOffset": 18415,
+                        "startOffset": 18416,
                         "endColumn": 58,
-                        "endOffset": 18469
+                        "endOffset": 18470
                     }
                 }
             },
@@ -2822,18 +2822,18 @@
                 "to": {
                     "startLine": 412,
                     "startColumn": 4,
-                    "startOffset": 18474,
+                    "startOffset": 18475,
                     "endColumn": 69,
-                    "endOffset": 18539
+                    "endOffset": 18540
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 412,
                         "startColumn": 4,
-                        "startOffset": 18474,
+                        "startOffset": 18475,
                         "endColumn": 69,
-                        "endOffset": 18539
+                        "endOffset": 18540
                     }
                 }
             },
@@ -2841,18 +2841,18 @@
                 "to": {
                     "startLine": 413,
                     "startColumn": 4,
-                    "startOffset": 18544,
+                    "startOffset": 18545,
                     "endColumn": 59,
-                    "endOffset": 18599
+                    "endOffset": 18600
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 413,
                         "startColumn": 4,
-                        "startOffset": 18544,
+                        "startOffset": 18545,
                         "endColumn": 59,
-                        "endOffset": 18599
+                        "endOffset": 18600
                     }
                 }
             },
@@ -2860,18 +2860,18 @@
                 "to": {
                     "startLine": 414,
                     "startColumn": 4,
-                    "startOffset": 18604,
+                    "startOffset": 18605,
                     "endColumn": 65,
-                    "endOffset": 18665
+                    "endOffset": 18666
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 414,
                         "startColumn": 4,
-                        "startOffset": 18604,
+                        "startOffset": 18605,
                         "endColumn": 65,
-                        "endOffset": 18665
+                        "endOffset": 18666
                     }
                 }
             },
@@ -2879,18 +2879,18 @@
                 "to": {
                     "startLine": 415,
                     "startColumn": 4,
-                    "startOffset": 18670,
+                    "startOffset": 18671,
                     "endColumn": 74,
-                    "endOffset": 18740
+                    "endOffset": 18741
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 415,
                         "startColumn": 4,
-                        "startOffset": 18670,
+                        "startOffset": 18671,
                         "endColumn": 74,
-                        "endOffset": 18740
+                        "endOffset": 18741
                     }
                 }
             },
@@ -2898,18 +2898,18 @@
                 "to": {
                     "startLine": 416,
                     "startColumn": 4,
-                    "startOffset": 18745,
+                    "startOffset": 18746,
                     "endColumn": 55,
-                    "endOffset": 18796
+                    "endOffset": 18797
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 416,
                         "startColumn": 4,
-                        "startOffset": 18745,
+                        "startOffset": 18746,
                         "endColumn": 55,
-                        "endOffset": 18796
+                        "endOffset": 18797
                     }
                 }
             },
@@ -2917,18 +2917,18 @@
                 "to": {
                     "startLine": 417,
                     "startColumn": 4,
-                    "startOffset": 18801,
+                    "startOffset": 18802,
                     "endColumn": 66,
-                    "endOffset": 18863
+                    "endOffset": 18864
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 417,
                         "startColumn": 4,
-                        "startOffset": 18801,
+                        "startOffset": 18802,
                         "endColumn": 66,
-                        "endOffset": 18863
+                        "endOffset": 18864
                     }
                 }
             },
@@ -2936,18 +2936,18 @@
                 "to": {
                     "startLine": 418,
                     "startColumn": 4,
-                    "startOffset": 18868,
+                    "startOffset": 18869,
                     "endColumn": 77,
-                    "endOffset": 18941
+                    "endOffset": 18942
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 418,
                         "startColumn": 4,
-                        "startOffset": 18868,
+                        "startOffset": 18869,
                         "endColumn": 77,
-                        "endOffset": 18941
+                        "endOffset": 18942
                     }
                 }
             },
@@ -2955,18 +2955,18 @@
                 "to": {
                     "startLine": 419,
                     "startColumn": 4,
-                    "startOffset": 18946,
+                    "startOffset": 18947,
                     "endColumn": 64,
-                    "endOffset": 19006
+                    "endOffset": 19007
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 419,
                         "startColumn": 4,
-                        "startOffset": 18946,
+                        "startOffset": 18947,
                         "endColumn": 64,
-                        "endOffset": 19006
+                        "endOffset": 19007
                     }
                 }
             },
@@ -2974,18 +2974,18 @@
                 "to": {
                     "startLine": 420,
                     "startColumn": 4,
-                    "startOffset": 19011,
+                    "startOffset": 19012,
                     "endColumn": 48,
-                    "endOffset": 19055
+                    "endOffset": 19056
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 420,
                         "startColumn": 4,
-                        "startOffset": 19011,
+                        "startOffset": 19012,
                         "endColumn": 48,
-                        "endOffset": 19055
+                        "endOffset": 19056
                     }
                 }
             },
@@ -2993,18 +2993,18 @@
                 "to": {
                     "startLine": 421,
                     "startColumn": 4,
-                    "startOffset": 19060,
+                    "startOffset": 19061,
                     "endColumn": 47,
-                    "endOffset": 19103
+                    "endOffset": 19104
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 421,
                         "startColumn": 4,
-                        "startOffset": 19060,
+                        "startOffset": 19061,
                         "endColumn": 47,
-                        "endOffset": 19103
+                        "endOffset": 19104
                     }
                 }
             },
@@ -3012,18 +3012,18 @@
                 "to": {
                     "startLine": 422,
                     "startColumn": 4,
-                    "startOffset": 19108,
+                    "startOffset": 19109,
                     "endColumn": 50,
-                    "endOffset": 19154
+                    "endOffset": 19155
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 422,
                         "startColumn": 4,
-                        "startOffset": 19108,
+                        "startOffset": 19109,
                         "endColumn": 50,
-                        "endOffset": 19154
+                        "endOffset": 19155
                     }
                 }
             },
@@ -3031,18 +3031,18 @@
                 "to": {
                     "startLine": 423,
                     "startColumn": 4,
-                    "startOffset": 19159,
+                    "startOffset": 19160,
                     "endColumn": 48,
-                    "endOffset": 19203
+                    "endOffset": 19204
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 423,
                         "startColumn": 4,
-                        "startOffset": 19159,
+                        "startOffset": 19160,
                         "endColumn": 48,
-                        "endOffset": 19203
+                        "endOffset": 19204
                     }
                 }
             },
@@ -3050,18 +3050,18 @@
                 "to": {
                     "startLine": 424,
                     "startColumn": 4,
-                    "startOffset": 19208,
+                    "startOffset": 19209,
                     "endColumn": 64,
-                    "endOffset": 19268
+                    "endOffset": 19269
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 424,
                         "startColumn": 4,
-                        "startOffset": 19208,
+                        "startOffset": 19209,
                         "endColumn": 64,
-                        "endOffset": 19268
+                        "endOffset": 19269
                     }
                 }
             },
@@ -3069,18 +3069,18 @@
                 "to": {
                     "startLine": 425,
                     "startColumn": 4,
-                    "startOffset": 19273,
+                    "startOffset": 19274,
                     "endColumn": 64,
-                    "endOffset": 19333
+                    "endOffset": 19334
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 425,
                         "startColumn": 4,
-                        "startOffset": 19273,
+                        "startOffset": 19274,
                         "endColumn": 64,
-                        "endOffset": 19333
+                        "endOffset": 19334
                     }
                 }
             },
@@ -3088,18 +3088,18 @@
                 "to": {
                     "startLine": 426,
                     "startColumn": 4,
-                    "startOffset": 19338,
+                    "startOffset": 19339,
                     "endColumn": 59,
-                    "endOffset": 19393
+                    "endOffset": 19394
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 426,
                         "startColumn": 4,
-                        "startOffset": 19338,
+                        "startOffset": 19339,
                         "endColumn": 59,
-                        "endOffset": 19393
+                        "endOffset": 19394
                     }
                 }
             },
@@ -3107,18 +3107,18 @@
                 "to": {
                     "startLine": 427,
                     "startColumn": 4,
-                    "startOffset": 19398,
+                    "startOffset": 19399,
                     "endColumn": 57,
-                    "endOffset": 19451
+                    "endOffset": 19452
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 427,
                         "startColumn": 4,
-                        "startOffset": 19398,
+                        "startOffset": 19399,
                         "endColumn": 57,
-                        "endOffset": 19451
+                        "endOffset": 19452
                     }
                 }
             },
@@ -3126,18 +3126,18 @@
                 "to": {
                     "startLine": 428,
                     "startColumn": 4,
-                    "startOffset": 19456,
+                    "startOffset": 19457,
                     "endColumn": 61,
-                    "endOffset": 19513
+                    "endOffset": 19514
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 428,
                         "startColumn": 4,
-                        "startOffset": 19456,
+                        "startOffset": 19457,
                         "endColumn": 61,
-                        "endOffset": 19513
+                        "endOffset": 19514
                     }
                 }
             },
@@ -3145,18 +3145,18 @@
                 "to": {
                     "startLine": 429,
                     "startColumn": 4,
-                    "startOffset": 19518,
+                    "startOffset": 19519,
                     "endColumn": 56,
-                    "endOffset": 19570
+                    "endOffset": 19571
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 429,
                         "startColumn": 4,
-                        "startOffset": 19518,
+                        "startOffset": 19519,
                         "endColumn": 56,
-                        "endOffset": 19570
+                        "endOffset": 19571
                     }
                 }
             },
@@ -3164,18 +3164,18 @@
                 "to": {
                     "startLine": 430,
                     "startColumn": 4,
-                    "startOffset": 19575,
+                    "startOffset": 19576,
                     "endColumn": 44,
-                    "endOffset": 19615
+                    "endOffset": 19616
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 430,
                         "startColumn": 4,
-                        "startOffset": 19575,
+                        "startOffset": 19576,
                         "endColumn": 44,
-                        "endOffset": 19615
+                        "endOffset": 19616
                     }
                 }
             },
@@ -3183,18 +3183,18 @@
                 "to": {
                     "startLine": 431,
                     "startColumn": 4,
-                    "startOffset": 19620,
+                    "startOffset": 19621,
                     "endColumn": 75,
-                    "endOffset": 19691
+                    "endOffset": 19692
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 431,
                         "startColumn": 4,
-                        "startOffset": 19620,
+                        "startOffset": 19621,
                         "endColumn": 75,
-                        "endOffset": 19691
+                        "endOffset": 19692
                     }
                 }
             },
@@ -3202,18 +3202,18 @@
                 "to": {
                     "startLine": 432,
                     "startColumn": 4,
-                    "startOffset": 19696,
+                    "startOffset": 19697,
                     "endColumn": 51,
-                    "endOffset": 19743
+                    "endOffset": 19744
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 432,
                         "startColumn": 4,
-                        "startOffset": 19696,
+                        "startOffset": 19697,
                         "endColumn": 51,
-                        "endOffset": 19743
+                        "endOffset": 19744
                     }
                 }
             },
@@ -3221,18 +3221,18 @@
                 "to": {
                     "startLine": 433,
                     "startColumn": 4,
-                    "startOffset": 19748,
+                    "startOffset": 19749,
                     "endColumn": 60,
-                    "endOffset": 19804
+                    "endOffset": 19805
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 433,
                         "startColumn": 4,
-                        "startOffset": 19748,
+                        "startOffset": 19749,
                         "endColumn": 60,
-                        "endOffset": 19804
+                        "endOffset": 19805
                     }
                 }
             },
@@ -3240,18 +3240,18 @@
                 "to": {
                     "startLine": 434,
                     "startColumn": 4,
-                    "startOffset": 19809,
+                    "startOffset": 19810,
                     "endColumn": 60,
-                    "endOffset": 19865
+                    "endOffset": 19866
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 434,
                         "startColumn": 4,
-                        "startOffset": 19809,
+                        "startOffset": 19810,
                         "endColumn": 60,
-                        "endOffset": 19865
+                        "endOffset": 19866
                     }
                 }
             },
@@ -3259,18 +3259,18 @@
                 "to": {
                     "startLine": 435,
                     "startColumn": 4,
-                    "startOffset": 19870,
+                    "startOffset": 19871,
                     "endColumn": 68,
-                    "endOffset": 19934
+                    "endOffset": 19935
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 435,
                         "startColumn": 4,
-                        "startOffset": 19870,
+                        "startOffset": 19871,
                         "endColumn": 68,
-                        "endOffset": 19934
+                        "endOffset": 19935
                     }
                 }
             },
@@ -3278,18 +3278,18 @@
                 "to": {
                     "startLine": 436,
                     "startColumn": 4,
-                    "startOffset": 19939,
+                    "startOffset": 19940,
                     "endColumn": 63,
-                    "endOffset": 19998
+                    "endOffset": 19999
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 436,
                         "startColumn": 4,
-                        "startOffset": 19939,
+                        "startOffset": 19940,
                         "endColumn": 63,
-                        "endOffset": 19998
+                        "endOffset": 19999
                     }
                 }
             },
@@ -3297,18 +3297,18 @@
                 "to": {
                     "startLine": 437,
                     "startColumn": 4,
-                    "startOffset": 20003,
+                    "startOffset": 20004,
                     "endColumn": 64,
-                    "endOffset": 20063
+                    "endOffset": 20064
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 437,
                         "startColumn": 4,
-                        "startOffset": 20003,
+                        "startOffset": 20004,
                         "endColumn": 64,
-                        "endOffset": 20063
+                        "endOffset": 20064
                     }
                 }
             },
@@ -3316,18 +3316,18 @@
                 "to": {
                     "startLine": 438,
                     "startColumn": 4,
-                    "startOffset": 20068,
+                    "startOffset": 20069,
                     "endColumn": 73,
-                    "endOffset": 20137
+                    "endOffset": 20138
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 438,
                         "startColumn": 4,
-                        "startOffset": 20068,
+                        "startOffset": 20069,
                         "endColumn": 73,
-                        "endOffset": 20137
+                        "endOffset": 20138
                     }
                 }
             },
@@ -3335,18 +3335,18 @@
                 "to": {
                     "startLine": 439,
                     "startColumn": 4,
-                    "startOffset": 20142,
+                    "startOffset": 20143,
                     "endColumn": 77,
-                    "endOffset": 20215
+                    "endOffset": 20216
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 439,
                         "startColumn": 4,
-                        "startOffset": 20142,
+                        "startOffset": 20143,
                         "endColumn": 77,
-                        "endOffset": 20215
+                        "endOffset": 20216
                     }
                 }
             },
@@ -3354,18 +3354,18 @@
                 "to": {
                     "startLine": 440,
                     "startColumn": 4,
-                    "startOffset": 20220,
+                    "startOffset": 20221,
                     "endColumn": 46,
-                    "endOffset": 20262
+                    "endOffset": 20263
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 440,
                         "startColumn": 4,
-                        "startOffset": 20220,
+                        "startOffset": 20221,
                         "endColumn": 46,
-                        "endOffset": 20262
+                        "endOffset": 20263
                     }
                 }
             },
@@ -3373,18 +3373,18 @@
                 "to": {
                     "startLine": 441,
                     "startColumn": 4,
-                    "startOffset": 20267,
+                    "startOffset": 20268,
                     "endColumn": 49,
-                    "endOffset": 20312
+                    "endOffset": 20313
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 441,
                         "startColumn": 4,
-                        "startOffset": 20267,
+                        "startOffset": 20268,
                         "endColumn": 49,
-                        "endOffset": 20312
+                        "endOffset": 20313
                     }
                 }
             },
@@ -3392,18 +3392,18 @@
                 "to": {
                     "startLine": 442,
                     "startColumn": 4,
-                    "startOffset": 20317,
+                    "startOffset": 20318,
                     "endColumn": 58,
-                    "endOffset": 20371
+                    "endOffset": 20372
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 442,
                         "startColumn": 4,
-                        "startOffset": 20317,
+                        "startOffset": 20318,
                         "endColumn": 58,
-                        "endOffset": 20371
+                        "endOffset": 20372
                     }
                 }
             },
@@ -3411,18 +3411,18 @@
                 "to": {
                     "startLine": 443,
                     "startColumn": 4,
-                    "startOffset": 20376,
+                    "startOffset": 20377,
                     "endColumn": 53,
-                    "endOffset": 20425
+                    "endOffset": 20426
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 443,
                         "startColumn": 4,
-                        "startOffset": 20376,
+                        "startOffset": 20377,
                         "endColumn": 53,
-                        "endOffset": 20425
+                        "endOffset": 20426
                     }
                 }
             },
@@ -3430,18 +3430,18 @@
                 "to": {
                     "startLine": 444,
                     "startColumn": 4,
-                    "startOffset": 20430,
+                    "startOffset": 20431,
                     "endColumn": 65,
-                    "endOffset": 20491
+                    "endOffset": 20492
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 444,
                         "startColumn": 4,
-                        "startOffset": 20430,
+                        "startOffset": 20431,
                         "endColumn": 65,
-                        "endOffset": 20491
+                        "endOffset": 20492
                     }
                 }
             },
@@ -3449,18 +3449,18 @@
                 "to": {
                     "startLine": 445,
                     "startColumn": 4,
-                    "startOffset": 20496,
+                    "startOffset": 20497,
                     "endColumn": 59,
-                    "endOffset": 20551
+                    "endOffset": 20552
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 445,
                         "startColumn": 4,
-                        "startOffset": 20496,
+                        "startOffset": 20497,
                         "endColumn": 59,
-                        "endOffset": 20551
+                        "endOffset": 20552
                     }
                 }
             },
@@ -3468,18 +3468,18 @@
                 "to": {
                     "startLine": 446,
                     "startColumn": 4,
-                    "startOffset": 20556,
+                    "startOffset": 20557,
                     "endColumn": 61,
-                    "endOffset": 20613
+                    "endOffset": 20614
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 446,
                         "startColumn": 4,
-                        "startOffset": 20556,
+                        "startOffset": 20557,
                         "endColumn": 61,
-                        "endOffset": 20613
+                        "endOffset": 20614
                     }
                 }
             },
@@ -3487,18 +3487,18 @@
                 "to": {
                     "startLine": 447,
                     "startColumn": 4,
-                    "startOffset": 20618,
+                    "startOffset": 20619,
                     "endColumn": 50,
-                    "endOffset": 20664
+                    "endOffset": 20665
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 447,
                         "startColumn": 4,
-                        "startOffset": 20618,
+                        "startOffset": 20619,
                         "endColumn": 50,
-                        "endOffset": 20664
+                        "endOffset": 20665
                     }
                 }
             },
@@ -3506,18 +3506,18 @@
                 "to": {
                     "startLine": 448,
                     "startColumn": 4,
-                    "startOffset": 20669,
+                    "startOffset": 20670,
                     "endColumn": 50,
-                    "endOffset": 20715
+                    "endOffset": 20716
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 448,
                         "startColumn": 4,
-                        "startOffset": 20669,
+                        "startOffset": 20670,
                         "endColumn": 50,
-                        "endOffset": 20715
+                        "endOffset": 20716
                     }
                 }
             },
@@ -3525,18 +3525,18 @@
                 "to": {
                     "startLine": 449,
                     "startColumn": 4,
-                    "startOffset": 20720,
+                    "startOffset": 20721,
                     "endColumn": 49,
-                    "endOffset": 20765
+                    "endOffset": 20766
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 449,
                         "startColumn": 4,
-                        "startOffset": 20720,
+                        "startOffset": 20721,
                         "endColumn": 49,
-                        "endOffset": 20765
+                        "endOffset": 20766
                     }
                 }
             },
@@ -3544,18 +3544,18 @@
                 "to": {
                     "startLine": 450,
                     "startColumn": 4,
-                    "startOffset": 20770,
+                    "startOffset": 20771,
                     "endColumn": 62,
-                    "endOffset": 20828
+                    "endOffset": 20829
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 450,
                         "startColumn": 4,
-                        "startOffset": 20770,
+                        "startOffset": 20771,
                         "endColumn": 62,
-                        "endOffset": 20828
+                        "endOffset": 20829
                     }
                 }
             },
@@ -3563,18 +3563,18 @@
                 "to": {
                     "startLine": 451,
                     "startColumn": 4,
-                    "startOffset": 20833,
+                    "startOffset": 20834,
                     "endColumn": 42,
-                    "endOffset": 20871
+                    "endOffset": 20872
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 451,
                         "startColumn": 4,
-                        "startOffset": 20833,
+                        "startOffset": 20834,
                         "endColumn": 42,
-                        "endOffset": 20871
+                        "endOffset": 20872
                     }
                 }
             },
@@ -3582,18 +3582,18 @@
                 "to": {
                     "startLine": 452,
                     "startColumn": 4,
-                    "startOffset": 20876,
+                    "startOffset": 20877,
                     "endColumn": 36,
-                    "endOffset": 20908
+                    "endOffset": 20909
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 452,
                         "startColumn": 4,
-                        "startOffset": 20876,
+                        "startOffset": 20877,
                         "endColumn": 36,
-                        "endOffset": 20908
+                        "endOffset": 20909
                     }
                 }
             },
@@ -3601,18 +3601,18 @@
                 "to": {
                     "startLine": 453,
                     "startColumn": 4,
-                    "startOffset": 20913,
+                    "startOffset": 20914,
                     "endColumn": 55,
-                    "endOffset": 20964
+                    "endOffset": 20965
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 453,
                         "startColumn": 4,
-                        "startOffset": 20913,
+                        "startOffset": 20914,
                         "endColumn": 55,
-                        "endOffset": 20964
+                        "endOffset": 20965
                     }
                 }
             },
@@ -3620,20 +3620,20 @@
                 "to": {
                     "startLine": 454,
                     "startColumn": 4,
-                    "startOffset": 20969,
+                    "startOffset": 20970,
                     "endLine": 462,
                     "endColumn": 12,
-                    "endOffset": 21595
+                    "endOffset": 21596
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 454,
                         "startColumn": 4,
-                        "startOffset": 20969,
+                        "startOffset": 20970,
                         "endLine": 462,
                         "endColumn": 12,
-                        "endOffset": 21595
+                        "endOffset": 21596
                     }
                 }
             },
@@ -3641,20 +3641,20 @@
                 "to": {
                     "startLine": 463,
                     "startColumn": 4,
-                    "startOffset": 21600,
+                    "startOffset": 21601,
                     "endLine": 466,
                     "endColumn": 12,
-                    "endOffset": 21817
+                    "endOffset": 21818
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 463,
                         "startColumn": 4,
-                        "startOffset": 21600,
+                        "startOffset": 21601,
                         "endLine": 466,
                         "endColumn": 12,
-                        "endOffset": 21817
+                        "endOffset": 21818
                     }
                 }
             },
@@ -3662,20 +3662,20 @@
                 "to": {
                     "startLine": 467,
                     "startColumn": 4,
-                    "startOffset": 21822,
+                    "startOffset": 21823,
                     "endLine": 470,
                     "endColumn": 12,
-                    "endOffset": 22025
+                    "endOffset": 22026
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 467,
                         "startColumn": 4,
-                        "startOffset": 21822,
+                        "startOffset": 21823,
                         "endLine": 470,
                         "endColumn": 12,
-                        "endOffset": 22025
+                        "endOffset": 22026
                     }
                 }
             },
@@ -3683,20 +3683,20 @@
                 "to": {
                     "startLine": 471,
                     "startColumn": 4,
-                    "startOffset": 22030,
+                    "startOffset": 22031,
                     "endLine": 475,
                     "endColumn": 12,
-                    "endOffset": 22293
+                    "endOffset": 22294
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 471,
                         "startColumn": 4,
-                        "startOffset": 22030,
+                        "startOffset": 22031,
                         "endLine": 475,
                         "endColumn": 12,
-                        "endOffset": 22293
+                        "endOffset": 22294
                     }
                 }
             },
@@ -3704,20 +3704,20 @@
                 "to": {
                     "startLine": 476,
                     "startColumn": 4,
-                    "startOffset": 22298,
+                    "startOffset": 22299,
                     "endLine": 484,
                     "endColumn": 12,
-                    "endOffset": 22788
+                    "endOffset": 22789
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 476,
                         "startColumn": 4,
-                        "startOffset": 22298,
+                        "startOffset": 22299,
                         "endLine": 484,
                         "endColumn": 12,
-                        "endOffset": 22788
+                        "endOffset": 22789
                     }
                 }
             },
@@ -3725,20 +3725,20 @@
                 "to": {
                     "startLine": 485,
                     "startColumn": 4,
-                    "startOffset": 22793,
+                    "startOffset": 22794,
                     "endLine": 487,
                     "endColumn": 12,
-                    "endOffset": 22871
+                    "endOffset": 22872
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 485,
                         "startColumn": 4,
-                        "startOffset": 22793,
+                        "startOffset": 22794,
                         "endLine": 487,
                         "endColumn": 12,
-                        "endOffset": 22871
+                        "endOffset": 22872
                     }
                 }
             },
@@ -3746,20 +3746,20 @@
                 "to": {
                     "startLine": 488,
                     "startColumn": 4,
-                    "startOffset": 22876,
+                    "startOffset": 22877,
                     "endLine": 490,
                     "endColumn": 12,
-                    "endOffset": 22953
+                    "endOffset": 22954
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 488,
                         "startColumn": 4,
-                        "startOffset": 22876,
+                        "startOffset": 22877,
                         "endLine": 490,
                         "endColumn": 12,
-                        "endOffset": 22953
+                        "endOffset": 22954
                     }
                 }
             },
@@ -3767,20 +3767,20 @@
                 "to": {
                     "startLine": 491,
                     "startColumn": 4,
-                    "startOffset": 22958,
+                    "startOffset": 22959,
                     "endLine": 493,
                     "endColumn": 12,
-                    "endOffset": 23131
+                    "endOffset": 23132
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 491,
                         "startColumn": 4,
-                        "startOffset": 22958,
+                        "startOffset": 22959,
                         "endLine": 493,
                         "endColumn": 12,
-                        "endOffset": 23131
+                        "endOffset": 23132
                     }
                 }
             },
@@ -3788,20 +3788,20 @@
                 "to": {
                     "startLine": 494,
                     "startColumn": 4,
-                    "startOffset": 23136,
+                    "startOffset": 23137,
                     "endLine": 496,
                     "endColumn": 12,
-                    "endOffset": 23214
+                    "endOffset": 23215
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 494,
                         "startColumn": 4,
-                        "startOffset": 23136,
+                        "startOffset": 23137,
                         "endLine": 496,
                         "endColumn": 12,
-                        "endOffset": 23214
+                        "endOffset": 23215
                     }
                 }
             },
@@ -3809,20 +3809,20 @@
                 "to": {
                     "startLine": 497,
                     "startColumn": 4,
-                    "startOffset": 23219,
+                    "startOffset": 23220,
                     "endLine": 501,
                     "endColumn": 12,
-                    "endOffset": 23502
+                    "endOffset": 23503
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 497,
                         "startColumn": 4,
-                        "startOffset": 23219,
+                        "startOffset": 23220,
                         "endLine": 501,
                         "endColumn": 12,
-                        "endOffset": 23502
+                        "endOffset": 23503
                     }
                 }
             },
@@ -3830,20 +3830,20 @@
                 "to": {
                     "startLine": 502,
                     "startColumn": 4,
-                    "startOffset": 23507,
+                    "startOffset": 23508,
                     "endLine": 504,
                     "endColumn": 12,
-                    "endOffset": 23584
+                    "endOffset": 23585
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 502,
                         "startColumn": 4,
-                        "startOffset": 23507,
+                        "startOffset": 23508,
                         "endLine": 504,
                         "endColumn": 12,
-                        "endOffset": 23584
+                        "endOffset": 23585
                     }
                 }
             },
@@ -3851,20 +3851,20 @@
                 "to": {
                     "startLine": 505,
                     "startColumn": 4,
-                    "startOffset": 23589,
+                    "startOffset": 23590,
                     "endLine": 512,
                     "endColumn": 12,
-                    "endOffset": 24046
+                    "endOffset": 24047
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 505,
                         "startColumn": 4,
-                        "startOffset": 23589,
+                        "startOffset": 23590,
                         "endLine": 512,
                         "endColumn": 12,
-                        "endOffset": 24046
+                        "endOffset": 24047
                     }
                 }
             },
@@ -3872,20 +3872,20 @@
                 "to": {
                     "startLine": 513,
                     "startColumn": 4,
-                    "startOffset": 24051,
+                    "startOffset": 24052,
                     "endLine": 515,
                     "endColumn": 12,
-                    "endOffset": 24224
+                    "endOffset": 24225
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 513,
                         "startColumn": 4,
-                        "startOffset": 24051,
+                        "startOffset": 24052,
                         "endLine": 515,
                         "endColumn": 12,
-                        "endOffset": 24224
+                        "endOffset": 24225
                     }
                 }
             },
@@ -3893,20 +3893,20 @@
                 "to": {
                     "startLine": 516,
                     "startColumn": 4,
-                    "startOffset": 24229,
+                    "startOffset": 24230,
                     "endLine": 520,
                     "endColumn": 12,
-                    "endOffset": 24478
+                    "endOffset": 24479
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 516,
                         "startColumn": 4,
-                        "startOffset": 24229,
+                        "startOffset": 24230,
                         "endLine": 520,
                         "endColumn": 12,
-                        "endOffset": 24478
+                        "endOffset": 24479
                     }
                 }
             },
@@ -3914,20 +3914,20 @@
                 "to": {
                     "startLine": 521,
                     "startColumn": 4,
-                    "startOffset": 24483,
+                    "startOffset": 24484,
                     "endLine": 523,
                     "endColumn": 12,
-                    "endOffset": 24655
+                    "endOffset": 24656
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 521,
                         "startColumn": 4,
-                        "startOffset": 24483,
+                        "startOffset": 24484,
                         "endLine": 523,
                         "endColumn": 12,
-                        "endOffset": 24655
+                        "endOffset": 24656
                     }
                 }
             },
@@ -3935,20 +3935,20 @@
                 "to": {
                     "startLine": 524,
                     "startColumn": 4,
-                    "startOffset": 24660,
+                    "startOffset": 24661,
                     "endLine": 528,
                     "endColumn": 12,
-                    "endOffset": 24907
+                    "endOffset": 24908
                 },
                 "from": {
                     "file": "/Users/yunyu/Projects/demo-app-android-v2/IMKit/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 524,
                         "startColumn": 4,
-                        "startOffset": 24660,
+                        "startOffset": 24661,
                         "endLine": 528,
                         "endColumn": 12,
-                        "endOffset": 24907
+                        "endOffset": 24908
                     }
                 }
             }

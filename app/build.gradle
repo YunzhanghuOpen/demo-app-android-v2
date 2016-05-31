@@ -50,8 +50,8 @@ android {
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'src/main/libs')
-    compile 'com.android.support:appcompat-v7:19.1.0'
-    compile project(':IMKit')
+    compile 'com.android.support:appcompat-v7:21.0.3'
+    //compile project(':IMKit')
     compile files('src/main/libs/TencentLocationSDK_v4.4.6_r206631_151119_1441.jar')
     compile files('src/main/libs/TencentMapSDK_Raster_v1.1.2.16281.jar')
     compile project(':redpacketlibrary')
