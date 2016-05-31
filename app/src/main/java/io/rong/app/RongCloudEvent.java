@@ -163,7 +163,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         RongIM.setLocationProvider(this);//设置地理位置提供者,不用位置的同学可以注掉此行代码
         RongIM.setConversationListBehaviorListener(this);//会话列表界面操作的监听器
         RongIM.getInstance().setSendMessageListener(this);//设置发出消息接收监听器.
-
+        RongIM.getInstance().getRongIMClient().setOnReceiveMessageListener(this);//设置消息接收监听器。
         RongIM.setGroupUserInfoProvider(this, true);
 //        RongIM.setOnReceivePushMessageListener(this);//自定义 push 通知。
         //消息体内是否有 userinfo 这个属性
@@ -177,7 +177,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
      */
     public void setOtherListener() {
 
-        RongIM.getInstance().getRongIMClient().setOnReceiveMessageListener(this);//设置消息接收监听器。
+       // RongIM.getInstance().getRongIMClient().setOnReceiveMessageListener(this);//设置消息接收监听器。
         RongIM.getInstance().getRongIMClient().setConnectionStatusListener(this);//设置连接状态监听器。
 
         TextInputProvider textInputProvider = new TextInputProvider(RongContext.getInstance());
@@ -204,7 +204,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
                 new ContactsProvider(RongContext.getInstance()),//通讯录
                 new RongGroupRedPacketProvider(RongContext.getInstance(), new GetGroupInfoCallback() {
-
+                    //获取群组信息,并回调把群里面人数给回调接口
                     @Override
                     public int getGroupPersonNumber(String groupID, final ToRedPacketActivity mCallback) {
                         DemoContext.getInstance().getDemoApi().getGroupByGroupId(groupID, new ApiCallback<GroupInfo>() {
