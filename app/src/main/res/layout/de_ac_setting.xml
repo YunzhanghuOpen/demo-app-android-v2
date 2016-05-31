@@ -5,6 +5,8 @@
     android:orientation="vertical">
 
     <fragment
+        android:id="@+id/setting_fragment"
+        android:tag="setting_fragment"
         android:name="io.rong.app.ui.fragment.SettingFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></fragment>
