@@ -39,17 +39,6 @@ public class RongEmptyMessage extends NotificationMessage {
     private String receiveUserName;
     private String isOpenMoney;//是否打开红包
 
-    @Override
-    public String toString() {
-        return "RongEmptyMessage{" +
-                "sendUserID='" + sendUserID + '\'' +
-                ", sendUserName='" + sendUserName + '\'' +
-                ", receiveUserID='" + receiveUserID + '\'' +
-                ", receiveUserName='" + receiveUserName + '\'' +
-                ", isOpenMoney='" + isOpenMoney + '\'' +
-                '}';
-    }
-
     public RongEmptyMessage() {
     }
 

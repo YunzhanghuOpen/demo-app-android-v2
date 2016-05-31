@@ -114,7 +114,7 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
         RPOpenPacketUtil.getInstance().openRedPacket(packetInfo, (FragmentActivity) mContext, new RPOpenPacketUtil.RPOpenPacketCallBack() {
             @Override
             public void onSuccess(String s, String s1) {
-                Log.e("yzh", "-打开红包成功-");
+                //打开红包消息成功,然后发送回执消息例如"你领取了XX的红包"
                 sendAckMsg(content, message, RPContext.getInstance().getUserName());
             }
 
