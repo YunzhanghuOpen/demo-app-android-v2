@@ -408,12 +408,15 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                     for (int i = 0; i < groups.getResult().size(); i++) {
                         String id = groups.getResult().get(i).getId();
                         String name = groups.getResult().get(i).getName();
+                        String number=groups.getResult().get(i).getNumber();
                         if (groups.getResult().get(i).getPortrait() != null) {
                             Uri uri = Uri.parse(groups.getResult().get(i).getPortrait());
                             grouplist.add(new Group(id, name, uri));
                         } else {
                             grouplist.add(new Group(id, name, null));
                         }
+                        if (DemoContext.getInstance() != null)
+                            DemoContext.getInstance().putGroupNmber(id,number);
                     }
 
                     HashMap<String, Group> groupM = new HashMap<String, Group>();

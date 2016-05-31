@@ -25,6 +25,7 @@ public class DemoContext {
     private static DemoContext mDemoContext;
     public Context mContext;
     private DemoApi mDemoApi;
+    private HashMap<String, String> myGroupMap;
     private HashMap<String, Group> groupMap;
     private SharedPreferences mPreferences;
     private RongIM.LocationProvider.LocationCallback mLastLocationCallback;
@@ -160,8 +161,6 @@ public class DemoContext {
 
         return userInfos;
     }
-
-
     /**
      * 通过userid 查找 UserInfo，查找的是本地的数据库
      *
@@ -312,6 +311,33 @@ public class DemoContext {
             return groupReturn.getName();
         else
             return null;
+    }
+
+    /**
+     * 通过群ID获取群里面的当前人的个数
+     * @param groupID
+     * @return
+     */
+    public String getGroupNmberById(String groupID) {
+
+        if (groupID == null)
+            return null;
+        if (myGroupMap != null && myGroupMap.containsKey(groupID)) {
+            return myGroupMap.get(groupID);
+        }
+        return null;
+    }
+    /**
+     * 添加群信息
+     * @param groupID
+     * @return
+     */
+    public void putGroupNmber(String groupID, String number) {
+
+        if (myGroupMap == null)
+            myGroupMap = new HashMap<String, String>();
+        myGroupMap.put(groupID, number);
+
     }
 
 

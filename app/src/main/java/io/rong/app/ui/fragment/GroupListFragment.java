@@ -118,6 +118,7 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
                 if (groups.getCode() == 200) {
                     for (int i = 0; i < groups.getResult().size(); i++) {
                         mResultList.add(groups.getResult().get(i));
+
                     }
 
                     mGroupListAdapter = new GroupListAdapter(getActivity(), mResultList, mGroupMap);
@@ -133,7 +134,9 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
             if (result != null) {
 
                 setGroupMap(result, 1);
-
+                int number=Integer.parseInt(result.getNumber())+1;
+                if (DemoContext.getInstance() != null)
+                    DemoContext.getInstance().putGroupNmber(result.getId(),String.valueOf(number));
                 refreshAdapter();
 
                 RongIM.getInstance().getRongIMClient().joinGroup(result.getId(), result.getName(), new RongIMClient.OperationCallback() {
