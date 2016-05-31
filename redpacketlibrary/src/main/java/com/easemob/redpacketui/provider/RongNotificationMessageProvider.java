@@ -63,7 +63,7 @@ public class RongNotificationMessageProvider extends IContainerItemProvider.Mess
     public String getMessage(RongNotificationMessage content) {
         String mContent = "";
         if (TextUtils.isEmpty(content.getSendUserID())||TextUtils.isEmpty(content.getReceiveUserID())){
-            return null;
+            return "";
         }
         if (content.getSendUserID().equals(content.getReceiveUserID())) {//自己领取了自己的红包
             mContent = mContext.getString(R.string.yzh_notification_me_to_me_receive_redpacket);

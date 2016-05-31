@@ -15,8 +15,10 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 
+import com.easemob.redpacketui.RPContext;
 import com.easemob.redpacketui.callback.GetGroupInfoCallback;
 import com.easemob.redpacketui.callback.ToRedPacketActivity;
+import com.easemob.redpacketui.message.RongEmptyMessage;
 import com.easemob.redpacketui.provider.RongGroupRedPacketProvider;
 import com.easemob.redpacketui.provider.RongRedPacketProvider;
 import com.sea_monster.exception.BaseException;
@@ -198,6 +200,32 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
                 new ContactsProvider(RongContext.getInstance()),//通讯录
         };
+        InputProvider.ExtendProvider[] provider3 = {//讨论组
+                new ImageInputProvider(RongContext.getInstance()),//图片
+                new CameraInputProvider(RongContext.getInstance()),//相机
+                new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
+                new ContactsProvider(RongContext.getInstance()),//通讯录
+                new RongGroupRedPacketProvider(RongContext.getInstance(), new GetGroupInfoCallback() {
+                    //获取群组信息,并回调把群里面人数给回调接口
+                    @Override
+                    public void getGroupPersonNumber(final String groupID, final ToRedPacketActivity mCallback) {
+                       RongIM.getInstance().getRongIMClient().getDiscussion(groupID, new RongIMClient.ResultCallback<Discussion>() {
+                           @Override
+                           public void onSuccess(Discussion discussion) {
+                               Log.e("dxf","-number-"+discussion.getMemberIdList().size());
+                               mCallback.toRedPacketActivity(discussion.getMemberIdList().size());
+                           }
+
+                           @Override
+                           public void onError(RongIMClient.ErrorCode errorCode) {
+
+                           }
+                       });
+
+                    }
+
+                })//讨论组红包
+        };
         InputProvider.ExtendProvider[] provider2 = {
                 new ImageInputProvider(RongContext.getInstance()),//图片
                 new CameraInputProvider(RongContext.getInstance()),//相机
@@ -206,25 +234,32 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 new RongGroupRedPacketProvider(RongContext.getInstance(), new GetGroupInfoCallback() {
                     //获取群组信息,并回调把群里面人数给回调接口
                     @Override
-                    public int getGroupPersonNumber(String groupID, final ToRedPacketActivity mCallback) {
-                        DemoContext.getInstance().getDemoApi().getGroupByGroupId(groupID, new ApiCallback<GroupInfo>() {
-                            @Override
-                            public void onComplete(AbstractHttpRequest<GroupInfo> abstractHttpRequest, GroupInfo groupInfo) {
-                                if (groupInfo.getCode() == 200 && groupInfo.getResult() != null) {
-                                    Log.e(TAG, groupInfo.getResult().getNumber());
-                                    int number = Integer.parseInt(groupInfo.getResult().getNumber());
-                                    mCallback.toRedPacketActivity(number);
-                                } else {
-                                    WinToast.toast(mContext, String.valueOf(groupInfo.getCode()));
+                    public void getGroupPersonNumber(final String groupID, final ToRedPacketActivity mCallback) {
+                        if (DemoContext.getInstance().getGroupNumberById(groupID)!= null){
+                           int number= Integer.parseInt(DemoContext.getInstance().getGroupNumberById(groupID));
+                            mCallback.toRedPacketActivity(number);
+                        }else{
+                            DemoContext.getInstance().getDemoApi().getGroupByGroupId(groupID, new ApiCallback<GroupInfo>() {
+                                @Override
+                                public void onComplete(AbstractHttpRequest<GroupInfo> abstractHttpRequest, GroupInfo groupInfo) {
+                                    if (groupInfo.getCode() == 200 && groupInfo.getResult() != null) {
+                                        Log.e(TAG, groupInfo.getResult().getNumber());
+                                        int number = Integer.parseInt(groupInfo.getResult().getNumber());
+                                        //缓存群人数
+                                        if (DemoContext.getInstance() != null)
+                                            DemoContext.getInstance().putGroupNmber(groupID,String.valueOf(number));
+                                        mCallback.toRedPacketActivity(number);
+                                    } else {
+                                        WinToast.toast(mContext, String.valueOf(groupInfo.getCode()));
+                                    }
                                 }
-                            }
 
-                            @Override
-                            public void onFailure(AbstractHttpRequest abstractHttpRequest, BaseException e) {
-                                Log.e(TAG, e.toString());
-                            }
-                        });
-                        return 0;
+                                @Override
+                                public void onFailure(AbstractHttpRequest abstractHttpRequest, BaseException e) {
+                                    Log.e(TAG, e.toString());
+                                }
+                            });
+                        }
                     }
 
                 })//群红包
@@ -232,7 +267,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
 
         RongIM.resetInputExtensionProvider(Conversation.ConversationType.PRIVATE, provider);
-        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.DISCUSSION, provider1);
+        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.DISCUSSION, provider3);
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.GROUP, provider2);
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.CUSTOMER_SERVICE, provider1);
         RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.CHATROOM, provider1);
@@ -349,7 +384,10 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             DiscussionNotificationMessage discussionNotificationMessage = (DiscussionNotificationMessage) messageContent;
             Log.d(TAG, "onReceived-discussionNotificationMessage:getExtra;" + discussionNotificationMessage.getOperator());
             setDiscussionName(message.getTargetId());
-        } else {
+        } else if(messageContent instanceof RongEmptyMessage){
+            Log.e(TAG, "--onReceived--空消息");
+            RPContext.getInstance().insertMessage(message);
+        }else {
             Log.d(TAG, "onReceived-其他消息，自己来判断处理");
         }
 

@@ -74,9 +74,6 @@ public class RongRedPacketProvider extends InputProvider.ExtendProvider {
         final RedPacketInfo redPacketInfo = new RedPacketInfo();
         redPacketInfo.fromAvatarUrl = RPContext.getInstance().getUserAvatar();//发送者头像
         redPacketInfo.fromNickName = RPContext.getInstance().getUserName();//发送者名字
-        Log.e("dxf","-fromAvatarUrl-"+redPacketInfo.fromAvatarUrl+"-fromNickName-"+redPacketInfo.fromNickName);
-        Log.e("dxf","-fromAvatarUrl-"+RPContext.getInstance().getUserAvatar());
-        Log.e("dxf","-fromAvatarUrl-"+RPContext.getInstance().getUserName());
         //接收者Id或者接收的群Id
         redPacketInfo.toUserId = getCurrentConversation().getTargetId(); //接受者id
         redPacketInfo.chatType = RPConstant.CHATTYPE_SINGLE;
@@ -93,7 +90,7 @@ public class RongRedPacketProvider extends InputProvider.ExtendProvider {
             String greeting = data.getStringExtra(RPConstant.EXTRA_MONEY_GREETING);
             String moneyID = data.getStringExtra(RPConstant.EXTRA_CHECK_MONEY_ID);
 
-            RongRedPacketMessage message = RongRedPacketMessage.obtain(RPContext.getInstance().getUserID(), RPContext.getInstance().getUserName(), greeting, moneyID);
+            RongRedPacketMessage message = RongRedPacketMessage.obtain(RPContext.getInstance().getUserID(), RPContext.getInstance().getUserName(), greeting,moneyID,"1","融云红包");
             Log.e(TAG, "--红包界面返回--" + "-moneyID-" + moneyID + "-greeting-" + greeting);
             mUploadHandler.post(new MyRunnable(message));
         }

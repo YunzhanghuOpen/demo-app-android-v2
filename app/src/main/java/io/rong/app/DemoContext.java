@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -318,7 +319,7 @@ public class DemoContext {
      * @param groupID
      * @return
      */
-    public String getGroupNmberById(String groupID) {
+    public String getGroupNumberById(String groupID) {
 
         if (groupID == null)
             return null;

@@ -21,11 +21,11 @@ import java.util.List;
 
 import io.rong.app.DemoContext;
 import io.rong.app.R;
-import io.rong.app.ui.activity.GroupDetailActivity;
-import io.rong.app.ui.adapter.GroupListAdapter;
 import io.rong.app.model.ApiResult;
 import io.rong.app.model.Groups;
 import io.rong.app.model.Status;
+import io.rong.app.ui.activity.GroupDetailActivity;
+import io.rong.app.ui.adapter.GroupListAdapter;
 import io.rong.app.ui.widget.LoadingDialog;
 import io.rong.app.ui.widget.WinToast;
 import io.rong.app.utils.Constants;
@@ -118,6 +118,11 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
                 if (groups.getCode() == 200) {
                     for (int i = 0; i < groups.getResult().size(); i++) {
                         mResultList.add(groups.getResult().get(i));
+                        //缓存群人数
+                        int number=Integer.parseInt(groups.getResult().get(i).getNumber());
+                        Log.e("dxf","");
+                        if (DemoContext.getInstance() != null)
+                            DemoContext.getInstance().putGroupNmber(groups.getResult().get(i).getId(),String.valueOf(number));
 
                     }
 
@@ -135,6 +140,7 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
 
                 setGroupMap(result, 1);
                 int number=Integer.parseInt(result.getNumber())+1;
+                //缓存群人数
                 if (DemoContext.getInstance() != null)
                     DemoContext.getInstance().putGroupNmber(result.getId(),String.valueOf(number));
                 refreshAdapter();

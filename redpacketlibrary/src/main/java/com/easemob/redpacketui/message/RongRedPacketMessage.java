@@ -3,6 +3,8 @@ package com.easemob.redpacketui.message;
 import android.os.Parcel;
 import android.util.Log;
 
+import com.easemob.redpacketsdk.constant.RPConstant;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,16 +36,20 @@ public class RongRedPacketMessage extends MessageContent {
     private String sendUserName;//红包发送者名字
     private String message;//红包祝福语
     private String moneyID;//红包ID
+    private String isMoneyMsg;//是否属红包消息
+    private String sponsorName;//是否属红包消息
     public RongRedPacketMessage() {
 
     }
 
-    public static RongRedPacketMessage obtain(String sendUserId, String sendUserName,String message,String moneyID) {
+    public static RongRedPacketMessage obtain(String sendUserId, String sendUserName,String message,String moneyID,String isMoneyMsg,String sponsorName) {
         RongRedPacketMessage rongRedPacketMessage = new RongRedPacketMessage();
         rongRedPacketMessage.sendUserID = sendUserId;
         rongRedPacketMessage.sendUserName = sendUserName;
         rongRedPacketMessage.message = message;
         rongRedPacketMessage.moneyID = moneyID;
+        rongRedPacketMessage.isMoneyMsg=isMoneyMsg;
+        rongRedPacketMessage.sponsorName=sponsorName;
         return rongRedPacketMessage;
     }
 
@@ -53,10 +59,12 @@ public class RongRedPacketMessage extends MessageContent {
         try {
             String jsonStr = new String(data, "UTF-8");
             JSONObject jsonObj = new JSONObject(jsonStr);
-            setSendUserID(jsonObj.getString("sendUserID"));
-            setSendUserName(jsonObj.getString("sendUserName"));
-            setMessage(jsonObj.getString("message"));
-            setMoneyID(jsonObj.getString("moneyID"));
+            setSendUserID(jsonObj.getString(RPConstant.EXTRA_LUCKY_MONEY_SENDER_ID));
+            setSendUserName(jsonObj.getString(RPConstant.EXTRA_LUCKY_MONEY_SENDER));
+            setMessage(jsonObj.getString(RPConstant.EXTRA_MONEY_GREETING));
+            setMoneyID(jsonObj.getString(RPConstant.EXTRA_CHECK_MONEY_ID));
+            setIsMoneyMsg(jsonObj.getString(RPConstant.MESSAGE_ATTR_IS_MONEY_MESSAGE));
+            setSponsorName(jsonObj.getString(RPConstant.EXTRA_SPONSOR_NAME));
             if (jsonObj.has("user")) {
                 setUserInfo(parseJsonToUserInfo(jsonObj.getJSONObject("user")));
             }
@@ -77,6 +85,8 @@ public class RongRedPacketMessage extends MessageContent {
         setSendUserName(ParcelUtils.readFromParcel(in));
         setMessage(ParcelUtils.readFromParcel(in));
         setMoneyID(ParcelUtils.readFromParcel(in));
+        setIsMoneyMsg(ParcelUtils.readFromParcel(in));
+        setSponsorName(ParcelUtils.readFromParcel(in));
         setUserInfo(ParcelUtils.readFromParcel(in, UserInfo.class));
     }
 
@@ -120,6 +130,8 @@ public class RongRedPacketMessage extends MessageContent {
         ParcelUtils.writeToParcel(dest, sendUserName);
         ParcelUtils.writeToParcel(dest, message);
         ParcelUtils.writeToParcel(dest, moneyID);
+        ParcelUtils.writeToParcel(dest, isMoneyMsg);
+        ParcelUtils.writeToParcel(dest, sponsorName);
         ParcelUtils.writeToParcel(dest, getUserInfo());
 
     }
@@ -132,10 +144,12 @@ public class RongRedPacketMessage extends MessageContent {
         JSONObject jsonObj = new JSONObject();
         try {
 
-            jsonObj.put("sendUserID", sendUserID);
-            jsonObj.put("sendUserName", sendUserName);
-            jsonObj.put("message", message);
-            jsonObj.put("moneyID", moneyID);
+            jsonObj.put(RPConstant.EXTRA_LUCKY_MONEY_SENDER_ID, sendUserID);
+            jsonObj.put(RPConstant.EXTRA_LUCKY_MONEY_SENDER, sendUserName);
+            jsonObj.put(RPConstant.EXTRA_MONEY_GREETING, message);
+            jsonObj.put(RPConstant.EXTRA_CHECK_MONEY_ID, moneyID);
+            jsonObj.put(RPConstant.MESSAGE_ATTR_IS_MONEY_MESSAGE, isMoneyMsg);
+            jsonObj.put(RPConstant.EXTRA_SPONSOR_NAME, sponsorName);
 
             if (getJSONUserInfo() != null)
                 jsonObj.putOpt("user", getJSONUserInfo());
@@ -183,5 +197,21 @@ public class RongRedPacketMessage extends MessageContent {
 
     public void setMoneyID(String moneyID) {
         this.moneyID = moneyID;
+    }
+
+    public String getIsMoneyMsg() {
+        return isMoneyMsg;
+    }
+
+    public void setIsMoneyMsg(String isMoneyMsg) {
+        this.isMoneyMsg = isMoneyMsg;
+    }
+
+    public String getSponsorName() {
+        return sponsorName;
+    }
+
+    public void setSponsorName(String sponsorName) {
+        this.sponsorName = sponsorName;
     }
 }

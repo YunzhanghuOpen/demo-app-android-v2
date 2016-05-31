@@ -30,6 +30,7 @@ import io.rong.imkit.widget.ArraysDialogFragment;
 import io.rong.imkit.widget.provider.IContainerItemProvider;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Message;
 
 
 /**
@@ -76,7 +77,7 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
             holder.view.setBackgroundResource(R.drawable.yzh_money_chatfrom_bg);
         }
         holder.greeting.setText(content.getMessage()); // 设置问候语
-        holder.sponsor.setText("融云红包"); // 设置赞助商
+        holder.sponsor.setText(content.getSponsorName()); // 设置赞助商
     }
 
     @Override
@@ -89,6 +90,7 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
     @Override
     public void onItemClick(View view, int position, final RongRedPacketMessage content, final UIMessage message) {
         final ProgressDialog progressDialog = new ProgressDialog(mContext);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCanceledOnTouchOutside(false);
         RedPacketInfo packetInfo = new RedPacketInfo();
         //获取红包id
@@ -119,7 +121,6 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
             @Override
             public void showLoading() {
                 progressDialog.show();
-                ;
 
             }
 
@@ -155,8 +156,8 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
 
     public void sendAckMsg(RongRedPacketMessage content, UIMessage message, String receiveName) {
         String receiveID = RPContext.getInstance().getUserID();
-        RongNotificationMessage rongNotificationMessage = RongNotificationMessage.obtain(content.getSendUserID(), content.getSendUserName(), receiveID, receiveName);
-        RongEmptyMessage rongEmptyMessage = RongEmptyMessage.obtain(content.getSendUserID(), content.getSendUserName(), receiveID, receiveName);
+        RongNotificationMessage rongNotificationMessage = RongNotificationMessage.obtain(content.getSendUserID(), content.getSendUserName(), receiveID, receiveName,"1");
+        final RongEmptyMessage rongEmptyMessage = RongEmptyMessage.obtain(content.getSendUserID(), content.getSendUserName(), receiveID, receiveName,"1");
         if (message.getConversationType() == Conversation.ConversationType.PRIVATE) {
             RongIM.getInstance().getRongIMClient().sendMessage(message.getConversationType(), content.getSendUserID(), rongNotificationMessage, null, null, new RongIMClient.SendMessageCallback() {
                 @Override
@@ -171,11 +172,10 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
                     Log.e("yzh", "-单聊发送回执消息成功-");
                 }
             }, null);
-        } else {//群聊
+        } else {//群聊讨论组
             if (content.getSendUserID().equals(receiveID)) {//自己领取了自己的红包
                 RongIM.getInstance().getRongIMClient().insertMessage(message.getConversationType(), message.getTargetId(), receiveID, rongNotificationMessage, null);
             } else {
-                String pushData = content.getSendUserID() + "," + content.getSendUserName() + "," + receiveID + "," + receiveName;
                 RongIM.getInstance().getRongIMClient().sendMessage(message.getConversationType(), message.getTargetId(), rongEmptyMessage, null, null, new RongIMClient.SendMessageCallback() {
                     @Override
                     public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
@@ -188,7 +188,20 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
 
                         Log.e("yzh", "-发送空消息通知类成功-");
                     }
-                }, null);
+                }, new RongIMClient.ResultCallback<Message>() {
+                    @Override
+                    public void onSuccess(Message message) {
+                        Log.e("dxf","--message--"+message.toString());
+                        RongEmptyMessage message1=(RongEmptyMessage)message.getContent();
+                        Log.e("dxf","--message--"+message1.toString());
+
+                    }
+
+                    @Override
+                    public void onError(RongIMClient.ErrorCode errorCode) {
+
+                    }
+                });
                 RongIM.getInstance().getRongIMClient().insertMessage(message.getConversationType(), message.getTargetId(), receiveID, rongNotificationMessage, null);
             }
         }

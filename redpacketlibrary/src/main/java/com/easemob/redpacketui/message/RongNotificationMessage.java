@@ -3,6 +3,8 @@ package com.easemob.redpacketui.message;
 import android.os.Parcel;
 import android.util.Log;
 
+import com.easemob.redpacketsdk.constant.RPConstant;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,17 +37,19 @@ public class RongNotificationMessage extends NotificationMessage {
     private String sendUserName;//发送红包这名字
     private String receiveUserID;//接受红包者Id
     private String receiveUserName;//接受红包者名字
+    private String isOpenMoney;//是否打开红包
+
 
     public RongNotificationMessage() {
-
     }
 
-    public static RongNotificationMessage obtain(String sendUserID, String sendUserName, String receiveUserID, String receiveUserName) {
+    public static RongNotificationMessage obtain(String sendUserID, String sendUserName, String receiveUserID, String receiveUserName,String isOpenMoney) {
         RongNotificationMessage rongNotificationMessage = new RongNotificationMessage();
         rongNotificationMessage.sendUserID = sendUserID;
         rongNotificationMessage.sendUserName = sendUserName;
         rongNotificationMessage.receiveUserID = receiveUserID;
         rongNotificationMessage.receiveUserName = receiveUserName;
+        rongNotificationMessage.isOpenMoney=isOpenMoney;
         return rongNotificationMessage;
     }
 
@@ -55,10 +59,11 @@ public class RongNotificationMessage extends NotificationMessage {
         try {
             String jsonStr = new String(data, "UTF-8");
             JSONObject jsonObj = new JSONObject(jsonStr);
-            setSendUserID(jsonObj.getString("sendUserID"));
-            setSendUserName(jsonObj.getString("sendUserName"));
-            setReceiveUserID(jsonObj.getString("receiveUserID"));
-            setReceiveUserName(jsonObj.getString("receiveUserName"));
+            setSendUserID(jsonObj.getString(RPConstant.EXTRA_LUCKY_MONEY_SENDER_ID));
+            setSendUserName(jsonObj.getString(RPConstant.EXTRA_LUCKY_MONEY_SENDER));
+            setReceiveUserID(jsonObj.getString(RPConstant.EXTRA_LUCKY_MONEY_RECEIVER_ID));
+            setReceiveUserName(jsonObj.getString(RPConstant.EXTRA_LUCKY_MONEY_RECEIVER));
+            setIsOpenMoney(jsonObj.getString(RPConstant.MESSAGE_ATTR_IS_OPEN_MONEY_MESSAGE));
             if (jsonObj.has("user")) {
                 setUserInfo(parseJsonToUserInfo(jsonObj.getJSONObject("user")));
             }
@@ -79,6 +84,7 @@ public class RongNotificationMessage extends NotificationMessage {
         setSendUserName(ParcelUtils.readFromParcel(in));
         setReceiveUserID(ParcelUtils.readFromParcel(in));
         setReceiveUserName(ParcelUtils.readFromParcel(in));
+        setIsOpenMoney(ParcelUtils.readFromParcel(in));
 
         setUserInfo(ParcelUtils.readFromParcel(in, UserInfo.class));
     }
@@ -123,7 +129,7 @@ public class RongNotificationMessage extends NotificationMessage {
         ParcelUtils.writeToParcel(dest, sendUserName);
         ParcelUtils.writeToParcel(dest, receiveUserID);
         ParcelUtils.writeToParcel(dest, receiveUserName);
-
+        ParcelUtils.writeToParcel(dest, isOpenMoney);
         ParcelUtils.writeToParcel(dest, getUserInfo());
 
     }
@@ -136,10 +142,11 @@ public class RongNotificationMessage extends NotificationMessage {
         JSONObject jsonObj = new JSONObject();
         try {
 
-            jsonObj.put("sendUserID", sendUserID);
-            jsonObj.put("sendUserName", sendUserName);
-            jsonObj.put("receiveUserID", receiveUserID);
-            jsonObj.put("receiveUserName", receiveUserName);
+            jsonObj.put(RPConstant.EXTRA_LUCKY_MONEY_SENDER_ID, sendUserID);
+            jsonObj.put(RPConstant.EXTRA_LUCKY_MONEY_SENDER, sendUserName);
+            jsonObj.put(RPConstant.EXTRA_LUCKY_MONEY_RECEIVER_ID, receiveUserID);
+            jsonObj.put(RPConstant.EXTRA_LUCKY_MONEY_RECEIVER, receiveUserName);
+            jsonObj.put(RPConstant.MESSAGE_ATTR_IS_OPEN_MONEY_MESSAGE, isOpenMoney);
 
             if (getJSONUserInfo() != null)
                 jsonObj.putOpt("user", getJSONUserInfo());
@@ -188,5 +195,13 @@ public class RongNotificationMessage extends NotificationMessage {
 
     public void setReceiveUserName(String receiveUserName) {
         this.receiveUserName = receiveUserName;
+    }
+
+    public String getIsOpenMoney() {
+        return isOpenMoney;
+    }
+
+    public void setIsOpenMoney(String isOpenMoney) {
+        this.isOpenMoney = isOpenMoney;
     }
 }

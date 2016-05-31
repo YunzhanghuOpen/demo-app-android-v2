@@ -3,6 +3,8 @@ package com.easemob.redpacketui.message;
 import android.os.Parcel;
 import android.util.Log;
 
+import com.easemob.redpacketsdk.constant.RPConstant;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,16 +37,29 @@ public class RongEmptyMessage extends NotificationMessage {
     private String sendUserName;
     private String receiveUserID;
     private String receiveUserName;
+    private String isOpenMoney;//是否打开红包
+
+    @Override
+    public String toString() {
+        return "RongEmptyMessage{" +
+                "sendUserID='" + sendUserID + '\'' +
+                ", sendUserName='" + sendUserName + '\'' +
+                ", receiveUserID='" + receiveUserID + '\'' +
+                ", receiveUserName='" + receiveUserName + '\'' +
+                ", isOpenMoney='" + isOpenMoney + '\'' +
+                '}';
+    }
 
     public RongEmptyMessage() {
     }
 
-    public static RongEmptyMessage obtain(String sendUserID, String sendUserName, String receiveUserID,String receiveUserName) {
+    public static RongEmptyMessage obtain(String sendUserID, String sendUserName, String receiveUserID,String receiveUserName,String isOpenMoney) {
         RongEmptyMessage rongEmptyMessage = new RongEmptyMessage();
         rongEmptyMessage.sendUserID = sendUserID;
         rongEmptyMessage.sendUserName = sendUserName;
         rongEmptyMessage.receiveUserID = receiveUserID;
         rongEmptyMessage.receiveUserName=receiveUserName;
+        rongEmptyMessage.isOpenMoney=isOpenMoney;
         return rongEmptyMessage;
     }
 
@@ -54,10 +69,11 @@ public class RongEmptyMessage extends NotificationMessage {
         try {
             String jsonStr = new String(data, "UTF-8");
             JSONObject jsonObj = new JSONObject(jsonStr);
-            setSendUserID(jsonObj.getString("sendUserID"));
-            setSendUserName(jsonObj.getString("sendUserName"));
-            setReceiveUserID(jsonObj.getString("receiveUserID"));
-            setReceiveUserName(jsonObj.getString("receiveUserName"));
+            setSendUserID(jsonObj.getString(RPConstant.EXTRA_LUCKY_MONEY_SENDER_ID));
+            setSendUserName(jsonObj.getString(RPConstant.EXTRA_LUCKY_MONEY_SENDER));
+            setReceiveUserID(jsonObj.getString(RPConstant.EXTRA_LUCKY_MONEY_RECEIVER_ID));
+            setReceiveUserName(jsonObj.getString(RPConstant.EXTRA_LUCKY_MONEY_RECEIVER));
+            setIsOpenMoney(jsonObj.getString(RPConstant.MESSAGE_ATTR_IS_OPEN_MONEY_MESSAGE));
             if (jsonObj.has("user")) {
                 setUserInfo(parseJsonToUserInfo(jsonObj.getJSONObject("user")));
             }
@@ -78,6 +94,7 @@ public class RongEmptyMessage extends NotificationMessage {
         setSendUserName(ParcelUtils.readFromParcel(in));
         setReceiveUserID(ParcelUtils.readFromParcel(in));
         setReceiveUserName(ParcelUtils.readFromParcel(in));
+        setIsOpenMoney(ParcelUtils.readFromParcel(in));
         setUserInfo(ParcelUtils.readFromParcel(in, UserInfo.class));
     }
 
@@ -121,6 +138,7 @@ public class RongEmptyMessage extends NotificationMessage {
         ParcelUtils.writeToParcel(dest, sendUserName);
         ParcelUtils.writeToParcel(dest, receiveUserID);
         ParcelUtils.writeToParcel(dest, receiveUserName);
+        ParcelUtils.writeToParcel(dest, isOpenMoney);
         ParcelUtils.writeToParcel(dest, getUserInfo());
 
     }
@@ -133,10 +151,11 @@ public class RongEmptyMessage extends NotificationMessage {
         JSONObject jsonObj = new JSONObject();
         try {
 
-            jsonObj.put("sendUserID", sendUserID);
-            jsonObj.put("sendUserName", sendUserName);
-            jsonObj.put("receiveUserID", receiveUserID);
-            jsonObj.put("receiveUserName", receiveUserName);
+            jsonObj.put(RPConstant.EXTRA_LUCKY_MONEY_SENDER_ID, sendUserID);
+            jsonObj.put(RPConstant.EXTRA_LUCKY_MONEY_SENDER, sendUserName);
+            jsonObj.put(RPConstant.EXTRA_LUCKY_MONEY_RECEIVER_ID, receiveUserID);
+            jsonObj.put(RPConstant.EXTRA_LUCKY_MONEY_RECEIVER, receiveUserName);
+            jsonObj.put(RPConstant.MESSAGE_ATTR_IS_OPEN_MONEY_MESSAGE, isOpenMoney);
 
             if (getJSONUserInfo() != null)
                 jsonObj.putOpt("user", getJSONUserInfo());
@@ -185,5 +204,13 @@ public class RongEmptyMessage extends NotificationMessage {
 
     public void setReceiveUserName(String receiveUserName) {
         this.receiveUserName = receiveUserName;
+    }
+
+    public String getIsOpenMoney() {
+        return isOpenMoney;
+    }
+
+    public void setIsOpenMoney(String isOpenMoney) {
+        this.isOpenMoney = isOpenMoney;
     }
 }
