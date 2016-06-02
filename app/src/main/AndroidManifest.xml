@@ -77,39 +77,33 @@
         <activity
             android:name="com.easemob.redpacketui.ui.activity.RPRedPacketActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:windowSoftInputMode="adjustPan|stateVisible"
             />
         <activity
             android:name="com.easemob.redpacketui.ui.activity.RPDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:windowSoftInputMode="adjustPan"
             />
 
         <activity
             android:name="com.easemob.redpacketui.ui.activity.RPRecordActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:windowSoftInputMode="adjustPan"
             />
 
         <activity
             android:name="com.easemob.redpacketui.ui.activity.RPWebViewActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:windowSoftInputMode="adjustResize|stateHidden"
             />
         <activity
             android:name="com.easemob.redpacketui.ui.activity.RPChangeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:windowSoftInputMode="adjustResize|stateHidden"
             />
         <activity
             android:name="com.easemob.redpacketui.ui.activity.RPBankCardActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden"
             >
         </activity>
