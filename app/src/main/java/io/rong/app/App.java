@@ -51,7 +51,7 @@ public class App extends Application {
                 Thread.setDefaultUncaughtExceptionHandler(new RongExceptionHandler(this));
 
                 try {
-                    //注册红包消息类以及消息展示模板
+                    //注册红包消息、回执消息类以及消息展示模板
                     RPContext.getInstance().registerMsgTypeAndTemplate(this);
 
                     RongIM.registerMessageType(AgreedFriendRequestMessage.class);

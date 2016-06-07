@@ -156,7 +156,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                     mDialog.show();
                 }
 
-                //初始化用户信息
+                //初始化红包用户信息
                 String userID= PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.APP_USER_ID,"default");
                 String userName= PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.APP_USER_NAME,"default");
                 String userAvatar= PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.APP_USER_PORTRAIT,"default");
@@ -531,8 +531,6 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
         @Override
         protected String doInBackground(String... uri) {
             String userID = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_ID, Constants.DEFAULT);
-            Log.e(TAG, "--UserId--" + userID);
-            //String mockUrl = "http://121.42.52.69:3001/api/sign?duid=" + userID;
             String mockUrl = "http://rpv2.easemob.com/api/sign?duid=" + userID;
             HttpClient client = new DefaultHttpClient();
             HttpGet request = new HttpGet(mockUrl);
@@ -562,14 +560,12 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
         protected void onPostExecute(String result) {
             try {
                 if (result != null) {
-                    Log.e("zyh", "-res-" + result);
                     JSONObject jsonObj = new JSONObject(result);
                     String partner = jsonObj.getString("partner");
                     String userId = jsonObj.getString("user_id");
                     String timestamp = jsonObj.getString("timestamp");
                     String sign = jsonObj.getString("sign");
-                    //  String regHongbaoUser = jsonObj.getString("reg_hongbao_user");
-                    // {"partner":"246606","user_id":"130374","timestamp":1464087428,"reg_hongbao_user":1,"sign":"3ba823465be1552ff7c4723a6d88fe26cfe3ed87a6949076e34f7ddb3dd9d5a3"}
+                    //初始化红包Token
                     RedPacket.getInstance().initRPAuthToken(partner, userId, timestamp, sign,
                             new RPCallback() {
                                 @Override

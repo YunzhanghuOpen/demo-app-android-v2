@@ -165,11 +165,11 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         RongIM.setLocationProvider(this);//设置地理位置提供者,不用位置的同学可以注掉此行代码
         RongIM.setConversationListBehaviorListener(this);//会话列表界面操作的监听器
         RongIM.getInstance().setSendMessageListener(this);//设置发出消息接收监听器.
-        RongIM.getInstance().getRongIMClient().setOnReceiveMessageListener(this);//设置消息接收监听器。
+        RongIM.getInstance().setOnReceiveMessageListener(this);//设置消息接收监听器。
         RongIM.setGroupUserInfoProvider(this, true);
-//        RongIM.setOnReceivePushMessageListener(this);//自定义 push 通知。
+        //RongIM.setOnReceivePushMessageListener(this);//自定义 push 通知。
         //消息体内是否有 userinfo 这个属性
-//        RongIM.getInstance().setMessageAttachedUserInfo(true);
+        //RongIM.getInstance().setMessageAttachedUserInfo(true);
     }
 
     /**
@@ -179,7 +179,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
      */
     public void setOtherListener() {
 
-       // RongIM.getInstance().getRongIMClient().setOnReceiveMessageListener(this);//设置消息接收监听器。
+        // RongIM.getInstance().getRongIMClient().setOnReceiveMessageListener(this);//设置消息接收监听器。
         RongIM.getInstance().getRongIMClient().setConnectionStatusListener(this);//设置连接状态监听器。
 
         TextInputProvider textInputProvider = new TextInputProvider(RongContext.getInstance());
@@ -209,18 +209,18 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                     //获取群组信息,并回调把群里面人数给回调接口
                     @Override
                     public void getGroupPersonNumber(final String groupID, final ToRedPacketActivity mCallback) {
-                       RongIM.getInstance().getRongIMClient().getDiscussion(groupID, new RongIMClient.ResultCallback<Discussion>() {
-                           @Override
-                           public void onSuccess(Discussion discussion) {
-                               Log.e("dxf","-number-"+discussion.getMemberIdList().size());
-                               mCallback.toRedPacketActivity(discussion.getMemberIdList().size());
-                           }
+                        RongIM.getInstance().getRongIMClient().getDiscussion(groupID, new RongIMClient.ResultCallback<Discussion>() {
+                            @Override
+                            public void onSuccess(Discussion discussion) {
+                                //打开发红包界面
+                                mCallback.toRedPacketActivity(discussion.getMemberIdList().size());
+                            }
 
-                           @Override
-                           public void onError(RongIMClient.ErrorCode errorCode) {
+                            @Override
+                            public void onError(RongIMClient.ErrorCode errorCode) {
 
-                           }
-                       });
+                            }
+                        });
 
                     }
 
@@ -235,10 +235,11 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                     //获取群组信息,并回调把群里面人数给回调接口
                     @Override
                     public void getGroupPersonNumber(final String groupID, final ToRedPacketActivity mCallback) {
-                        if (DemoContext.getInstance().getGroupNumberById(groupID)!= null){
-                           int number= Integer.parseInt(DemoContext.getInstance().getGroupNumberById(groupID));
+                        if (DemoContext.getInstance().getGroupNumberById(groupID) != null) {
+                            //这里的缓存群组信息的逻辑仅供参考
+                            int number = Integer.parseInt(DemoContext.getInstance().getGroupNumberById(groupID));
                             mCallback.toRedPacketActivity(number);
-                        }else{
+                        } else {
                             DemoContext.getInstance().getDemoApi().getGroupByGroupId(groupID, new ApiCallback<GroupInfo>() {
                                 @Override
                                 public void onComplete(AbstractHttpRequest<GroupInfo> abstractHttpRequest, GroupInfo groupInfo) {
@@ -247,7 +248,8 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                                         int number = Integer.parseInt(groupInfo.getResult().getNumber());
                                         //缓存群人数
                                         if (DemoContext.getInstance() != null)
-                                            DemoContext.getInstance().putGroupNmber(groupID,String.valueOf(number));
+                                            DemoContext.getInstance().putGroupNmber(groupID, String.valueOf(number));
+                                        //打开发红包界面
                                         mCallback.toRedPacketActivity(number);
                                     } else {
                                         WinToast.toast(mContext, String.valueOf(groupInfo.getCode()));
@@ -384,10 +386,11 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             DiscussionNotificationMessage discussionNotificationMessage = (DiscussionNotificationMessage) messageContent;
             Log.d(TAG, "onReceived-discussionNotificationMessage:getExtra;" + discussionNotificationMessage.getOperator());
             setDiscussionName(message.getTargetId());
-        } else if(messageContent instanceof RongEmptyMessage){
+        } else if (messageContent instanceof RongEmptyMessage) {
             Log.e(TAG, "--onReceived--空消息");
+            //接收到空消息（不展示UI的消息）向本地插入一条“XX领取了你的红包”
             RPContext.getInstance().insertMessage(message);
-        }else {
+        } else {
             Log.d(TAG, "onReceived-其他消息，自己来判断处理");
         }
 

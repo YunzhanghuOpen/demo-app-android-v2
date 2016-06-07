@@ -82,8 +82,8 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
 
     @Override
     public Spannable getContentSummary(RongRedPacketMessage data) {
-        if (data != null && !TextUtils.isEmpty(data.getMessage()))
-            return new SpannableString(data.getMessage());
+        if (data != null && !TextUtils.isEmpty(data.getMessage())&& !TextUtils.isEmpty(data.getSponsorName()))
+            return new SpannableString("["+data.getSponsorName()+"]"+data.getMessage());
         return null;
     }
 
@@ -191,9 +191,9 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
                 }, new RongIMClient.ResultCallback<Message>() {
                     @Override
                     public void onSuccess(Message message) {
-                        Log.e("dxf","--message--"+message.toString());
+                        Log.e("yzh","--message--"+message.toString());
                         RongEmptyMessage message1=(RongEmptyMessage)message.getContent();
-                        Log.e("dxf","--message--"+message1.toString());
+                        Log.e("yzh","--message--"+message1.toString());
 
                     }
 
