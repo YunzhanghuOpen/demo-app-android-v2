@@ -26,6 +26,7 @@ import io.rong.imlib.RongIMClient;
 
 /**
  * 自定义群红包提供者
+ *
  * @author desert
  * @date 2016-05-23
  */
@@ -101,8 +102,7 @@ public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider imp
             String moneyID = data.getStringExtra(RPConstant.EXTRA_CHECK_MONEY_ID);
             String userId = RPContext.getInstance().getUserID();
             String userName = RPContext.getInstance().getUserName();
-            RongRedPacketMessage message = RongRedPacketMessage.obtain(userId, userName, greeting, moneyID,"1","融云红包");
-            Log.e("yzh", "--红包界面返回--" + "-moneyID-" + moneyID + "-greeting-" + greeting);
+            RongRedPacketMessage message = RongRedPacketMessage.obtain(userId, userName, greeting, moneyID, "1", "融云红包");
             mUploadHandler.post(new MyRunnable(message));
         }
 

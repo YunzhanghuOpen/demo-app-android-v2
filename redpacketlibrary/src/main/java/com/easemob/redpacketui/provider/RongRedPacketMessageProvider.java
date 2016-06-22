@@ -82,8 +82,8 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
 
     @Override
     public Spannable getContentSummary(RongRedPacketMessage data) {
-        if (data != null && !TextUtils.isEmpty(data.getMessage())&& !TextUtils.isEmpty(data.getSponsorName()))
-            return new SpannableString("["+data.getSponsorName()+"]"+data.getMessage());
+        if (data != null && !TextUtils.isEmpty(data.getMessage()) && !TextUtils.isEmpty(data.getSponsorName()))
+            return new SpannableString("[" + data.getSponsorName() + "]" + data.getMessage());
         return null;
     }
 
@@ -95,7 +95,6 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
         RedPacketInfo packetInfo = new RedPacketInfo();
         //获取红包id
         packetInfo.moneyID = content.getMoneyID();
-        Log.e("yzh", "-打开红包成功-getMoneyID-" + content.getMoneyID());
         //获取名字和头像url
         packetInfo.toAvatarUrl = RPContext.getInstance().getUserAvatar();
         packetInfo.toNickName = RPContext.getInstance().getUserName();
@@ -156,8 +155,8 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
 
     public void sendAckMsg(RongRedPacketMessage content, UIMessage message, String receiveName) {
         String receiveID = RPContext.getInstance().getUserID();
-        RongNotificationMessage rongNotificationMessage = RongNotificationMessage.obtain(content.getSendUserID(), content.getSendUserName(), receiveID, receiveName,"1");
-        final RongEmptyMessage rongEmptyMessage = RongEmptyMessage.obtain(content.getSendUserID(), content.getSendUserName(), receiveID, receiveName,"1");
+        RongNotificationMessage rongNotificationMessage = RongNotificationMessage.obtain(content.getSendUserID(), content.getSendUserName(), receiveID, receiveName, "1");
+        final RongEmptyMessage rongEmptyMessage = RongEmptyMessage.obtain(content.getSendUserID(), content.getSendUserName(), receiveID, receiveName, "1");
         if (message.getConversationType() == Conversation.ConversationType.PRIVATE) {
             RongIM.getInstance().getRongIMClient().sendMessage(message.getConversationType(), content.getSendUserID(), rongNotificationMessage, null, null, new RongIMClient.SendMessageCallback() {
                 @Override
@@ -191,9 +190,9 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
                 }, new RongIMClient.ResultCallback<Message>() {
                     @Override
                     public void onSuccess(Message message) {
-                        Log.e("yzh","--message--"+message.toString());
-                        RongEmptyMessage message1=(RongEmptyMessage)message.getContent();
-                        Log.e("yzh","--message--"+message1.toString());
+                        Log.e("yzh", "--message--" + message.toString());
+                        RongEmptyMessage message1 = (RongEmptyMessage) message.getContent();
+                        Log.e("yzh", "--message--" + message1.toString());
 
                     }
 

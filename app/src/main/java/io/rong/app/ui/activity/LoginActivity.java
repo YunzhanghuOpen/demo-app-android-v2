@@ -560,6 +560,11 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
         protected void onPostExecute(String result) {
             try {
                 if (result != null) {
+                  //  {"partner": "860477", "reg_hongbao_user": 1, "sign": "ZDJkY2Y1NmQwNGQ4M2IyZTY0ZDJhNDAwNGRmZTRjODhhMGMzZDg5MTdiZDBkZDJkNmIxOGI1Y2E0MWQzMDg3Ng==", "timestamp": 1466069587198, "user_id": 2}
+//                    String partner = "860477";
+//                    String userId = "2";
+//                    String timestamp = "1466069587198";
+//                    String sign = "ZDJkY2Y1NmQwNGQ4M2IyZTY0ZDJhNDAwNGRmZTRjODhhMGMzZDg5MTdiZDBkZDJkNmIxOGI1Y2E0MWQzMDg3Ng==";
                     JSONObject jsonObj = new JSONObject(result);
                     String partner = jsonObj.getString("partner");
                     String userId = jsonObj.getString("user_id");

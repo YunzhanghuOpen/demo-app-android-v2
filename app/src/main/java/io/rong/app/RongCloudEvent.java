@@ -80,7 +80,7 @@ import io.rong.notification.PushNotificationMessage;
 /**
  * 融云SDK事件监听处理。
  * 把事件统一处理，开发者可直接复制到自己的项目中去使用。
- * <p/>
+ * <p>
  * 该类包含的监听事件有：
  * 1、消息接收器：OnReceiveMessageListener。
  * 2、发出消息接收器：OnSendMessageListener。
@@ -174,7 +174,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
     /**
      * 连接成功注册。
-     * <p/>
+     * <p>
      * 在RongIM-connect-onSuccess后调用。
      */
     public void setOtherListener() {

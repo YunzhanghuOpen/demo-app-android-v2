@@ -20,17 +20,17 @@ import io.rong.imlib.model.UserInfo;
  *
  * @author desert
  * @date 2016-05-19
- *
+ * <p>
  * MessageTag 中 flag 中参数的含义：
  * 1.NONE，空值，不表示任何意义.在会话列表不会显示出来。
  * 2.ISPERSISTED，消息需要被存储到消息历史记录。
  * 3.ISCOUNTED，消息需要被记入未读消息数。
- *
+ * <p>
  * value：消息对象名称。
  * 请不要以 "RC:" 开头， "RC:" 为官方保留前缀。
  */
 
-@MessageTag(value = "YZH:RedPacketMsg", flag = MessageTag.ISPERSISTED|MessageTag.ISCOUNTED)
+@MessageTag(value = "YZH:RedPacketMsg", flag = MessageTag.ISPERSISTED | MessageTag.ISCOUNTED)
 public class RongRedPacketMessage extends MessageContent {
     private String sendUserID;//红包发送者ID
     private String sendUserName;//红包发送者名字
@@ -38,18 +38,19 @@ public class RongRedPacketMessage extends MessageContent {
     private String moneyID;//红包ID
     private String isMoneyMsg;//是否属红包消息
     private String sponsorName;//是否属红包消息
+
     public RongRedPacketMessage() {
 
     }
 
-    public static RongRedPacketMessage obtain(String sendUserId, String sendUserName,String message,String moneyID,String isMoneyMsg,String sponsorName) {
+    public static RongRedPacketMessage obtain(String sendUserId, String sendUserName, String message, String moneyID, String isMoneyMsg, String sponsorName) {
         RongRedPacketMessage rongRedPacketMessage = new RongRedPacketMessage();
         rongRedPacketMessage.sendUserID = sendUserId;
         rongRedPacketMessage.sendUserName = sendUserName;
         rongRedPacketMessage.message = message;
         rongRedPacketMessage.moneyID = moneyID;
-        rongRedPacketMessage.isMoneyMsg=isMoneyMsg;
-        rongRedPacketMessage.sponsorName=sponsorName;
+        rongRedPacketMessage.isMoneyMsg = isMoneyMsg;
+        rongRedPacketMessage.sponsorName = sponsorName;
         return rongRedPacketMessage;
     }
 

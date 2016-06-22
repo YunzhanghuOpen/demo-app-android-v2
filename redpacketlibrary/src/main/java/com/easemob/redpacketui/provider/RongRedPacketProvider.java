@@ -86,11 +86,11 @@ public class RongRedPacketProvider extends InputProvider.ExtendProvider {
         Log.e(TAG, "--红包界面返回--" + "-requestCode-" + requestCode + "-resultCode-" + resultCode + "-data-" + data);
 
         //接受返回的红包信息,并发送红包消息
-        if (resultCode==Activity.RESULT_OK&&data != null && requestCode == RPContext.REQUEST_CODE_SEND_MONEY) {
+        if (resultCode == Activity.RESULT_OK && data != null && requestCode == RPContext.REQUEST_CODE_SEND_MONEY) {
             String greeting = data.getStringExtra(RPConstant.EXTRA_MONEY_GREETING);
             String moneyID = data.getStringExtra(RPConstant.EXTRA_CHECK_MONEY_ID);
 
-            RongRedPacketMessage message = RongRedPacketMessage.obtain(RPContext.getInstance().getUserID(), RPContext.getInstance().getUserName(), greeting,moneyID,"1","融云红包");
+            RongRedPacketMessage message = RongRedPacketMessage.obtain(RPContext.getInstance().getUserID(), RPContext.getInstance().getUserName(), greeting, moneyID, "1", "融云红包");
             Log.e(TAG, "--红包界面返回--" + "-moneyID-" + moneyID + "-greeting-" + greeting);
             mUploadHandler.post(new MyRunnable(message));
         }
