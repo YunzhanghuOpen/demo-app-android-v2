@@ -206,6 +206,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
                 new ContactsProvider(RongContext.getInstance()),//通讯录
                 new RongGroupRedPacketProvider(RongContext.getInstance(), new GetGroupInfoCallback() {
+
                     //获取群组信息,并回调把群里面人数给回调接口
                     @Override
                     public void getGroupPersonNumber(final String groupID, final ToRedPacketActivity mCallback) {

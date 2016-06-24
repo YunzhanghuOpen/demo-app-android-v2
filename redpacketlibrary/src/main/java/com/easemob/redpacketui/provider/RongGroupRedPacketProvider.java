@@ -15,7 +15,9 @@ import com.easemob.redpacketsdk.constant.RPConstant;
 import com.easemob.redpacketui.R;
 import com.easemob.redpacketui.RPContext;
 import com.easemob.redpacketui.callback.GetGroupInfoCallback;
+import com.easemob.redpacketui.callback.ToRedPacketActivity;
 import com.easemob.redpacketui.message.RongRedPacketMessage;
+import com.easemob.redpacketui.ui.activity.RPRedPacketActivity;
 
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
@@ -28,7 +30,7 @@ import io.rong.imlib.RongIMClient;
  * @author desert
  * @date 2016-05-23
  */
-public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider {
+public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider implements ToRedPacketActivity {
     private static final String TAG = RongGroupRedPacketProvider.class.getSimpleName();
     HandlerThread mWorkThread;
     Handler mUploadHandler;
@@ -81,10 +83,11 @@ public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider {
         redPacketInfo.toGroupId = getCurrentConversation().getTargetId();//群ID
         redPacketInfo.chatType = RPConstant.CHATTYPE_GROUP;//群聊、讨论组类型
         if (callback != null) {
-            callback.getGroupPersonNumber(redPacketInfo.toGroupId);
+            callback.getGroupPersonNumber(redPacketInfo.toGroupId, this);
         } else {
             Toast.makeText(mContext, "回调函数不能为空", Toast.LENGTH_SHORT).show();
         }
+
 
     }
 
@@ -107,6 +110,15 @@ public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public void toRedPacketActivity(int number) {
+        Intent intent = new Intent(mContext, RPRedPacketActivity.class);
+        redPacketInfo.groupMemberCount = number;
+        intent.putExtra(RPConstant.EXTRA_MONEY_INFO, redPacketInfo);
+        startActivityForResult(intent, RPContext.REQUEST_CODE_SEND_MONEY);
+    }
+
+
     class MyRunnable implements Runnable {
 
         RongRedPacketMessage mMessage;
@@ -119,8 +131,7 @@ public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider {
         public void run() {
             if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
 
-                RongIM.getInstance().getRongIMClient().sendMessage(getCurrentConversation().getConversationType(),
-                        getCurrentConversation().getTargetId(), mMessage, null, null, new RongIMClient.SendMessageCallback() {
+                RongIM.getInstance().getRongIMClient().sendMessage(getCurrentConversation().getConversationType(), getCurrentConversation().getTargetId(), mMessage, null, null, new RongIMClient.SendMessageCallback() {
                     @Override
                     public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
                         Log.e("PacketProvider", "-----onError--" + errorCode);
@@ -130,7 +141,7 @@ public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider {
                     public void onSuccess(Integer integer) {
                         Log.e("PacketProvider", "-----onSuccess--" + integer);
                     }
-                },null);
+                });
             }
 
         }
