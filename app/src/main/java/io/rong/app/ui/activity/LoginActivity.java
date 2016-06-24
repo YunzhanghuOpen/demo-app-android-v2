@@ -157,10 +157,10 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                 }
 
                 //初始化红包用户信息
-                String userID= PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.APP_USER_ID,"default");
-                String userName= PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.APP_USER_NAME,"default");
-                String userAvatar= PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.APP_USER_PORTRAIT,"default");
-                RPContext.getInstance().initUserInfo(userID,userName,userAvatar);
+                String userID = PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.APP_USER_ID, "default");
+                String userName = PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.APP_USER_NAME, "default");
+                String userAvatar = PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.APP_USER_PORTRAIT, "default");
+                RPContext.getInstance().initUserInfo(userID, userName, userAvatar);
 
                 httpGetTokenSuccess(token);
             }
@@ -318,7 +318,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                     edit.putBoolean("DEMO_ISFIRST", false);
                     edit.apply();
                     //初始化红包用户信息
-                    RPContext.getInstance().initUserInfo(user.getResult().getId(),user.getResult().getUsername(),user.getResult().getPortrait());
+                    RPContext.getInstance().initUserInfo(user.getResult().getId(), user.getResult().getUsername(), user.getResult().getPortrait());
                     Log.i(TAG, "----login success---");
                 }
             } else if (user.getCode() == 103) {
@@ -349,7 +349,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
     private void httpGetTokenSuccess(String token) {
 
         try {
-            Log.i(TAG, "----connect token--"+token);
+            Log.i(TAG, "----connect token--" + token);
             RongIM.connect(token, new RongIMClient.ConnectCallback() {
                         @Override
                         public void onTokenIncorrect() {
@@ -408,7 +408,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                     for (int i = 0; i < groups.getResult().size(); i++) {
                         String id = groups.getResult().get(i).getId();
                         String name = groups.getResult().get(i).getName();
-                        String number=groups.getResult().get(i).getNumber();
+                        String number = groups.getResult().get(i).getNumber();
                         if (groups.getResult().get(i).getPortrait() != null) {
                             Uri uri = Uri.parse(groups.getResult().get(i).getPortrait());
                             grouplist.add(new Group(id, name, uri));
@@ -416,7 +416,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                             grouplist.add(new Group(id, name, null));
                         }
                         if (DemoContext.getInstance() != null)
-                            DemoContext.getInstance().putGroupNmber(id,number);
+                            DemoContext.getInstance().putGroupNmber(id, number);
                     }
 
                     HashMap<String, Group> groupM = new HashMap<String, Group>();
@@ -429,14 +429,12 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                     if (DemoContext.getInstance() != null)
                         DemoContext.getInstance().setGroupMap(groupM);
                     //请求签名然后初始化红包Token
-                    RequestTask requestTask=new RequestTask();
+                    RequestTask requestTask = new RequestTask();
                     requestTask.execute();
 
-                   // mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
+                    // mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
 
-                    if ( RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
-//                    if (grouplist.size() > 0 && RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
-
+                    if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
                         final long time1 = System.currentTimeMillis();
                         RongIM.getInstance().getRongIMClient().syncGroup(grouplist, new RongIMClient.OperationCallback() {
 
@@ -496,10 +494,10 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                         friendsList.add(addFriend);
 
                         UserInfos addUserInfo = new UserInfos();
-                        if(DemoContext.getInstance()!=null){
-                            String id = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_ID,Constants.DEFAULT);
-                            String name = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_NAME,Constants.DEFAULT);
-                            String portrait = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_PORTRAIT,Constants.DEFAULT);
+                        if (DemoContext.getInstance() != null) {
+                            String id = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_ID, Constants.DEFAULT);
+                            String name = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_NAME, Constants.DEFAULT);
+                            String portrait = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_PORTRAIT, Constants.DEFAULT);
 
                             addUserInfo.setUsername(name);
                             addUserInfo.setUserid(id);
@@ -507,7 +505,6 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                             addUserInfo.setStatus("0");
                             friendsList.add(addUserInfo);
                         }
-
 
 
                         if (friendsList != null) {
@@ -560,7 +557,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
         protected void onPostExecute(String result) {
             try {
                 if (result != null) {
-                  //  {"partner": "860477", "reg_hongbao_user": 1, "sign": "ZDJkY2Y1NmQwNGQ4M2IyZTY0ZDJhNDAwNGRmZTRjODhhMGMzZDg5MTdiZDBkZDJkNmIxOGI1Y2E0MWQzMDg3Ng==", "timestamp": 1466069587198, "user_id": 2}
+                    //  {"partner": "860477", "reg_hongbao_user": 1, "sign": "ZDJkY2Y1NmQwNGQ4M2IyZTY0ZDJhNDAwNGRmZTRjODhhMGMzZDg5MTdiZDBkZDJkNmIxOGI1Y2E0MWQzMDg3Ng==", "timestamp": 1466069587198, "user_id": 2}
 //                    String partner = "860477";
 //                    String userId = "2";
 //                    String timestamp = "1466069587198";

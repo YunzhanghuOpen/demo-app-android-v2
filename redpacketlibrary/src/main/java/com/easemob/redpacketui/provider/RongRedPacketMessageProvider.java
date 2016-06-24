@@ -30,7 +30,6 @@ import io.rong.imkit.widget.ArraysDialogFragment;
 import io.rong.imkit.widget.provider.IContainerItemProvider;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
-import io.rong.imlib.model.Message;
 
 
 /**
@@ -90,11 +89,12 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
     @Override
     public void onItemClick(View view, int position, final RongRedPacketMessage content, final UIMessage message) {
         final ProgressDialog progressDialog = new ProgressDialog(mContext);
+        //进度条风格开发者可以根据需求改变
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCanceledOnTouchOutside(false);
+
         RedPacketInfo packetInfo = new RedPacketInfo();
-        //获取红包id
-        packetInfo.moneyID = content.getMoneyID();
+        packetInfo.moneyID = content.getMoneyID();//获取红包id
         //获取名字和头像url
         packetInfo.toAvatarUrl = RPContext.getInstance().getUserAvatar();
         packetInfo.toNickName = RPContext.getInstance().getUserName();
@@ -110,30 +110,31 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
         } else {//群聊
             packetInfo.chatType = RPConstant.CHATTYPE_GROUP;
         }
-        RPOpenPacketUtil.getInstance().openRedPacket(packetInfo, (FragmentActivity) mContext, new RPOpenPacketUtil.RPOpenPacketCallBack() {
-            @Override
-            public void onSuccess(String s, String s1) {
-                //打开红包消息成功,然后发送回执消息例如"你领取了XX的红包"
-                sendAckMsg(content, message, RPContext.getInstance().getUserName());
-            }
+        RPOpenPacketUtil.getInstance().openRedPacket(packetInfo, (FragmentActivity) mContext,
+                new RPOpenPacketUtil.RPOpenPacketCallBack() {
+                    @Override
+                    public void onSuccess(String s, String s1) {
+                        //打开红包消息成功,然后发送回执消息例如"你领取了XX的红包"
+                        sendAckMsg(content, message, RPContext.getInstance().getUserName());
+                    }
 
-            @Override
-            public void showLoading() {
-                progressDialog.show();
+                    @Override
+                    public void showLoading() {
+                        progressDialog.show();
 
-            }
+                    }
 
-            @Override
-            public void hideLoading() {
-                progressDialog.dismiss();
-            }
+                    @Override
+                    public void hideLoading() {
+                        progressDialog.dismiss();
+                    }
 
-            @Override
-            public void onError(String s, String s1) {
-                //错误处理
-                Toast.makeText(mContext, s, Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void onError(String s, String s1) {
+                        //错误处理
+                        Toast.makeText(mContext, s, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
 
     }
@@ -143,68 +144,61 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
 
         String[] items;
         items = new String[]{view.getContext().getResources().getString(R.string.yzh_dialog_item_delete)};
-        ArraysDialogFragment.newInstance("", items).setArraysDialogItemListener(new ArraysDialogFragment.OnArraysDialogItemListener() {
-            @Override
-            public void OnArraysDialogItemClick(DialogInterface dialog, int which) {
-                if (which == 0)
-                    RongIM.getInstance().getRongIMClient().deleteMessages(new int[]{message.getMessageId()}, null);
+        ArraysDialogFragment.newInstance("", items).setArraysDialogItemListener(
+                new ArraysDialogFragment.OnArraysDialogItemListener() {
+                    @Override
+                    public void OnArraysDialogItemClick(DialogInterface dialog, int which) {
+                        if (which == 0)
+                            RongIM.getInstance().getRongIMClient().deleteMessages(new int[]{message.getMessageId()}, null);
 
-            }
-        }).show(((FragmentActivity) view.getContext()).getSupportFragmentManager());
+                    }
+                }).show(((FragmentActivity) view.getContext()).getSupportFragmentManager());
     }
 
     public void sendAckMsg(RongRedPacketMessage content, UIMessage message, String receiveName) {
         String receiveID = RPContext.getInstance().getUserID();
-        RongNotificationMessage rongNotificationMessage = RongNotificationMessage.obtain(content.getSendUserID(), content.getSendUserName(), receiveID, receiveName, "1");
-        final RongEmptyMessage rongEmptyMessage = RongEmptyMessage.obtain(content.getSendUserID(), content.getSendUserName(), receiveID, receiveName, "1");
-        if (message.getConversationType() == Conversation.ConversationType.PRIVATE) {
-            RongIM.getInstance().getRongIMClient().sendMessage(message.getConversationType(), content.getSendUserID(), rongNotificationMessage, null, null, new RongIMClient.SendMessageCallback() {
-                @Override
-                public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
-                    Log.e("yzh", "-单聊发送回执消息失败-");
+        RongNotificationMessage rongNotificationMessage = RongNotificationMessage.obtain(content.getSendUserID(),
+                content.getSendUserName(), receiveID, receiveName, "1");//回执消息
+        final RongEmptyMessage rongEmptyMessage = RongEmptyMessage.obtain(content.getSendUserID(),
+                content.getSendUserName(), receiveID, receiveName, "1");//空消息
+        if (message.getConversationType() == Conversation.ConversationType.PRIVATE) {//单聊
+            RongIM.getInstance().getRongIMClient().sendMessage(message.getConversationType(),
+                    content.getSendUserID(), rongNotificationMessage, null, null, new RongIMClient.SendMessageCallback() {
+                        @Override
+                        public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+                            Log.e("yzh", "-单聊发送回执消息失败-");
 
-                }
+                        }
 
-                @Override
-                public void onSuccess(Integer integer) {
+                        @Override
+                        public void onSuccess(Integer integer) {
 
-                    Log.e("yzh", "-单聊发送回执消息成功-");
-                }
-            }, null);
+                            Log.e("yzh", "-单聊发送回执消息成功-");
+                        }
+                    }, null);
         } else {//群聊讨论组
             if (content.getSendUserID().equals(receiveID)) {//自己领取了自己的红包
-                RongIM.getInstance().getRongIMClient().insertMessage(message.getConversationType(), message.getTargetId(), receiveID, rongNotificationMessage, null);
+                RongIM.getInstance().getRongIMClient().insertMessage(message.getConversationType(),
+                        message.getTargetId(), receiveID, rongNotificationMessage, null);
             } else {
-                RongIM.getInstance().getRongIMClient().sendMessage(message.getConversationType(), message.getTargetId(), rongEmptyMessage, null, null, new RongIMClient.SendMessageCallback() {
-                    @Override
-                    public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
-                        Log.e("yzh", "-发送空消息通知类失败-");
+                RongIM.getInstance().getRongIMClient().sendMessage(message.getConversationType(),
+                        message.getTargetId(), rongEmptyMessage, null, null, new RongIMClient.SendMessageCallback() {
+                            @Override
+                            public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+                                Log.e("yzh", "-发送空消息通知类失败-");
 
-                    }
+                            }
 
-                    @Override
-                    public void onSuccess(Integer integer) {
+                            @Override
+                            public void onSuccess(Integer integer) {
 
-                        Log.e("yzh", "-发送空消息通知类成功-");
-                    }
-                }, new RongIMClient.ResultCallback<Message>() {
-                    @Override
-                    public void onSuccess(Message message) {
-                        Log.e("yzh", "--message--" + message.toString());
-                        RongEmptyMessage message1 = (RongEmptyMessage) message.getContent();
-                        Log.e("yzh", "--message--" + message1.toString());
-
-                    }
-
-                    @Override
-                    public void onError(RongIMClient.ErrorCode errorCode) {
-
-                    }
-                });
-                RongIM.getInstance().getRongIMClient().insertMessage(message.getConversationType(), message.getTargetId(), receiveID, rongNotificationMessage, null);
+                                Log.e("yzh", "-发送空消息通知类成功-");
+                            }
+                        }, null);
+                RongIM.getInstance().getRongIMClient().insertMessage(message.getConversationType(),
+                        message.getTargetId(), receiveID, rongNotificationMessage, null);
             }
         }
-
 
     }
 

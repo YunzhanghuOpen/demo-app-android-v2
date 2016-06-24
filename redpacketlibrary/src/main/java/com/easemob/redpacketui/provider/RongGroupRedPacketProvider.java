@@ -15,9 +15,7 @@ import com.easemob.redpacketsdk.constant.RPConstant;
 import com.easemob.redpacketui.R;
 import com.easemob.redpacketui.RPContext;
 import com.easemob.redpacketui.callback.GetGroupInfoCallback;
-import com.easemob.redpacketui.callback.ToRedPacketActivity;
 import com.easemob.redpacketui.message.RongRedPacketMessage;
-import com.easemob.redpacketui.ui.activity.RPRedPacketActivity;
 
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
@@ -30,7 +28,7 @@ import io.rong.imlib.RongIMClient;
  * @author desert
  * @date 2016-05-23
  */
-public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider implements ToRedPacketActivity {
+public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider {
     private static final String TAG = RongGroupRedPacketProvider.class.getSimpleName();
     HandlerThread mWorkThread;
     Handler mUploadHandler;
@@ -81,13 +79,12 @@ public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider imp
         redPacketInfo.fromAvatarUrl = RPContext.getInstance().getUserAvatar(); //发送者头像url
         redPacketInfo.fromNickName = RPContext.getInstance().getUserName();//发送者昵称 设置了昵称就传昵称 否则传id
         redPacketInfo.toGroupId = getCurrentConversation().getTargetId();//群ID
-        redPacketInfo.chatType = RPConstant.CHATTYPE_GROUP;
+        redPacketInfo.chatType = RPConstant.CHATTYPE_GROUP;//群聊、讨论组类型
         if (callback != null) {
-            callback.getGroupPersonNumber(redPacketInfo.toGroupId, this);
+            callback.getGroupPersonNumber(redPacketInfo.toGroupId);
         } else {
             Toast.makeText(mContext, "回调函数不能为空", Toast.LENGTH_SHORT).show();
         }
-
 
     }
 
@@ -98,25 +95,17 @@ public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider imp
             return;
         //接受返回的红包信息,并发送红包消息
         if (data != null && requestCode == RPContext.REQUEST_CODE_SEND_MONEY) {
-            String greeting = data.getStringExtra(RPConstant.EXTRA_MONEY_GREETING);
-            String moneyID = data.getStringExtra(RPConstant.EXTRA_CHECK_MONEY_ID);
-            String userId = RPContext.getInstance().getUserID();
-            String userName = RPContext.getInstance().getUserName();
+            String greeting = data.getStringExtra(RPConstant.EXTRA_MONEY_GREETING);//祝福语
+            String moneyID = data.getStringExtra(RPConstant.EXTRA_CHECK_MONEY_ID);//红包ID
+            String userId = RPContext.getInstance().getUserID();//发送者ID
+            String userName = RPContext.getInstance().getUserName();//发送者名字
             RongRedPacketMessage message = RongRedPacketMessage.obtain(userId, userName, greeting, moneyID, "1", "融云红包");
+            //发送红包消息到聊天界面
             mUploadHandler.post(new MyRunnable(message));
         }
 
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-    @Override
-    public void toRedPacketActivity(int number) {
-        Intent intent = new Intent(mContext, RPRedPacketActivity.class);
-        redPacketInfo.groupMemberCount = number;
-        intent.putExtra(RPConstant.EXTRA_MONEY_INFO, redPacketInfo);
-        startActivityForResult(intent, RPContext.REQUEST_CODE_SEND_MONEY);
-    }
-
 
     class MyRunnable implements Runnable {
 
@@ -130,7 +119,8 @@ public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider imp
         public void run() {
             if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
 
-                RongIM.getInstance().getRongIMClient().sendMessage(getCurrentConversation().getConversationType(), getCurrentConversation().getTargetId(), mMessage, null, null, new RongIMClient.SendMessageCallback() {
+                RongIM.getInstance().getRongIMClient().sendMessage(getCurrentConversation().getConversationType(),
+                        getCurrentConversation().getTargetId(), mMessage, null, null, new RongIMClient.SendMessageCallback() {
                     @Override
                     public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
                         Log.e("PacketProvider", "-----onError--" + errorCode);
@@ -140,7 +130,7 @@ public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider imp
                     public void onSuccess(Integer integer) {
                         Log.e("PacketProvider", "-----onSuccess--" + integer);
                     }
-                });
+                },null);
             }
 
         }

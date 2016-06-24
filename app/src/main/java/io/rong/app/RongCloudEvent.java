@@ -186,7 +186,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         RongIM.setPrimaryInputProvider(textInputProvider);
 
 //        扩展功能自定义
-        InputProvider.ExtendProvider[] provider = {
+        InputProvider.ExtendProvider[] privateProvider = {
                 new ImageInputProvider(RongContext.getInstance()),//图片
                 new CameraInputProvider(RongContext.getInstance()),//相机
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
@@ -194,13 +194,13 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 new RongRedPacketProvider(RongContext.getInstance())//单聊红包
         };
 
-        InputProvider.ExtendProvider[] provider1 = {
+        InputProvider.ExtendProvider[] provider = {
                 new ImageInputProvider(RongContext.getInstance()),//图片
                 new CameraInputProvider(RongContext.getInstance()),//相机
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
                 new ContactsProvider(RongContext.getInstance()),//通讯录
         };
-        InputProvider.ExtendProvider[] provider3 = {//讨论组
+        InputProvider.ExtendProvider[] discussionProvider = {//讨论组
                 new ImageInputProvider(RongContext.getInstance()),//图片
                 new CameraInputProvider(RongContext.getInstance()),//相机
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
@@ -226,7 +226,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
                 })//讨论组红包
         };
-        InputProvider.ExtendProvider[] provider2 = {
+        InputProvider.ExtendProvider[] groupProvider = {
                 new ImageInputProvider(RongContext.getInstance()),//图片
                 new CameraInputProvider(RongContext.getInstance()),//相机
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
@@ -268,11 +268,11 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         };
 
 
-        RongIM.resetInputExtensionProvider(Conversation.ConversationType.PRIVATE, provider);
-        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.DISCUSSION, provider3);
-        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.GROUP, provider2);
-        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.CUSTOMER_SERVICE, provider1);
-        RongIM.getInstance().resetInputExtensionProvider(Conversation.ConversationType.CHATROOM, provider1);
+        RongIM.resetInputExtensionProvider(Conversation.ConversationType.PRIVATE, privateProvider);
+        RongIM.resetInputExtensionProvider(Conversation.ConversationType.DISCUSSION, discussionProvider);
+        RongIM.resetInputExtensionProvider(Conversation.ConversationType.GROUP, groupProvider);
+        RongIM.resetInputExtensionProvider(Conversation.ConversationType.CUSTOMER_SERVICE, provider);
+        RongIM.resetInputExtensionProvider(Conversation.ConversationType.CHATROOM, provider);
     }
 
     /**
