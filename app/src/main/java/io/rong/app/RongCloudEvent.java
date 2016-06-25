@@ -232,10 +232,11 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 new CameraInputProvider(RongContext.getInstance()),//相机
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
                 new ContactsProvider(RongContext.getInstance()),//通讯录
+                //App开发者需要根据群ID获取群成员人数,然后mCallback.toRedPacketActivity(number),打开发送红包界面
                 new RongGroupRedPacketProvider(RongContext.getInstance(), new GetGroupInfoCallback() {
-                    //获取群组信息,并回调把群里面人数给回调接口
                     @Override
                     public void getGroupPersonNumber(final String groupID, final ToRedPacketActivity mCallback) {
+
                         if (DemoContext.getInstance().getGroupNumberById(groupID) != null) {
                             //这里的缓存群组信息的逻辑仅供参考
                             int number = Integer.parseInt(DemoContext.getInstance().getGroupNumberById(groupID));
@@ -267,7 +268,6 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
                 })//群红包
         };
-
 
         RongIM.resetInputExtensionProvider(Conversation.ConversationType.PRIVATE, privateProvider);
         RongIM.resetInputExtensionProvider(Conversation.ConversationType.DISCUSSION, discussionProvider);
