@@ -87,12 +87,16 @@ public class RPContext {
         if (TextUtils.isEmpty(userID)) {
             userID = "default";
         }
-        RongNotificationMessage rongNotificationMessage = RongNotificationMessage.obtain(content.getSendUserID(), content.getSendUserName(), content.getReceiveUserID(), content.getReceiveUserName(),content.getIsOpenMoney());
+        RongNotificationMessage rongNotificationMessage = RongNotificationMessage.obtain(content.getSendUserID(), content.getSendUserName(), content.getReceiveUserID(), content.getReceiveUserName(), content.getIsOpenMoney());
         if (content.getSendUserID().equals(userID)) {//如果当前用户是发送红包者,插入一条"XX领取了你的红包"
             RongIM.getInstance().getRongIMClient().insertMessage(message.getConversationType(), message.getTargetId(), content.getReceiveUserID(), rongNotificationMessage, null);
         }
     }
 
+    /**
+     * 跳转到零钱页
+     * @param mContext
+     */
     public void toChangeActivity(Context mContext) {
         Intent intent = new Intent(mContext, RPChangeActivity.class);
         intent.putExtra(RPConstant.EXTRA_USER_NAME, userName);

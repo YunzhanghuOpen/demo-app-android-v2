@@ -33,14 +33,15 @@ import io.rong.imlib.model.Conversation;
 
 
 /**
- * 自定义单聊红包提供者
+ * 自定义红包消息展示模板
  *
  * @author desert
  * @date 2016-05-23
  */
-@ProviderTag(messageContent = RongRedPacketMessage.class, showPortrait = true, showProgress = false, centerInHorizontal = false)
 // 会话界面自定义UI注解
+@ProviderTag(messageContent = RongRedPacketMessage.class, showPortrait = true, showProgress = false, centerInHorizontal = false)
 public class RongRedPacketMessageProvider extends IContainerItemProvider.MessageProvider<RongRedPacketMessage> {
+    private static final String TAG = "RedPacketLibrary";
     private Context mContext;
 
     public RongRedPacketMessageProvider(Context mContext) {
@@ -79,10 +80,17 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
         holder.sponsor.setText(content.getSponsorName()); // 设置赞助商
     }
 
+    /**
+     * 消息为该会话的最后一条消息时，会话列表要显示的内容
+     *
+     * @param data
+     * @return
+     */
     @Override
     public Spannable getContentSummary(RongRedPacketMessage data) {
-        if (data != null && !TextUtils.isEmpty(data.getMessage()) && !TextUtils.isEmpty(data.getSponsorName()))
+        if (data != null && !TextUtils.isEmpty(data.getMessage()) && !TextUtils.isEmpty(data.getSponsorName())) {
             return new SpannableString("[" + data.getSponsorName() + "]" + data.getMessage());
+        }
         return null;
     }
 
@@ -92,24 +100,24 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
         //进度条风格开发者可以根据需求改变
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCanceledOnTouchOutside(false);
-
+        //以下是打开红包所需要的参数
         RedPacketInfo packetInfo = new RedPacketInfo();
         packetInfo.moneyID = content.getMoneyID();//获取红包id
-        //获取名字和头像url
-        packetInfo.toAvatarUrl = RPContext.getInstance().getUserAvatar();
-        packetInfo.toNickName = RPContext.getInstance().getUserName();
+        packetInfo.toAvatarUrl = RPContext.getInstance().getUserAvatar();//获取打开红包者的名字
+        packetInfo.toNickName = RPContext.getInstance().getUserName();//获取打开红包者的头像
         //判断发送方还是接收方
         if (message.getMessageDirection() == UIMessage.MessageDirection.SEND) {
-            packetInfo.moneyMsgDirect = RPConstant.MESSAGE_DIRECT_SEND;
+            packetInfo.moneyMsgDirect = RPConstant.MESSAGE_DIRECT_SEND;//发送者
         } else {
-            packetInfo.moneyMsgDirect = RPConstant.MESSAGE_DIRECT_RECEIVE;
+            packetInfo.moneyMsgDirect = RPConstant.MESSAGE_DIRECT_RECEIVE;//接受方
         }
-        //获取聊天类型/单聊群聊
+        //获取聊天类型
         if (message.getConversationType() == Conversation.ConversationType.PRIVATE) {//单聊
             packetInfo.chatType = RPConstant.CHATTYPE_SINGLE;
         } else {//群聊
             packetInfo.chatType = RPConstant.CHATTYPE_GROUP;
         }
+        //打开红包
         RPOpenPacketUtil.getInstance().openRedPacket(packetInfo, (FragmentActivity) mContext,
                 new RPOpenPacketUtil.RPOpenPacketCallBack() {
                     @Override
@@ -161,38 +169,42 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
                 content.getSendUserName(), receiveID, receiveName, "1");//回执消息
         final RongEmptyMessage rongEmptyMessage = RongEmptyMessage.obtain(content.getSendUserID(),
                 content.getSendUserName(), receiveID, receiveName, "1");//空消息
+        //单聊回执消息,直接发送回执消息即可
         if (message.getConversationType() == Conversation.ConversationType.PRIVATE) {//单聊
             RongIM.getInstance().getRongIMClient().sendMessage(message.getConversationType(),
                     content.getSendUserID(), rongNotificationMessage, null, null, new RongIMClient.SendMessageCallback() {
                         @Override
                         public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
-                            Log.e("yzh", "-单聊发送回执消息失败-");
+                            Log.e(TAG, "-单聊发送回执消息失败-");
 
                         }
 
                         @Override
                         public void onSuccess(Integer integer) {
 
-                            Log.e("yzh", "-单聊发送回执消息成功-");
+                            Log.e(TAG, "-单聊发送回执消息成功-");
                         }
                     }, null);
-        } else {//群聊讨论组
+        } else {//群聊讨论组回执消息
             if (content.getSendUserID().equals(receiveID)) {//自己领取了自己的红包
                 RongIM.getInstance().getRongIMClient().insertMessage(message.getConversationType(),
                         message.getTargetId(), receiveID, rongNotificationMessage, null);
             } else {
+                //1、接受者先向本地插入一条“你领取了XX的红包”，然后发送一条空消息（不在聊天界面展示），
+                // 发送红包者收到消息之后，向本地插入一条“XX领取了你的红包”，
+                // 2、如果接受者和发送者是一个人就直接向本地插入一条“你领取了自己的红包”
                 RongIM.getInstance().getRongIMClient().sendMessage(message.getConversationType(),
                         message.getTargetId(), rongEmptyMessage, null, null, new RongIMClient.SendMessageCallback() {
                             @Override
                             public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
-                                Log.e("yzh", "-发送空消息通知类失败-");
+                                Log.e(TAG, "-发送空消息通知类失败-");
 
                             }
 
                             @Override
                             public void onSuccess(Integer integer) {
 
-                                Log.e("yzh", "-发送空消息通知类成功-");
+                                Log.e(TAG, "-发送空消息通知类成功-");
                             }
                         }, null);
                 RongIM.getInstance().getRongIMClient().insertMessage(message.getConversationType(),

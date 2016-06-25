@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -25,7 +26,7 @@ import io.rong.imkit.widget.provider.InputProvider;
 import io.rong.imlib.RongIMClient;
 
 /**
- * 自定义群红包提供者
+ * 自定义群/讨论组红包提供者
  *
  * @author desert
  * @date 2016-05-23
@@ -34,9 +35,9 @@ public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider imp
     private static final String TAG = RongGroupRedPacketProvider.class.getSimpleName();
     HandlerThread mWorkThread;
     Handler mUploadHandler;
-    private static Context mContext;
+    private Context mContext;
     private GetGroupInfoCallback callback;
-    private static RedPacketInfo redPacketInfo;
+    private RedPacketInfo redPacketInfo;
 
     public RongGroupRedPacketProvider(RongContext context, GetGroupInfoCallback callback) {
         super(context);
@@ -55,7 +56,7 @@ public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider imp
      */
     @Override
     public Drawable obtainPluginDrawable(Context context) {
-        return context.getResources().getDrawable(R.drawable.yzh_chat_money_provider);
+        return ContextCompat.getDrawable(mContext, R.drawable.yzh_chat_money_provider);
     }
 
     /**
@@ -110,6 +111,11 @@ public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider imp
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    /**
+     * 跳转到发送红包界面
+     *
+     * @param number
+     */
     @Override
     public void toRedPacketActivity(int number) {
         Intent intent = new Intent(mContext, RPRedPacketActivity.class);
@@ -134,14 +140,14 @@ public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider imp
                 RongIM.getInstance().getRongIMClient().sendMessage(getCurrentConversation().getConversationType(), getCurrentConversation().getTargetId(), mMessage, null, null, new RongIMClient.SendMessageCallback() {
                     @Override
                     public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
-                        Log.e("PacketProvider", "-----onError--" + errorCode);
+                        Log.e(TAG, "-----onError--" + errorCode);
                     }
 
                     @Override
                     public void onSuccess(Integer integer) {
-                        Log.e("PacketProvider", "-----onSuccess--" + integer);
+                        Log.e(TAG, "-----onSuccess--" + integer);
                     }
-                });
+                }, null);
             }
 
         }

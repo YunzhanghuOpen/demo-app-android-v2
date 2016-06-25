@@ -28,7 +28,7 @@ import io.rong.imlib.RongIMClient;
  * @date 2016-05-17
  */
 public class RongRedPacketProvider extends InputProvider.ExtendProvider {
-    private static final String TAG = RongRedPacketProvider.class.getSimpleName();
+    private static final String TAG = "RedPacketLibrary";
     HandlerThread mWorkThread;
     Handler mUploadHandler;
     private Context mContext;
@@ -76,15 +76,13 @@ public class RongRedPacketProvider extends InputProvider.ExtendProvider {
         redPacketInfo.fromNickName = RPContext.getInstance().getUserName();//发送者名字
         redPacketInfo.toUserId = getCurrentConversation().getTargetId(); //接受者id
         redPacketInfo.chatType = RPConstant.CHATTYPE_SINGLE;//单聊
-
+        //打开发红包
         intent.putExtra(RPConstant.EXTRA_MONEY_INFO, redPacketInfo);
         startActivityForResult(intent, RPContext.REQUEST_CODE_SEND_MONEY);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.e(TAG, "--红包界面返回--" + "-requestCode-" + requestCode + "-resultCode-" + resultCode + "-data-" + data);
-
         //接受返回的红包信息,并发送红包消息
         if (resultCode == Activity.RESULT_OK && data != null && requestCode == RPContext.REQUEST_CODE_SEND_MONEY) {
             String greeting = data.getStringExtra(RPConstant.EXTRA_MONEY_GREETING);//祝福语
@@ -92,7 +90,7 @@ public class RongRedPacketProvider extends InputProvider.ExtendProvider {
             String userId = RPContext.getInstance().getUserID();//发送者ID
             String userName = RPContext.getInstance().getUserName();//发送者名字
             RongRedPacketMessage message = RongRedPacketMessage.obtain(userId, userName, greeting, moneyID, "1", "融云红包");
-            Log.e(TAG, "--红包界面返回--" + "-moneyID-" + moneyID + "-greeting-" + greeting);
+            Log.e(TAG, "--发送红包返回参数--" + "-moneyID-" + moneyID + "-greeting-" + greeting);
             //发送红包消息到聊天界面
             mUploadHandler.post(new MyRunnable(message));
         }
@@ -112,16 +110,16 @@ public class RongRedPacketProvider extends InputProvider.ExtendProvider {
 
                 RongIM.getInstance().getRongIMClient().sendMessage(getCurrentConversation().getConversationType(),
                         getCurrentConversation().getTargetId(), mMessage, null, null, new RongIMClient.SendMessageCallback() {
-                    @Override
-                    public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
-                        Log.e("RedPacketProvider", "-----onError--" + errorCode);
-                    }
+                            @Override
+                            public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+                                Log.e(TAG, "--onError--" + errorCode);
+                            }
 
-                    @Override
-                    public void onSuccess(Integer integer) {
-                        Log.e("RedPacketProvider", "-----onSuccess--" + integer);
-                    }
-                },null);
+                            @Override
+                            public void onSuccess(Integer integer) {
+                                Log.e(TAG, "--onSuccess--" + integer);
+                            }
+                        }, null);
             }
 
         }
