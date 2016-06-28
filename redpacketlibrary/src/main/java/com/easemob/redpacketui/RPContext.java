@@ -3,8 +3,9 @@ package com.easemob.redpacketui;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 
+import com.easemob.redpacketsdk.bean.AuthData;
+import com.easemob.redpacketsdk.bean.RedPacketInfo;
 import com.easemob.redpacketsdk.constant.RPConstant;
 import com.easemob.redpacketui.message.RongEmptyMessage;
 import com.easemob.redpacketui.message.RongNotificationMessage;
@@ -24,6 +25,7 @@ public class RPContext {
     private String userName;
     private String userAvatar;
     private String userID;
+    private AuthData mAuthData;
     private static RPContext mRPContext;
 
     private RPContext() {
@@ -40,6 +42,29 @@ public class RPContext {
             }
         }
         return mRPContext;
+    }
+
+    /**
+     * 初始化Token
+     * @param authPartner
+     * @param authUserId
+     * @param authTimestamp
+     * @param authSign
+     */
+    public void initAuthData(String authPartner,String authUserId,String authTimestamp,String authSign) {
+        mAuthData=new AuthData();
+        mAuthData.authPartner=authPartner;
+        mAuthData.authUserId=authUserId;
+        mAuthData.authTimestamp=authTimestamp;
+        mAuthData.authSign=authSign;
+    }
+
+    public AuthData getmAuthData() {
+        return mAuthData;
+    }
+
+    public void setmAuthData(AuthData mAuthData) {
+        this.mAuthData = mAuthData;
     }
 
     /**
@@ -83,7 +108,6 @@ public class RPContext {
      */
     public void insertMessage(Message message) {
         RongEmptyMessage content = (RongEmptyMessage) message.getContent();
-        Log.e("yzh", "--onReceived--空消息");
         if (TextUtils.isEmpty(userID)) {
             userID = "default";
         }
@@ -99,8 +123,13 @@ public class RPContext {
      */
     public void toChangeActivity(Context mContext) {
         Intent intent = new Intent(mContext, RPChangeActivity.class);
-        intent.putExtra(RPConstant.EXTRA_USER_NAME, userName);
-        intent.putExtra(RPConstant.EXTRA_TO_USER_AVATAR, userAvatar);
+       // intent.putExtra(RPConstant.EXTRA_USER_NAME, userName);
+       // intent.putExtra(RPConstant.EXTRA_TO_USER_AVATAR, userAvatar);
+        RedPacketInfo redPacketInfo=new RedPacketInfo();
+        redPacketInfo.fromNickName=userName;
+        redPacketInfo.fromAvatarUrl=userAvatar;
+        intent.putExtra(RPConstant.EXTRA_MONEY_INFO, redPacketInfo);
+        intent.putExtra(RPConstant.EXTRA_AUTH_INFO, RPContext.getInstance().getmAuthData());
         mContext.startActivity(intent);
     }
 
@@ -127,4 +156,5 @@ public class RPContext {
     public void setUserID(String userID) {
         this.userID = userID;
     }
+
 }

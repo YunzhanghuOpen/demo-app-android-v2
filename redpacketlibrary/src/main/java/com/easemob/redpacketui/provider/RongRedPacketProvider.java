@@ -78,6 +78,7 @@ public class RongRedPacketProvider extends InputProvider.ExtendProvider {
         redPacketInfo.chatType = RPConstant.CHATTYPE_SINGLE;//单聊
         //打开发红包
         intent.putExtra(RPConstant.EXTRA_MONEY_INFO, redPacketInfo);
+        intent.putExtra(RPConstant.EXTRA_AUTH_INFO, RPContext.getInstance().getmAuthData());
         startActivityForResult(intent, RPContext.REQUEST_CODE_SEND_MONEY);
     }
 

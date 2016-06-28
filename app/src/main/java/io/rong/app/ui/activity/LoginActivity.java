@@ -27,8 +27,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.easemob.redpacketsdk.RPCallback;
-import com.easemob.redpacketsdk.RedPacket;
 import com.easemob.redpacketui.RPContext;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
@@ -568,23 +566,8 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                     String timestamp = jsonObj.getString("timestamp");
                     String sign = jsonObj.getString("sign");
                     //初始化红包Token
-                    RedPacket.getInstance().initRPAuthToken(partner, userId, timestamp, sign,
-                            new RPCallback() {
-                                @Override
-                                public void onSuccess() {
-                                    // 进入主页面
-                                    mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
-                                    Log.e(TAG, "init luck money success token: " + RedPacket.getInstance().sToken);
-                                }
-
-                                @Override
-                                public void onError(String code, String message) {
-                                    //错误处理
-                                    mHandler.obtainMessage(HANDLER_LOGIN_FAILURE).sendToTarget();
-                                    Log.e(TAG, "init luck money fail token:" + message);
-
-                                }
-                            });
+                    RPContext.getInstance().initAuthData(partner,userId,timestamp,sign);
+                    mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
                 } else {
                     mHandler.obtainMessage(HANDLER_LOGIN_FAILURE).sendToTarget();
                 }

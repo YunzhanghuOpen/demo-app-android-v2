@@ -118,31 +118,29 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
             packetInfo.chatType = RPConstant.CHATTYPE_GROUP;
         }
         //打开红包
-        RPOpenPacketUtil.getInstance().openRedPacket(packetInfo, (FragmentActivity) mContext,
-                new RPOpenPacketUtil.RPOpenPacketCallBack() {
-                    @Override
-                    public void onSuccess(String s, String s1) {
-                        //打开红包消息成功,然后发送回执消息例如"你领取了XX的红包"
-                        sendAckMsg(content, message, RPContext.getInstance().getUserName());
-                    }
+        RPOpenPacketUtil.getInstance().openRedPacket(packetInfo, RPContext.getInstance().getmAuthData(), (FragmentActivity) mContext, new RPOpenPacketUtil.RPOpenPacketCallBack() {
+            @Override
+            public void onSuccess(String s, String s1) {
+                //打开红包消息成功,然后发送回执消息例如"你领取了XX的红包"
+                sendAckMsg(content, message, RPContext.getInstance().getUserName());
+            }
 
-                    @Override
-                    public void showLoading() {
-                        progressDialog.show();
+            @Override
+            public void showLoading() {
+                progressDialog.show();
+            }
 
-                    }
+            @Override
+            public void hideLoading() {
+                progressDialog.dismiss();
+            }
 
-                    @Override
-                    public void hideLoading() {
-                        progressDialog.dismiss();
-                    }
-
-                    @Override
-                    public void onError(String s, String s1) {
-                        //错误处理
-                        Toast.makeText(mContext, s, Toast.LENGTH_SHORT).show();
-                    }
-                });
+            @Override
+            public void onError(String s, String s1) {
+                //错误处理
+                Toast.makeText(mContext, s, Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }
