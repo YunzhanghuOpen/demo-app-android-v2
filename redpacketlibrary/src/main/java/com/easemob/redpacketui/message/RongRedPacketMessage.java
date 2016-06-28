@@ -60,11 +60,11 @@ public class RongRedPacketMessage extends MessageContent {
         try {
             String jsonStr = new String(data, "UTF-8");
             JSONObject jsonObj = new JSONObject(jsonStr);
-            setSendUserID(jsonObj.getString(RPConstant.EXTRA_LUCKY_MONEY_SENDER_ID));
-            setSendUserName(jsonObj.getString(RPConstant.EXTRA_LUCKY_MONEY_SENDER));
-            setMessage(jsonObj.getString(RPConstant.EXTRA_MONEY_GREETING));
-            setMoneyID(jsonObj.getString(RPConstant.EXTRA_CHECK_MONEY_ID));
-            setIsMoneyMsg(jsonObj.getString(RPConstant.MESSAGE_ATTR_IS_MONEY_MESSAGE));
+            setSendUserID(jsonObj.getString(RPConstant.EXTRA_RED_PACKET_SENDER_ID));
+            setSendUserName(jsonObj.getString(RPConstant.EXTRA_RED_PACKET_SENDER_NAME));
+            setMessage(jsonObj.getString(RPConstant.EXTRA_RED_PACKET_GREETING));
+            setMoneyID(jsonObj.getString(RPConstant.EXTRA_RED_PACKET_ID));
+            setIsMoneyMsg(jsonObj.getString(RPConstant.MESSAGE_ATTR_IS_RED_PACKET_MESSAGE));
             setSponsorName(jsonObj.getString(RPConstant.EXTRA_SPONSOR_NAME));
             if (jsonObj.has("user")) {
                 setUserInfo(parseJsonToUserInfo(jsonObj.getJSONObject("user")));
@@ -145,11 +145,11 @@ public class RongRedPacketMessage extends MessageContent {
         JSONObject jsonObj = new JSONObject();
         try {
 
-            jsonObj.put(RPConstant.EXTRA_LUCKY_MONEY_SENDER_ID, sendUserID);
-            jsonObj.put(RPConstant.EXTRA_LUCKY_MONEY_SENDER, sendUserName);
-            jsonObj.put(RPConstant.EXTRA_MONEY_GREETING, message);
-            jsonObj.put(RPConstant.EXTRA_CHECK_MONEY_ID, moneyID);
-            jsonObj.put(RPConstant.MESSAGE_ATTR_IS_MONEY_MESSAGE, isMoneyMsg);
+            jsonObj.put(RPConstant.EXTRA_RED_PACKET_SENDER_ID, sendUserID);
+            jsonObj.put(RPConstant.EXTRA_RED_PACKET_SENDER_NAME, sendUserName);
+            jsonObj.put(RPConstant.EXTRA_RED_PACKET_GREETING, message);
+            jsonObj.put(RPConstant.EXTRA_RED_PACKET_ID, moneyID);
+            jsonObj.put(RPConstant.MESSAGE_ATTR_IS_RED_PACKET_MESSAGE, isMoneyMsg);
             jsonObj.put(RPConstant.EXTRA_SPONSOR_NAME, sponsorName);
 
             if (getJSONUserInfo() != null)

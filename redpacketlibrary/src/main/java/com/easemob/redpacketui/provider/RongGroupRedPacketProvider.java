@@ -99,8 +99,8 @@ public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider imp
             return;
         //接受返回的红包信息,并发送红包消息
         if (data != null && requestCode == RPContext.REQUEST_CODE_SEND_MONEY) {
-            String greeting = data.getStringExtra(RPConstant.EXTRA_MONEY_GREETING);//祝福语
-            String moneyID = data.getStringExtra(RPConstant.EXTRA_CHECK_MONEY_ID);//红包ID
+            String greeting = data.getStringExtra(RPConstant.EXTRA_RED_PACKET_GREETING);//祝福语
+            String moneyID = data.getStringExtra(RPConstant.EXTRA_RED_PACKET_ID);//红包ID
             String userId = RPContext.getInstance().getUserID();//发送者ID
             String userName = RPContext.getInstance().getUserName();//发送者名字
             RongRedPacketMessage message = RongRedPacketMessage.obtain(userId, userName, greeting, moneyID, "1", "融云红包");
