@@ -22,10 +22,13 @@ import io.rong.imlib.model.Message;
  */
 public class RPContext {
     public static final int REQUEST_CODE_SEND_MONEY = 15;
+    public static final String CHAT_GROUP = "chat_group";
+    public static final String CHAT_DISCUSSION = "chat_discussion";
     private String userName;
     private String userAvatar;
     private String userID;
     private AuthData mAuthData;
+    private String chatType;
     private static RPContext mRPContext;
 
     private RPContext() {
@@ -157,4 +160,11 @@ public class RPContext {
         this.userID = userID;
     }
 
+    public String getChatType() {
+        return chatType;
+    }
+
+    public void setChatType(String chatType) {
+        this.chatType = chatType;
+    }
 }

@@ -24,6 +24,7 @@ import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.widget.provider.InputProvider;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 
 /**
  * 自定义群/讨论组红包提供者
@@ -83,12 +84,17 @@ public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider imp
         redPacketInfo.fromNickName = RPContext.getInstance().getUserName();//发送者昵称 设置了昵称就传昵称 否则传id
         redPacketInfo.toGroupId = getCurrentConversation().getTargetId();//群ID
         redPacketInfo.chatType = RPConstant.CHATTYPE_GROUP;//群聊、讨论组类型
+        if (getCurrentConversation().getConversationType()== Conversation.ConversationType.GROUP){
+            RPContext.getInstance().setChatType(RPContext.CHAT_GROUP);
+        }else {
+            RPContext.getInstance().setChatType(RPContext.CHAT_DISCUSSION);
+        }
+
         if (callback != null) {
             callback.getGroupPersonNumber(redPacketInfo.toGroupId, this);
         } else {
             Toast.makeText(mContext, "回调函数不能为空", Toast.LENGTH_SHORT).show();
         }
-
 
     }
 
