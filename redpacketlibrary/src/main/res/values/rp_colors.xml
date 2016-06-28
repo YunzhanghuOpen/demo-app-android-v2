@@ -20,4 +20,5 @@
     <color name="button_blue">#35B7F3</color>
     <color name="text_unselected">@color/divider_color</color>
     <color name="half_transparent">#e0000000</color>
+    <color name="top_red_color">#D24F44</color>
 </resources>
