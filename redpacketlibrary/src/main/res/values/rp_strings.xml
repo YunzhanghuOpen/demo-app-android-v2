@@ -251,5 +251,10 @@
     <string name="single_limit">单笔限额200</string>
     <string name="str_choose_camera">选择相机</string>
     <string name="str_choose_album">选择相册</string>
-
+    <!--融云红包配置-->
+    <string name="red_packet">红包</string>
+    <string name="yzh_dialog_item_delete">删除信息</string>
+    <string name="yzh_notification_me_receive_redpacket">你领取了%1$s的红包</string>
+    <string name="yzh_notification_other_receive_redpacket">%1$s领取了你的红包</string>
+    <string name="yzh_notification_me_to_me_receive_redpacket">你领取了自己的红包</string>
 </resources>

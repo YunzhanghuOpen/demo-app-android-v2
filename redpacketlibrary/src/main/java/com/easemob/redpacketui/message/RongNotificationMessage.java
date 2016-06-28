@@ -63,7 +63,7 @@ public class RongNotificationMessage extends NotificationMessage {
             setSendUserName(jsonObj.getString(RPConstant.EXTRA_RED_PACKET_SENDER_NAME));
             setReceiveUserID(jsonObj.getString(RPConstant.EXTRA_RED_PACKET_RECEIVER_ID));
             setReceiveUserName(jsonObj.getString(RPConstant.EXTRA_RED_PACKET_RECEIVER_NAME));
-            setIsOpenMoney(jsonObj.getString(RPConstant.MESSAGE_ATTR_IS_RED_PACKET_MESSAGE));
+            setIsOpenMoney(jsonObj.getString(RPConstant.MESSAGE_ATTR_IS_RED_PACKET_ACK_MESSAGE));
             if (jsonObj.has("user")) {
                 setUserInfo(parseJsonToUserInfo(jsonObj.getJSONObject("user")));
             }
@@ -146,7 +146,7 @@ public class RongNotificationMessage extends NotificationMessage {
             jsonObj.put(RPConstant.EXTRA_RED_PACKET_SENDER_NAME, sendUserName);
             jsonObj.put(RPConstant.EXTRA_RED_PACKET_RECEIVER_ID, receiveUserID);
             jsonObj.put(RPConstant.EXTRA_RED_PACKET_RECEIVER_NAME, receiveUserName);
-            jsonObj.put(RPConstant.MESSAGE_ATTR_IS_RED_PACKET_MESSAGE, isOpenMoney);
+            jsonObj.put(RPConstant.MESSAGE_ATTR_IS_RED_PACKET_ACK_MESSAGE, isOpenMoney);
 
             if (getJSONUserInfo() != null)
                 jsonObj.putOpt("user", getJSONUserInfo());
