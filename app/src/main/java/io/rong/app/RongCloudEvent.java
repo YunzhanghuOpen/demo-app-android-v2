@@ -253,14 +253,13 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 //(只是针对融云demo做的缓存逻辑,App开发者及供参考)
                 //查找用户库是否存在改用户,存在使用改用户信息,不存在请求服务器然后插入数据库
                 //App开发者需要根据用户ID获取用户信息,然后mCallback.setUserInfo(userInfos.getUsername(),userInfos.getPortrait());
-                UserInfos userInfos=DemoContext.getInstance().getUserInfosById(userID);
-                userInfos=null;
-                if (userInfos!=null){
-                    Log.e(TAG,"-user-cache-"+userInfos.getUsername());
-                    mCallback.setUserInfo(userInfos.getUsername(),userInfos.getPortrait());
-                }else {
-                    Log.e(TAG,"-user-no-cache-");
-                    requestUserInfo(userID,mCallback);
+                UserInfos userInfos = DemoContext.getInstance().getUserInfosById(userID);
+                if (userInfos != null) {
+                    Log.e(TAG, "-user-cache-" + userInfos.getUsername());
+                    mCallback.setUserInfo(userInfos.getUsername(), userInfos.getPortrait());
+                } else {
+                    Log.e(TAG, "-user-no-cache-");
+                    requestUserInfo(userID, mCallback);
                 }
 
             }
@@ -272,15 +271,14 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             public void getGroupMember(final String groupID, final GroupMemberCallback mCallback) {
                 //(只是针对融云demo做的缓存逻辑,App开发者及供参考)
                 //App开发者需要根据群ID获取群成员信息,然后mCallback.setGroupMember();
-                List<io.rong.app.model.UserInfo> mList=DemoContext.getInstance().getGroupMemberById(groupID);
-                mList=null;
-                if (mList!=null){
-                    Log.e(TAG,"-group-cache-"+mList);
+                List<io.rong.app.model.UserInfo> mList = DemoContext.getInstance().getGroupMemberById(groupID);
+                if (mList != null) {
+                    Log.e(TAG, "-group-cache-" + mList);
                     sortingData(mList);
                     mCallback.setGroupMember(list);
-                }else {
-                    Log.e(TAG,"-no-group-cache-");
-                    requestGroupMember(groupID,mCallback);
+                } else {
+                    Log.e(TAG, "-no-group-cache-");
+                    requestGroupMember(groupID, mCallback);
                 }
             }
         });
@@ -298,8 +296,8 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             @Override
             public void onComplete(AbstractHttpRequest<User> abstractHttpRequest, final User user) {
                 if (user != null && user.getResult() != null) {
-                    Log.e(TAG,"-request-user-"+user.getResult().getUsername());
-                    UserInfos userInfos=new UserInfos();
+                    Log.e(TAG, "-request-user-" + user.getResult().getUsername());
+                    UserInfos userInfos = new UserInfos();
                     userInfos.setUserid(user.getResult().getId());
                     userInfos.setPortrait(user.getResult().getPortrait());
                     userInfos.setStatus(String.valueOf(user.getResult().getStatus()));
@@ -320,12 +318,13 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             }
         });
     }
+
     private void requestGroupMember(final String groupID, final GroupMemberCallback mCallback) {
         DemoContext.getInstance().getDemoApi().getGroupByGroupId(groupID, new ApiCallback<GroupInfo>() {
             @Override
             public void onComplete(AbstractHttpRequest<GroupInfo> abstractHttpRequest, GroupInfo groupInfo) {
                 if (groupInfo.getCode() == 200 && groupInfo.getResult() != null) {
-                    Log.e(TAG, "-request-group-"+groupInfo.getResult().getUsers().toString());
+                    Log.e(TAG, "-request-group-" + groupInfo.getResult().getUsers().toString());
                     sortingData(groupInfo.getResult().getUsers());
                     DemoContext.getInstance().putGroupNumber(groupID, String.valueOf(list.size()));
                     handGroupMemberCallBack(mCallback, "");
@@ -343,7 +342,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         });
     }
 
-    private void sortingData(List<io.rong.app.model.UserInfo> mList){
+    private void sortingData(List<io.rong.app.model.UserInfo> mList) {
         String userID = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_ID, Constants.DEFAULT);
         list.clear();
         for (int i = 0; i < mList.size(); i++) {
@@ -379,6 +378,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     }
 
     private void syncGroupInfo(final String groupID) {
+
         DemoContext.getInstance().getDemoApi().getGroupByGroupId(groupID, new ApiCallback<GroupInfo>() {
             @Override
             public void onComplete(AbstractHttpRequest<GroupInfo> abstractHttpRequest, GroupInfo groupInfo) {
@@ -401,6 +401,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
             }
         });
     }
+
     //APP开发者的请求框架success是在UI线程里面,直接忽略 mHandler.post()
     public void handGroupMemberCallBack(final GroupMemberCallback callback, final String msg) {
         mHandler.post(new Runnable() {
@@ -415,6 +416,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         });
 
     }
+
     //APP开发者的请求框架success是在UI线程里面,直接忽略 mHandler.post()
     public void handUserInfoCallBack(final SetUserInfoCallback callback, final String msg, final User user) {
         mHandler.post(new Runnable() {
