@@ -17,10 +17,12 @@ import android.util.Log;
 import android.view.View;
 
 import com.easemob.redpacketsdk.bean.RPUserBean;
-import com.easemob.redpacketui.RPContext;
+import com.easemob.redpacketui.RedPacketUtil;
 import com.easemob.redpacketui.callback.GetGroupInfoCallback;
+import com.easemob.redpacketui.callback.GetUserInfoCallback;
 import com.easemob.redpacketui.callback.GroupMemberCallback;
 import com.easemob.redpacketui.callback.NotifyGroupMemberCallback;
+import com.easemob.redpacketui.callback.SetUserInfoCallback;
 import com.easemob.redpacketui.callback.ToRedPacketActivity;
 import com.easemob.redpacketui.message.RongEmptyMessage;
 import com.easemob.redpacketui.provider.RongGroupRedPacketProvider;
@@ -216,145 +218,72 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 new CameraInputProvider(RongContext.getInstance()),//相机
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
                 new ContactsProvider(RongContext.getInstance()),//通讯录
-                new RongGroupRedPacketProvider(RongContext.getInstance(), new GetGroupInfoCallback() {
-
-                    //获取群组信息,并回调把群里面人数给回调接口
-                    @Override
-                    public void getGroupPersonNumber(final String groupID, final ToRedPacketActivity mCallback) {
-                        RongIM.getInstance().getRongIMClient().getDiscussion(groupID, new RongIMClient.ResultCallback<Discussion>() {
-                            @Override
-                            public void onSuccess(Discussion discussion) {
-                                //打开发红包界面
-                                mCallback.toRedPacketActivity(discussion.getMemberIdList().size());
-                            }
-
-                            @Override
-                            public void onError(RongIMClient.ErrorCode errorCode) {
-
-                            }
-                        });
-
-                    }
-
-                })//讨论组红包
+//                new RongGroupRedPacketProvider(RongContext.getInstance(), new GetGroupInfoCallback() {
+//
+//                    //获取群组信息,并回调把群里面人数给回调接口
+//                    @Override
+//                    public void getGroupPersonNumber(final String groupID, final ToRedPacketActivity mCallback) {
+//                        RongIM.getInstance().getRongIMClient().getDiscussion(groupID, new RongIMClient.ResultCallback<Discussion>() {
+//                            @Override
+//                            public void onSuccess(Discussion discussion) {
+//                                //打开发红包界面
+//                                mCallback.toRedPacketActivity(discussion.getMemberIdList().size());
+//                            }
+//
+//                            @Override
+//                            public void onError(RongIMClient.ErrorCode errorCode) {
+//
+//                            }
+//                        });
+//
+//                    }
+//
+//                })//讨论组红包
         };
         InputProvider.ExtendProvider[] groupProvider = {
                 new ImageInputProvider(RongContext.getInstance()),//图片
                 new CameraInputProvider(RongContext.getInstance()),//相机
                 new RealTimeLocationInputProvider(RongContext.getInstance()),//地理位置
                 new ContactsProvider(RongContext.getInstance()),//通讯录
-                //App开发者需要根据群ID获取群成员人数,然后mCallback.toRedPacketActivity(number),打开发送红包界面
-                new RongGroupRedPacketProvider(RongContext.getInstance(), new GetGroupInfoCallback() {
-                    @Override
-                    public void getGroupPersonNumber(final String groupID, final ToRedPacketActivity mCallback) {
-
-                        if (DemoContext.getInstance().getGroupNumberById(groupID) != null) {
-                            //这里的缓存群组信息的逻辑仅供参考
-                            int number = Integer.parseInt(DemoContext.getInstance().getGroupNumberById(groupID));
-                            mCallback.toRedPacketActivity(number);
-                        } else {
-                            DemoContext.getInstance().getDemoApi().getGroupByGroupId(groupID, new ApiCallback<GroupInfo>() {
-                                @Override
-                                public void onComplete(AbstractHttpRequest<GroupInfo> abstractHttpRequest, GroupInfo groupInfo) {
-                                    if (groupInfo.getCode() == 200 && groupInfo.getResult() != null) {
-                                        Log.e(TAG, groupInfo.getResult().getNumber());
-                                        int number = Integer.parseInt(groupInfo.getResult().getNumber());
-                                        //缓存群人数
-                                        if (DemoContext.getInstance() != null)
-                                            DemoContext.getInstance().putGroupNmber(groupID, String.valueOf(number));
-                                        //打开发红包界面
-                                        mCallback.toRedPacketActivity(number);
-                                    } else {
-                                        WinToast.toast(mContext, String.valueOf(groupInfo.getCode()));
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(AbstractHttpRequest abstractHttpRequest, BaseException e) {
-                                    Log.e(TAG, e.toString());
-                                }
-                            });
-                        }
-                    }
-
-                })//群红包
+                createGroupProvider(),//群红包
         };
-        final String userID = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_ID, Constants.DEFAULT);
-       if (RPContext.getInstance().getChatType().equals(RPContext.CHAT_DISCUSSION)){
-//           //根据群id获取群成员信息,然后 groupMemberCallback.setGroupMember(list);
-//           RPGroupMemberUtil.getInstance().setGroupMemberListener(new NotifyGroupMemberCallback() {
-//               @Override
-//               public void getGroupMember(final String groupID, final GroupMemberCallback groupMemberCallback) {
-//                   RongIM.getInstance().getRongIMClient().getDiscussion(groupID, new RongIMClient.ResultCallback<Discussion>() {
-//                       @Override
-//                       public void onSuccess(Discussion discussion) {
-//                           discussion.getMemberIdList();
-//                           list.clear();
-//                           for (int i = 0; i < .size(); i++) {
-//                               if (userID.equals(mUserList.get(i).getId())) {
-//                                   continue;
-//                               }
-//                               RPUserBean mRPUserBean = new RPUserBean();
-//                               mRPUserBean.userId = mUserList.get(i).getId();
-//                               mRPUserBean.userNickname = mUserList.get(i).getUsername();
-//                               mRPUserBean.userAvatar = mUserList.get(i).getPortrait();
-//                               list.add(mRPUserBean);
-//                           }
-//                           //打开发红包界面
-//                           mCallback.toRedPacketActivity(discussion.getMemberIdList().size());
-//                       }
-//
-//                       @Override
-//                       public void onError(RongIMClient.ErrorCode errorCode) {
-//
-//                       }
-//                   });
-//               }
-//           });
+        RedPacketUtil.getInstance().setGetUserInfoCallback(new GetUserInfoCallback() {
+            @Override
+            public void getUserInfo(String userID, final SetUserInfoCallback mCallback) {
+                //(只是针对融云demo做的缓存逻辑,App开发者及供参考)
+                //查找用户库是否存在改用户,存在使用改用户信息,不存在请求服务器然后插入数据库
+                //App开发者需要根据用户ID获取用户信息,然后mCallback.setUserInfo(userInfos.getUsername(),userInfos.getPortrait());
+                UserInfos userInfos=DemoContext.getInstance().getUserInfosById(userID);
+                userInfos=null;
+                if (userInfos!=null){
+                    Log.e(TAG,"-user-cache-"+userInfos.getUsername());
+                    mCallback.setUserInfo(userInfos.getUsername(),userInfos.getPortrait());
+                }else {
+                    Log.e(TAG,"-user-no-cache-");
+                    requestUserInfo(userID,mCallback);
+                }
 
+            }
+        });
 
-       }else {
-           //根据群id获取群成员信息,然后 groupMemberCallback.setGroupMember(list);
-           RPGroupMemberUtil.getInstance().setGroupMemberListener(new NotifyGroupMemberCallback() {
-               @Override
-               public void getGroupMember(final String groupID, final GroupMemberCallback groupMemberCallback) {
-                   DemoContext.getInstance().getDemoApi().getGroupByGroupId(groupID, new ApiCallback<GroupInfo>() {
-                       @Override
-                       public void onComplete(AbstractHttpRequest<GroupInfo> abstractHttpRequest, GroupInfo groupInfo) {
-                           if (groupInfo.getCode() == 200 && groupInfo.getResult() != null) {
-                               Log.e(TAG, groupInfo.getResult().getUsers().toString());
-                               List<io.rong.app.model.UserInfo> mUserList = groupInfo.getResult().getUsers();
-                               list.clear();
-                               for (int i = 0; i < mUserList.size(); i++) {
-                                   if (userID.equals(mUserList.get(i).getId())) {
-                                       continue;
-                                   }
-                                   RPUserBean mRPUserBean = new RPUserBean();
-                                   mRPUserBean.userId = mUserList.get(i).getId();
-                                   mRPUserBean.userNickname = mUserList.get(i).getUsername();
-                                   mRPUserBean.userAvatar = mUserList.get(i).getPortrait();
-                                   list.add(mRPUserBean);
-                               }
-                               //缓存群人数(只是针对融云demo做的缓存逻辑,App开发者及供参考)
-                               if (DemoContext.getInstance() != null)
-                                   DemoContext.getInstance().putGroupNmber(groupID, String.valueOf(list.size()));
-                               handCallBack(groupMemberCallback, "");
-
-                           } else {
-                               handCallBack(groupMemberCallback, "数据为空");
-
-                           }
-                       }
-
-                       @Override
-                       public void onFailure(AbstractHttpRequest abstractHttpRequest, final BaseException e) {
-                           handCallBack(groupMemberCallback, e.toString());
-                       }
-                   });
-               }
-           });
-       }
-
+        //根据群id获取群成员信息,然后 groupMemberCallback.setGroupMember(list);
+        RPGroupMemberUtil.getInstance().setGroupMemberListener(new NotifyGroupMemberCallback() {
+            @Override
+            public void getGroupMember(final String groupID, final GroupMemberCallback mCallback) {
+                //(只是针对融云demo做的缓存逻辑,App开发者及供参考)
+                //App开发者需要根据群ID获取群成员信息,然后mCallback.setGroupMember();
+                List<io.rong.app.model.UserInfo> mList=DemoContext.getInstance().getGroupMemberById(groupID);
+                mList=null;
+                if (mList!=null){
+                    Log.e(TAG,"-group-cache-"+mList);
+                    sortingData(mList);
+                    mCallback.setGroupMember(list);
+                }else {
+                    Log.e(TAG,"-no-group-cache-");
+                    requestGroupMember(groupID,mCallback);
+                }
+            }
+        });
 
         RongIM.resetInputExtensionProvider(Conversation.ConversationType.PRIVATE, privateProvider);
         RongIM.resetInputExtensionProvider(Conversation.ConversationType.DISCUSSION, discussionProvider);
@@ -363,7 +292,117 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         RongIM.resetInputExtensionProvider(Conversation.ConversationType.CHATROOM, provider);
     }
 
-    public void handCallBack(final GroupMemberCallback callback, final String msg) {
+
+    private void requestUserInfo(String userID, final SetUserInfoCallback mCallback) {
+        DemoContext.getInstance().getDemoApi().getUserInfoByUserId(userID, new ApiCallback<User>() {
+            @Override
+            public void onComplete(AbstractHttpRequest<User> abstractHttpRequest, final User user) {
+                if (user != null && user.getResult() != null) {
+                    Log.e(TAG,"-request-user-"+user.getResult().getUsername());
+                    UserInfos userInfos=new UserInfos();
+                    userInfos.setUserid(user.getResult().getId());
+                    userInfos.setPortrait(user.getResult().getPortrait());
+                    userInfos.setStatus(String.valueOf(user.getResult().getStatus()));
+                    userInfos.setUsername(user.getResult().getUsername());
+                    userInfos.setId(null);
+                    DemoContext.getInstance().insertOrReplaceUserInfos(userInfos);
+                    handUserInfoCallBack(mCallback, "", user);
+                } else {
+                    handUserInfoCallBack(mCallback, "用户信息为空", null);
+                }
+
+            }
+
+            @Override
+            public void onFailure(final AbstractHttpRequest<User> abstractHttpRequest, final BaseException e) {
+                handUserInfoCallBack(mCallback, e.toString(), null);
+
+            }
+        });
+    }
+    private void requestGroupMember(final String groupID, final GroupMemberCallback mCallback) {
+        DemoContext.getInstance().getDemoApi().getGroupByGroupId(groupID, new ApiCallback<GroupInfo>() {
+            @Override
+            public void onComplete(AbstractHttpRequest<GroupInfo> abstractHttpRequest, GroupInfo groupInfo) {
+                if (groupInfo.getCode() == 200 && groupInfo.getResult() != null) {
+                    Log.e(TAG, "-request-group-"+groupInfo.getResult().getUsers().toString());
+                    sortingData(groupInfo.getResult().getUsers());
+                    DemoContext.getInstance().putGroupNumber(groupID, String.valueOf(list.size()));
+                    handGroupMemberCallBack(mCallback, "");
+
+                } else {
+                    handGroupMemberCallBack(mCallback, "数据为空");
+
+                }
+            }
+
+            @Override
+            public void onFailure(AbstractHttpRequest abstractHttpRequest, final BaseException e) {
+                handGroupMemberCallBack(mCallback, e.toString());
+            }
+        });
+    }
+
+    private void sortingData(List<io.rong.app.model.UserInfo> mList){
+        String userID = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_ID, Constants.DEFAULT);
+        list.clear();
+        for (int i = 0; i < mList.size(); i++) {
+            if (userID.equals(mList.get(i).getId())) {
+                continue;
+            }
+            RPUserBean mRPUserBean = new RPUserBean();
+            mRPUserBean.userId = mList.get(i).getId();
+            mRPUserBean.userNickname = mList.get(i).getUsername();
+            mRPUserBean.userAvatar = mList.get(i).getPortrait();
+            list.add(mRPUserBean);
+        }
+    }
+
+    private RongGroupRedPacketProvider createGroupProvider() {
+        //(只是针对融云demo做的缓存逻辑,App开发者及供参考)
+        //App开发者需要根据群ID获取群成员人数,然后mCallback.toRedPacketActivity(number),打开发送红包界面
+        RongGroupRedPacketProvider groupRedPacketProvider = new RongGroupRedPacketProvider(RongContext.getInstance(), new GetGroupInfoCallback() {
+            @Override
+            public void getGroupPersonNumber(String groupID, ToRedPacketActivity mCallback) {
+                //同步群信息
+                syncGroupInfo(groupID);
+                if (DemoContext.getInstance().getGroupNumberById(groupID) != null) {
+                    //这里的缓存群组信息的逻辑仅供参考
+                    int number = Integer.parseInt(DemoContext.getInstance().getGroupNumberById(groupID));
+                    mCallback.toRedPacketActivity(number);
+                } else {
+                    mCallback.toRedPacketActivity(0);
+                }
+            }
+        });
+        return groupRedPacketProvider;
+    }
+
+    private void syncGroupInfo(final String groupID) {
+        DemoContext.getInstance().getDemoApi().getGroupByGroupId(groupID, new ApiCallback<GroupInfo>() {
+            @Override
+            public void onComplete(AbstractHttpRequest<GroupInfo> abstractHttpRequest, GroupInfo groupInfo) {
+                if (groupInfo.getCode() == 200 && groupInfo.getResult() != null) {
+                    Log.e(TAG, groupInfo.getResult().getNumber());
+                    int number = Integer.parseInt(groupInfo.getResult().getNumber());
+                    Log.e(TAG, "-group-number-" + number);
+                    //缓存群人数
+                    DemoContext.getInstance().putGroupNumber(groupID, String.valueOf(number));
+                    //缓存群成员信息
+                    DemoContext.getInstance().putGroupMember(groupID, groupInfo.getResult().getUsers());
+                } else {
+                    WinToast.toast(mContext, String.valueOf(groupInfo.getCode()));
+                }
+            }
+
+            @Override
+            public void onFailure(AbstractHttpRequest abstractHttpRequest, BaseException e) {
+                Log.e(TAG, e.toString());
+            }
+        });
+    }
+    //APP开发者的请求框架success是在UI线程里面,直接忽略 mHandler.post()
+    public void handGroupMemberCallBack(final GroupMemberCallback callback, final String msg) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -371,6 +410,20 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                     callback.setGroupMember(list);
                 } else {
                     callback.groupMemberError("code", msg);
+                }
+            }
+        });
+
+    }
+    //APP开发者的请求框架success是在UI线程里面,直接忽略 mHandler.post()
+    public void handUserInfoCallBack(final SetUserInfoCallback callback, final String msg, final User user) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (TextUtils.isEmpty(msg)) {
+                    callback.setUserInfo(user.getResult().getUsername(), user.getResult().getPortrait());
+                } else {
+                    callback.UserInfoError(msg);
                 }
             }
         });
@@ -491,7 +544,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         } else if (messageContent instanceof RongEmptyMessage) {
             Log.e(TAG, "--onReceived--空消息");
             //接收到空消息（不展示UI的消息）向本地插入一条“XX领取了你的红包”
-            RPContext.getInstance().insertMessage(message);
+            RedPacketUtil.getInstance().insertMessage(message);
         } else {
             Log.d(TAG, "onReceived-其他消息，自己来判断处理");
         }

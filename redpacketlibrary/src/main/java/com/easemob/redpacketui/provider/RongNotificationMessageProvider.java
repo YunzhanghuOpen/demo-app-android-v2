@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.easemob.redpacketui.R;
-import com.easemob.redpacketui.RPContext;
+import com.easemob.redpacketui.RedPacketUtil;
 import com.easemob.redpacketui.message.RongNotificationMessage;
 
 import io.rong.imkit.model.ProviderTag;
@@ -70,7 +70,7 @@ public class RongNotificationMessageProvider extends IContainerItemProvider.Mess
             mContent = mContext.getString(R.string.yzh_notification_me_to_me_receive_redpacket);
         } else {
 
-            if (content.getReceiveUserID().equals(RPContext.getInstance().getUserID())) {//接受红包者
+            if (content.getReceiveUserID().equals(RedPacketUtil.getInstance().getUserID())) {//接受红包者
                 //你领取了XX红包
                 mContent = String.format(mContext.getString(R.string.yzh_notification_me_receive_redpacket), content.getSendUserName());
             } else {//红包发送者

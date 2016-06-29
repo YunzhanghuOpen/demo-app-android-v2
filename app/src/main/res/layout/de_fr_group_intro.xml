@@ -126,16 +126,19 @@
         </RelativeLayout>
 
         <fragment
+            android:id="@+id/rong_SetConversationNotificationFragment"
             android:name="io.rong.imkit.fragment.SetConversationNotificationFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <fragment
+            android:id="@+id/rong_SetConversationToTopFragment"
             android:name="io.rong.imkit.fragment.SetConversationToTopFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <fragment
+            android:id="@+id/rong_ClearConversationMsgFragment"
             android:name="io.rong.imkit.fragment.ClearConversationMsgFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

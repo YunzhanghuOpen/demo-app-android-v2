@@ -12,7 +12,7 @@ import android.view.View;
 import com.easemob.redpacketsdk.bean.RedPacketInfo;
 import com.easemob.redpacketsdk.constant.RPConstant;
 import com.easemob.redpacketui.R;
-import com.easemob.redpacketui.RPContext;
+import com.easemob.redpacketui.RedPacketUtil;
 import com.easemob.redpacketui.message.RongRedPacketMessage;
 import com.easemob.redpacketui.ui.activity.RPRedPacketActivity;
 
@@ -72,25 +72,25 @@ public class RongRedPacketProvider extends InputProvider.ExtendProvider {
     public void onPluginClick(View view) {
         final Intent intent = new Intent(mContext, RPRedPacketActivity.class);
         final RedPacketInfo redPacketInfo = new RedPacketInfo();
-        redPacketInfo.fromAvatarUrl = RPContext.getInstance().getUserAvatar();//发送者头像
-        redPacketInfo.fromNickName = RPContext.getInstance().getUserName();//发送者名字
+        redPacketInfo.fromAvatarUrl = RedPacketUtil.getInstance().getUserAvatar();//发送者头像
+        redPacketInfo.fromNickName = RedPacketUtil.getInstance().getUserName();//发送者名字
         redPacketInfo.toUserId = getCurrentConversation().getTargetId(); //接受者id
         redPacketInfo.chatType = RPConstant.CHATTYPE_SINGLE;//单聊
         //打开发红包
         intent.putExtra(RPConstant.EXTRA_MONEY_INFO, redPacketInfo);
-        intent.putExtra(RPConstant.EXTRA_AUTH_INFO, RPContext.getInstance().getmAuthData());
-        startActivityForResult(intent, RPContext.REQUEST_CODE_SEND_MONEY);
+        intent.putExtra(RPConstant.EXTRA_AUTH_INFO, RedPacketUtil.getInstance().getmAuthData());
+        startActivityForResult(intent, RedPacketUtil.REQUEST_CODE_SEND_MONEY);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //接受返回的红包信息,并发送红包消息
-        if (resultCode == Activity.RESULT_OK && data != null && requestCode == RPContext.REQUEST_CODE_SEND_MONEY) {
+        if (resultCode == Activity.RESULT_OK && data != null && requestCode == RedPacketUtil.REQUEST_CODE_SEND_MONEY) {
             String greeting = data.getStringExtra(RPConstant.EXTRA_RED_PACKET_GREETING);//祝福语
             String moneyID = data.getStringExtra(RPConstant.EXTRA_RED_PACKET_ID);//红包ID
-            String userId = RPContext.getInstance().getUserID();//发送者ID
-            String userName = RPContext.getInstance().getUserName();//发送者名字
-            RongRedPacketMessage message = RongRedPacketMessage.obtain(userId, userName, greeting, moneyID, "1", "融云红包");
+            String userId = RedPacketUtil.getInstance().getUserID();//发送者ID
+            String userName = RedPacketUtil.getInstance().getUserName();//发送者名字
+            RongRedPacketMessage message = RongRedPacketMessage.obtain(userId, userName, greeting, moneyID, "1", "融云红包", "", "");
             Log.e(TAG, "--发送红包返回参数--" + "-moneyID-" + moneyID + "-greeting-" + greeting);
             //发送红包消息到聊天界面
             mUploadHandler.post(new MyRunnable(message));

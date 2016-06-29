@@ -5,7 +5,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.easemob.redpacketsdk.RedPacket;
-import com.easemob.redpacketui.RPContext;
+import com.easemob.redpacketui.RedPacketUtil;
 
 import io.rong.app.message.AgreedFriendRequestMessage;
 import io.rong.app.message.provider.ContactNotificationMessageProvider;
@@ -52,7 +52,7 @@ public class App extends Application {
 
                 try {
                     //注册红包消息、回执消息类以及消息展示模板
-                    RPContext.getInstance().registerMsgTypeAndTemplate(this);
+                    RedPacketUtil.getInstance().registerMsgTypeAndTemplate(this);
 
                     RongIM.registerMessageType(AgreedFriendRequestMessage.class);
 

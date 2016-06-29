@@ -119,11 +119,8 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
                     for (int i = 0; i < groups.getResult().size(); i++) {
                         mResultList.add(groups.getResult().get(i));
                         //缓存群人数
-                        int number=Integer.parseInt(groups.getResult().get(i).getNumber());
-                        Log.e("dxf","");
-                        if (DemoContext.getInstance() != null)
-                            DemoContext.getInstance().putGroupNmber(groups.getResult().get(i).getId(),String.valueOf(number));
-
+                        int number = Integer.parseInt(groups.getResult().get(i).getNumber());
+                        DemoContext.getInstance().putGroupNumber(groups.getResult().get(i).getId(), String.valueOf(number));
                     }
 
                     mGroupListAdapter = new GroupListAdapter(getActivity(), mResultList, mGroupMap);
@@ -139,10 +136,11 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
             if (result != null) {
 
                 setGroupMap(result, 1);
-                int number=Integer.parseInt(result.getNumber())+1;
+                int number = Integer.parseInt(result.getNumber()) + 1;
                 //缓存群人数
-                if (DemoContext.getInstance() != null)
-                    DemoContext.getInstance().putGroupNmber(result.getId(),String.valueOf(number));
+                if (DemoContext.getInstance() != null) {
+                    DemoContext.getInstance().putGroupNumber(result.getId(), String.valueOf(number));
+                }
                 refreshAdapter();
 
                 RongIM.getInstance().getRongIMClient().joinGroup(result.getId(), result.getName(), new RongIMClient.OperationCallback() {
@@ -241,6 +239,7 @@ public class GroupListFragment extends BaseFragment implements AdapterView.OnIte
                     groupHashMap.put(result.getId(), new Group(result.getId(), result.getName(), null));
             } else if (i == 0) {
                 groupHashMap.remove(result.getId());
+                DemoContext.getInstance().removeGroupNumberById(result.getId());
             }
             DemoContext.getInstance().setGroupMap(groupHashMap);
 

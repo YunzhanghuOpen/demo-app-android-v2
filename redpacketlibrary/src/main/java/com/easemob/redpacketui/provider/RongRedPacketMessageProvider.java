@@ -17,7 +17,8 @@ import android.widget.Toast;
 import com.easemob.redpacketsdk.bean.RedPacketInfo;
 import com.easemob.redpacketsdk.constant.RPConstant;
 import com.easemob.redpacketui.R;
-import com.easemob.redpacketui.RPContext;
+import com.easemob.redpacketui.RedPacketUtil;
+import com.easemob.redpacketui.callback.SetUserInfoCallback;
 import com.easemob.redpacketui.message.RongEmptyMessage;
 import com.easemob.redpacketui.message.RongNotificationMessage;
 import com.easemob.redpacketui.message.RongRedPacketMessage;
@@ -40,9 +41,14 @@ import io.rong.imlib.model.Conversation;
  */
 // 会话界面自定义UI注解
 @ProviderTag(messageContent = RongRedPacketMessage.class, showPortrait = true, showProgress = false, centerInHorizontal = false)
-public class RongRedPacketMessageProvider extends IContainerItemProvider.MessageProvider<RongRedPacketMessage> {
+public class RongRedPacketMessageProvider extends IContainerItemProvider.MessageProvider<RongRedPacketMessage> implements SetUserInfoCallback {
     private static final String TAG = "RedPacketLibrary";
     private Context mContext;
+    private RedPacketInfo redPacketInfo;
+    private ProgressDialog progressDialog;
+    private RongRedPacketMessage mContent;
+    private UIMessage mMessage;
+
 
     public RongRedPacketMessageProvider(Context mContext) {
         super();
@@ -50,7 +56,7 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
     }
 
     /**
-     * 初始化View
+     * RedPacketInfo初始化View
      */
     @Override
     public View newView(Context context, ViewGroup group) {
@@ -58,6 +64,7 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
         ViewHolder holder = new ViewHolder();
         holder.greeting = (TextView) view.findViewById(R.id.tv_money_greeting);
         holder.sponsor = (TextView) view.findViewById(R.id.tv_sponsor_name);
+        holder.special = (TextView) view.findViewById(R.id.tv_packet_type);
         holder.view = view.findViewById(R.id.bubble);
         view.setTag(holder);
         this.mContext = context;
@@ -78,6 +85,13 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
         }
         holder.greeting.setText(content.getMessage()); // 设置问候语
         holder.sponsor.setText(content.getSponsorName()); // 设置赞助商
+        if (!TextUtils.isEmpty(content.getRedPacketType())//专属红包
+                && content.getRedPacketType().equals(RPConstant.GROUP_RED_PACKET_TYPE_EXCLUSIVE)) {
+            holder.special.setVisibility(View.VISIBLE);
+            holder.special.setText("专属红包");
+        } else {
+            holder.special.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -96,53 +110,39 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
 
     @Override
     public void onItemClick(View view, int position, final RongRedPacketMessage content, final UIMessage message) {
-        final ProgressDialog progressDialog = new ProgressDialog(mContext);
+        mContent = content;
+        mMessage = message;
+        progressDialog = new ProgressDialog(mContext);
         //进度条风格开发者可以根据需求改变
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCanceledOnTouchOutside(false);
         //以下是打开红包所需要的参数
-        RedPacketInfo packetInfo = new RedPacketInfo();
-        packetInfo.moneyID = content.getMoneyID();//获取红包id
-        packetInfo.toAvatarUrl = RPContext.getInstance().getUserAvatar();//获取打开红包者的名字
-        packetInfo.toNickName = RPContext.getInstance().getUserName();//获取打开红包者的头像
+        redPacketInfo = new RedPacketInfo();
+        redPacketInfo.moneyID = content.getMoneyID();//获取红包id
+        redPacketInfo.toAvatarUrl = RedPacketUtil.getInstance().getUserAvatar();//获取打开红包者的名字
+        redPacketInfo.toNickName = RedPacketUtil.getInstance().getUserName();//获取打开红包者的头像
         //判断发送方还是接收方
         if (message.getMessageDirection() == UIMessage.MessageDirection.SEND) {
-            packetInfo.moneyMsgDirect = RPConstant.MESSAGE_DIRECT_SEND;//发送者
+            redPacketInfo.moneyMsgDirect = RPConstant.MESSAGE_DIRECT_SEND;//发送者
         } else {
-            packetInfo.moneyMsgDirect = RPConstant.MESSAGE_DIRECT_RECEIVE;//接受方
+            redPacketInfo.moneyMsgDirect = RPConstant.MESSAGE_DIRECT_RECEIVE;//接受方
         }
         //获取聊天类型
         if (message.getConversationType() == Conversation.ConversationType.PRIVATE) {//单聊
-            packetInfo.chatType = RPConstant.CHATTYPE_SINGLE;
+            redPacketInfo.chatType = RPConstant.CHATTYPE_SINGLE;
+
         } else {//群聊
-            packetInfo.chatType = RPConstant.CHATTYPE_GROUP;
+            redPacketInfo.chatType = RPConstant.CHATTYPE_GROUP;
         }
-        //打开红包
-        RPOpenPacketUtil.getInstance().openRedPacket(packetInfo, RPContext.getInstance().getmAuthData(), (FragmentActivity) mContext, new RPOpenPacketUtil.RPOpenPacketCallBack() {
-            @Override
-            public void onSuccess(String s, String s1) {
-                //打开红包消息成功,然后发送回执消息例如"你领取了XX的红包"
-                sendAckMsg(content, message, RPContext.getInstance().getUserName());
-            }
-
-            @Override
-            public void showLoading() {
-                progressDialog.show();
-            }
-
-            @Override
-            public void hideLoading() {
-                progressDialog.dismiss();
-            }
-
-            @Override
-            public void onError(String s, String s1) {
-                //错误处理
-                Toast.makeText(mContext, s, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
+        String redPacketType = content.getRedPacketType();
+        //专属红包需要根据用户id获取用户信息
+        if (!TextUtils.isEmpty(redPacketType) && redPacketType.equals(RPConstant.GROUP_RED_PACKET_TYPE_EXCLUSIVE)) {
+            String specialReceiveId = content.getSpecialReceivedID();
+            progressDialog.show();
+            RedPacketUtil.getInstance().getGetUserInfoCallback().getUserInfo(specialReceiveId, this);
+        } else {
+            openRedPacket(false);
+        }
     }
 
     @Override
@@ -162,7 +162,7 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
     }
 
     public void sendAckMsg(RongRedPacketMessage content, UIMessage message, String receiveName) {
-        String receiveID = RPContext.getInstance().getUserID();
+        String receiveID = RedPacketUtil.getInstance().getUserID();
         RongNotificationMessage rongNotificationMessage = RongNotificationMessage.obtain(content.getSendUserID(),
                 content.getSendUserName(), receiveID, receiveName, "1");//回执消息
         final RongEmptyMessage rongEmptyMessage = RongEmptyMessage.obtain(content.getSendUserID(),
@@ -212,9 +212,52 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
 
     }
 
+    public void openRedPacket(final boolean isSpecial) {
+        //打开红包
+        RPOpenPacketUtil.getInstance().openRedPacket(redPacketInfo, RedPacketUtil.getInstance().getmAuthData(), (FragmentActivity) mContext, new RPOpenPacketUtil.RPOpenPacketCallBack() {
+            @Override
+            public void onSuccess(String s, String s1) {
+                //打开红包消息成功,然后发送回执消息例如"你领取了XX的红包"
+                sendAckMsg(mContent, mMessage, RedPacketUtil.getInstance().getUserName());
+            }
+
+            @Override
+            public void showLoading() {
+                if (!isSpecial) {
+                    progressDialog.show();
+                }
+
+            }
+
+            @Override
+            public void hideLoading() {
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onError(String errorCode, String errorMsg) {
+                //错误处理
+                Toast.makeText(mContext, errorMsg, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void setUserInfo(String userName, String userAvatar) {
+        redPacketInfo.toUserId = RedPacketUtil.getInstance().getUserID();
+        redPacketInfo.specialNickname = userName;
+        redPacketInfo.specialAvatarUrl = userAvatar;
+        openRedPacket(true);
+    }
+
+    @Override
+    public void UserInfoError(String msg) {
+        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+    }
+
 
     class ViewHolder {
-        TextView greeting, sponsor;
+        TextView greeting, sponsor, special;
         View view;
     }
 

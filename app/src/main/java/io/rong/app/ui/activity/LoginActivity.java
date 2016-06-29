@@ -27,7 +27,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.easemob.redpacketui.RPContext;
+import com.easemob.redpacketui.RedPacketUtil;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
 
@@ -158,7 +158,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                 String userID = PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.APP_USER_ID, "default");
                 String userName = PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.APP_USER_NAME, "default");
                 String userAvatar = PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.APP_USER_PORTRAIT, "default");
-                RPContext.getInstance().initUserInfo(userID, userName, userAvatar);
+                RedPacketUtil.getInstance().initUserInfo(userID, userName, userAvatar);
 
                 httpGetTokenSuccess(token);
             }
@@ -172,11 +172,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
 
             if (mDialog != null)
                 mDialog.dismiss();
-
             WinToast.toast(LoginActivity.this, R.string.login_failure);
-
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
         } else if (msg.what == HANDLER_LOGIN_SUCCESS) {
 
             if (mDialog != null)
@@ -316,7 +312,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                     edit.putBoolean("DEMO_ISFIRST", false);
                     edit.apply();
                     //初始化红包用户信息
-                    RPContext.getInstance().initUserInfo(user.getResult().getId(), user.getResult().getUsername(), user.getResult().getPortrait());
+                    RedPacketUtil.getInstance().initUserInfo(user.getResult().getId(), user.getResult().getUsername(), user.getResult().getPortrait());
                     Log.i(TAG, "----login success---");
                 }
             } else if (user.getCode() == 103) {
@@ -413,8 +409,10 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                         } else {
                             grouplist.add(new Group(id, name, null));
                         }
-                        if (DemoContext.getInstance() != null)
-                            DemoContext.getInstance().putGroupNmber(id, number);
+                        if (DemoContext.getInstance() != null){
+                            DemoContext.getInstance().putGroupNumber(id, number);
+                        }
+
                     }
 
                     HashMap<String, Group> groupM = new HashMap<String, Group>();
@@ -566,7 +564,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                     String timestamp = jsonObj.getString("timestamp");
                     String sign = jsonObj.getString("sign");
                     //初始化红包Token
-                    RPContext.getInstance().initAuthData(partner,userId,timestamp,sign);
+                    RedPacketUtil.getInstance().initAuthData(partner, userId, timestamp, sign);
                     mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
                 } else {
                     mHandler.obtainMessage(HANDLER_LOGIN_FAILURE).sendToTarget();

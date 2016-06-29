@@ -32,7 +32,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.easemob.redpacketui.RPContext;
+import com.easemob.redpacketui.RedPacketUtil;
 
 import io.rong.app.DemoContext;
 import io.rong.app.R;
@@ -470,7 +470,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 startActivity(new Intent(MainActivity.this, AboutRongCloudActivity.class));
                 break;
             case R.id.set_item_change://零钱
-                RPContext.getInstance().toChangeActivity(this);
+                RedPacketUtil.getInstance().toChangeActivity(this);
                 break;
             case R.id.set_item5://退出
 

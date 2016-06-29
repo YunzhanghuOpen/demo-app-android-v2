@@ -50,7 +50,7 @@
                 android:title="@string/set_rongcloud" />
             <item
                 android:id="@+id/set_item_change"
-                android:icon="@drawable/de_btn_main_rongcloud"
+                android:icon="@drawable/de_btn_main_change"
                 android:title="我的零钱" />
             <item
                 android:id="@+id/set_item5"

@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +26,7 @@ public class DemoContext {
     public Context mContext;
     private DemoApi mDemoApi;
     private HashMap<String, String> myGroupMap;
+    private HashMap<String, List<io.rong.app.model.UserInfo>> groupMemberMap;
     private HashMap<String, Group> groupMap;
     private SharedPreferences mPreferences;
     private RongIM.LocationProvider.LocationCallback mLastLocationCallback;
@@ -162,6 +162,7 @@ public class DemoContext {
 
         return userInfos;
     }
+
     /**
      * 通过userid 查找 UserInfo，查找的是本地的数据库
      *
@@ -316,29 +317,92 @@ public class DemoContext {
 
     /**
      * 通过群ID获取群里面的当前人的个数
+     *
      * @param groupID
      * @return
      */
     public String getGroupNumberById(String groupID) {
 
-        if (groupID == null)
+        if (TextUtils.isEmpty(groupID)) {
             return null;
-        if (myGroupMap != null && myGroupMap.containsKey(groupID)) {
+        } else if (myGroupMap != null && myGroupMap.containsKey(groupID)) {
             return myGroupMap.get(groupID);
         }
         return null;
     }
+
     /**
-     * 添加群信息
+     * 缓存群成员个数信息
+     *
      * @param groupID
      * @return
      */
-    public void putGroupNmber(String groupID, String number) {
 
-        if (myGroupMap == null)
+    public void putGroupNumber(String groupID, String number) {
+
+        if (myGroupMap == null) {
             myGroupMap = new HashMap<String, String>();
+        }
         myGroupMap.put(groupID, number);
 
+    }
+
+    /**
+     * 根据群ID删除群组信息
+     *
+     * @param groupID
+     * @return
+     */
+    public void removeGroupNumberById(String groupID) {
+
+        if (myGroupMap == null && myGroupMap.containsKey(groupID)) {
+            myGroupMap.remove(groupID);
+        }
+    }
+
+    /**
+     * 通过群ID获取群成员信息
+     *
+     * @param groupID
+     * @return
+     */
+    public List<io.rong.app.model.UserInfo> getGroupMemberById(String groupID) {
+
+        if (TextUtils.isEmpty(groupID)) {
+            return null;
+        } else if (groupMemberMap != null && groupMemberMap.containsKey(groupID)) {
+            return groupMemberMap.get(groupID);
+        }
+        return null;
+    }
+
+    /**
+     * 缓存群成员信息
+     *
+     * @param groupID
+     * @return
+     */
+
+    public void putGroupMember(String groupID, List<io.rong.app.model.UserInfo> data) {
+
+        if (groupMemberMap == null) {
+            groupMemberMap = new HashMap<>();
+        }
+        groupMemberMap.put(groupID, data);
+
+    }
+
+    /**
+     * 根据群ID删除群成员信息
+     *
+     * @param groupID
+     * @return
+     */
+    public void removeGroupMemberById(String groupID) {
+
+        if (groupMemberMap == null && groupMemberMap.containsKey(groupID)) {
+            groupMemberMap.remove(groupID);
+        }
     }
 
 

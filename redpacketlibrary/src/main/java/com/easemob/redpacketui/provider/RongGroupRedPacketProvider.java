@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.easemob.redpacketsdk.bean.RedPacketInfo;
 import com.easemob.redpacketsdk.constant.RPConstant;
 import com.easemob.redpacketui.R;
-import com.easemob.redpacketui.RPContext;
+import com.easemob.redpacketui.RedPacketUtil;
 import com.easemob.redpacketui.callback.GetGroupInfoCallback;
 import com.easemob.redpacketui.callback.ToRedPacketActivity;
 import com.easemob.redpacketui.message.RongRedPacketMessage;
@@ -80,14 +80,14 @@ public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider imp
     public void onPluginClick(View view) {
 
         redPacketInfo = new RedPacketInfo();
-        redPacketInfo.fromAvatarUrl = RPContext.getInstance().getUserAvatar(); //发送者头像url
-        redPacketInfo.fromNickName = RPContext.getInstance().getUserName();//发送者昵称 设置了昵称就传昵称 否则传id
+        redPacketInfo.fromAvatarUrl = RedPacketUtil.getInstance().getUserAvatar(); //发送者头像url
+        redPacketInfo.fromNickName = RedPacketUtil.getInstance().getUserName();//发送者昵称 设置了昵称就传昵称 否则传id
         redPacketInfo.toGroupId = getCurrentConversation().getTargetId();//群ID
         redPacketInfo.chatType = RPConstant.CHATTYPE_GROUP;//群聊、讨论组类型
         if (getCurrentConversation().getConversationType()== Conversation.ConversationType.GROUP){
-            RPContext.getInstance().setChatType(RPContext.CHAT_GROUP);
+            RedPacketUtil.getInstance().setChatType(RedPacketUtil.CHAT_GROUP);
         }else {
-            RPContext.getInstance().setChatType(RPContext.CHAT_DISCUSSION);
+            RedPacketUtil.getInstance().setChatType(RedPacketUtil.CHAT_DISCUSSION);
         }
 
         if (callback != null) {
@@ -104,12 +104,14 @@ public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider imp
         if (resultCode != Activity.RESULT_OK)
             return;
         //接受返回的红包信息,并发送红包消息
-        if (data != null && requestCode == RPContext.REQUEST_CODE_SEND_MONEY) {
+        if (data != null && requestCode == RedPacketUtil.REQUEST_CODE_SEND_MONEY) {
             String greeting = data.getStringExtra(RPConstant.EXTRA_RED_PACKET_GREETING);//祝福语
             String moneyID = data.getStringExtra(RPConstant.EXTRA_RED_PACKET_ID);//红包ID
-            String userId = RPContext.getInstance().getUserID();//发送者ID
-            String userName = RPContext.getInstance().getUserName();//发送者名字
-            RongRedPacketMessage message = RongRedPacketMessage.obtain(userId, userName, greeting, moneyID, "1", "融云红包");
+            String userId = RedPacketUtil.getInstance().getUserID();//发送者ID
+            String userName = RedPacketUtil.getInstance().getUserName();//发送者名字
+            String redPacketType = data.getStringExtra(RPConstant.EXTRA_RED_PACKET_TYPE);//群红包类型
+            String specialReceiveId = data.getStringExtra(RPConstant.EXTRA_RED_PACKET_RECEIVER_ID);//专属红包接受者ID
+            RongRedPacketMessage message = RongRedPacketMessage.obtain(userId, userName, greeting, moneyID, "1", "融云红包",redPacketType,specialReceiveId);
             //发送红包消息到聊天界面
             mUploadHandler.post(new MyRunnable(message));
         }
@@ -127,8 +129,8 @@ public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider imp
         Intent intent = new Intent(mContext, RPRedPacketActivity.class);
         redPacketInfo.groupMemberCount = number;
         intent.putExtra(RPConstant.EXTRA_MONEY_INFO, redPacketInfo);
-        intent.putExtra(RPConstant.EXTRA_AUTH_INFO, RPContext.getInstance().getmAuthData());
-        startActivityForResult(intent, RPContext.REQUEST_CODE_SEND_MONEY);
+        intent.putExtra(RPConstant.EXTRA_AUTH_INFO, RedPacketUtil.getInstance().getmAuthData());
+        startActivityForResult(intent, RedPacketUtil.REQUEST_CODE_SEND_MONEY);
     }
 
 
