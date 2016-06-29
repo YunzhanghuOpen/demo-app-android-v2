@@ -76,9 +76,9 @@ public class RongRedPacketProvider extends InputProvider.ExtendProvider {
         redPacketInfo.fromNickName = RedPacketUtil.getInstance().getUserName();//发送者名字
         redPacketInfo.toUserId = getCurrentConversation().getTargetId(); //接受者id
         redPacketInfo.chatType = RPConstant.CHATTYPE_SINGLE;//单聊
-        //打开发红包
+        //跳转到发红包界面
         intent.putExtra(RPConstant.EXTRA_MONEY_INFO, redPacketInfo);
-        intent.putExtra(RPConstant.EXTRA_AUTH_INFO, RedPacketUtil.getInstance().getmAuthData());
+        intent.putExtra(RPConstant.EXTRA_AUTH_INFO, RedPacketUtil.getInstance().getAuthData());
         startActivityForResult(intent, RedPacketUtil.REQUEST_CODE_SEND_MONEY);
     }
 

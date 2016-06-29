@@ -214,7 +214,7 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
 
     public void openRedPacket(final boolean isSpecial) {
         //打开红包
-        RPOpenPacketUtil.getInstance().openRedPacket(redPacketInfo, RedPacketUtil.getInstance().getmAuthData(), (FragmentActivity) mContext, new RPOpenPacketUtil.RPOpenPacketCallBack() {
+        RPOpenPacketUtil.getInstance().openRedPacket(redPacketInfo, RedPacketUtil.getInstance().getAuthData(), (FragmentActivity) mContext, new RPOpenPacketUtil.RPOpenPacketCallBack() {
             @Override
             public void onSuccess(String s, String s1) {
                 //打开红包消息成功,然后发送回执消息例如"你领取了XX的红包"

@@ -3,10 +3,19 @@ package com.easemob.redpacketui;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.easemob.redpacketsdk.bean.AuthData;
 import com.easemob.redpacketsdk.bean.RedPacketInfo;
 import com.easemob.redpacketsdk.constant.RPConstant;
+import com.easemob.redpacketui.callback.GetSignInfoCallback;
 import com.easemob.redpacketui.callback.GetUserInfoCallback;
 import com.easemob.redpacketui.message.RongEmptyMessage;
 import com.easemob.redpacketui.message.RongNotificationMessage;
@@ -15,22 +24,36 @@ import com.easemob.redpacketui.provider.RongNotificationMessageProvider;
 import com.easemob.redpacketui.provider.RongRedPacketMessageProvider;
 import com.easemob.redpacketui.ui.activity.RPChangeActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import io.rong.imkit.RongIM;
 import io.rong.imlib.model.Message;
 
 /**
  * Created by yunyu on 16/5/29.
  */
-public class RedPacketUtil {
+public class RedPacketUtil implements Response.Listener<JSONObject>, Response.ErrorListener {
     public static final int REQUEST_CODE_SEND_MONEY = 15;
+
     public static final String CHAT_GROUP = "chat_group";
+
     public static final String CHAT_DISCUSSION = "chat_discussion";
+
     private String userName;
+
     private String userAvatar;
+
     private String userID;
-    private AuthData mAuthData;
+
     private String chatType;
+
+    private AuthData mAuthData;
+
+    private GetSignInfoCallback mGetSignInfoCallback;
+
     private GetUserInfoCallback mGetUserInfoCallback;
+
     private static RedPacketUtil mRedPacketUtil;
 
     private RedPacketUtil() {
@@ -51,25 +74,22 @@ public class RedPacketUtil {
 
     /**
      * 初始化Token
+     *
      * @param authPartner
      * @param authUserId
      * @param authTimestamp
      * @param authSign
      */
-    public void initAuthData(String authPartner,String authUserId,String authTimestamp,String authSign) {
-        mAuthData=new AuthData();
-        mAuthData.authPartner=authPartner;
-        mAuthData.authUserId=authUserId;
-        mAuthData.authTimestamp=authTimestamp;
-        mAuthData.authSign=authSign;
+    public void initAuthData(String authPartner, String authUserId, String authTimestamp, String authSign) {
+        mAuthData = new AuthData();
+        mAuthData.authPartner = authPartner;
+        mAuthData.authUserId = authUserId;
+        mAuthData.authTimestamp = authTimestamp;
+        mAuthData.authSign = authSign;
     }
 
-    public AuthData getmAuthData() {
+    public AuthData getAuthData() {
         return mAuthData;
-    }
-
-    public void setmAuthData(AuthData mAuthData) {
-        this.mAuthData = mAuthData;
     }
 
     /**
@@ -124,15 +144,16 @@ public class RedPacketUtil {
 
     /**
      * 跳转到零钱页
+     *
      * @param mContext
      */
     public void toChangeActivity(Context mContext) {
         Intent intent = new Intent(mContext, RPChangeActivity.class);
-        RedPacketInfo redPacketInfo=new RedPacketInfo();
-        redPacketInfo.fromNickName=userName;
-        redPacketInfo.fromAvatarUrl=userAvatar;
+        RedPacketInfo redPacketInfo = new RedPacketInfo();
+        redPacketInfo.fromNickName = userName;
+        redPacketInfo.fromAvatarUrl = userAvatar;
         intent.putExtra(RPConstant.EXTRA_MONEY_INFO, redPacketInfo);
-        intent.putExtra(RPConstant.EXTRA_AUTH_INFO, getmAuthData());
+        intent.putExtra(RPConstant.EXTRA_AUTH_INFO, getAuthData());
         mContext.startActivity(intent);
     }
 
@@ -174,5 +195,40 @@ public class RedPacketUtil {
 
     public void setChatType(String chatType) {
         this.chatType = chatType;
+    }
+
+    public void requestSign(Context mContext, String url,final GetSignInfoCallback mCallback) {
+        mGetSignInfoCallback=mCallback;
+        RequestQueue mRequestQueue = Volley.newRequestQueue(mContext);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, this, this);
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(3000,2,2));
+        mRequestQueue.add(jsonObjectRequest);
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError volleyError) {
+        Log.e("dxf","--"+volleyError.toString());
+        mGetSignInfoCallback.signInfoError(volleyError.toString());
+    }
+
+    @Override
+    public void onResponse(JSONObject jsonObject) {
+        if (jsonObject != null && jsonObject.length() > 0) {
+            try {
+                String partner = jsonObject.getString("partner");
+                String userId = jsonObject.getString("user_id");
+                String timestamp = jsonObject.getString("timestamp");
+                String sign = jsonObject.getString("sign");
+                //初始化红包Token
+                initAuthData(partner, userId, timestamp, sign);
+                mGetSignInfoCallback.signInfoSuccess();
+            } catch (JSONException e) {
+                e.printStackTrace();
+                mGetSignInfoCallback.signInfoError(e.getMessage());
+            }
+
+        } else {
+            mGetSignInfoCallback.signInfoError("sign data is  null");
+        }
     }
 }

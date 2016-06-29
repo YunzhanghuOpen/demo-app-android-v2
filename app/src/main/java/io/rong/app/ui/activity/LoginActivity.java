@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -28,16 +27,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.easemob.redpacketui.RedPacketUtil;
+import com.easemob.redpacketui.callback.GetSignInfoCallback;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -409,7 +401,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                         } else {
                             grouplist.add(new Group(id, name, null));
                         }
-                        if (DemoContext.getInstance() != null){
+                        if (DemoContext.getInstance() != null) {
                             DemoContext.getInstance().putGroupNumber(id, number);
                         }
 
@@ -425,9 +417,26 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                     if (DemoContext.getInstance() != null)
                         DemoContext.getInstance().setGroupMap(groupM);
                     //请求签名然后初始化红包Token
-                    RequestTask requestTask = new RequestTask();
-                    requestTask.execute();
+                    String userID = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_ID, Constants.DEFAULT);
+                    //App开发者需要去自己服务器请求签名参数,换成自己的URl
+                    //@param partner      商户代码 (联系云账户后端获取)
+                    // @param userId       商户用户id
+                    // @param timestamp    签名使用的时间戳
+                    // @param sign         签名
+                    // 方法中所涉及到的参数均由AppServer提供，AppServer所采用的签名方法由云账户提供。
+                    String url = "http://rpv2.easemob.com/api/sign?duid=" + userID;
+                    RedPacketUtil.getInstance().requestSign(LoginActivity.this, url, new GetSignInfoCallback() {
+                        @Override
+                        public void signInfoSuccess() {
+                            mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
+                        }
 
+                        @Override
+                        public void signInfoError(String errorMsg) {
+                            mHandler.obtainMessage(HANDLER_LOGIN_FAILURE).sendToTarget();
+
+                        }
+                    });
                     // mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
 
                     if (RongIM.getInstance() != null && RongIM.getInstance().getRongIMClient() != null) {
@@ -518,66 +527,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
             }
         }
     }
-
-    public class RequestTask extends AsyncTask<String, String, String> {
-
-        @Override
-        protected String doInBackground(String... uri) {
-            String userID = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_ID, Constants.DEFAULT);
-            String mockUrl = "http://rpv2.easemob.com/api/sign?duid=" + userID;
-            HttpClient client = new DefaultHttpClient();
-            HttpGet request = new HttpGet(mockUrl);
-            // replace with your url
-            HttpResponse response;
-            try {
-                response = client.execute(request);
-                if (response.getStatusLine().getStatusCode() == 200) {
-                    Log.d("Response of GET request", response.toString());
-                    String responseBody = EntityUtils.toString(response.getEntity());
-                    return responseBody;
-                }
-
-                return null;
-            } catch (ClientProtocolException e) {
-                // TODO Auto-generated catch block
-                Log.e(TAG, e.getMessage());
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                Log.e(TAG, e.getMessage());
-            }
-            return null;
-
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            try {
-                if (result != null) {
-                    //  {"partner": "860477", "reg_hongbao_user": 1, "sign": "ZDJkY2Y1NmQwNGQ4M2IyZTY0ZDJhNDAwNGRmZTRjODhhMGMzZDg5MTdiZDBkZDJkNmIxOGI1Y2E0MWQzMDg3Ng==", "timestamp": 1466069587198, "user_id": 2}
-//                    String partner = "860477";
-//                    String userId = "2";
-//                    String timestamp = "1466069587198";
-//                    String sign = "ZDJkY2Y1NmQwNGQ4M2IyZTY0ZDJhNDAwNGRmZTRjODhhMGMzZDg5MTdiZDBkZDJkNmIxOGI1Y2E0MWQzMDg3Ng==";
-                    JSONObject jsonObj = new JSONObject(result);
-                    String partner = jsonObj.getString("partner");
-                    String userId = jsonObj.getString("user_id");
-                    String timestamp = jsonObj.getString("timestamp");
-                    String sign = jsonObj.getString("sign");
-                    //初始化红包Token
-                    RedPacketUtil.getInstance().initAuthData(partner, userId, timestamp, sign);
-                    mHandler.obtainMessage(HANDLER_LOGIN_SUCCESS).sendToTarget();
-                } else {
-                    mHandler.obtainMessage(HANDLER_LOGIN_FAILURE).sendToTarget();
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
-
-
+    
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
