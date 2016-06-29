@@ -20,12 +20,12 @@ import io.rong.message.NotificationMessage;
  *
  * @author desert
  * @date 2016-05-18
- * <p>
+ * <p/>
  * MessageTag 中 flag 中参数的含义：
  * 1.NONE，空值，不表示任何意义.在会话列表不会显示出来。
  * 2.ISPERSISTED，消息需要被存储到消息历史记录。
  * 3.ISCOUNTED，消息需要被记入未读消息数。
- * <p>
+ * <p/>
  * value：消息对象名称。
  * 请不要以 "RC:" 开头， "RC:" 为官方保留前缀。
  */
@@ -34,9 +34,13 @@ import io.rong.message.NotificationMessage;
 public class RongEmptyMessage extends NotificationMessage {
 
     private String sendUserID;//发送红包者ID
+
     private String sendUserName;//发送红包这名字
+
     private String receiveUserID;//接受红包者Id
+
     private String receiveUserName;//接受红包者名字
+
     private String isOpenMoney;//是否打开红包
 
     public RongEmptyMessage() {

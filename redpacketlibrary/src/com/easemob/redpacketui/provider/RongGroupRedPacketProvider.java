@@ -33,12 +33,19 @@ import io.rong.imlib.model.Conversation;
  * @date 2016-05-23
  */
 public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider implements ToRedPacketActivity {
+
     private static final String TAG = RongGroupRedPacketProvider.class.getSimpleName();
-    HandlerThread mWorkThread;
-    Handler mUploadHandler;
+
     private Context mContext;
+
     private GetGroupInfoCallback callback;
+
     private RedPacketInfo redPacketInfo;
+
+    HandlerThread mWorkThread;
+
+    Handler mUploadHandler;
+
 
     public RongGroupRedPacketProvider(RongContext context, GetGroupInfoCallback callback) {
         super(context);
@@ -84,9 +91,9 @@ public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider imp
         redPacketInfo.fromNickName = RedPacketUtil.getInstance().getUserName();//发送者昵称 设置了昵称就传昵称 否则传id
         redPacketInfo.toGroupId = getCurrentConversation().getTargetId();//群ID
         redPacketInfo.chatType = RPConstant.CHATTYPE_GROUP;//群聊、讨论组类型
-        if (getCurrentConversation().getConversationType()== Conversation.ConversationType.GROUP){
+        if (getCurrentConversation().getConversationType() == Conversation.ConversationType.GROUP) {
             RedPacketUtil.getInstance().setChatType(RedPacketUtil.CHAT_GROUP);
-        }else {
+        } else {
             RedPacketUtil.getInstance().setChatType(RedPacketUtil.CHAT_DISCUSSION);
         }
 
@@ -111,7 +118,7 @@ public class RongGroupRedPacketProvider extends InputProvider.ExtendProvider imp
             String userName = RedPacketUtil.getInstance().getUserName();//发送者名字
             String redPacketType = data.getStringExtra(RPConstant.EXTRA_RED_PACKET_TYPE);//群红包类型
             String specialReceiveId = data.getStringExtra(RPConstant.EXTRA_RED_PACKET_RECEIVER_ID);//专属红包接受者ID
-            RongRedPacketMessage message = RongRedPacketMessage.obtain(userId, userName, greeting, moneyID, "1", "融云红包",redPacketType,specialReceiveId);
+            RongRedPacketMessage message = RongRedPacketMessage.obtain(userId, userName, greeting, moneyID, "1", "融云红包", redPacketType, specialReceiveId);
             //发送红包消息到聊天界面
             mUploadHandler.post(new MyRunnable(message));
         }

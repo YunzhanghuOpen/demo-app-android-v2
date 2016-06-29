@@ -34,9 +34,13 @@ import io.rong.message.NotificationMessage;
 public class RongNotificationMessage extends NotificationMessage {
 
     private String sendUserID;//发送红包者ID
+
     private String sendUserName;//发送红包这名字
+
     private String receiveUserID;//接受红包者Id
+
     private String receiveUserName;//接受红包者名字
+
     private String isOpenMoney;//是否打开红包
 
 

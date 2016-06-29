@@ -527,7 +527,7 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
             }
         }
     }
-    
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 

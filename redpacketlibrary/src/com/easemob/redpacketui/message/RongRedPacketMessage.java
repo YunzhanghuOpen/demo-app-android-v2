@@ -20,25 +20,33 @@ import io.rong.imlib.model.UserInfo;
  *
  * @author desert
  * @date 2016-05-19
- * <p>
+ * <p/>
  * MessageTag 中 flag 中参数的含义：
  * 1.NONE，空值，不表示任何意义.在会话列表不会显示出来。
  * 2.ISPERSISTED，消息需要被存储到消息历史记录。
  * 3.ISCOUNTED，消息需要被记入未读消息数。
- * <p>
+ * <p/>
  * value：消息对象名称。
  * 请不要以 "RC:" 开头， "RC:" 为官方保留前缀。
  */
 
 @MessageTag(value = "YZH:RedPacketMsg", flag = MessageTag.ISPERSISTED | MessageTag.ISCOUNTED)
 public class RongRedPacketMessage extends MessageContent {
+
     private String sendUserID;//红包发送者ID
+
     private String sendUserName;//红包发送者名字
+
     private String message;//红包祝福语
+
     private String moneyID;//红包ID
+
     private String isMoneyMsg;//是否属红包消息
+
     private String sponsorName;//是否属红包消息
+
     private String redPacketType;//群红包类型专属红包/平均红包/随机红包
+
     private String specialReceivedID;//专属红包接受者ID
 
     public RongRedPacketMessage() {

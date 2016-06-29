@@ -27,6 +27,7 @@ import io.rong.imkit.widget.provider.IContainerItemProvider;
 // 会话界面自定义UI注解
 @ProviderTag(messageContent = RongNotificationMessage.class, showWarning = false, showPortrait = false, showProgress = false, centerInHorizontal = true)
 public class RongNotificationMessageProvider extends IContainerItemProvider.MessageProvider<RongNotificationMessage> {
+
     private Context mContext;
 
     public RongNotificationMessageProvider(Context mContext) {

@@ -42,11 +42,17 @@ import io.rong.imlib.model.Conversation;
 // 会话界面自定义UI注解
 @ProviderTag(messageContent = RongRedPacketMessage.class, showPortrait = true, showProgress = false, centerInHorizontal = false)
 public class RongRedPacketMessageProvider extends IContainerItemProvider.MessageProvider<RongRedPacketMessage> implements SetUserInfoCallback {
+
     private static final String TAG = "RedPacketLibrary";
+
     private Context mContext;
+
     private RedPacketInfo redPacketInfo;
+
     private ProgressDialog progressDialog;
+
     private RongRedPacketMessage mContent;
+
     private UIMessage mMessage;
 
 

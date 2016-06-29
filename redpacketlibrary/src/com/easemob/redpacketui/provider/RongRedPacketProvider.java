@@ -28,10 +28,14 @@ import io.rong.imlib.RongIMClient;
  * @date 2016-05-17
  */
 public class RongRedPacketProvider extends InputProvider.ExtendProvider {
+
     private static final String TAG = "RedPacketLibrary";
-    HandlerThread mWorkThread;
-    Handler mUploadHandler;
+
     private Context mContext;
+
+    HandlerThread mWorkThread;
+
+    Handler mUploadHandler;
 
     public RongRedPacketProvider(RongContext context) {
         super(context);

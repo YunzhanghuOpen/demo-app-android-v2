@@ -34,6 +34,7 @@ import io.rong.imlib.model.Message;
  * Created by yunyu on 16/5/29.
  */
 public class RedPacketUtil implements Response.Listener<JSONObject>, Response.ErrorListener {
+
     public static final int REQUEST_CODE_SEND_MONEY = 15;
 
     public static final String CHAT_GROUP = "chat_group";
@@ -197,17 +198,17 @@ public class RedPacketUtil implements Response.Listener<JSONObject>, Response.Er
         this.chatType = chatType;
     }
 
-    public void requestSign(Context mContext, String url,final GetSignInfoCallback mCallback) {
-        mGetSignInfoCallback=mCallback;
+    public void requestSign(Context mContext, String url, final GetSignInfoCallback mCallback) {
+        mGetSignInfoCallback = mCallback;
         RequestQueue mRequestQueue = Volley.newRequestQueue(mContext);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, this, this);
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(3000,2,2));
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(3000, 2, 2));
         mRequestQueue.add(jsonObjectRequest);
     }
 
     @Override
     public void onErrorResponse(VolleyError volleyError) {
-        Log.e("dxf","--"+volleyError.toString());
+        Log.e("dxf", "--" + volleyError.toString());
         mGetSignInfoCallback.signInfoError(volleyError.toString());
     }
 
