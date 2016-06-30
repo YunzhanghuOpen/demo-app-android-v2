@@ -26,7 +26,7 @@ import io.rong.imlib.model.UserInfo;
 /**
  * Created by Bob on 15/7/31.
  */
-public class RongConversationAddMemberFragment extends BaseFragment implements  RongConversationAddMemberAdapter.OnDeleteIconListener, AdapterView.OnItemClickListener {
+public class RongConversationAddMemberFragment extends BaseFragment implements RongConversationAddMemberAdapter.OnDeleteIconListener, AdapterView.OnItemClickListener {
     static final int PREPARE_LIST = 1;
     static final int REMOVE_ITEM = 2;
     static final int SHOW_TOAST = 3;
@@ -189,8 +189,9 @@ public class RongConversationAddMemberFragment extends BaseFragment implements  
                         UserInfo userInfo = RongContext.getInstance().getUserInfoFromCache(id);
                         if (userInfo == null) {
                             mMembers.add(new UserInfo(id, null, null));
-                        } else
+                        } else {
                             mMembers.add(userInfo);
+                        }
                     } else {
                         break;
                     }
@@ -210,7 +211,7 @@ public class RongConversationAddMemberFragment extends BaseFragment implements  
                 mAdapter.notifyDataSetChanged();
                 break;
             case REMOVE_ITEM:
-                int position =  (Integer) msg.obj;
+                int position = (Integer) msg.obj;
                 mAdapter.remove(position);
                 mAdapter.notifyDataSetChanged();
                 break;

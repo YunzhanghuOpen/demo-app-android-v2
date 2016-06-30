@@ -417,7 +417,8 @@ public class LoginActivity extends BaseApiActivity implements View.OnClickListen
                     if (DemoContext.getInstance() != null)
                         DemoContext.getInstance().setGroupMap(groupM);
                     //请求签名然后初始化红包Token
-                    String userID = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_ID, Constants.DEFAULT);
+                    String userID = DemoContext.getInstance().getSharedPreferences()
+                            .getString(Constants.APP_USER_ID, Constants.DEFAULT);
                     //App开发者需要去自己服务器请求签名参数,换成自己的URl
                     //@param partner      商户代码 (联系云账户后端获取)
                     // @param userId       商户用户id

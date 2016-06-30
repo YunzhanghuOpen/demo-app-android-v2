@@ -94,7 +94,8 @@ public class RongRedPacketProvider extends InputProvider.ExtendProvider {
             String moneyID = data.getStringExtra(RPConstant.EXTRA_RED_PACKET_ID);//红包ID
             String userId = RedPacketUtil.getInstance().getUserID();//发送者ID
             String userName = RedPacketUtil.getInstance().getUserName();//发送者名字
-            RongRedPacketMessage message = RongRedPacketMessage.obtain(userId, userName, greeting, moneyID, "1", "融云红包", "", "");
+            RongRedPacketMessage message = RongRedPacketMessage.obtain(userId, userName,
+                    greeting, moneyID, "1", "融云红包", "", "");
             Log.e(TAG, "--发送红包返回参数--" + "-moneyID-" + moneyID + "-greeting-" + greeting);
             //发送红包消息到聊天界面
             mUploadHandler.post(new MyRunnable(message));

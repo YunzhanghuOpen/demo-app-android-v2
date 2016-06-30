@@ -142,7 +142,8 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
         }
         String redPacketType = content.getRedPacketType();
         //专属红包需要根据用户id获取用户信息
-        if (!TextUtils.isEmpty(redPacketType) && redPacketType.equals(RPConstant.GROUP_RED_PACKET_TYPE_EXCLUSIVE)) {
+        if (!TextUtils.isEmpty(redPacketType) && redPacketType.
+                equals(RPConstant.GROUP_RED_PACKET_TYPE_EXCLUSIVE)) {
             String specialReceiveId = content.getSpecialReceivedID();
             progressDialog.show();
             RedPacketUtil.getInstance().getGetUserInfoCallback().getUserInfo(specialReceiveId, this);
@@ -220,7 +221,9 @@ public class RongRedPacketMessageProvider extends IContainerItemProvider.Message
 
     public void openRedPacket(final boolean isSpecial) {
         //打开红包
-        RPOpenPacketUtil.getInstance().openRedPacket(redPacketInfo, RedPacketUtil.getInstance().getAuthData(), (FragmentActivity) mContext, new RPOpenPacketUtil.RPOpenPacketCallBack() {
+        RPOpenPacketUtil.getInstance().openRedPacket(redPacketInfo,
+                RedPacketUtil.getInstance().getAuthData(), (FragmentActivity) mContext,
+                new RPOpenPacketUtil.RPOpenPacketCallBack() {
             @Override
             public void onSuccess(String s, String s1) {
                 //打开红包消息成功,然后发送回执消息例如"你领取了XX的红包"

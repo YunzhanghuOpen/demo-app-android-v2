@@ -90,7 +90,7 @@ import io.rong.notification.PushNotificationMessage;
 /**
  * 融云SDK事件监听处理。
  * 把事件统一处理，开发者可直接复制到自己的项目中去使用。
- * <p/>
+ * <p>
  * 该类包含的监听事件有：
  * 1、消息接收器：OnReceiveMessageListener。
  * 2、发出消息接收器：OnSendMessageListener。
@@ -187,7 +187,7 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
 
     /**
      * 连接成功注册。
-     * <p/>
+     * <p>
      * 在RongIM-connect-onSuccess后调用。
      */
     public void setOtherListener() {
@@ -247,12 +247,13 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
                 new ContactsProvider(RongContext.getInstance()),//通讯录
                 createGroupProvider(),//群红包
         };
+        //App开发者需要根据用户ID获取用户信息,然后mCallback.setUserInfo
+        // (userInfos.getUsername(),userInfos.getPortrait());
         RedPacketUtil.getInstance().setGetUserInfoCallback(new GetUserInfoCallback() {
             @Override
             public void getUserInfo(String userID, final SetUserInfoCallback mCallback) {
-                //(只是针对融云demo做的缓存逻辑,App开发者及供参考)
-                //查找用户库是否存在改用户,存在使用改用户信息,不存在请求服务器然后插入数据库
-                //App开发者需要根据用户ID获取用户信息,然后mCallback.setUserInfo(userInfos.getUsername(),userInfos.getPortrait());
+                //(只是针对融云demo做的缓存逻辑,App开发者仅供参考)
+                //查找用户库是否存在该用户,存在使该改用户信息,不存在请求服务器然后插入数据库
                 UserInfos userInfos = DemoContext.getInstance().getUserInfosById(userID);
                 if (userInfos != null) {
                     Log.e(TAG, "-user-cache-" + userInfos.getUsername());
@@ -269,8 +270,8 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         RPGroupMemberUtil.getInstance().setGroupMemberListener(new NotifyGroupMemberCallback() {
             @Override
             public void getGroupMember(final String groupID, final GroupMemberCallback mCallback) {
-                //(只是针对融云demo做的缓存逻辑,App开发者及供参考)
-                //App开发者需要根据群ID获取群成员信息,然后mCallback.setGroupMember();
+                //(只是针对融云demo做的缓存逻辑,App开发者仅供参考)
+                //有缓存读缓存信息,没有缓存请求服务器然后加入缓存
                 List<io.rong.app.model.UserInfo> mList = DemoContext.getInstance().getGroupMemberById(groupID);
                 if (mList != null) {
                     Log.e(TAG, "-group-cache-" + mList);
@@ -290,7 +291,12 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         RongIM.resetInputExtensionProvider(Conversation.ConversationType.CHATROOM, provider);
     }
 
-
+    /**
+     * 根据用户id请求用户信息
+     *
+     * @param userID
+     * @param mCallback
+     */
     private void requestUserInfo(String userID, final SetUserInfoCallback mCallback) {
         DemoContext.getInstance().getDemoApi().getUserInfoByUserId(userID, new ApiCallback<User>() {
             @Override
@@ -319,6 +325,12 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
         });
     }
 
+    /**
+     * 根据群id请求群信息
+     *
+     * @param groupID
+     * @param mCallback
+     */
     private void requestGroupMember(final String groupID, final GroupMemberCallback mCallback) {
         DemoContext.getInstance().getDemoApi().getGroupByGroupId(groupID, new ApiCallback<GroupInfo>() {
             @Override
@@ -343,7 +355,8 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     }
 
     private void sortingData(List<io.rong.app.model.UserInfo> mList) {
-        String userID = DemoContext.getInstance().getSharedPreferences().getString(Constants.APP_USER_ID, Constants.DEFAULT);
+        String userID = DemoContext.getInstance().getSharedPreferences().
+                getString(Constants.APP_USER_ID, Constants.DEFAULT);
         list.clear();
         for (int i = 0; i < mList.size(); i++) {
             if (userID.equals(mList.get(i).getId())) {
@@ -360,7 +373,8 @@ public final class RongCloudEvent implements RongIMClient.OnReceiveMessageListen
     private RongGroupRedPacketProvider createGroupProvider() {
         //(只是针对融云demo做的缓存逻辑,App开发者及供参考)
         //App开发者需要根据群ID获取群成员人数,然后mCallback.toRedPacketActivity(number),打开发送红包界面
-        RongGroupRedPacketProvider groupRedPacketProvider = new RongGroupRedPacketProvider(RongContext.getInstance(), new GetGroupInfoCallback() {
+        RongGroupRedPacketProvider groupRedPacketProvider = new RongGroupRedPacketProvider(
+                RongContext.getInstance(), new GetGroupInfoCallback() {
             @Override
             public void getGroupPersonNumber(String groupID, ToRedPacketActivity mCallback) {
                 //同步群信息
