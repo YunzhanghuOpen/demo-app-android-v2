@@ -1,1 +1,1 @@
-include ':IMKit',':app',':redpacketlibrary'
+include ':IMKit', ':app', ':redpacketlibrary-yunzhanghu'

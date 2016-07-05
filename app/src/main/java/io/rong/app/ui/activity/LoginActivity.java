@@ -26,10 +26,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.easemob.redpacketui.RedPacketUtil;
-import com.easemob.redpacketui.callback.GetSignInfoCallback;
 import com.sea_monster.exception.BaseException;
 import com.sea_monster.network.AbstractHttpRequest;
+import com.yunzhanghu.redpacketui.RedPacketUtil;
+import com.yunzhanghu.redpacketui.callback.GetSignInfoCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "22.0.1"
+    buildToolsVersion '24.0.0 rc3'
 
     defaultConfig {
         applicationId "io.rong.app"
@@ -54,5 +54,5 @@ dependencies {
     //compile project(':IMKit')
     compile files('src/main/libs/TencentLocationSDK_v4.4.6_r206631_151119_1441.jar')
     compile files('src/main/libs/TencentMapSDK_Raster_v1.1.2.16281.jar')
-    compile project(':redpacketlibrary')
+    compile project(':redpacketlibrary-yunzhanghu')
 }
